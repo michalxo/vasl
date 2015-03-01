@@ -232,6 +232,9 @@ class QCMenuItem extends JMenuItem implements DragSourceListener
                 l_objNewPiece.setProperty(Properties.PIECE_ID, m_objPieceSlot.getGpId());
                 DragBuffer.getBuffer().add(l_objNewPiece);
             }
+            
+            if (m_objParentPopupMenu != null)
+                m_objParentPopupMenu.setVisible(false);            
         }
     }
 
@@ -248,9 +251,6 @@ class QCMenuItem extends JMenuItem implements DragSourceListener
     }
 
     public void dragDropEnd(DragSourceDropEvent dsde) {
-        
-        if (m_objParentPopupMenu != null)
-            m_objParentPopupMenu.setVisible(false);
         
         DragSource.getDefaultDragSource().removeDragSourceListener(this);
     }
