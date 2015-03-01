@@ -27,6 +27,29 @@
             <artifactId>jdom2</artifactId>
             <version>2.0.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.vasl</groupId>
+            <artifactId>vasl-Vengine-3.2.14.jar</artifactId>
+            <version>6.2.0</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.vasl</groupId>
+            <artifactId>vasl-slf4j-api-1.7.5.jar</artifactId>
+            <version>6.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.vasl</groupId>
+            <artifactId>vasl-commons-codec-1.6.jar</artifactId>
+            <version>6.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>vasl-commons-io-2.2.jar</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 
