@@ -57,7 +57,7 @@ public class ASLKeyBufferer extends KeyBufferer {
           Point[] pos = new Point[s.getPieceCount()];
           map.getStackMetrics().getContents(s, pos, null, null, s.getPosition().x, s.getPosition().y);
           for (int i = 0; i < pos.length; ++i) {
-            if (selection.contains(pos[i]) && !Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME))) {
+            if (selection.contains(pos[i]) && !Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME)) && DoubleBlindViewer.isSpotted(s.getPieceAt(i))) {
               if (selecting) {
                 KeyBuffer.getBuffer().add(s.getPieceAt(i));
               }
@@ -69,7 +69,7 @@ public class ASLKeyBufferer extends KeyBufferer {
         }
         else if (selection.contains(s.getPosition())) {
           for (int i = 0, n = s.getPieceCount(); i < n; ++i) {
-            if (!Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME))) 
+            if (!Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME)) && DoubleBlindViewer.isSpotted(s.getPieceAt(i)))
                 if (selecting) {
                   KeyBuffer.getBuffer().add(s.getPieceAt(i));
                 }
@@ -85,7 +85,7 @@ public class ASLKeyBufferer extends KeyBufferer {
     // Handle non-stacked units, including Does Not Stack units
     // Does Not Stack units deselect normally once selected
     public Object visitDefault(GamePiece p) {
-      if (selection.contains(p.getPosition()) && !Boolean.TRUE.equals(p.getProperty(Properties.INVISIBLE_TO_ME))) {
+      if (selection.contains(p.getPosition()) && !Boolean.TRUE.equals(p.getProperty(Properties.INVISIBLE_TO_ME)) && DoubleBlindViewer.isSpotted(p)) {
         if (selecting) {
           final EventFilter filter = (EventFilter) p.getProperty(Properties.SELECT_EVENT_FILTER);
           final boolean altSelect = (altDown && filter instanceof Immobilized.UseAlt);
@@ -114,7 +114,7 @@ public class ASLKeyBufferer extends KeyBufferer {
     }
     boolean ignoreEvent = filter != null && filter.rejectEvent(e);
     if (p != null && !ignoreEvent) {
-      boolean movingStacksPickupUnits = ((Boolean) GameModule.getGameModule().getPrefs().getValue(Map.MOVING_STACKS_PICKUP_UNITS)).booleanValue();
+      boolean movingStacksPickupUnits = (Boolean) GameModule.getGameModule().getPrefs().getValue(Map.MOVING_STACKS_PICKUP_UNITS);
       if (!KeyBuffer.getBuffer().contains(p)) {
         if (!e.isShiftDown() && !e.isControlDown()) {
           KeyBuffer.getBuffer().clear();
@@ -125,13 +125,13 @@ public class ASLKeyBufferer extends KeyBufferer {
         if (!e.isControlDown()) {
           if (movingStacksPickupUnits || p.getParent() == null || p.getParent().isExpanded() || e.isMetaDown()
               || Boolean.TRUE.equals(p.getProperty(Properties.SELECTED))) {
-                if (!Boolean.TRUE.equals(p.getProperty(Properties.INVISIBLE_TO_ME)))
+                if (!Boolean.TRUE.equals(p.getProperty(Properties.INVISIBLE_TO_ME))&& DoubleBlindViewer.isSpotted(p))
                     KeyBuffer.getBuffer().add(p);
           }
           else {
             Stack s = p.getParent();
             for (int i = 0; i < s.getPieceCount(); i++) {
-                if (!Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME)))
+                if (!Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME))&& DoubleBlindViewer.isSpotted(s.getPieceAt(i)))
                     KeyBuffer.getBuffer().add(s.getPieceAt(i));
             }
           }

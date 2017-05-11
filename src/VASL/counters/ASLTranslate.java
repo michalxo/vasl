@@ -22,6 +22,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import VASL.build.module.map.DoubleBlindViewer;
 import VASL.build.module.map.boardPicker.ASLBoard;
 import VASSAL.build.module.map.boardPicker.Board;
 import VASSAL.build.module.map.boardPicker.board.HexGrid;
@@ -55,7 +56,7 @@ public class ASLTranslate extends Translate {
           for (Iterator<GamePiece> it = s.getPiecesIterator(); it.hasNext();) {
               GamePiece piece = it.next();
 
-              if (!Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME))) {
+              if (!Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME)) && DoubleBlindViewer.isSpotted(piece)) {
                   visibleToMe.add(piece);
               }
           }

@@ -27,7 +27,6 @@ import VASSAL.build.Buildable;
 import VASSAL.build.GameModule;
 import VASSAL.build.module.GlobalOptions;
 import VASSAL.build.module.Map;
-import VASSAL.build.module.map.MovementReporter;
 import VASSAL.build.module.map.PieceMover;
 import VASSAL.command.Command;
 import VASSAL.command.NullCommand;
@@ -38,7 +37,6 @@ import VASSAL.tools.LaunchButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -480,22 +478,22 @@ public class ASLPieceMover extends PieceMover {
                 int invisibleCount = 0;
                 for (int i = 0; i < s.getPieceCount(); i++) {
                     if (Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.SELECTED))) {
-                        if (!Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME)))
+                        if (!Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME)) && DoubleBlindViewer.isSpotted(s.getPieceAt(i)))
                             selectedCount++;
                         else
                             invisibleCount++;
-                    } else if (Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME)))
+                    } else if (Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME)) || !DoubleBlindViewer.isSpotted(s.getPieceAt(i)))
                         invisibleCount++;
                 }
 
-                if (((Boolean) GameModule.getGameModule().getPrefs().getValue(Map.MOVING_STACKS_PICKUP_UNITS)).booleanValue() || s.getPieceCount() == 1 || s.getPieceCount() == selectedCount) {
+                if ((Boolean) GameModule.getGameModule().getPrefs().getValue(Map.MOVING_STACKS_PICKUP_UNITS) || s.getPieceCount() == 1 || s.getPieceCount() == selectedCount) {
                     if (invisibleCount == 0)
                         DragBuffer.getBuffer().add(s);
                     else {
                         for (int i = 0; i < s.getPieceCount(); i++) {
                             final GamePiece p = s.getPieceAt(i);
 
-                            if (!Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME))) {
+                            if (!Boolean.TRUE.equals(s.getPieceAt(i).getProperty(Properties.INVISIBLE_TO_ME)) && DoubleBlindViewer.isSpotted(s.getPieceAt(i))) {
                                 DragBuffer.getBuffer().add(p);
                             }
                         }

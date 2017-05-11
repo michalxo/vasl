@@ -23,6 +23,7 @@ import VASL.build.module.map.boardArchive.SSRControlsFile;
 import VASL.build.module.map.boardPicker.*;
 import VASSAL.Info;
 import VASSAL.build.*;
+import VASSAL.build.module.GameComponent;
 import VASSAL.build.module.map.BoardPicker;
 import VASSAL.build.module.map.GlobalMap;
 import VASSAL.build.module.map.boardPicker.Board;
@@ -79,6 +80,7 @@ public class ASLBoardPicker extends BoardPicker implements ActionListener {
     private SetupControls setupControls;
     private boolean enableDeluxe;
     private boolean enableDB = false;
+    private DoubleBlindViewer doubleBlindViewer;
 
     public ASLBoardPicker() {
     }
@@ -189,17 +191,17 @@ public class ASLBoardPicker extends BoardPicker implements ActionListener {
     }
 
     @Override
-    /**
-     * This is a hack to prevent setup from being called multiple times when creating a new game.
-     * When this happens the VASL map gets created twice, which is bad
-     */
     public void finish() {
         currentBoards = new ArrayList<Board>(getBoardsFromControls());
 
         //set DB state on finish
-/*        DoubleBlindViewer.doubleBlindViewer.enableDB(enableDB);
-        DoubleBlindViewer.setMap((ASLMap) map);*/
+        setDBViewer();
+        if(doubleBlindViewer != null) {
+            doubleBlindViewer.enableDB(enableDB);
+            doubleBlindViewer.setMap((ASLMap) map);
+            System.out.println("DB enabled is " + enableDB);
 
+        }
     }
 
     public void setGlobalMapScale() {
@@ -683,6 +685,17 @@ public class ASLBoardPicker extends BoardPicker implements ActionListener {
         return setupControls;
     }
 
+    private void setDBViewer(){
+        if(doubleBlindViewer == null) {
+            for (GameComponent g : GameModule.getGameModule().getGameState().getGameComponents()) {
+                if (g instanceof DoubleBlindViewer) {
+                    doubleBlindViewer = (DoubleBlindViewer) g;
+                    System.out.println("DB viewer set in board picker");
+                }
+            }
+        }
+    }
+
     private class SetupControls extends JPanel {
         private DirectoryConfigurer dirConfig;
 
@@ -711,21 +724,34 @@ public class ASLBoardPicker extends BoardPicker implements ActionListener {
             });
             add(deluxe);
 
-            // check-box for DB flag
-/*
+            // add the DB check box
             JCheckBox db = new JCheckBox("Enable double blind");
-            if(DoubleBlindViewer.doubleBlindViewer != null){
-                db.setSelected(DoubleBlindViewer.doubleBlindViewer.isEnabled());
-            }
             db.addItemListener(new ItemListener() {
                 public void itemStateChanged(ItemEvent e) {
                     enableDB = e.getStateChange() == ItemEvent.SELECTED;
                 }
             });
-*/
-            // add(db);
+            add(db);
 
-            //setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS))
+            // set the DB check box state
+            setDBViewer();
+            if (doubleBlindViewer != null) {
+                db.setSelected(doubleBlindViewer.isEnabled());
+                System.out.println("DB check box set to " + enableDB + " in board picker");
+            }
+
+            // set the check box to current DB state
+            if(doubleBlindViewer == null) {
+                for (GameComponent g : GameModule.getGameModule().getGameState().getGameComponents()) {
+                    if (g instanceof DoubleBlindViewer) {
+                        doubleBlindViewer = (DoubleBlindViewer) g;
+                        db.setSelected(doubleBlindViewer.isEnabled());
+                        System.out.println("DB viewer set in board picker");
+                    }
+                }
+            }
+
+            // setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS))
 
             add(controls);
             dirConfig.addPropertyChangeListener(new PropertyChangeListener() {

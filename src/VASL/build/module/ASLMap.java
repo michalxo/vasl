@@ -19,7 +19,7 @@
 
 package VASL.build.module;
 
-import VASL.build.module.map.boardArchive.BoardArchive;
+import VASL.build.module.map.DoubleBlindViewer;
 import VASL.LOS.counters.CounterMetadataFile;
 import VASL.build.module.map.boardArchive.SharedBoardMetadata;
 import VASL.build.module.map.boardPicker.BoardException;
@@ -46,7 +46,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.LinkedList;
 
 public class ASLMap extends Map {
@@ -351,6 +350,7 @@ public class ASLMap extends Map {
         VASLMap = null;
 
     }
+
     /**
      * @return the VASL map
      */
@@ -486,7 +486,7 @@ public class ASLMap extends Map {
             {
                 stack[i].draw(g, pt.x, pt.y, c, getZoom());
 
-                if (Boolean.TRUE.equals(stack[i].getProperty(Properties.SELECTED)))
+                if (Boolean.TRUE.equals(stack[i].getProperty(Properties.SELECTED)) && DoubleBlindViewer.isSpotted(stack[i]))
                     highlighter.draw(stack[i], g, pt.x, pt.y, c, getZoom());
             }
             else if (m_showMapLevel == ShowMapLevel.ShowMapAndOverlay)
@@ -495,7 +495,7 @@ public class ASLMap extends Map {
                 {
                     stack[i].draw(g, pt.x, pt.y, c, getZoom());
 
-                    if (Boolean.TRUE.equals(stack[i].getProperty(Properties.SELECTED)))
+                    if (Boolean.TRUE.equals(stack[i].getProperty(Properties.SELECTED)) && DoubleBlindViewer.isSpotted(stack[i]))
                         highlighter.draw(stack[i], g, pt.x, pt.y, c, getZoom());
                 }
             }
@@ -528,7 +528,7 @@ public class ASLMap extends Map {
 
             stack[i].draw(g, pt.x + xOffset, pt.y + yOffset, theMap, getZoom());
 
-            if (Boolean.TRUE.equals(stack[i].getProperty(Properties.SELECTED)))
+            if (Boolean.TRUE.equals(stack[i].getProperty(Properties.SELECTED)) && DoubleBlindViewer.isSpotted(stack[i]))
                 highlighter.draw(stack[i], g, pt.x - xOffset, pt.y - yOffset, theMap, getZoom());
         }
         else if (m_showMapLevel == ShowMapLevel.ShowMapAndOverlay)
@@ -541,7 +541,7 @@ public class ASLMap extends Map {
 
                     stack[i].draw(g, pt.x + xOffset, pt.y + yOffset, theMap, getZoom());
 
-                    if (Boolean.TRUE.equals(stack[i].getProperty(Properties.SELECTED)))
+                    if (Boolean.TRUE.equals(stack[i].getProperty(Properties.SELECTED)) && DoubleBlindViewer.isSpotted(stack[i]))
                         highlighter.draw(stack[i], g, pt.x - xOffset, pt.y - yOffset, theMap, getZoom());
                 }
             }
@@ -558,4 +558,5 @@ public class ASLMap extends Map {
       ShowMapAndOverlay,
       ShowMapOnly        
   }
+
 }

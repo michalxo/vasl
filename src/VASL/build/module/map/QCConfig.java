@@ -870,7 +870,8 @@ public class QCConfig implements DropTargetListener
     private void CreateNewNode(GamePiece objPiece) 
     {
         if ((!Boolean.TRUE.equals(objPiece.getProperty(Properties.INVISIBLE_TO_ME))) 
-            && (!Boolean.TRUE.equals(objPiece.getProperty(Properties.OBSCURED_TO_ME))))
+            && (!Boolean.TRUE.equals(objPiece.getProperty(Properties.OBSCURED_TO_ME)))
+                && DoubleBlindViewer.isSpotted(objPiece))
         {
             DefaultMutableTreeNode l_objSelectedNode = null;
             DefaultMutableTreeNode l_objNewNode = new QCConfigurationEntry(m_objConfiguration.getQC());

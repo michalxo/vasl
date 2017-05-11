@@ -178,6 +178,7 @@ public class PieceLinker  extends AbstractConfigurable implements KeyListener, C
                 GamePiece fromPiece = GameModule.getGameModule().getGameState().getPieceForId(fromPieceID);
                 if (fromPiece != null &&
                         isSelected(fromPiece) &&
+                        DoubleBlindViewer.isSpotted(fromPiece) &&
                         (fromPiece.getProperty(Properties.INVISIBLE_TO_ME) == null || Boolean.FALSE.equals(fromPiece.getProperty(Properties.INVISIBLE_TO_ME))) &&
                         (fromPiece.getProperty(Properties.OBSCURED_TO_ME) == null || Boolean.FALSE.equals(fromPiece.getProperty(Properties.OBSCURED_TO_ME)))) {
 
@@ -185,6 +186,7 @@ public class PieceLinker  extends AbstractConfigurable implements KeyListener, C
                     for (String s : toPieceIDs) {
                         GamePiece toPiece = GameModule.getGameModule().getGameState().getPieceForId(s);
                         if (toPiece != null &&
+                            DoubleBlindViewer.isSpotted(toPiece) &&
                            (toPiece.getProperty(Properties.INVISIBLE_TO_ME) == null || Boolean.FALSE.equals(toPiece.getProperty(Properties.INVISIBLE_TO_ME))) &&
                            (toPiece.getProperty(Properties.OBSCURED_TO_ME) == null || Boolean.FALSE.equals(toPiece.getProperty(Properties.OBSCURED_TO_ME)))) {
                             Point p1 = map.componentCoordinates(fromPiece.getPosition());

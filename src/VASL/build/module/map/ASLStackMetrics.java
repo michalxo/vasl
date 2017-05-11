@@ -18,65 +18,152 @@
  */
 package VASL.build.module.map;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.util.BitSet;
 import VASL.counters.ASLProperties;
-import VASSAL.build.module.Map;
 import VASSAL.build.module.map.StackMetrics;
-import VASSAL.counters.BasicPiece;
 import VASSAL.counters.GamePiece;
-import VASSAL.counters.Highlighter;
-import VASSAL.counters.PieceIterator;
+import VASSAL.counters.PieceFilter;
 import VASSAL.counters.Properties;
 import VASSAL.counters.Stack;
 
-public class ASLStackMetrics extends StackMetrics {
-  protected void drawUnexpanded(GamePiece p, Graphics g,
-                                int x, int y, Component obs, double zoom) {
-    if (p.getProperty(ASLProperties.LOCATION) != null) {
-      p.draw(g, x, y, obs, zoom);
-    }
-    else {
-      super.drawUnexpanded(p, g, x, y, obs, zoom);
-    }
-  }
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.util.BitSet;
+import java.util.Iterator;
 
-  public int getContents(Stack parent, Point[] positions, Shape[] shapes, Rectangle[] boundingBoxes, int x, int y) {
-    int val = super.getContents(parent, positions, shapes, boundingBoxes, x, y);
-    if (!parent.isExpanded()) {
-      int count = parent.getPieceCount();
-      BitSet visibleLocations = new BitSet(count);
-      BitSet visibleOther = new BitSet(count);
-      for (int i = 0; i < count; ++i) {
-        GamePiece p = parent.getPieceAt(i);
-        boolean visibleToMe = !Boolean.TRUE.equals(p.getProperty(Properties.INVISIBLE_TO_ME));
-        boolean isLocation = p.getProperty((ASLProperties.LOCATION)) != null;
-        visibleLocations.set(i, isLocation && visibleToMe);
-        visibleOther.set(i,!isLocation && visibleToMe);
-      }
-      if (visibleLocations.cardinality() > 0 && visibleOther.cardinality() > 0) {
-        for (int i=0;i<count;++i) {
-          if (visibleLocations.get(i)) {
-            if (positions != null) {
-              positions[i].translate(-15,0);
-            }
-            if (boundingBoxes != null) {
-              boundingBoxes[i].translate(-15,0);
-            }
-            if (shapes != null) {
-              shapes[i] = AffineTransform.getTranslateInstance(-15,0).createTransformedShape(shapes[i]);
-            }
-          }
-        }
-      }
+public class ASLStackMetrics extends StackMetrics {
+
+    public ASLStackMetrics() {
+        this(false, DEFAULT_EXSEP_X, DEFAULT_EXSEP_Y, DEFAULT_UNEXSEP_X, DEFAULT_UNEXSEP_Y);
     }
-    return val;
-  }
+
+    public ASLStackMetrics(boolean dis,
+                           int exSx, int exSy,
+                           int unexSx, int unexSy) {
+        super(dis, exSx, exSy, unexSx, unexSy);
+
+        // include DB logic in stack fillters
+        unselectedVisible = new PieceFilter() {
+            public boolean accept(GamePiece piece) {
+                return !Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME))
+                        && !Boolean.TRUE.equals(piece.getProperty(Properties.SELECTED))
+                        && DoubleBlindViewer.isSpotted(piece);
+            }
+        };
+        selectedVisible = new PieceFilter() {
+            public boolean accept(GamePiece piece) {
+                return !Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME))
+                        && Boolean.TRUE.equals(piece.getProperty(Properties.SELECTED))
+                        && DoubleBlindViewer.isSpotted(piece);
+            }
+        };
+    }
+
+    protected void drawUnexpanded(GamePiece p, Graphics g,
+                                  int x, int y, Component obs, double zoom) {
+        if (p.getProperty(ASLProperties.LOCATION) != null) {
+            p.draw(g, x, y, obs, zoom);
+        } else {
+            super.drawUnexpanded(p, g, x, y, obs, zoom);
+        }
+    }
+
+    public int getContents(Stack parent, Point[] positions, Shape[] shapes, Rectangle[] boundingBoxes, int x, int y) {
+
+        int count = parent.getMaximumVisiblePieceCount();
+        if (positions != null) {
+            count = Math.min(count, positions.length);
+        }
+        if (boundingBoxes != null) {
+            count = Math.min(count, boundingBoxes.length);
+        }
+        if (shapes != null) {
+            count = Math.min(count,shapes.length);
+        }
+        int dx = parent.isExpanded() ? exSepX : unexSepX;
+        int dy = parent.isExpanded() ? exSepY : unexSepY;
+        Point currentPos = null, nextPos = null;
+        Rectangle currentSelBounds = null, nextSelBounds = null;
+        for (int index = 0; index < count; ++index) {
+            GamePiece child = parent.getPieceAt(index);
+            if (Boolean.TRUE.equals(child.getProperty(Properties.INVISIBLE_TO_ME)) || !DoubleBlindViewer.isSpotted(child)) {
+                Rectangle blank = new Rectangle(x, y, 0, 0);
+                if (positions != null) {
+                    positions[index] = blank.getLocation();
+                }
+                if (boundingBoxes != null) {
+                    boundingBoxes[index] = blank;
+                }
+                if (shapes != null) {
+                    shapes[index] = blank;
+                }
+            }
+            else {
+                child.setProperty(Properties.USE_UNROTATED_SHAPE,Boolean.TRUE);
+                nextSelBounds = child.getShape().getBounds();
+                child.setProperty(Properties.USE_UNROTATED_SHAPE,Boolean.FALSE);
+                nextPos = new Point(0,0);
+                if (currentPos == null) {
+                    currentSelBounds = nextSelBounds;
+                    currentSelBounds.translate(x, y);
+                    currentPos = new Point(x, y);
+                    nextPos = currentPos;
+                }
+                else {
+                    nextPosition(currentPos, currentSelBounds, nextPos, nextSelBounds, dx, dy);
+                }
+                if (positions != null) {
+                    positions[index] = nextPos;
+                }
+                if (boundingBoxes != null) {
+                    Rectangle bbox = child.boundingBox();
+                    bbox.translate(nextPos.x, nextPos.y);
+                    boundingBoxes[index] = bbox;
+                }
+                if (shapes != null) {
+                    Shape s = child.getShape();
+                    s = AffineTransform.getTranslateInstance(nextPos.x,nextPos.y).createTransformedShape(s);
+                    shapes[index] = s;
+                }
+                currentPos = nextPos;
+                currentSelBounds = nextSelBounds;
+            }
+        }
+
+        if (!parent.isExpanded()) {
+            int c = parent.getPieceCount();
+            BitSet visibleLocations = new BitSet(c);
+            BitSet visibleOther = new BitSet(c);
+
+            for (int i = 0; i < c; ++i) {
+                GamePiece p = parent.getPieceAt(i);
+                boolean visibleToMe = !Boolean.TRUE.equals(p.getProperty(Properties.INVISIBLE_TO_ME)) && DoubleBlindViewer.isSpotted(p);
+                boolean isLocation = p.getProperty((ASLProperties.LOCATION)) != null;
+                visibleLocations.set(i, isLocation && visibleToMe);
+                visibleOther.set(i, !isLocation && visibleToMe);
+            }
+            if (visibleLocations.cardinality() > 0 && visibleOther.cardinality() > 0) {
+                for (int i = 0; i < c; ++i) {
+                    if (visibleLocations.get(i)) {
+                        if (positions != null) {
+                            positions[i].translate(-15, 0);
+                        }
+                        if (boundingBoxes != null) {
+                            boundingBoxes[i].translate(-15, 0);
+                        }
+                        if (shapes != null) {
+                            shapes[i] = AffineTransform.getTranslateInstance(-15, 0).createTransformedShape(shapes[i]);
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    public Stack createStack(GamePiece p, boolean force) {
+        return isStackingEnabled() || force ? new Stack(p) : null;
+    }
+
 //  rolled-back due to unintended information leakage
 //  @Override
 //  public void draw(Stack stack, Graphics g, int x, int y, Component obs, double zoom) {

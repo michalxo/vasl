@@ -32,4 +32,10 @@ public interface ASLProperties {
 
   /** This piece is a terrain overlay */
   public static final String OVERLAY = "Overlay";
+
+  // DB properties
+  public static final String SPOTTED = "Spotted";
+  public static final String OWNER = "Owner";
+
+
 }

@@ -17,29 +17,20 @@
 package VASL.build.module.map;
 
 import VASL.build.module.ASLMap;
-import static VASL.build.module.map.boardPicker.ASLBoard.DEFAULT_HEX_HEIGHT;
-import java.awt.Rectangle;
-
+import VASL.counters.ASLProperties;
 import VASL.counters.TextInfo;
 import VASSAL.build.module.map.boardPicker.Board;
 import VASSAL.build.module.map.boardPicker.board.mapgrid.Zone;
 import VASSAL.build.module.properties.SumProperties;
-import VASSAL.counters.BasicPiece;
-import VASSAL.counters.Deck;
-import VASSAL.counters.Decorator;
-import VASSAL.counters.GamePiece;
-import VASSAL.counters.Labeler;
-import VASSAL.counters.Properties;
-import VASSAL.counters.Stack;
+import VASSAL.counters.*;
 import VASSAL.i18n.Resources;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Shape;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
+
+import static VASL.build.module.map.boardPicker.ASLBoard.DEFAULT_HEX_HEIGHT;
 
 public class CounterDetailViewer extends VASSAL.build.module.map.CounterDetailViewer 
 {
@@ -283,5 +274,42 @@ public class CounterDetailViewer extends VASSAL.build.module.map.CounterDetailVi
     if (report.length() > 0) {
       drawLabel(g, new Point(x, y), report, Labeler.RIGHT, Labeler.BOTTOM);
     }
+  }
+
+    protected List<GamePiece> getDisplayablePieces() {
+        GamePiece[] allPieces = map.getPieces(); // All pieces from bottom up
+
+        Visitor visitor = new Visitor(new DBFilter(), map,
+                map.mapCoordinates(currentMousePosition.getPoint()));
+        DeckVisitorDispatcher dispatcher = new DeckVisitorDispatcher(visitor);
+
+    /*
+     * Process pieces from the top down to make it easier to check for top layer
+     * only.
+     */
+        for (int i = allPieces.length - 1; i >= 0; i--) {
+            dispatcher.accept(allPieces[i]);
+        }
+
+        return visitor.getPieces();
+    }
+
+  protected class DBFilter extends VASSAL.build.module.map.CounterDetailViewer.Filter {
+
+      public boolean accept(GamePiece piece) {
+          return accept(piece, 0, "");
+      }
+
+      public boolean accept(GamePiece piece, int layer, String layerName) {
+
+          // Is it visible to us?
+          if (piece.getProperty(ASLProperties.SPOTTED) != null && Boolean.FALSE.equals(Boolean.parseBoolean((String) piece.getProperty(ASLProperties.SPOTTED)))) {
+              return false;
+          }
+          else {
+
+              return super.accept(piece, layer, layerName);
+          }
+      }
   }
 }

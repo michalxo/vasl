@@ -21,6 +21,7 @@ import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
 import VASL.LOS.counters.*;
 import VASL.build.module.ASLMap;
+import VASL.build.module.map.DoubleBlindViewer;
 import VASL.counters.ASLProperties;
 import VASSAL.counters.GamePiece;
 import VASSAL.counters.PieceIterator;
@@ -143,7 +144,7 @@ public class VASLGameInterface {
         }
 
         // add the piece
-        if (!Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME))) {
+        if (!Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME)) && DoubleBlindViewer.isSpotted(piece)) {
 
             CounterMetadata counter = counterMetadata.get(name);
 

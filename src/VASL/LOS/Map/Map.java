@@ -1826,37 +1826,30 @@ public class Map  {
             // Set the range
             result.setRange(0);
 
-            // either unit in the hex center?
-            if (status.source.isCenterLocation() ||
-                    status.target.isCenterLocation()) {
-
-                // if both locations are building, ensure difference in levels is <= 1 and stairway
-                if (status.source.getTerrain().isBuildingTerrain() && status.target.getTerrain().isBuildingTerrain()) {
-                    if (Math.abs(status.source.getBaseHeight() - status.target.getBaseHeight()) > 1 ||
-                            !status.source.getHex().hasStairway()) {
-
-                        result.setBlocked(
-                                (int) status.source.getLOSPoint().getX(),
-                                (int) status.source.getLOSPoint().getY(),
-                                "Crosses building level or no stairway");
-                        return true;
-                    }
-                }
-
-                // source on a bridge and target under bridge, etc?
-                if ((status.source.getTerrain().isBridge() && status.target.isCenterLocation()) ||
-                        (status.target.getTerrain().isBridge() && status.source.isCenterLocation())) {
+            // if both locations are building, ensure difference in levels is <= 1 and stairway
+            if (status.source.getTerrain().isBuildingTerrain() && status.target.getTerrain().isBuildingTerrain()) {
+                if (Math.abs(status.source.getBaseHeight() - status.target.getBaseHeight()) > 1 ||
+                        !status.source.getHex().hasStairway()) {
 
                     result.setBlocked(
                             (int) status.source.getLOSPoint().getX(),
                             (int) status.source.getLOSPoint().getY(),
-                            "Cannot see location under the bridge");
+                            "Crosses building level or no stairway");
                     return true;
                 }
+            }
 
-                // otherwise clear
+            // source on a bridge and target under bridge, etc?
+            if ((status.source.getTerrain().isBridge() && status.target.isCenterLocation()) ||
+                    (status.target.getTerrain().isBridge() && status.source.isCenterLocation())) {
+
+                result.setBlocked(
+                        (int) status.source.getLOSPoint().getX(),
+                        (int) status.source.getLOSPoint().getY(),
+                        "Cannot see location under the bridge");
                 return true;
             }
+            return false;
         }
         return false;
     }
