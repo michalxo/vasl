@@ -18,6 +18,7 @@
  */
 package VASL.build.module.map;
 
+import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.LOSResult;
 import VASL.LOS.Map.Location;
 import VASL.LOS.VASLGameInterface;
@@ -30,6 +31,7 @@ import VASSAL.build.GameModule;
 import VASSAL.build.module.GameComponent;
 import VASSAL.build.module.Map;
 import VASSAL.build.module.documentation.HelpFile;
+import VASSAL.build.module.map.Drawable;
 import VASSAL.chat.SynchCommand;
 import VASSAL.command.Command;
 import VASSAL.command.CommandEncoder;
@@ -43,19 +45,18 @@ import VASSAL.i18n.TranslatableConfigurerFactory;
 import VASSAL.tools.FormattedString;
 import VASSAL.tools.LaunchButton;
 import VASSAL.tools.NamedKeyStroke;
-
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
 import java.util.HashSet;
-
+import static VASL.build.module.map.boardPicker.ASLBoard.DEFAULT_HEX_HEIGHT;
 import static VASSAL.build.GameModule.getGameModule;
 
 /**
  * This component filters the players view of the board so only units in the player's LOS are shown.
  */
-public class DoubleBlindViewer extends AbstractConfigurable implements CommandEncoder, GameComponent {
+public class DoubleBlindViewer extends AbstractConfigurable implements CommandEncoder, Drawable, ActionListener, GameComponent {
 
     private static final String COMMAND_SEPARATOR = ":";
     private static final String COMMAND_PREFIX = "DOUBLE_BLIND" + COMMAND_SEPARATOR;
@@ -93,7 +94,13 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
     private LaunchButton launchButton;
     private String myPlayerName;
     private VASLGameInterface VASLGameInterface;
-    private HashSet<String> players = new HashSet<String>(); // list of all players in the game
+    private HashSet<String> players = new HashSet<String>(); // set of all players in the game
+    private HashSet<Hex> spottedCounters = new HashSet<Hex>(); // set of counters that pop into view on synch
+
+    // animation control - for drawing the red circles around spotted units
+    final private static int CIRCLE_DURATION = 2000;
+    private Boolean active = false;
+    private Timer timer;
 
     public DoubleBlindViewer() {
 
@@ -165,6 +172,8 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
     private void updateView() {
 
 
+        spottedCounters.clear();
+
         // gotta have a map to update the view
         if(map == null ||  map.getVASLMap() == null) {
             return;
@@ -176,13 +185,19 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
         // hide all pieces out of LOS
         for (GamePiece piece : map.getAllPieces()) {
             if (piece instanceof Stack) {
-                // setPieceUnspotted(piece); // the stack itself is unspotted
+
                 for (PieceIterator pi = new PieceIterator(((Stack) piece).getPiecesIterator()); pi.hasMoreElements(); ) {
                     setPieceVisibility(pi.nextPiece());
                 }
             } else {
                 setPieceVisibility(piece);
             }
+        }
+
+        // show spotted counters
+        if(spottedCounters.size() > 0) {
+            active = true;
+            timer.restart();
         }
         map.repaint();
     }
@@ -205,7 +220,6 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
         // global pieces and unowned pieces are always spotted
         if(VASLGameInterface.isDBGlobalCounter(piece) || (piece.getProperty(OWNER_PROPERTY) == null)){
             setPieceSpotted(piece);
-            piece.setProperty("X", "x");
             debug("Global piece " + piece.getName() + " was spotted ");
             return;
         }
@@ -224,6 +238,11 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
                     for (PieceIterator pi = new PieceIterator(((Stack) p).getPiecesIterator()); pi.hasMoreElements(); ) {
                         GamePiece p2 = pi.nextPiece();
                         if (isMyPiece(p2) && VASLGameInterface.isDBUnitCounter(p2) && isInLOS(p2, piece)) {
+
+                            // counter is newly spotted?
+                            if(!isSpotted(piece)) {
+                                spottedCounters.add(VASLGameInterface.getLocation(piece).getHex());
+                            }
                             setPieceSpotted(piece);
                             debug("Piece " + piece.getName() + " was Spotted by " + p2.getName());
                             return;
@@ -231,6 +250,11 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
                     }
                 } else {
                     if (isMyPiece(p) && VASLGameInterface.isDBUnitCounter(p) && isInLOS(p, piece)) {
+
+                        // counter is newly spotted?
+                        if(!isSpotted(piece)) {
+                            spottedCounters.add(VASLGameInterface.getLocation(piece).getHex());
+                        }
                         setPieceSpotted(piece);
                         debug("Piece " + piece.getName() + " was Spotted by " + p.getName());
                         return;
@@ -424,7 +448,9 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
         if (parent instanceof Map) {
             setMap((ASLMap) parent);
             map.getToolBar().add(launchButton);
+            map.addDrawComponent(this);
             GameModule.getGameModule().addCommandEncoder(this);
+            timer = new Timer (CIRCLE_DURATION, this);
         }
 
         // record the player information
@@ -544,9 +570,6 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
                 getGameModule().getPrefs().getOption(CENTER_ON_MOVE).setValue(Boolean.FALSE);
                 getGameModule().getPrefs().getOption(AUTO_REPORT).setValue(Boolean.FALSE);
 
-                // disable the "last moved" highlighter
-                Collection<GameComponent> components = getGameModule().getGameState().getGameComponents();
-
                 // update the view
                 updateView();
 
@@ -589,6 +612,41 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
             c = c.append(new EnableDoubleBlindCommand(this, enabled));
         }
         return c;
+    }
+
+    @Override
+    public void draw(Graphics g, Map map) {
+
+        if(active){
+            for(Hex h: spottedCounters) {
+
+                int circleSize = (int)(map.getZoom() * DEFAULT_HEX_HEIGHT * 2);
+
+                // translate the piece center for current zoom
+                Point p = new Point(h.getCenterLocation().getLOSPoint());
+                p.translate(map.getEdgeBuffer().width, map.getEdgeBuffer().height);
+                p.x *= map.getZoom();
+                p.y *= map.getZoom();
+
+                // draw a circle around the selected point
+                Graphics2D gg = (Graphics2D) g;
+                g.setColor(Color.RED);
+                gg.setStroke(new BasicStroke(3));
+                gg.drawOval(p.x - circleSize/2, p.y - circleSize/2, circleSize, circleSize);
+            }
+        }
+    }
+
+    @Override
+    public boolean drawAboveCounters() {
+        return true;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        active = false;
+        timer.stop();
+        map.repaint();
     }
 
     /**
@@ -647,7 +705,7 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
         private boolean enabledFlag;
         private DoubleBlindViewer doubleBlindViewer;
 
-        public EnableDoubleBlindCommand(DoubleBlindViewer doubleBlindViewer, boolean enabled) {
+        EnableDoubleBlindCommand(DoubleBlindViewer doubleBlindViewer, boolean enabled) {
             this.enabledFlag = enabled;
             this.doubleBlindViewer = doubleBlindViewer;
         }
