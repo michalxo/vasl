@@ -227,7 +227,7 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
             Component l_objVertGlue = Box.createVerticalGlue();
             AddButton(l_objPanel, l_objVertGlue, l_iRow++, 2);
 
-            JToggleButton l_objTBtn = CreateChangePhaseActionsButton("Prep", "Move to Next Phase");
+            JToggleButton l_objTBtn = CreateChangePhaseActionsButton("Start", "Move to Next Phase");
             AddButton(l_objPanel, l_objTBtn, l_iRow++, 20);
 
             l_objBtn = CreateActionButton("", "Prep", "Prep Fire", new ActionListener() {public void actionPerformed(ActionEvent e) {ProcessAction("Prep");}});
@@ -287,8 +287,8 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
         } else if (actiontype=="Opp"){
             OppFire markOppFire = new OppFire();
                 markOppFire.markasOppFirer();
-        } else if (actiontype=="Dis"){
-            SWTest swaction = new SWTest();
+        } else if (actiontype=="Dis") {
+
         }
 
         NeedRepaint();
@@ -369,7 +369,10 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
             {
                 if(e.getStateChange() == ItemEvent.SELECTED)
                 {
-                    if (l_btn.getText()=="Prep") {
+                    if (l_btn.getText()=="Start") {
+                        l_btn.setText("Prep");
+                        //StartGame playgame = new StartGame();
+                    } else if (l_btn.getText()=="Prep") {
                         l_btn.setText("Move");
                     } else if (l_btn.getText()=="Move"){
                         l_btn.setText("DefF");

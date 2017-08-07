@@ -906,6 +906,7 @@ public class QC implements Buildable, GameComponent
     private JButton m_objDeluxeDraggableOverlaysWindowButton = null;
     private JToggleButton m_objBrokenFinderButton = null;
     private JToggleButton sniperFinderButton = null;
+    private JToggleButton fullrulesButton=null;
     private Map m_objMap;
     private final ArrayList<QCConfiguration> mar_objListQCConfigurations = new ArrayList<QCConfiguration>();
     private QCConfiguration m_objQCWorkingConfiguration = null;
@@ -1117,6 +1118,12 @@ public class QC implements Buildable, GameComponent
         {
             sniperFinderButton = new JToggleButton();
             m_objMap.getToolBar().add(sniperFinderButton);
+        }
+
+        if (fullrulesButton == null)
+        {
+            fullrulesButton = new JToggleButton();
+            m_objMap.getToolBar().add(fullrulesButton);
         }
 
         JButton l_objButtonMarkMoved = new JButton();
@@ -1757,6 +1764,30 @@ public class QC implements Buildable, GameComponent
                 sniperFinderButton.setToolTipText("Turn on/off the highlighting of sniperF counters");
             }
 
+            if ((fullrulesButton != null) && (fullrulesButton.getActionListeners().length == 0)){
+
+                try {
+                    fullrulesButton.setIcon(new ImageIcon(Op.load("Fullrules").getImage(null)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                ActionListener al = new ActionListener()
+                {
+                    public void actionPerformed(ActionEvent e)
+                    {
+
+                        StartGame fullrulesgame = m_objMap.getComponentsOf(StartGame.class).iterator().next();
+
+                        if (fullrulesgame != null)
+                            fullrulesgame.Initialize(fullrulesButton.isSelected());
+
+                    }
+                };
+
+                fullrulesButton.addActionListener(al);
+                fullrulesButton.setToolTipText("Play game with full ASL rules programming");
+            }
             if (mar_HashPieceSlot.isEmpty())
             {
                 ReadPiecesSlot();

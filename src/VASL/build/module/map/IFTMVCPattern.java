@@ -6,51 +6,26 @@ package VASL.build.module.map;
  * Created by dougr_000 on 5/12/2017.
  * Uses interfaces and concrete classes to implement MVC pattern for determining IFT
  * combat opportunities based on either Target or Firer
- *//*
+ */
+package VASL.build.module.map;
 
 
-import VASL.build.module.ASLChatter;
-import VASL.build.module.ASLDiceBot;
-import VASL.build.module.ASLMap;
-import VASSAL.build.AbstractConfigurable;
-import VASSAL.build.Buildable;
-import VASSAL.build.GameModule;
-import VASSAL.build.module.GameComponent;
-import VASSAL.build.module.Map;
-import VASSAL.build.module.documentation.HelpFile;
-import VASSAL.build.module.map.Drawable;
-import VASSAL.command.Command;
-import VASSAL.configure.HotKeyConfigurer;
-import VASSAL.tools.imageop.Op;
+import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.DataClasses.EnemyHexLOSHFPdrm;
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import VASL.build.module.ASLChatter.ChatterListener;
-import static VASSAL.build.module.Chatter.getAnonymousUserName;
-import VASSAL.build.module.GlobalOptions;
-import VASSAL.configure.ColorConfigurer;
-import VASSAL.configure.FontConfigurer;
-import VASSAL.configure.LongConfigurer;
-import VASSAL.configure.StringConfigurer;
-import VASSAL.preferences.Prefs;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.util.*;
+
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Iterator;
+
 public class IFTMVCPattern {
     // this class creates and uses the IFT MVC pattern which updates and displays the
     // LOSH, FP and drm of all enemy units on the mapwindow for a fire-capable (prep, def, advf phases) unit.
     private IFTFireInterface IFTFire;
 
     // constructor
-    public IFTMVCPattern() {  //(ByVal TempFireGroup As List(Of ObjectClassLibrary.ASLXNA.PersUniti))
+    public IFTMVCPattern(PersUniti[] TempFireGroup) {
         // creates the model, then the controller, which creates the view
         // then trigger the model by calling SetLOSHFPdrm on the controller
         IFTFire = new IFTFireConcreteC();
@@ -60,32 +35,36 @@ public class IFTMVCPattern {
     }
 
     // these are functions visible to ASLXNA that pass the pattern results back to the main program
-    public int GetShaderToShow() {
-        return IFTFire.ShadertoShow;
+    public Constantvalues.ShadeShow GetShaderToShow() {
+        return IFTFire.getShadertoShow();
     }
 
-    public Function StoreHexestoShade() As List (of Storeshadehex)  {
-        return IFTFire.StoreHexestoShade;
+    public LinkedList<storeShadeHex> getStoreHexestoShade()  {
+        return IFTFire.getstoreHexestoShade();
     }
 
-    public Function StoreStringstoDraw() As List (Of StoreShadeHex) {
-        return IFTFire.storeStringstoDraw;
+
+    public LinkedList<storeShadeHex> getStoreStringstoDraw() {
+        return IFTFire.getstoreStringstoDraw();
     }
 }
 
 // MODEL
 // interface
-public interface IFTFireInterface {
+interface IFTFireInterface {
 
-        public int ShadertoShow;
-        Property StoreHexesToShade As List(Of Storeshadehex)
-        Property storeStringstoDraw As List(Of StoreShadehex)
+        public Constantvalues.ShadeShow getShadertoShow();
+        public void setShadertoShow(Constantvalues.ShadeShow addShadertoShow);
+        public LinkedList<storeShadeHex> getstoreHexestoShade();
+        public LinkedList<storeShadeHex> getstoreStringstoDraw();
+        public void addstoreHexestoShade(storeShadeHex addShadeHex);
+        public void addstoreStringstoDraw(storeShadeHex addShadeHex);
 
-        public void Initialize() {  };
+        public void Initialize();
 
-        public void SetLOSFPdrmValues(ByVal TempFireGroup As List(Of ObjectClassLibrary.ASLXNA.PersUniti))
+        public void SetLOSFPdrmValues(PersUniti[] TempFireGroup);
 
-        public GetLOSFPdrmValues() As List(Of EnemyHexLOSHFPdrm)
+        public LinkedList<EnemyHexLOSHFPdrm> GetLOSFPdrmValues();
 
         public void RegisterObserver(IFTObserverInterface IFTObserverC);
 
@@ -93,18 +72,18 @@ public interface IFTFireInterface {
 }
 
 // concrete class
-public class IFTFireConcreteC implements IFTFireInterface {
+class IFTFireConcreteC implements IFTFireInterface {
 
         private IFTObserverInterface IFTObserver;
-        private SetEnemyValues As List(Of EnemyHexLOSHFPdrm)
-        public int ShadertoShow;
-        Property storeHexesToShade As New List(Of storeShadeHex) Implements IFTFireInterface.StoreHexesToShade
-        Property storeStringstoDraw As New List(Of storeShadeHex) Implements IFTFireInterface.storeStringstoDraw
+        private LinkedList<EnemyHexLOSHFPdrm> SetEnemyValues = new LinkedList<EnemyHexLOSHFPdrm>();
+        public Constantvalues.ShadeShow pShadertoShow;
+        LinkedList<storeShadeHex> pstoreHexestoShade = new LinkedList<storeShadeHex>();
+        LinkedList<storeShadeHex> pstoreStringstoDraw = new LinkedList<storeShadeHex>();
 
-        public GetLOSFPdrmValues() {  // As List(Of EnemyHexLOSHFPdrm) Implements IFTFireInterface.GetLOSFPdrmValues
+        public LinkedList<EnemyHexLOSHFPdrm> GetLOSFPdrmValues() {
             // called by DFFViewConcreteC.UpdateView
             // retrives new EnemyValues to be displayed by the view
-            // does not triggers recalculation of EnemyValues - already done
+            // does not trigger recalculation of EnemyValues - already done
             return SetEnemyValues;
         }
 
@@ -112,25 +91,26 @@ public class IFTFireConcreteC implements IFTFireInterface {
             // no implementation required so far
         }
 
-        public void RegisterObserver(IFTObserverInterface IFTObserverC) {   // Implements IFTFireInterface.RegisterObserver
+        public void RegisterObserver(IFTObserverInterface IFTObserverC) {
             // called by DFFViewConcreteC.SetUpView
             // the Observer is the view as a whole NOT each EnemyUnit - as per the example
             IFTObserver = IFTObserverC;
         }
 
-        public void RemoveObserver() {  // Implements IFTFireInterface.RemoveObserver
+        public void RemoveObserver() {
             // no implementation required so far
         }
 
-        public void SetLOSFPdrmValues(ByVal TempFireGroup As List(Of ObjectClassLibrary.ASLXNA.PersUniti)) {
+        public void SetLOSFPdrmValues(PersUniti[] TempFireGroup) {
             // called by IFTControllerConcreteC.SetLOSHFPdrmValues
             // triggers calculation of new set of EnemyUnit values; not an update of existing
             // classes out the calculation process
-            DFFEnemyValuesConcreteC EnemyValues = new DFFEnemyValuesConcreteC;
+            DFFEnemyValuesConcreteC EnemyValues = new DFFEnemyValuesConcreteC();
+
             // set shader used in Game.draw THIS NEEDS TO BE MOVED TO ASLXNA
-            ShadertoShow = ConstantClassLibrary.ASLXNA.ShadeShow.IFTShade
+            setShadertoShow(Constantvalues.ShadeShow.IFTShade);
             // returns list of new EnemyValues
-            SetEnemyValues = EnemyValues.SetLOSFPdrmValues(TempFireGroup)
+            SetEnemyValues = EnemyValues.SetLOSFPdrmValues(TempFireGroup);
             // tells the observers(the view) that new EnemyValues are available
             NotifyObservers();
         }
@@ -140,27 +120,38 @@ public class IFTFireConcreteC implements IFTFireInterface {
             // calls UpdateView on all observers
             IFTObserver.UpdateView();
         }
+        public Constantvalues.ShadeShow getShadertoShow() {return pShadertoShow;}
+        public void setShadertoShow(Constantvalues.ShadeShow value){pShadertoShow=value;}
+
+        public LinkedList<storeShadeHex> getstoreHexestoShade() {return pstoreHexestoShade;}
+        public LinkedList<storeShadeHex> getstoreStringstoDraw() {return pstoreStringstoDraw;}
+
+        public void addstoreHexestoShade(storeShadeHex addShadeHex) {
+            pstoreHexestoShade.add(addShadeHex);
+        }
+        public void addstoreStringstoDraw(storeShadeHex addShadeHex) {
+            pstoreStringstoDraw.add(addShadeHex);
+        }
 }
 
 // CONTROLLER
 // interface
-public interface IFTControllerInterface {
-    public void SetLOSHFPdrm(ByVal TempFireGroup As List(Of ObjectClassLibrary.ASLXNA.PersUniti))
+interface IFTControllerInterface {
+    public void SetLOSHFPdrm(PersUniti[] TempFireGroup);
 }
 
 // concrete class
-public class IFTControllerConcreteC implements IFTControllerInterface {
+class IFTControllerConcreteC implements IFTControllerInterface {
     private IFTFireInterface IFTModel;
 
-    public void IFTControllerConcreteC(IFTFireInterface Newmodel) {
+    public IFTControllerConcreteC(IFTFireInterface Newmodel) {
         IFTModel = Newmodel;
         // creates the view
-        IFTViewConcreteC IFTView = new IFTViewConcreteC;
-        IFTView.SetupView(IFTModel, this);
+        IFTViewConcreteC IFTView = new IFTViewConcreteC(IFTModel, this);
     }
 
-    public void SetLOSHFPdrm(ByVal TempFireGroup As List(Of ObjectClassLibrary.ASLXNA.PersUniti)) {
-    Implements IFTControllerInterface.SetLOSHFPdrm
+    public void SetLOSHFPdrm(PersUniti[] TempFireGroup) {
+    //Implements IFTControllerInterface.SetLOSHFPdrm
     // called by IFTMVCPattern.New
     // this is where external call comes into the pattern and triggers the process
     // asks the model to recalcuate new EnemyValues
@@ -175,11 +166,11 @@ interface IFTObserverInterface {
 }
 
 // concrete class
-public class IFTViewConcreteC implements IFTObserverInterface {
+class IFTViewConcreteC implements IFTObserverInterface {
     private IFTFireInterface ViewModel;
     private IFTControllerInterface ViewController;
 
-    public void SetupView(IFTFireInterface NewModel, IFTControllerInterface NewController) {
+    public IFTViewConcreteC(IFTFireInterface NewModel, IFTControllerInterface NewController) {
         // called by IFTControllerConcreteC.New
         // passes in references to the model and controller and registers as an observer
         ViewModel = NewModel;
@@ -188,66 +179,69 @@ public class IFTViewConcreteC implements IFTObserverInterface {
         ViewModel.RegisterObserver(this);
     }
 
-    public void UpdateView() { // Implements IFTObserverInterface.UpdateView
+    public void UpdateView() {
         // called by IFTFireConcreteC.NotifyObservers
-        // tells observers that new set of EnemyValues is availalble, gets them and processes changes to the display
-        boolean AlreadyAdded = False;
+        // tells observers that new set of EnemyValues is available, gets them and processes changes to the display
+        boolean AlreadyAdded = false;
         // get the new EnemyValues
-        Dim EnemyHexValues As List (Of EnemyHexLOSHFPdrm) =ViewModel.GetLOSFPdrmValues()
+        LinkedList<EnemyHexLOSHFPdrm> EnemyHexValues = ViewModel.GetLOSFPdrmValues();
         String FPdrmstring;
         String drmSign;
         // create list of ShadeHexes which are drawn by Game.Draw
-        StoreShadeHex EnemyShade;
+        storeShadeHex EnemyShade;
 
-        For Each EnemyUnit As EnemyHexLOSHFPdrm In EnemyHexValues
-            AlreadyAdded = False;
-            if (EnemyUnit.drm > 0) {
+        for (EnemyHexLOSHFPdrm EnemyUnit: EnemyHexValues) {
+            AlreadyAdded = false;
+            if (EnemyUnit.getdrm() > 0) {
                 drmSign = "+";
-            } else if (EnemyUnit.drm = 0) {
+            } else if (EnemyUnit.getdrm() == 0) {
                 drmSign = "-";
-            } else
+            } else {
                 drmSign = "";
             }
 
-            if(EnemyUnit.LOSStatus ==ConstantClassLibrary.ASLXNA.LosStatus.None) {
+            if (EnemyUnit.getLOSStatus() == Constantvalues.LosStatus.None) {
                 FPdrmstring = "No LOS";
-            } else if(EnemyUnit.LOSStatus ==ConstantClassLibrary.ASLXNA.LosStatus.BeyondLR) {
+            } else if(EnemyUnit.getLOSStatus() ==Constantvalues.LosStatus.BeyondLR) {
                 FPdrmstring = "BR";
-            } else if(EnemyUnit.LOSStatus ==ConstantClassLibrary.ASLXNA.LosStatus.Target) {
+            } else if(EnemyUnit.getLOSStatus() ==Constantvalues.LosStatus.Target) {
                 FPdrmstring = "";
-            } else
-                FPdrmstring = Trim(EnemyUnit.FP.ToString) & Trim(drmSign) & Trim(EnemyUnit.drm.ToString)
+            } else {
+                FPdrmstring = (Integer.toString((int)EnemyUnit.getFP()).trim()) + (drmSign.trim()) + (Integer.toString(EnemyUnit.getdrm()).trim());
             }
             // check for multiple entries in same hex
-            if (ViewModel.storeStringstoDraw.Count > 0){
-                For Each ExistingShade As storeShadeHex In ViewModel.storeStringstoDraw
-                    if(ExistingShade.Hexnum==EnemyUnit.Hexnum){
-                        if(Trim(FPdrmstring)="No LOS"And Trim(ExistingShade.LevelClear)="No LOS")Or(Trim(FPdrmstring)="BR"And Trim(ExistingShade.LevelClear)="BR"){
-                        }else
-                            FPdrmstring=FPdrmstring&", "&ExistingShade.LevelClear
-                            ExistingShade.SetFPdrmstring(FPdrmstring,CInt(ExistingShade.Hexnum))
+            if (!ViewModel.getstoreStringstoDraw().isEmpty()){
+                for (storeShadeHex ExistingShade: ViewModel.getstoreStringstoDraw()) {
+                    if(ExistingShade.getHexnum()==EnemyUnit.getHexnum()){
+                        if((FPdrmstring=="No LOS" && ExistingShade.getLevelClear()=="No LOS") || (FPdrmstring=="BR" && ExistingShade.getLevelClear()=="BR")){
+                        }else {
+                            FPdrmstring = FPdrmstring + ", " + ExistingShade.getLevelClear();
+                            ExistingShade.SetFPdrmstring(FPdrmstring, ExistingShade.getHexnum());
                         }
-                        AlreadyAdded=True;
+                        AlreadyAdded=true;
                     }
                 }
             }
 
             if (!AlreadyAdded){
-                EnemyShade=new storeShadeHex(EnemyUnit.Hexname,CInt(EnemyUnit.Hexnum),EnemyUnit.LOSStatus);
-                EnemyShade.SetFPdrmstring(FPdrmstring,CInt(EnemyUnit.Hexnum));
+                EnemyShade = new storeShadeHex(EnemyUnit.getHexname(), EnemyUnit.getHexnum(), EnemyUnit.getLOSStatus());
+                EnemyShade.SetFPdrmstring(FPdrmstring, EnemyUnit.getHexnum());
                 // Game.Draw will iterate through HexesToShade and StringsToDraw if shader is set (done in DefensiveFirstFireConcreteC.SetLOSHFPdrmValues)
-                if(EnemyUnit.LOSStatus<> ConstantClassLibrary.ASLXNA.LosStatus.NormalRange){
-                    ViewModel.StoreHexesToShade.Add(EnemyShade)
+                if(EnemyUnit.getLOSStatus() != Constantvalues.LosStatus.NormalRange){
+                    ViewModel.addstoreHexestoShade(EnemyShade);
                 }
-                ViewModel.storeStringstoDraw.Add(EnemyShade)
+                ViewModel.addstoreStringstoDraw(EnemyShade);
             }
         }
         // sets shader again - could drop one
-        ViewModel.ShadertoShow = ConstantClassLibrary.ASLXNA.ShadeShow.IFTShade
+        // DROP THIS AS THIS SET SHOULD BE DONE ONLY IN VIEWMODEL CLASS (IFTFireConcretec)
+        ViewModel.setShadertoShow(Constantvalues.ShadeShow.IFTShade);
 
     }
 }
 
+
+/*
 public class EnemyValuesConcreteC {
     private FiringList As List(Of ObjectClassLibrary.ASLXNA.PersUniti);
     private int EnemySide1 = 0;
@@ -798,440 +792,111 @@ public class EnemyValuesConcreteC {
     }
 
 }
+*/
 
- ' ''Friend Class EnemyHexLOSHFPdrm
-        ' ''    '    'type ussed by EnemyValuesConcreteC to store values to pass to Shadehexes in IFTviewConcreteC.UpdateView
-        ' ''    '    'held in list EnemyHexList and treturned by EnemyValuesConcreteC.SetupLOSHFPdrmValues
-        ' ''    Friend LOSStatus As Integer
-        ' ''    Friend FP As Single
-        ' ''    Friend drm As Integer
-        ' ''    Friend Hexname As String
-        ' ''    Friend Hexnum As Integer
-        ' ''    Sub New(ByVal PassLOSStatus As Integer, ByVal PassFP As Single, ByVal Passdrm As Integer,
-        ' ''            ByVal PassHexname As String, ByVal PassHexnum As Integer)
-        ' ''        LOSStatus = PassLOSStatus
-        ' ''        FP = PassFP
-        ' ''        drm = Passdrm
-        ' ''        Hexname = PassHexname
-        ' ''        Hexnum = PassHexnum
-        ' ''    End Sub
-        ' ''End Class
 
-public Class storeShadeHex{
+class storeShadeHex{
 // this class holds information about hexes to be shaded as part of various processes: LOS and Search
 private String pHexname;
 private int pHexnum;
-private int pLOSStatus;
+private Constantvalues.LosStatus pLOSStatus;
 private int pSearchStatus;
 private String pLevelClear;
-private pShowColor As Microsoft.Xna.Framework.Color;
-private pTextPos As Microsoft.Xna.Framework.Vector2;
-private pShaderTex As Microsoft.Xna.Framework.Graphics.Texture2D;
-private pRect As Microsoft.Xna.Framework.Rectangle;
-// various constructor overloads depending on process
-    public void storeShadeHex(ByVal Passhexname As String,ByVal Passhexnum As Integer,ByVal PassLOSResult As Integer){
-        pHexname=Passhexname
-        pHexnum=Passhexnum
-        pLOSStatus=PassLOSResult
-        'pShaderTex = GetShader(pLOSStatus)
-        'pRect = GetRectangle(pHexnum)
+private Color pShowColor;
+private Point pTextPos;
+private BufferedImage pShaderTex;   // pShaderTex As Microsoft.Xna.Framework.Graphics.Texture2D
+private Rectangle pRect;
+ // various constructor overloads depending on process
+    public storeShadeHex(String Passhexname, int Passhexnum, Constantvalues.LosStatus PassLOSResult){
+        pHexname=Passhexname;
+        pHexnum=Passhexnum;
+        pLOSStatus=PassLOSResult;
+        // pShaderTex = GetShader(pLOSStatus)
+        // pRect = GetRectangle(pHexnum)
     }
-        'Sub New(ByVal Passhexname As String, ByVal Passhexnum As Integer, ByVal PassLOSResult As Integer, ByVal LOSResultbyLevel As List(Of LOSLevel))
-        '    pHexname = Passhexname
-        '    pHexnum = Passhexnum
-        '    pLOSStatus = PassLOSResult
-        '    pShaderTex = GetShader(pLOSStatus)
-        '    pRect = GetRectangle(pHexnum)
-        '    SetLevelClear(LOSResultbyLevel, Passhexnum)
-        'End Sub
 
-        'Friend Sub New(ByVal Passhexnum As Integer)
-        '    'this overload comes from MapShade.SearchShadeShow and Movementc.addtostackattemp
-        '    pHexnum = Passhexnum
-        '    pHexname = ""
-        '    pRect = GetRectangle(pHexnum)
-        'End Sub
-        'Friend Sub New(ByVal Passhexnum As Integer, ByVal ShadeTex As Microsoft.Xna.Framework.Graphics.Texture2D, ByVal Otherhexnum As Integer)
-        '    'this overload comes from Enternewhex.moveupdate
-        '    ' create movetrail shadehex
-        '    pHexnum = Passhexnum
-        '    pHexname = ""
-        '    pShaderTex = ShadeTex
-        '    pRect = GetRectangle(pHexnum, Otherhexnum)
-        'End Sub
-        'Friend Sub New(ByVal Passhexnum As Integer, ByVal ShadeTex As Microsoft.Xna.Framework.Graphics.Texture2D, ByVal Otherhexnum As Integer, ByVal PasssideCrossed As Integer)
-        '    'this overload comes from drawmoveinfo.new
-        '    ' create movetrail shadehex
-        '    pHexnum = Passhexnum
-        '    pHexname = ""
-        '    pShaderTex = ShadeTex
-        '    pRect = GetRectangle(pHexnum, Otherhexnum, PasssideCrossed)
-        'End Sub
-    public ReadOnly Property Hexname As String{
-        Get
-        Return pHexname
-        End Get
-    }
-    public ReadOnly Property Hexnum As Integer{
-        Get
-        Return pHexnum
-        End Get
-    }
-    public ReadOnly Property LOSStatus As Integer{
-        Get
-        Return pLOSStatus
-        End Get
-    }
-    public ReadOnly Property SearchStatus As Integer{
-        Get
-        Return pSearchStatus
-        End Get
-    }
-    public ReadOnly Property LevelClear As String{
-        'holds value of string to display on map
-        'in DFF holds value of potential FP and drm
-        Get
-        Return pLevelClear
-        End Get
-    }
-    public ReadOnly Property ShowColor As Microsoft.Xna.Framework.Color{
-        Get
-        Return pShowColor
-        End Get
-    }
-    public ReadOnly Property ScreenRect As Microsoft.Xna.Framework.Rectangle{
-        Get
-        Return pRect
-        End Get
-    }
-    public ReadOnly Property TextPos As Microsoft.Xna.Framework.Vector2{
-        Get
-        Return pTextPos
-        End Get
-    }
-    public ReadOnly Property ShaderTex As Microsoft.Xna.Framework.Graphics.Texture2D{
-        Get
-        Return pShaderTex
-        End Get
-    }
+    // properties
+    public String getHexname(){return pHexname;}
+    public void setHexname(String value) {pHexname=value;}
+
+    public int getHexnum(){return pHexnum;}
+    public void setHexnum(int value) {pHexnum=value;}
+
+    public Constantvalues.LosStatus getLOSStatus(){return pLOSStatus;}
+    public void setLOSStatus(Constantvalues.LosStatus value) {pLOSStatus=value;}
+
+    public int getSearchStatus(){return pSearchStatus;}
+    public void setSearchStatus(int value) {pSearchStatus=value;}
+
+    public String getLevelClear(){return pLevelClear;}  // holds value of string to display on map in DFF holds value of potential FP and drm
+    public void setLevelClear(String value) {pLevelClear=value;}
+
+    public Color getShowColor(){return pShowColor;}
+    public void setShowColor(Color value) {pShowColor=value;}
+
+    public Rectangle getScreenRect(){return pRect;}
+    public void setScreenRect(Rectangle value) {pRect=value;}
+
+    public Point getTextPos(){return pTextPos;}
+    public void setTextPos(Point value) {pTextPos=value;}
+
+    public BufferedImage getShaderTex(){return pShaderTex;}
+    public void setShaderTex(BufferedImage value) {pShaderTex=value;}
+
     // methods
-        'Friend Function GetShader(ByVal PassLOSStatus As Integer) As Microsoft.Xna.Framework.Graphics.Texture2D
-        '    Select Case PassLOSStatus
-        '        Case EnumLosStatus.None
-        '            Dim Shadetex As Microsoft.Xna.Framework.Graphics.Texture2D = Game.Content.Load(Of Texture2D)("ShaderNoLOS1")
-        '            Return Shadetex
-        '        Case EnumLosStatus.LongRange
-        '            Dim Shadetex As Microsoft.Xna.Framework.Graphics.Texture2D = Game.Content.Load(Of Texture2D)("ShaderLongRange")
-        '            Return Shadetex
-        '        Case EnumLosStatus.BeyondLR
-        '            Dim Shadetex As Microsoft.Xna.Framework.Graphics.Texture2D = Game.Content.Load(Of Texture2D)("ShaderLongRange4")  ' Beyo
-        '            Return Shadetex
-        '        Case EnumLosStatus.PointBlank
-        '            Dim Shadetex As Microsoft.Xna.Framework.Graphics.Texture2D = Game.Content.Load(Of Texture2D)("ShaderPBF")  ' Beyo
-        '            Return Shadetex
-        '        Case EnumLosStatus.Target
-        '            Dim Shadetex As Microsoft.Xna.Framework.Graphics.Texture2D = Game.Content.Load(Of Texture2D)("HexOutline")  ' shader for selected hex
-        '            Return Shadetex
-        '        Case EnumLosStatus.NormalRange
+    public Point GetTextPosCenterTop(int PassHexnum){
+        Point GetTextPosCenterTop = new Point(0,0);
 
-        '        Case Else
-        '            Return Nothing
-        '    End Select
-        'End Function
-        'Friend Function SetSearchShader(ByVal PassSearchStatus As Integer) As Boolean
-        '    Select Case PassSearchStatus
-        '        Case EnumShadeShow.CanNotSearch
-        '            Dim Shadetex As Microsoft.Xna.Framework.Graphics.Texture2D = Game.Content.Load(Of Texture2D)("ShaderNoSearch")
-        '            pShaderTex = Shadetex
-        '            Return True
-        '        Case EnumShadeShow.CanSearch
-        '            Dim Shadetex As Microsoft.Xna.Framework.Graphics.Texture2D = Game.Content.Load(Of Texture2D)("ShaderToSearch")
-        '            pShaderTex = Shadetex
-        '            Return True
-        '        Case EnumShadeShow.Searched
-        '            Dim Shadetex As Microsoft.Xna.Framework.Graphics.Texture2D = Game.Content.Load(Of Texture2D)("ShaderSearched")
-        '            pShaderTex = Shadetex
-        '            Return True
-        '        Case Else
-        '            Return False
-        '    End Select
-        'End Function
-        'Friend Function GetRectangle(ByVal PassHexnum As Integer) As Microsoft.Xna.Framework.Rectangle
+        // NEED TO FIX
 
-        '    Dim MapGeo as mapgeoclasslibrary.aslxna.mapgeoc = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        '    Dim NewRect As New Microsoft.Xna.Framework.Rectangle(CInt(MapGeo.GetCX(PassHexnum) - 33), CInt(MapGeo.GetCY(PassHexnum) - 37), 65, 75)
-        '    Return NewRect
-        'End Function
-        'Friend Function GetRectangle(ByVal PassHexnum As Integer, ByVal Passotherhexnum As Integer) As Microsoft.Xna.Framework.Rectangle
-
-        '    Dim MapGeo as mapgeoclasslibrary.aslxna.mapgeoc = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        '    Dim NewRect As New Microsoft.Xna.Framework.Rectangle(CInt(MapGeo.GetCX(Passotherhexnum)), CInt(MapGeo.GetCY(Passotherhexnum) - 5), 65, 10)
-        '    Return NewRect
-        'End Function
-        'Friend Function GetRectangle(ByVal PassHexnum As Integer, ByVal Passotherhexnum As Integer, ByVal Passsidecrossed As Integer) As Microsoft.Xna.Framework.Rectangle
-
-        '    Dim MapGeo as mapgeoclasslibrary.aslxna.mapgeoc = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        '    Dim NewRect As Microsoft.Xna.Framework.Rectangle
-        '    Select Case Passsidecrossed
-        '        Case 1
-        '            NewRect = New Microsoft.Xna.Framework.Rectangle(CInt(MapGeo.GetCX(Passotherhexnum)), CInt(MapGeo.GetCY(Passotherhexnum) - 3), 65, 5)
-        '        Case 2
-        '            NewRect = New Microsoft.Xna.Framework.Rectangle(CInt(MapGeo.GetCX(Passotherhexnum)), CInt(MapGeo.GetCY(Passotherhexnum)), 32, 56)
-        '        Case 3
-        '            NewRect = New Microsoft.Xna.Framework.Rectangle(CInt(MapGeo.GetCX(Passotherhexnum) - 32), CInt(MapGeo.GetCY(Passotherhexnum)), 32, 56)
-        '        Case 4
-        '            NewRect = New Microsoft.Xna.Framework.Rectangle(CInt(MapGeo.GetCX(Passotherhexnum) - 65), CInt(MapGeo.GetCY(Passotherhexnum) - 3), 65, 5)
-        '        Case 5
-        '            NewRect = New Microsoft.Xna.Framework.Rectangle(CInt(MapGeo.GetCX(Passotherhexnum) - 32), CInt(MapGeo.GetCY(Passotherhexnum) - 56), 32, 56)
-        '        Case 6
-        '            NewRect = New Microsoft.Xna.Framework.Rectangle(CInt(MapGeo.GetCX(Passotherhexnum)), CInt(MapGeo.GetCY(Passotherhexnum) - 56), 32, 56)
-        '        Case Else
-        '            Return Nothing
-        '    End Select
-
-        '    ' NewRect=New Microsoft.Xna.Framework.Rectangle(CInt(Mapgeo.MapCoord.GetCX(Passotherhexnum)),CInt(Mapgeo.MapCoord.GetCY(Passotherhexnum)-5),65,10)
-        '    Return NewRect
-        'End Function
-        'Friend Function GetTextPosLeftMiddle(ByVal PassHexnum As Integer) As Microsoft.Xna.Framework.Vector2
-
-        '    Dim MapGeo as mapgeoclasslibrary.aslxna.mapgeoc = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        '    GetTextPosLeftMiddle.X = CInt(MapGeo.GetCX(PassHexnum)) - 29
-        '    GetTextPosLeftMiddle.Y = CInt(MapGeo.GetCY(PassHexnum)) - 7
-        'End Function
-    public Function GetTextPosCenterTop(ByVal PassHexnum As Integer)As Microsoft.Xna.Framework.Vector2{
-        Dim MapGeo as mapgeoclasslibrary.aslxna.mapgeoc=MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0,0,0,0,0,0,0,0,0,0,0);
-        'Dim StringStart As Vector2 = Game.Usefont.MeasureString(Trim(pLevelClear)) / 2
-        GetTextPosCenterTop.X=CInt(MapGeo.GetCX(PassHexnum))-5;'StringStart.X
-        GetTextPosCenterTop.Y=CInt(MapGeo.GetCY(PassHexnum))-34;
+        //Dim MapGeo as mapgeoclasslibrary.aslxna.mapgeoc=MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0,0,0,0,0,0,0,0,0,0,0);
+        //GetTextPosCenterTop.x = CInt(MapGeo.GetCX(PassHexnum))-5;
+        //GetTextPosCenterTop.y=CInt(MapGeo.GetCY(PassHexnum))-34;
+        return GetTextPosCenterTop;
     }
-        'Friend Function GetTextPosCenterbottom(ByVal PassHexnum As Integer) As Microsoft.Xna.Framework.Vector2
 
-        '    Dim MapGeo as mapgeoclasslibrary.aslxna.mapgeoc = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        '    Dim StringStart As Vector2 = Game.Usefont.MeasureString(Trim(pLevelClear)) / 2
-        '    GetTextPosCenterbottom.X = CInt(MapGeo.GetCX(PassHexnum)) - StringStart.X
-        '    GetTextPosCenterbottom.Y = CInt(MapGeo.GetCY(PassHexnum)) + 34
-        'End Function
-        'Friend Function GetTextPosCenter(ByVal PassHexnum As Integer) As Microsoft.Xna.Framework.Vector2
-
-        '    Dim MapGeo as mapgeoclasslibrary.aslxna.mapgeoc = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        '    ' Dim StringStart As Vector2=Game.Usefont.MeasureString(Trim(pLevelClear))/2
-        '    GetTextPosCenter.X = CInt(MapGeo.GetCX(PassHexnum)) - 10
-        '    GetTextPosCenter.Y = CInt(MapGeo.GetCY(PassHexnum)) - 25
-        'End Function
-        'Private Sub SetLevelClear(ByVal LOSResultbyLevel As List(Of LOSLevel), ByVal Passhexnum As Integer)
-        '    ' called by Shadehex.New-when doing mapboard LOSShade
-
-        '    If pLOSStatus < EnumLosStatus.None Then   ' LOS exists to this level
-        '        ' check for LOS blocked at lower leves
-        '        For Each Losleveltested As LOSLevel In LOSResultbyLevel
-        '            If Losleveltested.LOSResult = EnumCon.LosStatus.None Then
-        '                ' add level at which LoS blocked to display string
-        '                If Trim(pLevelClear) = "" Then
-        '                    pLevelClear = Losleveltested.Level.ToString
-        '                Else
-        '                    pLevelClear = Losleveltested.Level.ToString & ", " & pLevelClear
-        '                End If
-        '            End If
-        '            ' colour blocked LOS as red
-        '            pShowColor = Microsoft.Xna.Framework.Color.Red
-
-        '        Next Losleveltested
-        '    Else   ' LOS blocked at this level
-        '        ' check for LOS clear at lower levels
-        '        For Each Losleveltested As LOSLevel In LOSResultbyLevel
-        '            If Losleveltested.LOSResult < EnumCon.LosStatus.None Then
-        '                ' add level at which LOS clear to display string
-        '                If Trim(pLevelClear) = "" Then
-        '                    pLevelClear = Losleveltested.Level.ToString
-        '                Else
-        '                    pLevelClear = Losleveltested.ToString & ", " & pLevelClear
-        '                End If
-        '            End If
-        '            ' color clear LOS as blue
-        '            pShowColor = Microsoft.Xna.Framework.Color.Blue
-        '        Next Losleveltested
-        '    End If
-        '    ' set where in hex display string will show
-        '    pTextPos = GetTextPosLeftMiddle(Passhexnum)
-        'End Sub
-    public void SetFPdrmstring(ByVal FPdrm As String,ByVal Enemyhexnum As Integer){
+    public void SetFPdrmstring(String FPdrm, int Enemyhexnum){
         // called by DFFViewConcreteC.UpdateView
         // sets up display of FP and drm string
         pLevelClear=FPdrm;
-        pShowColor=Microsoft.Xna.Framework.Color.Blue;
+        pShowColor= Color.BLUE;
         pTextPos=GetTextPosCenterTop(Enemyhexnum);
     }
-        'Friend Sub SetMovestring(ByVal MF As String, ByVal hexnum As Integer)
-        '    ' called by Movementc.addtostackattempt,DrawMoveInfo.new
-        '    ' sets up display of FP and drm string
-        '    pLevelClear = ""
-        '    pLevelClear = MF
-        '    pShowColor = Microsoft.Xna.Framework.Color.White
-        '    pTextPos = GetTextPosCenterbottom(hexnum)
-        'End Sub
-        'Friend Sub SetMoveFstring(ByVal MFcost As String, ByVal hexnum As Integer, ByVal AddMF As Boolean)
-        '    ' called by DrawMoveInfo.new
-        '    ' sets up display of FP and drm string
-        '    If AddMF Then
-        '        pLevelClear = CStr(CSng(pLevelClear) + CSng(MFcost))
-        '    Else
-        '        pLevelClear = MFcost
-        '    End If
-        '    pShowColor = Microsoft.Xna.Framework.Color.White
-        '    pTextPos = GetTextPosCenter(hexnum)
-        'End Sub
 }
-        ''keep this class as friend so not available outside the classlibrary - duplicated in movement
-        'Friend Class EnemyChecks
-        '    'This class meets the SRP - it does one thing: provides information about the enemy
-        '    ' "enemy" is defined as not the specified friendly side
-        '    ' it includes four separate methods that check for
-        '    ' a) enemy units in a hex
-        '    ' b) enemy units in a location
-        '    ' c) enemy unit compared to friendly side
-        '    ' d) return nationality values of enemy
-        '    'these methods can be called externally and internally
-        '    Private LocationContentsToCheck As DataClassLibrary.ContentsofLocation
-        '    Private HexToCheck As Integer = 0
-        '    Private LocationtoCheck As Integer = 0
-        '    Private FriendlySidevalue As Integer = 0
-        '    Private OtherFriendlysidevalue As Integer = 0
-        '    Private Locindexvalue As Integer = 0
-        '    'constructor
-        '    Sub New(ByVal LocIndexclicked As Integer, ByVal FriendlyNat As Integer)
-        '        If LocIndexclicked > 0 Then  'every location have an index value so PassLocationIndex must be greater than zero
-        '            Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)   'use null values when sure that instance already exists
-        '            Dim LocationCol As IQueryable(Of MapDataClassLibrary.GameLocation) = Maptables.LocationCol
-        '            Dim GetLocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(LocationCol)
-        '            Dim UsingLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(LocIndexclicked)
-        '            HexToCheck = UsingLoc.Hexnum
-        '            Locindexvalue = LocIndexclicked
-        '            LocationtoCheck = UsingLoc.LocIndex
-        '        Else
-        '            MessageBox.Show("Error: locindex value not found in Map table", "ContentsOfLocation")
-        '            Exit Sub
-        '        End If
-        '        FriendlySidevalue = FriendlyNat
-        '        Dim Linqdata = DataClassLibrary.ASLXNA.DataC.getInstance()  'use null values when sure instance exists
-        '        Dim Scendet As DataClassLibrary.scen = Linqdata.GetScenarioData(Linqdata.ScenarioID) 'retrieves scenario data
-        '        If FriendlySidevalue = Scendet.ATT1 Then
-        '            OtherFriendlysidevalue = CInt(Scendet.ATT2)
-        '        ElseIf FriendlySidevalue = Scendet.ATT2 Then
-        '            OtherFriendlysidevalue = CInt(Scendet.ATT1)
-        '        ElseIf FriendlySidevalue = Scendet.DFN1 Then
-        '            OtherFriendlysidevalue = CInt(Scendet.DFN2)
-        '        ElseIf FriendlySidevalue = Scendet.DFN2 Then
-        '            OtherFriendlysidevalue = CInt(Scendet.DFN1)
-        '        End If
-        '    End Sub
-        '    'properties
-        '    Friend ReadOnly Property FriendlySide As Integer
-        '        Get
-        '            Return FriendlySidevalue
-        '        End Get
-        '    End Property
-        '    'methods
-        '    Friend Function EnemyinLocationTest() As Boolean
-        '        'called by MovementValidation.New
-        '        'returns true if enemy present, false if not
-        '        If IsNothing(LocationContentsToCheck) Then GetLocationContents(LocationtoCheck)
-        '        For Each ItemInHex As DataClassLibrary.LocationContent In LocationContentsToCheck.ContentsInLocation
-        '            If IsUnitEnemy(ItemInHex.ObjID, ItemInHex.TypeID) Then Return True
-        '        Next
-        '        Return False 'if gets here no enemy present
-        '    End Function
-        '    Friend Function IsUnitEnemy(ByVal UnitID As Integer, ByVal TypeID As Integer) As Boolean
-        '        Dim Prisoner As Boolean = True : Dim hexunit As DataClassLibrary.OrderofBattle
-        '        Dim hexVehicle As DataClassLibrary.AFV : Dim hexConceal As DataClassLibrary.Concealment
-        '        Dim Linqdata = DataClassLibrary.ASLXNA.DataC.getInstance()  'use null values when sure instance exists
-        '        Dim typeIs As Integer = Linqdata.GetTypeOfThing(TypeID)
-        '        Select Case typeIs
-        '            Case DataClassLibrary.ASLXNA.DataC.Typetype.Personnel
-        '                'infantry
-        '                hexunit = Linqdata.GetUnitfromCol(UnitID)
-        '                If Prisoner Then
-        '                    If hexunit.OrderStatus <> DataClassLibrary.ASLXNA.DataC.OrderStatus.Prisoner Then Prisoner = False 'once false, stays false - means enemy present
-        '                End If
-        '                If CInt(hexunit.Nationality) <> FriendlySide And CInt(hexunit.Nationality) <> OtherFriendlysidevalue And Not Prisoner Then
-        '                    'enemy present
-        '                    Return True
-        '                End If
-        '            Case DataClassLibrary.ASLXNA.DataC.Typetype.Vehicle
-        '                'vehicle
-        '                hexVehicle = Linqdata.VehicleCol.Where(Function(FindVeh) FindVeh.AFVID = UnitID).First
-        '                'VehTypeClicked = ItemInHex.TypeID
-        '                If (CInt(hexVehicle.OwnerNationality) <> FriendlySide And CInt(hexVehicle.OwnerNationality) <> OtherFriendlysidevalue And Not hexVehicle.Captured) Or
-        '                   ((CInt(hexVehicle.OwnerNationality) = FriendlySide Or CInt(hexVehicle.OwnerNationality) = OtherFriendlysidevalue) And hexVehicle.Captured) Then
-        '                    'enemy present
-        '                    Return True
-        '                End If
-        '                Prisoner = False
-        '            Case DataClassLibrary.ASLXNA.DataC.Typetype.Gun
-        '                'Guns - still to code
-        '            Case DataClassLibrary.ASLXNA.DataC.Typetype.SW, DataClassLibrary.ASLXNA.DataC.Typetype.Location
-        '                'SW or Terrain - do nothing
-        '            Case DataClassLibrary.ASLXNA.DataC.Typetype.Concealment
-        '                'Concealment
-        '                hexConceal = Linqdata.GetConcealmentfromCol(UnitID)
-        '                Prisoner = False
-        '                If CInt(hexConceal.Nationality) <> FriendlySide And CInt(hexConceal.Nationality) <> OtherFriendlysidevalue And Not Prisoner Then
-        '                    'enemy present
-        '                    Return True
-        '                End If
-        '            Case DataClassLibrary.ASLXNA.DataC.Typetype.WhiteC
-        '                'anything needed?
-        '        End Select
-        '        Return False  'if get to here then nothing found that is Enemy
-        '    End Function
-        '    Friend Function EnemyInHexTest() As Boolean
-        '        '
-        '        Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)   ' use null values when sure that instance already exists
-        '        Dim LocationCol As IQueryable(Of MapDataClassLibrary.GameLocation) = Maptables.LocationCol
-        '        Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(LocationCol)
-        '        For Each HexLocs As MapDataClassLibrary.GameLocation In Getlocs.RetrieveLocationsfromMapTable(HexToCheck, "Hexnum") ' Game.Scenario.TerrainActions.GetLocationsInHex(HexToCheck)
-        '            GetLocationContents(HexLocs.LocIndex)
-        '            If EnemyinLocationTest() Then Return True
-        '        Next
-        '        LocationContentsToCheck = Nothing
-        '        Return False
-        '    End Function
-        '    Private Sub GetLocationContents(ByVal locationtoget As Integer)
-        '        LocationContentsToCheck = New DataClassLibrary.ContentsofLocation(locationtoget)
-        '        LocationContentsToCheck.GetContents()
-        '    End Sub
-        '    Friend Function GetEnemy(ByRef FirstEnemy As Integer, ByRef SecondEnemy As Integer) As Boolean
-        '        'called by
-        '        'returns the nationality values of the "enemy" side
-        '        Dim Linqdata = DataClassLibrary.ASLXNA.DataC.getInstance()  'use null values when sure instance exists
-        '        Dim Scendet As DataClassLibrary.scen = Linqdata.GetScenarioData(Linqdata.ScenarioID) 'retrieves scenario data
-        '        If FriendlySidevalue = Scendet.ATT1 Or FriendlySidevalue = Scendet.ATT2 Then
-        '            FirstEnemy = CInt(Scendet.DFN1) : SecondEnemy = CInt(Scendet.DFN2)
-        '        ElseIf FriendlySidevalue = Scendet.DFN1 Or FriendlySidevalue = Scendet.DFN2 Then
-        '            FirstEnemy = CInt(Scendet.ATT1) : SecondEnemy = CInt(Scendet.ATT2)
-        '        Else
-        '            Return False 'no nationality values set
-        '        End If
-        '        Return True
-        '    End Function
-        'End Class
-        ' ''Enum EnumLosStatus
-        ' ''    PointBlank = 8541
-        ' ''    NormalRange = 8542
-        ' ''    LongRange = 8543
-        ' ''    BeyondLR = 8544
-        ' ''    None = 8545
-        ' ''    Target = 8546
-        ' ''End Enum
-        ' ''Enum EnumShadeShow
-        ' ''    LOSShade = 8311
-        ' ''    SearchShade = 8312
-        ' ''    PlaceDCShade = 8313
-        ' ''    DFFShade = 8314
-        ' ''    IFTShade = 8315
-        ' ''    CanSearch = 8321
-        ' ''    CanNotSearch = 8322
-        ' ''    Searched = 8323
-        ' ''End Enum
-    //    End Namespace
+/*class EnemyHexLOSHFPdrm {
 
-*/
+    // This class imported from Data.vb in Dataclasslibrary in VB Solution
+    // move back to data level if create such in java solution
+
+
+    // held in list EnemyHexList and returned by EnemyValuesConcreteC.SetupLOSHFPdrmValues
+    public Constantvalues.LosStatus LOSStatus;
+    public double FP;
+    public int drm;
+    public String EHexname; //Hexname
+    public int Hexnum;
+    public double ELOCIndex;  //LOCIndex
+    private int Emysolid;   //mysolid
+
+
+    public EnemyHexLOSHFPdrm(Constantvalues.LosStatus PassLOSStatus, double PassFP, int Passdrm,
+                             String PassHexname, int PassHexnum, double PassLOCIndex) {
+        LOSStatus = PassLOSStatus;
+        FP = PassFP;
+        drm = Passdrm;
+        EHexname = PassHexname;
+        Hexnum = PassHexnum;
+        ELOCIndex = PassLOCIndex;
+        Emysolid = 0;  //set to 0 on instance creation, changed later
+}
+        public int getSolID() {
+            return Emysolid;
+        }
+        public void setSolID(int value) {
+            Emysolid =value;
+        }
+
+    //
+}*/
+
+
