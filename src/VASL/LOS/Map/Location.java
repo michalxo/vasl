@@ -16,6 +16,8 @@
  */
 package VASL.LOS.Map;
 
+import VASL.LOS.counters.CounterMetadata;
+
 import java.awt.*;
 
 /**
@@ -25,6 +27,8 @@ import java.awt.*;
  * @version      1.0
  */
 public class Location {
+
+	private static int NO_PILLBOX = 0;
 
 	// property variables
 	private String  	name;
@@ -38,6 +42,8 @@ public class Location {
 	private Terrain depressionTerrain;
 	private Location upLocation;
 	private Location downLocation;
+
+	private int pillbox; // metadata for pillbox in this location 0=none, 1-6 is counter cover arc
 
 	// property methods
 	public	String  getName(){return name;}
@@ -140,6 +146,7 @@ public class Location {
 		baseHeight			= l.getBaseHeight();
 		terrain 			= l.getTerrain();
 		depressionTerrain 	= l.getDepressionTerrain();
+		pillbox             = l.getPillboxCA();
 	}
 
     public boolean auxLOSPointIsCloser(int x, int y) {
@@ -148,6 +155,12 @@ public class Location {
                Point.distance(x, y, auxLOSPoint.x, auxLOSPoint.y);
 
         }
+
+	public void setPillbox(int pillbox) {this.pillbox = pillbox;}
+
+	public boolean hasPillbox() {return pillbox != NO_PILLBOX;}
+
+	public int getPillboxCA() {return pillbox;}
 
 }
 

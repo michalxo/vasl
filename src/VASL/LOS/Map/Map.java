@@ -16,14 +16,13 @@
  */
 package VASL.LOS.Map;
 
+import VASL.LOS.counters.*;
 import VASL.build.module.map.boardArchive.BoardArchive;
 import VASL.build.module.map.boardArchive.RBrrembankments;
 import VASL.build.module.map.boardArchive.Slopes;
 
 import VASL.LOS.VASLGameInterface;
-import VASL.LOS.counters.OBA;
-import VASL.LOS.counters.Smoke;
-import VASL.LOS.counters.Vehicle;
+import VASSAL.counters.GamePiece;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -59,6 +58,7 @@ public class Map  {
     private final static String WOODEN_RUBBLE = "Wooden Rubble";
     private final static String GRAIN = "Grain";
     private final static String BRUSH = "Brush";
+    private final static String WOODS = "Woods";
 
     // the "upper left" hex - even if it's not A1 (e.g. boards 1b-6b) 
     private double A1CenterX;
@@ -716,7 +716,6 @@ public class Map  {
         return rng;
     }
 
-
     /**
      * Determines if a line-of-sight exists between two locations. The auxiliary LOS points are used for
      * bypass locations. Standard LOS is drawn to the counterclockwise-most hexspine on the bypassed hexside. The
@@ -727,8 +726,10 @@ public class Map  {
      * @param useAuxTargetLOSPoint use auxiliary bypass aiming point for target location
      * @param result <code>LOSResult</code> that will contain all of the LOS information
      * @param VASLGameInterface <code>Scenario</code> that contains all scenario-dependent LOS information
+     * @param sourcePiece source piece if LOS is piece-to-piece
+     * @param targetPiece target piece if LOS is piece-to-piece
      */
-    public void LOS(Location source, boolean useAuxSourceLOSPoint, Location target, boolean useAuxTargetLOSPoint, LOSResult result, VASLGameInterface VASLGameInterface) {
+    public void LOS(Location source, boolean useAuxSourceLOSPoint, Location target, boolean useAuxTargetLOSPoint, LOSResult result, VASLGameInterface VASLGameInterface, GamePiece sourcePiece, GamePiece targetPiece) {
 
         // initialize the results
         result.reset();
@@ -743,6 +744,9 @@ public class Map  {
         }
 
         LOSStatus status = new LOSStatus(source, useAuxSourceLOSPoint, target, useAuxTargetLOSPoint, result, VASLGameInterface);
+        status.sourcePiece = sourcePiece;
+        status.targetPiece = targetPiece;
+
 
         // check same hex rules
         if(checkSameHexSmokeRule(status, result)) {
@@ -1009,6 +1013,9 @@ public class Map  {
         private int[] sourceExitHexsides = {NONE, NONE};
         private int[] targetEnterHexsides = {NONE, NONE};
 
+        // game pieces if LOS is piece-to-piece
+        public GamePiece sourcePiece;
+        public GamePiece targetPiece;
 
         // need lots of variables to track state of LOS across hillocks
         public boolean startsOnHillock;
@@ -1745,6 +1752,10 @@ public class Map  {
                 return true;
             }
         }
+        if(checkPillboxRule(status, result)){
+            return true;
+        }
+
         // code added by DR to handle RB rrembankments
         else {
             if (checkRBrrembankments(status, result, hexsides)) {
@@ -1849,6 +1860,7 @@ public class Map  {
                         "Cannot see location under the bridge");
                 return true;
             }
+
             return false;
         }
         return false;
@@ -1966,6 +1978,17 @@ public class Map  {
                 }
                 if(hindrance > 0) {
 
+                    // if there's a wreck and a blaze counter we assume it's a burning wreck
+                    if(!status.VASLGameInterface.getWreck(hex).isEmpty() && status.VASLGameInterface.hasBlaze(hex)){
+
+                        if(hex.equals(status.sourceHex) || hex.equals(status.targetHex)){
+                            hindrance -= 1;
+                        }
+                        else {
+                            hindrance -= 2;
+                        }
+                    }
+
                     // the max hindrance per location is 3 unless the source location is in the smoke
                     if(sourceInSmoke) {
                         hindrance = hindrance > 4 ? 4 : hindrance;
@@ -1985,6 +2008,41 @@ public class Map  {
     }
 
     /**
+     * Check if unit can see out of a pillbox
+     * @param status the LOS status
+     * @param result the LOS result
+     * @return true if the LOS is blocked
+     */
+    protected boolean checkPillboxRule(LOSStatus status, LOSResult result) {
+
+        // unit in pillbox cannot see out side of the covered arc to non-adjacent locations unless they are
+        if(status.range > 0 && status.source.hasPillbox()){
+            int hexside1 = status.source.getPillboxCA() - 1;
+            int hexside2 = status.source.getPillboxCA();
+            if(status.source. getPillboxCA() == 6) {
+                hexside1 = 0;
+                hexside2 = 5;
+
+            }
+
+            if(status.sourceExitHexsides[0] == hexside1 ||
+               status.sourceExitHexsides[0] == hexside2 ||
+               status.sourceExitHexsides[1] == hexside1 ||
+               status.sourceExitHexsides[1] == hexside2) {
+
+                return false;
+            }
+            result.setBlocked(
+                    (int) status.source.getLOSPoint().getX(),
+                    (int) status.source.getLOSPoint().getY(),
+                    "Unit in a pillbox cannot see outside the pillbox covered arc (B30.2)");
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Applies hindrances to the LOS for any vehicle in the given hex
      *
      * @param status the LOS status
@@ -1998,18 +2056,21 @@ public class Map  {
 
             Hex hex = status.currentHex;
 
-            HashSet<Vehicle> vehicles = status.VASLGameInterface.getVehicles(hex);
-            if (vehicles != null && !vehicles.isEmpty()) {
+            HashSet<Counter> counters = new HashSet<Counter>();
+            counters.addAll(status.VASLGameInterface.getVehicles(hex));
+            counters.addAll(status.VASLGameInterface.getWreck(hex));
+
+            if (!counters.isEmpty()) {
 
                 int hindrance = 0;
-                for (Vehicle v: vehicles) {
+                for (Counter counter: counters) {
 
                     // skip source/target hex
                     if(!hex.equals(status.sourceHex) && !hex.equals(status.targetHex)) {
 
                         // vehicle must be same elevation as both source and target
                         if(status.source.getAbsoluteHeight() == status.target.getAbsoluteHeight() &&
-                                status.source.getAbsoluteHeight() == v.getLocation().getAbsoluteHeight()){
+                                status.source.getAbsoluteHeight() == counter.getLocation().getAbsoluteHeight()){
 
                             // no hindrance if up-slope or both units on hillocks (unless, in the later case, vehicle is also on hillock)
                             if(status.slopes || (status.startsOnHillock && status.endsOnHillock && status.crossingHillock == null)) {
@@ -2017,14 +2078,14 @@ public class Map  {
                             }
 
                             // if vehicle in bypass the LOS must cross the bypassed hexside
-                            if(v.getLocation().isCenterLocation() || v.getLocation().equals(hex.getNearestLocation(status.currentCol, status.currentRow))) {
+                            if(counter.getLocation().isCenterLocation() || counter.getLocation().equals(hex.getNearestLocation(status.currentCol, status.currentRow))) {
 
 
                                 // both source and target must have an LOS to the vehicle
                                 LOSResult result1 = new LOSResult();
                                 LOSResult result2 = new LOSResult();
-                                LOS(status.source, status.useAuxSourceLOSPoint, v.getLocation(), false, result1, status.VASLGameInterface);
-                                LOS(status.target, status.useAuxTargetLOSPoint, v.getLocation(), false, result2, status.VASLGameInterface);
+                                LOS(status.source, status.useAuxSourceLOSPoint, counter.getLocation(), false, result1, status.VASLGameInterface, null, null);
+                                LOS(status.target, status.useAuxTargetLOSPoint, counter.getLocation(), false, result2, status.VASLGameInterface, null, null);
                                 if(!result1.isBlocked() && !result2.isBlocked())
                                 {
                                     hindrance++;
@@ -2430,6 +2491,28 @@ public class Map  {
         if(status.target.getTerrain().isCellar()) {
             targetadj=+1;
         }
+
+        // wall advantage is needed to see through bocage to non-adjacent hex
+        if(BOCAGE.equals(status.currentTerrain.getName()) && status.range > 1) {
+
+            boolean sourceWA = true;
+            boolean targetWA = true;
+
+            if(status.sourcePiece != null && status.currentHex == status.sourceHex){
+                sourceWA = !(status.source.getTerrain().isBuilding() || WOODS.equals(status.source.getTerrain().getName())) || status.VASLGameInterface.pieceMarkedWithWA(status.sourcePiece);
+            }
+            if(status.targetPiece != null && status.currentHex == status.targetHex){
+                targetWA = !(status.target.getTerrain().isBuilding() || WOODS.equals(status.target.getTerrain().getName())) || status.VASLGameInterface.pieceMarkedWithWA(status.targetPiece);
+            }
+
+            if(!sourceWA || !targetWA){
+
+                status.reason = "Unit must have WA to see through bocage to non-adjacent hex (B9.521)";
+                result.setBlocked(status.currentCol, status.currentRow, status.reason);
+                status.blocked = true;
+            }
+        }
+
         // rowhouse/factory wall?
         if (status.currentTerrain.isRowhouseFactoryWall()) {
             // code added by DR to deal with factory fire along/across Factory wall hexside
@@ -2443,7 +2526,6 @@ public class Map  {
                 return false;
             }
         }
-
         else {
 
             // target elevation must > source if in entrenchment

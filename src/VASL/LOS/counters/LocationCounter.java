@@ -18,10 +18,6 @@
  */
 package VASL.LOS.counters;
 
-import VASL.LOS.counters.Counter;
-import VASL.LOS.counters.CounterMetadata;
-import VASL.LOS.counters.CounterMetadataFile;
-
 /**
  * This class represents a location counter (e.g. foxhole, building level counter, etc.)
  */
@@ -29,11 +25,11 @@ public class LocationCounter extends Counter {
 
     private String position; // pieces in the location are above or below the counter?
     private int level;
-    private int coverArch; // in hex coodinates - 0 is the top, etc.
+    private int coveredArc;
     private LocationCounterType type;
 
     // types of location counters
-    public static enum LocationCounterType {BUILDING_LEVEL, CREST, ROOF, ENTRENCHMENT, CLIMB}
+    public enum LocationCounterType {BUILDING_LEVEL, CREST, ROOF, CELLAR, ENTRENCHMENT, CLIMB, PILLBOX}
 
     public LocationCounter (CounterMetadata counter, LocationCounterType type) {
 
@@ -41,7 +37,6 @@ public class LocationCounter extends Counter {
         this.type = type;
         this.position = counter.getPosition();
         this.level = counter.getLevel();
-        this.coverArch = counter.getCoverArch();
     }
 
 
@@ -60,13 +55,6 @@ public class LocationCounter extends Counter {
     }
 
     /**
-     * @return the covered arch
-     */
-    public int getCoverArch() {
-        return coverArch;
-    }
-
-    /**
      * @return true if the location counter is above the pieces
      */
     public boolean isAbovePiece() {
@@ -79,4 +67,15 @@ public class LocationCounter extends Counter {
     public boolean isBelowPiece() {
         return position.equals(CounterMetadataFile.getCounterPositionBelow);
     }
+
+    /**
+     * @return the covered arc
+     */
+    public int getCoveredArc() {return coveredArc;}
+
+    /**
+     * Set the location covered arc
+     * @param ca the covered arc
+     */
+    public void setCoveredArc(int ca) {this.coveredArc = ca;}
 }

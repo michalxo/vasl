@@ -828,7 +828,7 @@ public class VASLThread extends LOS_Thread implements KeyListener, GameComponent
 
         // do the LOS
         result = new LOSResult();
-        LOSMap.LOS(source, useAuxSourceLOSPoint, target, useAuxTargetLOSPoint, result, VASLGameInterface);
+        LOSMap.LOS(source, useAuxSourceLOSPoint, target, useAuxTargetLOSPoint, result, VASLGameInterface, null, null);
 
         try {
             // set the result string

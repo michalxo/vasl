@@ -30,7 +30,6 @@ public class CounterMetadata {
         terrain = map terrain type
         level - denotes location level
         position - for location denotes if pieces above/below the counter are in the location.
-        coverArch - covered arch of location
 
      */
     private String name;
@@ -39,12 +38,12 @@ public class CounterMetadata {
     private int hindrance;
     private CounterType type;
     private int level;
+    private int ca;
     private String position;
-    private int coverArch;
 
-    public static enum CounterType {SMOKE, WRECK, OBA, TERRAIN, IGNORE, BUILDING_LEVEL, CREST, ROOF, ENTRENCHMENT, CLIMB}
+    public enum CounterType {SMOKE, OBA, TERRAIN, IGNORE, BUILDING_LEVEL, CREST, ROOF, CELLAR, ENTRENCHMENT, CLIMB, PILLBOX}
 
-    public CounterMetadata(String name, CounterType type) {
+    CounterMetadata(String name, CounterType type) {
         this.name = name;
         this.type = type;
     }
@@ -124,21 +123,6 @@ public class CounterMetadata {
     }
 
     /**
-     * @return the piece covered arch
-     */
-    public int getCoverArch() {
-        return coverArch;
-    }
-
-    /**
-     * Set the piece covered arch
-     * @param coverArch the covered arch
-     */
-    public void setCoverArch(int coverArch) {
-        this.coverArch = coverArch;
-    }
-
-    /**
      * @return the location position
      */
     public String getPosition() {
@@ -151,5 +135,20 @@ public class CounterMetadata {
      */
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    /**
+     * @return the covered arc
+     */
+    public int getCoveredArc() {
+        return ca;
+    }
+
+    /**
+     * Set the covered arc
+     * @param ca the covered arc
+     */
+    public void setCoveredArc(int ca) {
+        this.ca = ca;
     }
 }

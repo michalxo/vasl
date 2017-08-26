@@ -58,6 +58,8 @@ import static VASSAL.build.GameModule.getGameModule;
  */
 public class DoubleBlindViewer extends AbstractConfigurable implements CommandEncoder, Drawable, ActionListener, GameComponent {
 
+    private static DoubleBlindViewer doubleBlindViewer;
+
     private static final String COMMAND_SEPARATOR = ":";
     private static final String COMMAND_PREFIX = "DOUBLE_BLIND" + COMMAND_SEPARATOR;
     private static final String ENABLE_COMMAND_PREFIX = "ENABLE_DOUBLE_BLIND" + COMMAND_SEPARATOR;
@@ -114,6 +116,12 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
         launchButton.setAttribute(TOOLTIP, "Update DB View");
         launchButton.setEnabled(false); // button inactive unless DB explicitly enabled.
         launchButton.setMargin(new Insets(0,0,0,0));
+
+        doubleBlindViewer = this;
+    }
+
+    public static DoubleBlindViewer getDoubleBlindViewer(){
+        return doubleBlindViewer;
     }
 
     /**
@@ -215,7 +223,7 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
      * Hides a piece if it's out of LOS
      * @param piece the piece
      */
-    private void setPieceVisibility(GamePiece piece) {
+    public void setPieceVisibility(GamePiece piece) {
 
         // global pieces and unowned pieces are always spotted
         if(VASLGameInterface.isDBGlobalCounter(piece) || (piece.getProperty(OWNER_PROPERTY) == null)){
@@ -318,7 +326,7 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
 
         // check the LOS
         LOSResult result = new LOSResult();
-        map.getVASLMap().LOS(source, false, target, false, result, VASLGameInterface);
+        map.getVASLMap().LOS(source, false, target, false, result, VASLGameInterface, piece1, piece2);
         if(!result.isBlocked()) {
             return true;
         }
@@ -326,21 +334,21 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
         // if the source or target is a hexside location we also need to check the alternate aiming points
         if(source.isCenterLocation() && !target.isCenterLocation()) {
             result.reset();
-            map.getVASLMap().LOS(source, false, target, true, result, VASLGameInterface);
+            map.getVASLMap().LOS(source, false, target, true, result, VASLGameInterface, piece1, piece2);
             if(!result.isBlocked()) {
                 return true;
             }
         }
         if(!source.isCenterLocation() && target.isCenterLocation()) {
             result.reset();
-            map.getVASLMap().LOS(source, true, target, false, result, VASLGameInterface);
+            map.getVASLMap().LOS(source, true, target, false, result, VASLGameInterface, piece1, piece2);
             if(!result.isBlocked()) {
                 return true;
             }
         }
         if(!source.isCenterLocation() && !target.isCenterLocation()) {
             result.reset();
-            map.getVASLMap().LOS(source, true, target, true, result, VASLGameInterface);
+            map.getVASLMap().LOS(source, true, target, true, result, VASLGameInterface, piece1, piece2);
             if(!result.isBlocked()) {
                 return true;
             }

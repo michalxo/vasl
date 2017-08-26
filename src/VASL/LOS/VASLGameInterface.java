@@ -21,7 +21,6 @@ import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
 import VASL.LOS.counters.*;
 import VASL.build.module.ASLMap;
-import VASL.build.module.map.DoubleBlindViewer;
 import VASL.counters.ASLProperties;
 import VASSAL.counters.GamePiece;
 import VASSAL.counters.PieceIterator;
@@ -38,17 +37,17 @@ import java.util.LinkedHashMap;
  */
 public class VASLGameInterface {
 
-    ASLMap gameMap;
-    VASL.LOS.Map.Map LOSMap;
+    private ASLMap gameMap;
+    private VASL.LOS.Map.Map LOSMap;
 
     // the LOS counter rules from the shared metadata file
-    LinkedHashMap<String, CounterMetadata> counterMetadata;
+    private LinkedHashMap<String, CounterMetadata> counterMetadata;
 
     /* the DBCounterType marker
     unit = counter is a unit and can spot
     global = global counters such as fire markers, wrecks, terrain, etc.
              because global counters are always visible they do not need an owner
-    common = All other counters
+    common = All other counters which are spotted if in LOS
 
     Type    Can spot?   Visible to opponent?
     ----    ---------   --------------------
@@ -57,26 +56,25 @@ public class VASLGameInterface {
     common  No          If in LOS
     none    No          treated as common
     */
-    public final static String DB_COUNTER_TYPE_MARKER_KEY = "DBCounterType";
-    public final static String DB_UNIT_TYPE = "unit";
-    public final static String DB_GLOBAL_TYPE = "global";
-    public final static String DB_COMMON_TYPE = "common";
+    private final static String DB_COUNTER_TYPE_MARKER_KEY = "DBCounterType";
+    private final static String DB_UNIT_TYPE = "unit";
+    private final static String DB_GLOBAL_TYPE = "global";
 
     // the counter lists
-    protected HashMap<Hex, Terrain> terrainList;
-    protected HashMap<Hex, HashSet<Smoke>> smokeList;
-    protected HashMap<Hex, HashSet<OBA>> OBAList;
-    protected HashMap<Hex, HashSet<Wreck>> wreckList;
-    protected HashMap<Hex, HashSet<Vehicle>> vehicleList;
+    private HashMap<Hex, Terrain> terrainList;
+    private HashMap<Hex, HashSet<Smoke>> smokeList;
+    private HashMap<Hex, HashSet<OBA>> OBAList;
+    private HashMap<Hex, HashSet<Wreck>> wreckList;
+    private HashMap<Hex, HashSet<Vehicle>> vehicleList;
 
     // this is a list of all location counters - not those currently on the board
-    protected static HashMap<String, LocationCounter> locationCounterList = null;
+    private static HashMap<String, LocationCounter> locationCounterList = null;
 
     // empty lists are used a lot so create them once
-    protected final static HashSet<Vehicle> emptyVehicleList = new HashSet<Vehicle>(0);
-    protected final static HashSet<OBA> emptyOBAList = new HashSet<OBA>(0);
-    protected final static HashSet<Smoke> emptySmokeList = new HashSet<Smoke>(0);
-    protected final static HashSet<Wreck> emptyWreckList = new HashSet<Wreck>(0);
+    private final static HashSet<Vehicle> emptyVehicleList = new HashSet<Vehicle>(0);
+    private final static HashSet<OBA> emptyOBAList = new HashSet<OBA>(0);
+    private final static HashSet<Smoke> emptySmokeList = new HashSet<Smoke>(0);
+    private final static HashSet<Wreck> emptyWreckList = new HashSet<Wreck>(0);
 
 	public VASLGameInterface(ASLMap GameMap, VASL.LOS.Map.Map LOSMap) {
 
@@ -94,7 +92,7 @@ public class VASLGameInterface {
      */
     public void updatePieces() {
 
-        printCounterLocations();
+        // printCounterLocations();
 
         // reset the counter lists
         smokeList = new HashMap<Hex, HashSet<Smoke>>();
@@ -144,7 +142,7 @@ public class VASLGameInterface {
         }
 
         // add the piece
-        if (!Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME)) && DoubleBlindViewer.isSpotted(piece)) {
+        if (!Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME))) {
 
             CounterMetadata counter = counterMetadata.get(name);
 
@@ -166,17 +164,16 @@ public class VASLGameInterface {
                         Smoke smoke = new Smoke(counter.getName(), h.getNearestLocation(p.x, p.y), counter.getHeight(), counter.getHindrance());
                         addCounter(smokeList, smoke, h);
                         break;
-
-                    case WRECK:
-                        // treat wrecks as vehicles for now
-                        Vehicle vehicle = new Vehicle(name, h.getCenterLocation());
-                        addCounter(vehicleList, vehicle, h);
-                        break;
                 }
             }
 
+            // wreck counters have "wreck" somewhere in the name
+            else if(piece.getName().matches("(?i:.*wreck.*)")){
+                Wreck wreck = new Wreck(name, h.getCenterLocation());
+                addCounter(wreckList, wreck, h);
+            }
             // add vehicles
-            //TODO: assuming all hindrance counters that have no rule are vehicles - not good
+            //TODO: assuming all non-wreck hindrance counters that have no rule are vehicles - not good
             else if(piece.getProperty(ASLProperties.HINDRANCE) != null && !Boolean.TRUE.equals(piece.getProperty(Properties.MOVED))){
 
                 Vehicle v = new Vehicle(name, h.getNearestLocation(p.x, p.y));
@@ -209,6 +206,11 @@ public class VASLGameInterface {
                         locationCounterList.put(lc.getName(), lc);
                         break;
 
+                    case CELLAR:
+                        lc = new LocationCounter(c, LocationCounter.LocationCounterType.CELLAR);
+                        locationCounterList.put(lc.getName(), lc);
+                        break;
+
                     case ENTRENCHMENT:
                         lc = new LocationCounter(c, LocationCounter.LocationCounterType.ENTRENCHMENT);
                         locationCounterList.put(lc.getName(), lc);
@@ -224,6 +226,11 @@ public class VASLGameInterface {
                         locationCounterList.put(lc.getName(), lc);
                         break;
 
+                    case PILLBOX:
+                        lc = new LocationCounter(c, LocationCounter.LocationCounterType.PILLBOX);
+                        lc.setCoveredArc(c.getCoveredArc());
+                        locationCounterList.put(lc.getName(), lc);
+                        break;
                 }
             }
         }
@@ -283,6 +290,20 @@ public class VASLGameInterface {
     }
 
     /**
+     * Is there a blaze counter in the hex?
+     * @param hex the hex
+     * @return true if the hex has a blaze counter
+     */
+    public boolean hasBlaze(Hex hex) {
+        for(Smoke smoke: getSmoke(hex)){
+            if(smoke.getName().equals("Blaze")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Get the terrain counter in the given hex
      * @param hex the hex
      * @return the terrain
@@ -300,7 +321,7 @@ public class VASLGameInterface {
      * @param hex the hex
      * @return the set of OBA counters in the hex - if none an empty list is returned
      */
-    public HashSet<OBA> getOBA(Hex hex){
+    private HashSet<OBA> getOBA(Hex hex){
 
         if(OBAList != null && OBAList.get(hex) != null){
             return OBAList.get(hex);
@@ -373,16 +394,19 @@ public class VASLGameInterface {
                 case BUILDING_LEVEL:
 
                     // try to find the building location
-                    Location l = location;
-                    for(int x = 0; x < locationCounter.getLevel(); x++) {
-                        if(l.getUpLocation() != null) {
-                            l = l.getUpLocation();
-                        }
-                    }
-                    if(l.getBaseHeight() == locationCounter.getLevel()) {
-                        return l;
-                    }
+                    if(location.getTerrain().isBuilding()) {
 
+                        Location l = location;
+                        for(int x = 0; x < locationCounter.getLevel(); x++) {
+                            if(l.getUpLocation() != null) {
+                                l = l.getUpLocation();
+                            }
+                        }
+                        if(l.getBaseHeight() == locationCounter.getLevel()) {
+                            return l;
+                        }
+
+                    }
                     // otherwise create a new location
                     else {
                         Location newLocation = new Location(location);
@@ -391,28 +415,75 @@ public class VASLGameInterface {
                         return newLocation;
                     }
 
-                case CLIMB:
+                case CELLAR:
+                    // try to find the cellar location
+                    if(location.getTerrain().isBuilding()) {
+                        if (location.getTerrain().isBuilding()) {
+                            if (location.getDownLocation() != null && location.getDownLocation().getName().matches("(?i:.*cellar.*)")) {
+                                return location.getDownLocation();
+                            }
+                        }
+                    }
                     break;
 
-                case ENTRENCHMENT:
-                    Location newLocation = new Location(location);
-                    newLocation.setUpLocation(location);
-                    newLocation.setTerrain(LOSMap.getTerrain("Foxholes")); // use foxholes as all fortifications have the same LOS rules
-                    return newLocation;
-
                 case ROOF:
+                    // try to find the rooftop location
+                    if(location.getTerrain().isBuilding()) {
+
+                        Location l = location;
+                        while(l.getUpLocation() != null) {
+                            if(l.getUpLocation().getName().matches("(?i:.*roof.*)")) {
+                                return l.getUpLocation();
+                            }
+                            else {
+                                l = l.getUpLocation();
+                            }
+                        }
+                    }
                     break;
 
                 case CREST:
-                    break;
+                    // create a new location one level higher
+                    Location newCrestLocation = new Location(location);
+                    newCrestLocation.setName(location.getName()+":Crest");
+                    newCrestLocation.setTerrain(LOSMap.getTerrain("Open Ground"));
+                    newCrestLocation.setBaseHeight(location.getBaseHeight());
+                    newCrestLocation.setDepressionTerrain(null);
+                    newCrestLocation.setDownLocation(location);
+                    return newCrestLocation;
+
+                case CLIMB:
+                    // create a new location above the ground level
+                    Location newClimbLocation = new Location(location);
+                    newClimbLocation.setName(location.getName()+":Climb");
+                    newClimbLocation.setBaseHeight(locationCounter.getLevel());
+                    newClimbLocation.setDownLocation(location);
+                    return newClimbLocation;
+
+                case ENTRENCHMENT:
+                    Location newEntrenchmentLocation = new Location(location);
+                    newEntrenchmentLocation.setUpLocation(location);
+                    newEntrenchmentLocation.setTerrain(LOSMap.getTerrain("Foxholes")); // use foxholes as all fortifications have the same LOS rules
+                    return newEntrenchmentLocation;
+
+                case PILLBOX:
+
+                    // the pillbox itself uses the location
+                    if(piece.getName().matches("(?i:.*pillbox.*)")){
+                        return location;
+                    }
+                    // otherwise create a new pillbox location
+                    Location newPillboxLocation = new Location(location);
+                    newPillboxLocation.setPillbox(locationCounter.getCoveredArc());
+                    newPillboxLocation.setName(location.getName()+":Pillbox");
+                    newPillboxLocation.setUpLocation(location);
+                    location.setDownLocation(newPillboxLocation);
+                    return newPillboxLocation;
             }
-
-
 
             return location;
         }
     }
-
 
     /**
      * @param piece a game piece
@@ -439,11 +510,38 @@ public class VASLGameInterface {
      * @param value the value
      * @return true if the property is set and equals the value, otherwise false
      */
-    public boolean isPropertySet(GamePiece piece, String key, String value) {
+    private boolean isPropertySet(GamePiece piece, String key, String value) {
 
         return piece.getProperty(key) != null && piece.getProperty(key).equals(value);
     }
 
+    /**
+     * Is this piece under a wall advantage counter?
+     * @param piece the piece
+     * @return true if piece under a wall advantage counter
+     */
+    public boolean pieceMarkedWithWA(GamePiece piece){
+
+        Stack stack = piece.getParent();
+
+        // single counter?
+        if(stack == null || stack.getPieceCount() == 1) {
+            return false;
+        }
+
+        // search the stack upward
+        GamePiece somePiece = piece;
+        while (somePiece != null) {
+
+            if(somePiece.getName().equals("Wall Advan")) {
+                return true;
+            }
+            somePiece = stack.getPieceAbove(somePiece);
+        }
+        return false;
+    }
+
+/*
     private void printCounterLocations(){
 
         GamePiece[] p = gameMap.getPieces();
@@ -452,28 +550,26 @@ public class VASLGameInterface {
                 for (PieceIterator pi = new PieceIterator(((Stack) aP).getPiecesIterator()); pi.hasMoreElements(); ) {
                     GamePiece p2 = pi.nextPiece();
                     LocationCounter location = getLocationCounterForPiece(p2);
-/*
                     if(location == null) {
                         System.out.println(p2.getName() + " has no location counter piece");
                     }
                     else {
                         System.out.println(p2.getName()  + " is in location " + location.getName());
                     }
-*/
                 }
-            } else {
+            }
+            else {
                 LocationCounter location = getLocationCounterForPiece(aP);
-/*
                 if(location == null) {
                     System.out.println(aP.getName() + " has no location counter piece");
                 }
                 else {
                     System.out.println(aP.getName()  + " is in location " + location.getName());
                 }
-*/
             }
         }
     }
+*/
 
     /**
      * Find the appropriate location counter for a piece

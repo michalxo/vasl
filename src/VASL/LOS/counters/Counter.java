@@ -18,15 +18,27 @@
  */
 package VASL.LOS.counters;
 
+import VASL.LOS.Map.Location;
+
 /**
  * A simple class that represents a VASL counter
  */
 public class Counter {
     String name;
+    Location location;
+
+    public Counter(String name, Location location) {
+        this.name = name;
+        this.location = location;
+    }
 
     public Counter(String name) {
         this.name = name;
     }
 
     public String getName() { return name;}
+
+    public Location getLocation() {
+        return location;
+    }
 }

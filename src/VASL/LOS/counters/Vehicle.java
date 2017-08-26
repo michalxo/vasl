@@ -25,16 +25,10 @@ import VASL.LOS.Map.Location;
  */
 public class Vehicle extends Counter {
 
-    Location location;
-
 	public Vehicle(String name, Location location){
 
         super(name);
         this.location = location;
 	}
-
-    public Location getLocation() {
-        return location;
-    }
 }
 

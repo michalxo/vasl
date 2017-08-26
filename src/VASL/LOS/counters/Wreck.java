@@ -19,6 +19,7 @@
 package VASL.LOS.counters;
 
 import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Location;
 import VASL.LOS.counters.Counter;
 
 /**
@@ -26,10 +27,8 @@ import VASL.LOS.counters.Counter;
  */
 public class Wreck  extends Counter {
 
-    Hex hex;
-
-    public Wreck(String name, Hex hex){
-        super(name);
-        this.hex = hex;
+    public Wreck(String name, Location location){
+        super(name, location);
     }
+
 }

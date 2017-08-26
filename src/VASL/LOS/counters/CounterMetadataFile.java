@@ -18,7 +18,6 @@
  */
 package VASL.LOS.counters;
 
-import VASL.LOS.counters.CounterMetadata;
 import VASSAL.build.GameModule;
 import VASSAL.tools.DataArchive;
 import VASSAL.tools.ErrorDialog;
@@ -41,34 +40,35 @@ public class CounterMetadataFile {
     private final static String counterMetadataFileName = "CounterMetadata.xml";
 
     // XML element and attribute names
-    protected static final String counterMetadataElement = "counterMetadata";
-    protected static final String smokeCounterElement = "smoke";
-    protected static final String OBACounterElement = "OBA";
-    protected static final String terrainCounterElement = "terrain";
-    protected static final String wreckCounterElement = "wreck";
-    protected static final String ignoreCounterElement = "ignore";
+    private static final String counterMetadataElement = "counterMetadata";
+    private static final String smokeCounterElement = "smoke";
+    private static final String OBACounterElement = "OBA";
+    private static final String terrainCounterElement = "terrain";
+    private static final String wreckCounterElement = "wreck";
+    private static final String ignoreCounterElement = "ignore";
 
-    protected static final String buildingLevelCounterElement = "buildingLevel";
-    protected static final String roofCounterElement = "roof";
-    protected static final String entrenchmentCounterElement = "entrenchment";
-    protected static final String crestCounterElement = "crest";
-    protected static final String climbCounterElement = "climb";
+    private static final String buildingLevelCounterElement = "buildingLevel";
+    private static final String roofCounterElement = "roof";
+    private static final String cellarCounterElement = "cellar";
+    private static final String entrenchmentCounterElement = "entrenchment";
+    private static final String crestCounterElement = "crest";
+    private static final String climbCounterElement = "climb";
+    private static final String pillboxCounterElement = "pillbox";
 
-    protected static final String locationCounterElement = "locationCounter";
-    protected static final String counterNameAttribute = "name";
-    protected static final String counterHindranceAttribute = "hindrance";
-    protected static final String counterHeightAttribute = "height";
-    protected static final String counterTerrainAttribute = "terrain";
-    protected static final String counterLevelAttribute = "level";
-    protected static final String counterPositionAttribute = "position";
-    protected static final String counterCoveredArchAttribute = "ca";
+    private static final String counterNameAttribute = "name";
+    private static final String counterHindranceAttribute = "hindrance";
+    private static final String counterHeightAttribute = "height";
+    private static final String counterTerrainAttribute = "terrain";
+    private static final String counterLevelAttribute = "level";
+    private static final String counterPositionAttribute = "position";
+    private static final String counterCAAttribute = "ca";
 
     // constant values for the counter position attribute
-    public static final String counterPositionAbove = "above";
-    public static final String getCounterPositionBelow = "below";
+    static final String counterPositionAbove = "above";
+    static final String getCounterPositionBelow = "below";
 
     // List of the counter elements
-    protected LinkedHashMap<String, CounterMetadata> metadataElements = new LinkedHashMap<String, CounterMetadata>(30);
+    private LinkedHashMap<String, CounterMetadata> metadataElements = new LinkedHashMap<String, CounterMetadata>(30);
 
     public CounterMetadataFile() {
 
@@ -99,9 +99,9 @@ public class CounterMetadataFile {
     /**
      * Parses the counter metadata file
      * @param metadata an <code>InputStream</code> for the counter metadata XML file
-     * @throws org.jdom2.JDOMException
+     * @throws JDOMException if there's a parsing error
      */
-    public void parseCounterMetadataFile(InputStream metadata) throws JDOMException {
+    private void parseCounterMetadataFile(InputStream metadata) throws JDOMException {
 
         SAXBuilder parser = new SAXBuilder();
 
@@ -126,9 +126,9 @@ public class CounterMetadataFile {
     /**
      * Parses the counter metadata element
      * @param element the counter metadata element
-     * @throws org.jdom2.JDOMException
+     * @throws JDOMException if there's a parsing error
      */
-    protected void parseCounters(Element element) throws JDOMException {
+    private void parseCounters(Element element) throws JDOMException {
 
         // make sure we have the right element
         assertElementName(element, counterMetadataElement);
@@ -156,10 +156,6 @@ public class CounterMetadataFile {
                 counterMetadata = new CounterMetadata(name, CounterMetadata.CounterType.OBA);
 
             }
-            else if(e.getName().equals(wreckCounterElement)) {
-                counterMetadata = new CounterMetadata(name, CounterMetadata.CounterType.WRECK);
-
-            }
             else if(e.getName().equals(ignoreCounterElement)) {
                 counterMetadata = new CounterMetadata(name, CounterMetadata.CounterType.IGNORE);
             }
@@ -172,6 +168,10 @@ public class CounterMetadataFile {
                 counterMetadata = new CounterMetadata(name, CounterMetadata.CounterType.ROOF);
                 counterMetadata.setPosition(e.getAttributeValue(counterPositionAttribute));
             }
+            else if(e.getName().equals(cellarCounterElement)) {
+                counterMetadata = new CounterMetadata(name, CounterMetadata.CounterType.CELLAR);
+                counterMetadata.setPosition(e.getAttributeValue(counterPositionAttribute));
+            }
             else if(e.getName().equals(entrenchmentCounterElement)) {
                 counterMetadata = new CounterMetadata(name, CounterMetadata.CounterType.ENTRENCHMENT);
                 counterMetadata.setPosition(e.getAttributeValue(counterPositionAttribute));
@@ -179,13 +179,17 @@ public class CounterMetadataFile {
             else if(e.getName().equals(crestCounterElement)) {
                 counterMetadata = new CounterMetadata(name, CounterMetadata.CounterType.CREST);
                 counterMetadata.setPosition(e.getAttributeValue(counterPositionAttribute));
-                counterMetadata.setCoverArch(e.getAttribute(counterCoveredArchAttribute).getIntValue());
             }
             else if(e.getName().equals(climbCounterElement)) {
                 counterMetadata = new CounterMetadata(name, CounterMetadata.CounterType.CLIMB);
                 counterMetadata.setLevel(e.getAttribute(counterLevelAttribute).getIntValue());
                 counterMetadata.setPosition(e.getAttributeValue(counterPositionAttribute));
-                counterMetadata.setCoverArch(e.getAttribute(counterCoveredArchAttribute).getIntValue());
+            }
+            else if(e.getName().equals(pillboxCounterElement)) {
+                counterMetadata = new CounterMetadata(name, CounterMetadata.CounterType.PILLBOX);
+                counterMetadata.setLevel(e.getAttribute(counterLevelAttribute).getIntValue());
+                counterMetadata.setCoveredArc(e.getAttribute(counterCAAttribute).getIntValue());
+                counterMetadata.setPosition(e.getAttributeValue(counterPositionAttribute));
             }
 
             metadataElements.put(name, counterMetadata);
@@ -203,7 +207,7 @@ public class CounterMetadataFile {
      * Assert the element has the given name otherwise throw an exception
      * @param element the element
      * @param elementName the element name
-     * @throws org.jdom2.JDOMException
+     * @throws JDOMException if element name is invalid
      */
     private void assertElementName(Element element, String elementName) throws JDOMException {
 
