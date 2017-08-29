@@ -9,7 +9,8 @@ public interface MovingPersuniti{
         int getItemID();
         int getIPC();
         boolean IsDummy();
-        boolean IsConcealed();
+        boolean getIsConcealed();
+        void setIsConcealed(boolean value);
         boolean getUsingDT();
         void setUsingDT(boolean value);
         boolean getUsingRoadBonus();

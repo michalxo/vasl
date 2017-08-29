@@ -12,19 +12,21 @@ public class LevelChecks {
     private LinkedList<GameLocation> MapData;    // As IQueryable(Of MapDataClassLibrary.GameLocation)
 
     public LevelChecks(LinkedList<GameLocation> LocationCol) {
-        MapData =LocationCol;
+        MapData = LocationCol;
     }
 
     // Methods
+
+    public double GetLevelofLocation(int LocIndextoTest) {
+        // called by MovementWithinLegalc.IsMovementLegal
+        // returns the level-in-hex of a specified location
+
+        return 0; // temporary while debugging UNDO
+        // Return CSng((From QU As MapDataClassLibrary.GameLocation In MapData Where QU.LocIndex=LocIndextoTest Select QU.LevelInHex).First)
+    }
+
     // remmed out while debugging undo
-    /*Public Function
-
-    GetLevelofLocation(ByVal LocIndextoTest As Integer) As Single
-            'called by MovementWithinLegalc.IsMovementLegal
-                    'returns the level-in-hex of a specified location
-
-    Return CSng((From QU As MapDataClassLibrary.GameLocation In MapData Where QU.LocIndex=LocIndextoTest Select QU.LevelInHex).First)
-    End Function
+    /*
         'Public Function GetBaseLocationofHex(ByVal Hexnumber As Integer) AS MapDataClassLibrary.GameLocation
                 '    '
     called by
@@ -44,27 +46,23 @@ public class LevelChecks {
     at level-in-hex 0?caves?
             '    Return (From QU AS MapDataClassLibrary.GameLocation In MapData Where QU.Hexnum = Hexnumber And QU.LevelInHex = 0 And QU.IsPillbox = False).First
             'End Function
-    Public Function
+    */
 
-    GetLocationatLevelInHex(ByVal Hexnumber As Integer, ByVal Levelnumber As Single) As MapDataClassLibrary.GameLocation
-            'called by MapActions.IsSameHexLOSClear
-                    'returns the location of a non-zero level in a hex
-                    'is the query correct; can there be more than one locations at level-not-0?
-                    'If Levelnumber = 0 Then Return Nothing '
-    only checks
-    non-
-    zero levels
+    public GameLocation GetLocationatLevelInHex(int Hexnumber, double Levelnumber) {
+        // called by MapActions.IsSameHexLOSClear
+        // returns the location of a non-zero level in a hex
+        // is the query correct; can there be more than one locations at level-not-0?
+        // If Levelnumber = 0 Then Return Nothing ' only checks non - zero levels
 
-    Return(From QU As MapDataClassLibrary.GameLocation In MapData Where QU.Hexnum=Hexnumber And QU.LevelInHex=Levelnumber).First
-    End Function
-        'overloaded
-                'using LocIndex
-    Public Function
+        return null; //(From QU As MapDataClassLibrary.GameLocation In MapData Where QU.Hexnum = Hexnumber And QU.LevelInHex = Levelnumber).First
+    }
 
-    GetTotalLocationLevel(ByVal LocIndextoTest As Integer) As Single
-            'called by HexBesideC.AreLocationsADJACENT
-                    'returns the total level of a specified location (base leve of hex plus in-hex level)
-    Dim loctouse
+    // overloaded
+    // using LocIndex
+    public double GetTotalLocationLevel(int LocIndextoTest) {
+        // called by HexBesideC.AreLocationsADJACENT
+        // returns the total level of a specified location (base leve of hex plus in-hex level)
+    /*Dim loctouse
     As MapDataClassLibrary.GameLocation =(
     From QU
     As MapDataClassLibrary.
@@ -72,30 +70,28 @@ public class LevelChecks {
     MapData Where
     QU.LocIndex =LocIndextoTest).First
 
-    Return CSng(loctouse.Baselevel +loctouse.LevelInHex)
+    Return CSng(loctouse.Baselevel +loctouse.LevelInHex)*/
+    return 0;
+    }
+    // using Hexnum and Location
+    public double GetTotalLocationLevel(int hexnumber,int LoctoTest) {
+        // called by HexBesideC.AreLocationsADJACENT
+        // returns the total level of a specified location (base leve of hex plus in-hex level)
+        /*Dim loctouse
+        As MapDataClassLibrary.GameLocation = (
+                From QU
+        As MapDataClassLibrary.
+        GameLocation In
+        MapData Where
+        QU.Hexnum =
+                hexnumber And
+        QU.Location = LoctoTest).First
 
-    End Function
-        'using Hexnum and Location
-    Public Function
+        Return CSng (loctouse.Baselevel + loctouse.LevelInHex)*/
+        return 0;
+    }
 
-    GetTotalLocationLevel(ByVal hexnumber As Integer, LoctoTest As Integer) As Single
-            'called by HexBesideC.AreLocationsADJACENT
-                    'returns the total level of a specified location (base leve of hex plus in-hex level)
-    Dim loctouse
-    As MapDataClassLibrary.GameLocation =(
-    From QU
-    As MapDataClassLibrary.
-    GameLocation In
-    MapData Where
-    QU.Hexnum =
-    hexnumber And
-    QU.Location =LoctoTest).First
-
-    Return CSng(loctouse.Baselevel +loctouse.LevelInHex)
-
-    End Function*/
-
-    public double GetLocationPositionLevel(int hexnumber, int Locationtoget, Constantvalues.AltPos Positiontoget) {
+    public double GetLocationPositionLevel(int hexnumber, Constantvalues.Location Locationtoget, Constantvalues.AltPos Positiontoget) {
         // called by IsSameHexLocationADJACENT, Linqdata.UpdateAfterMove, MoveWithinLegal.IsMovementLegal plus many other methods
         // gets level within hex of specific location and position
 

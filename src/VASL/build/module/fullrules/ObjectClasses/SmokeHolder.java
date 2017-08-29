@@ -1,21 +1,15 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.build.module.fullrules.Constantvalues;
+
 public class SmokeHolder {
-    /*Private smokevalue As Integer
-        Private smokebase As Integer
-        Public Sub New(ByVal PassSmoke As Integer, ByVal PassBaselevel As Integer)
-        smokevalue = PassSmoke
-        smokebase = PassBaselevel
-        End Sub
-        'properties
-        Public ReadOnly Property Smoke As Integer
-        Get
-        Return smokevalue
-        End Get
-        End Property
-        Public ReadOnly Property SmokeBaseLevel As Integer
-        Get
-        Return smokebase
-        End Get
-        End Property */
+    private Constantvalues.VisHind psmokevalue;
+    private int psmokebase;
+
+    public SmokeHolder(Constantvalues.VisHind PassSmoke, int PassBaselevel) {
+        psmokevalue = PassSmoke;
+        psmokebase = PassBaselevel;
+    }
+    public Constantvalues.VisHind getSmoke(){return psmokevalue;}
+    public int getSmokeBaseLevel() {return psmokebase;}
 }

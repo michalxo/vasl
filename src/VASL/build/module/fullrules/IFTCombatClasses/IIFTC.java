@@ -20,14 +20,14 @@ public interface IIFTC {
     Constantvalues.Nationality getTargetSide();
     int getFirerSan();
     int getTargetSan();
-    int getFirerhex();
-    void setFirerhex(int value);
+    Hex getFirerhex();
+    void setFirerhex(Hex value);
     int getFirerloc();
     void setFirerloc(int value);
     Constantvalues.AltPos getFirerpos();
     void setFirerpos(Constantvalues.AltPos value);
-    int getTargethex();
-    void setTargethex(int value);
+    Hex getTargethex();
+    void setTargethex(Hex value);
     int getTargetloc();
     void setTargetloc(int value);
     boolean getNeedtoResumeResolution();

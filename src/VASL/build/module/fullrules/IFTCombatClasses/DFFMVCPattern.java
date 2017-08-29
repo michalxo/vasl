@@ -1,9 +1,10 @@
-package VASL.build.module.map;
+package VASL.build.module.fullrules.IFTCombatClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.EnemyHexLOSHFPdrm;
 import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.LOSClasses.LOSSolution;
 import VASL.build.module.fullrules.LOSClasses.LOSThreadManagerC;
 import VASL.build.module.fullrules.LOSClasses.TempSolution;
@@ -213,6 +214,7 @@ class DFFEnemyValuesConcreteC {
      private LinkedList<PersUniti> FireGroup_Thread = new LinkedList<PersUniti>();
      private LinkedList<PersUniti> TargGroup = new LinkedList<PersUniti>();
      private LinkedList<PersUniti> TempFireGroup = new LinkedList<PersUniti>();
+     private ScenarioC scen = ScenarioC.getInstance();
 
     public LinkedList<EnemyHexLOSHFPdrm> SetLOSFPdrmValues(PersUniti[] MovingUnits ) {
         // called by DefensiveFirstFireConcreteC.SetLOSFPdrmValues
@@ -236,7 +238,7 @@ class DFFEnemyValuesConcreteC {
         MovingList = MovingUnits;
         // now get the list of enemy units
         int Movinghexclicked = MovingList[0].getbaseunit().getHexnum();
-        int Movinglocation = MovingList[0].getbaseunit().gethexlocation();
+        Constantvalues.Location Movinglocation = MovingList[0].getbaseunit().gethexlocation();
         Constantvalues.AltPos MovingPosition = MovingList[0].getbaseunit().gethexPosition();
         boolean SeenUsingCrestStatus = false;
 
@@ -247,17 +249,18 @@ class DFFEnemyValuesConcreteC {
         // instantiate various classes used during calculations
         DataC Linqdata = DataC.GetInstance();    // use null values when sure instance already exists
         MapDataC Maptables  = MapDataC.GetInstance("", 0) ;  // use null values when sure that instance already exists
-        LinkedList<GameLocation> LocationCol = Maptables.LocationCol;
+        LinkedList<GameLocation> LocationCol = Maptables.getLocationCol();
         GetALocationFromMap GetLocs = new GetALocationFromMap(LocationCol);
         LevelChecks LevelChk = new LevelChecks(LocationCol);
         // set some data variables
         GameLocation LoCtouse = GetLocs.RetrieveLocationfromMaptable(Movinghexclicked, Movinglocation);
         double Movinglevel = LevelChk.GetLocationPositionLevel(Movinghexclicked, Movinglocation, MovingPosition);
-        double MovingLOSIndex =  LoCtouse.getLocIndex();
+        int MovingLOSIndex =  LoCtouse.getLocIndex();
         PersUniti MovingItem = MovingList[0];
         scennum = MovingItem.getbaseunit().getScenario();
         Scenario Scendet = Linqdata.GetScenarioData(scennum); // retrieves scenario data
         Constantvalues.Map scenmap = Scendet.getMap();
+        VASL.LOS.Map.Map MapInUse = scen.getGameMap();
         int ScenDustMist = Scendet.getMistDust();
         Constantvalues.Nationality MovingNationality = MovingItem.getbaseunit().getNationality();
         SetEnemy(MovingNationality, scennum);
@@ -305,7 +308,7 @@ class DFFEnemyValuesConcreteC {
                 DFFPositioninHex = EnemyUnit.getbaseunit().gethexPosition();
                 SeeUsingCrestStatus = EnemyUnit.getbaseunit().IsInCrestStatus();
                 // create TempSolution
-                TempSol = new TempSolution(DFFHexnum, DFFlevel, DFFLOSIndex, DFFPositioninHex, Movinghexclicked, Movinglevel, MovingLOSIndex, MovingPosition, PassSolWorks, TempSolList.size(), scenmap);
+                TempSol = new TempSolution(DFFHexnum, DFFlevel, DFFLOSIndex, DFFPositioninHex, Movinghexclicked, Movinglevel, MovingLOSIndex, MovingPosition, PassSolWorks, TempSolList.size(), MapInUse);
 
                 if (TempSol != null) {
                     // add to list of temp

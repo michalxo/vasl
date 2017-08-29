@@ -1,41 +1,45 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.build.module.fullrules.Constantvalues;
+
+import java.util.List;
+
 public interface TargetPersUniti {
         int getBPV();
         int  getBrokenML();
         boolean getELR5();
         void setELR5(boolean value);
-        int getFortitudeStatus();
-        void setFortitudeStatus(int value);
+        Constantvalues.FortitudeStatus getFortitudeStatus();
+        void setFortitudeStatus(Constantvalues.FortitudeStatus value);
         int getHardensTo();
         int getMoraleLevel();
-        int getMovementStatus();
-        void setMovementStatus(int value);
-        int getOrderStatus();
-        void setOrderStatus(int value);
+        Constantvalues.MovementStatus getMovementStatus();
+        void setMovementStatus(Constantvalues.MovementStatus value);
+        Constantvalues.OrderStatus getOrderStatus();
+        void setOrderStatus(Constantvalues.OrderStatus value);
         boolean getPinned();
         void setPinned(boolean value);
-        int  getPersUnitImpact();
-        void setPersUnitImpact(int value);
+        Constantvalues.PersUnitResult  getPersUnitImpact();
+        void setPersUnitImpact(Constantvalues.PersUnitResult value);
         int getQualityStatus();
         void setQualityStatus(int value);
-        int geetReducesTo();
+        int getReducesTo();
         boolean getSANActivated();
-        void setSANActiviated(boolean value);
+        void setSANActivated(boolean value);
         int getSmoke();
         void setSmoke(int value);
-        int getSubtitutesTo();
+        int getSubstitutesTo();
         int getFirerSan();
         void setFirerSan(int value);
-        int getUnitClass();
-        int getVisibilityStatus();
-        void setVisibilityStatus(int value);
+        Constantvalues.UClass getUnitClass();
+        Constantvalues.VisibilityStatus getVisibilityStatus();
+        void setVisibilityStatus(Constantvalues.VisibilityStatus value);
         int getAttackedbydrm();
         void setAttackedbydrm(int value);
         int  getAttackedbyFP();
         void setAttackedbyFP(int value);
-        int  getIFTResult();
-        void setIFTResult(int value);
+        Constantvalues.IFTResult getIFTResult();
+        void setIFTResult(Constantvalues.IFTResult value);
         int getRandomSelected();
         void setRandomSelected(int value);
         boolean getIsLeader();
@@ -45,10 +49,10 @@ public interface TargetPersUniti {
         void setIsDummy(boolean value);
         boolean getIFTResolved();
         void setIFTResolved(boolean value);
-        int[] getConcealedUnits();
-        void setConcealedUnits(int[] value);
+        List<String> getConcealedUnits();
+        void setConcealedUnits(List<String> value);
         int getLdrDRM();
-        String getCombatResultString();
+        String getCombatResultsString();
         void setCombatResultsString(String value);
         int getMCNumber();
         void setMCNumber(int value);
@@ -60,7 +64,7 @@ public interface TargetPersUniti {
 
         boolean HasFT();
         boolean HasWallAdvantage();
-        int SetTexture();
+        //int SetTexture();
         boolean CRMC(int KNum, int TargSTackLdrdrm, String Resultstring);
         boolean KIA();
         boolean MC(int MCNum, int TargSTackLdrdrm);
@@ -68,6 +72,6 @@ public interface TargetPersUniti {
         boolean PTC(int TargSTackLdrdrm);
         boolean Break();
         boolean UpdateTargetStatus(PersUniti PassTarget);
-        int SniperImpact(int Sniperdr);
+        Constantvalues.PersUnitResult SniperImpact(int Sniperdr);
         int HOBMC();
 }

@@ -29,7 +29,7 @@ public class Gamecontrol {
     public ConcealActionsC ConcealActions; // = new ConcealActionsC();
 
     public observeri Moveobs; //i = new observeri();*/
-    public IIFTC IFT; // = new IFTC();
+    public IIFTC IFT;
     public UnitActionsC UnitActions; // = new UnitActionsC();
     public LinkedList<SelectedThing> SelectedThings = new LinkedList<SelectedThing>();  // part of context menu process
     //    public ContextMenu As ContextMenuStrip   'part of context menu process

@@ -1,25 +1,27 @@
 package VASL.build.module.fullrules.MapDataClasses;
 
+import VASL.build.module.fullrules.Constantvalues;
+
 public class GameLocation {
     
     private int pHexnum;
     private String pHexname;
     private int pLocIndex;
-    private int pLocation;
-    private int pOtherTerraininLocation;
+    private Constantvalues.Location pLocation;
+    private Constantvalues.Location pOtherTerraininLocation;
     private int pBaselevel;
     private double pLevelInHex;
     private double pObstacleHeightinhex;
-    private int pHexside1;
-    private int pHexside2;
-    private int pHexside3;
-    private int pHexside4;
-    private int pHexside5;
-    private int pHexside6;
+    private Constantvalues.Hexside pHexside1;
+    private Constantvalues.Hexside pHexside2;
+    private Constantvalues.Hexside pHexside3;
+    private Constantvalues.Hexside pHexside4;
+    private Constantvalues.Hexside pHexside5;
+    private Constantvalues.Hexside pHexside6;
     private int pTEM;
     private int pLOSHdrm;
     private double pMFCot;
-    private double pTEMOtherTerrain;
+    private int pTEMOtherTerrain;
     private double pMFOtherTerrain;
     private boolean pBypassOK;
     private boolean pBogCheckRequired;
@@ -41,7 +43,7 @@ public class GameLocation {
     private boolean pIsInherent;
     private boolean pIsInherentOtherTerrain;
     private boolean pIsWire;
-    private int pSmoke;
+    private Constantvalues.VisHind pSmoke;
     private int pAPMines;
     private int pATMines;
     private int pSmokeBaseLevel;
@@ -65,7 +67,7 @@ public class GameLocation {
     private boolean pLocIsOG;
     private boolean pOTisOG;
     private int pEntrenchment;
-    private int pOBA;
+    private Constantvalues.Feature pOBA;
     private boolean pIsHardSurface;
     private boolean pOTisHardSurface;
    
@@ -80,36 +82,36 @@ public class GameLocation {
     public void setHexnum(String value) {pHexname = value;}
 	public int getLocIndex() {return pLocIndex;}
     public void setLocIndex(int value){pLocIndex = value;}
-	public int getLocation() {return pLocation;}
-	public void setLocation(int value) {pLocation = value;}
-    public int getOtherTerraininLocation() {return pOtherTerraininLocation;}
-    public void setOtherTerraininLocation(int value) {pOtherTerraininLocation = value;}
+	public Constantvalues.Location getLocation() {return pLocation;}
+	public void setLocation(Constantvalues.Location value) {pLocation = value;}
+    public Constantvalues.Location getOtherTerraininLocation() {return pOtherTerraininLocation;}
+    public void setOtherTerraininLocation(Constantvalues.Location value) {pOtherTerraininLocation = value;}
     public int getBaselevel(){return pBaselevel;}
     public void setBaselevel(int value) {pBaselevel = value;}
     public double getLevelInHex() {return pLevelInHex;}
     public void setLevelInHex(double value) {pLevelInHex = value;}
     public double getObstacleHeightinhex() {return pObstacleHeightinhex;}
     public void setObstacleHeightinhex(double value) {pObstacleHeightinhex = value;}
-    public int getHexside1() {return pHexside1;}
-    public void setHexside1(int value) {pHexside1 = value;}
-    public int getHexside2() {return pHexside2;}
-    public void setHexside2(int value) {pHexside2 = value;}
-    public int getHexside3() {return pHexside3;}
-    public void setHexside3(int value) {pHexside3 = value;}
-    public int getHexside4() {return pHexside4;}
-    public void setHexside4(int value) {pHexside4 = value;}
-    public int getHexside5() {return pHexside5;}
-    public void setHexside5(int value) {pHexside5 = value;}
-    public int getHexside6() {return pHexside6;}
-    public void setHexside6(int value) {pHexside6 = value;}
+    public Constantvalues.Hexside getHexside1() {return pHexside1;}
+    public void setHexside1(Constantvalues.Hexside value) {pHexside1 = value;}
+    public Constantvalues.Hexside getHexside2() {return pHexside2;}
+    public void setHexside2(Constantvalues.Hexside value) {pHexside2 = value;}
+    public Constantvalues.Hexside getHexside3() {return pHexside3;}
+    public void setHexside3(Constantvalues.Hexside value) {pHexside3 = value;}
+    public Constantvalues.Hexside getHexside4() {return pHexside4;}
+    public void setHexside4(Constantvalues.Hexside value) {pHexside4 = value;}
+    public Constantvalues.Hexside getHexside5() {return pHexside5;}
+    public void setHexside5(Constantvalues.Hexside value) {pHexside5 = value;}
+    public Constantvalues.Hexside getHexside6() {return pHexside6;}
+    public void setHexside6(Constantvalues.Hexside value) {pHexside6 = value;}
     public int getTEM() {return pTEM;}
     public void setTEM(int value){pTEM = value;}
     public int getLOSHdrm(){return pLOSHdrm;}
     public void setLOSHdrm(int value){pLOSHdrm = value;}
     public double getMFCot() {return pMFCot;}
     public void setMFCot(double value) {pMFCot = value;}
-    public double getTEMOtherTerrain(){return pTEMOtherTerrain;}
-    public void setTEMOtherTerrain(double value ){pTEMOtherTerrain = value;}
+    public int getTEMOtherTerrain(){return pTEMOtherTerrain;}
+    public void setTEMOtherTerrain(int value ){pTEMOtherTerrain = value;}
     public double getMFOtherTerrain() {return pMFOtherTerrain;}
     public void setMFOtherTerrain(double value){pMFOtherTerrain = value;}
     public boolean getBypassOK(){return pBypassOK;}
@@ -152,8 +154,8 @@ public class GameLocation {
     public void setIsInherentOtherTerrain(boolean value){pIsInherentOtherTerrain = value;}
     public boolean getIsWire(){return pIsWire;}
     public void setIsWire(boolean value){pIsWire = value;}
-    public int getSmoke() {return pSmoke;}
-    public void setSmoke(int value){pSmoke = value;}
+    public Constantvalues.VisHind getSmoke() {return pSmoke;}
+    public void setSmoke(Constantvalues.VisHind value){pSmoke = value;}
     public int getAPMines() {return pAPMines;}
     public void setAPMines(int value){pAPMines = value;}
     public int getATMines() {return pATMines;}
@@ -200,8 +202,8 @@ public class GameLocation {
     public void setOTisOG(boolean value){pOTisOG = value;}
     public int getEntrenchment() {return pEntrenchment;}
     public void setEntrenchment(int value){pEntrenchment = value;}
-    public int getOBA() {return pOBA;}
-    public void setOBA(int value){pOBA = value;}
+    public Constantvalues.Feature getOBA() {return pOBA;}
+    public void setOBA(Constantvalues.Feature value){pOBA = value;}
     public boolean getIsHardSurface() { return pIsHardSurface;}
     public void setIsHardSurface(boolean value){pIsHardSurface = value;}
     public boolean  getOTisHardSurface() {return pOTisHardSurface;}

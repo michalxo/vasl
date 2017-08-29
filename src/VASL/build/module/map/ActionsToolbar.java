@@ -227,7 +227,7 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
             Component l_objVertGlue = Box.createVerticalGlue();
             AddButton(l_objPanel, l_objVertGlue, l_iRow++, 2);
 
-            JToggleButton l_objTBtn = CreateChangePhaseActionsButton("Start", "Move to Next Phase");
+            JToggleButton l_objTBtn = CreateChangePhaseActionsButton("Next", "Move to Next Phase");
             AddButton(l_objPanel, l_objTBtn, l_iRow++, 20);
 
             l_objBtn = CreateActionButton("", "Prep", "Prep Fire", new ActionListener() {public void actionPerformed(ActionEvent e) {ProcessAction("Prep");}});

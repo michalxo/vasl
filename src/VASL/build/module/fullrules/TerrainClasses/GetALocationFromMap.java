@@ -1,5 +1,6 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
+import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 
 import java.util.LinkedList;
@@ -41,17 +42,20 @@ public class GetALocationFromMap {
     End Try
 
     End Sub
-    Public Function GetPillboxLocation(ByVal hexnum As Integer) As Integer
-            'returns LocIndex value of pillbox location in a hex
-                    '0 means no pillbox exists
-    Dim Pillboxloc As Integer = 0
-    Try
-            Pillboxloc = (From QU As MapDataClassLibrary.GameLocation In MapData Where QU.Hexnum = hexnum And QU.IsPillbox = True Select QU.LocIndex).First
-            Catch
-    Pillboxloc = 0
-    End Try
-    Return Pillboxloc
-    End Function*/
+    */
+    public int GetPillboxLocation(int hexnum) {
+        // returns LocIndex value of pillbox location in a hex
+        // 0 means no pillbox exists
+        int Pillboxloc = 0;
+        // temporary while debugging UNDO
+        /*Try
+                Pillboxloc = (From QU As MapDataClassLibrary.GameLocation In MapData Where QU.Hexnum = hexnum And QU.
+        IsPillbox = True Select QU.LocIndex).First
+                Catch
+        Pillboxloc = 0
+        End Try*/
+        return Pillboxloc;
+    }
     // overloaded
     // first function returns record when have LocIndex
     public GameLocation RetrieveLocationfromMaptable(int LocIndex) {
@@ -60,7 +64,7 @@ public class GetALocationFromMap {
         return null; //(From QU As MapDataClassLibrary.GameLocation In MapData Where QU.LocIndex = LocIndex).First - temporary while debugging delete
     }
     // second overload returns record when have hexnumber and location
-    public GameLocation RetrieveLocationfromMaptable(int Hexnumber, int Location) {
+    public GameLocation RetrieveLocationfromMaptable(int Hexnumber, Constantvalues.Location Location) {
         // called by Mapactions.Puthexdataintocollection, Terrainactions.GetTerrain
         // returns the location records matching the location index value
         try {
@@ -90,24 +94,24 @@ public class GetALocationFromMap {
         return null; //temporary while debugging delete
     }
 
-    //remmed out while debugging - delete
-    /*    'overloaded
-                'this may need various overloads to handle different filter combinations
-                'this overload returns records where location equals a specified terrain type
-    Public Function RetrieveLocationsfromMapTable(ByVal Filter As Integer) As IQueryable(Of MapDataClassLibrary.GameLocation)
-    Return From Qu As MapDataClassLibrary.GameLocation In MapData Where Qu.Location = Filter
-    End Function
-        'this overload returns all locations in a specified hex
-    Public Function RetrieveLocationsfromMapTable(ByVal Filter As Integer, ByVal LookingFor As String) As IQueryable(Of MapDataClassLibrary.GameLocation)
-    Select Case Trim(LookingFor)
-    Case "Hexnum"
-    Try
-    Return From Qu As MapDataClassLibrary.GameLocation In MapData Where Qu.Hexnum = Filter
-            Catch
-    Return Nothing
-    End Try
-    End Select
-    End Function */
+    // overloaded
+    // this may need various overloads to handle different filter combinations
+    // this overload returns records where location equals a specified terrain type
+    public LinkedList<GameLocation> RetrieveLocationsfromMapTable(int Filter) {
+        return null; // From Qu As MapDataClassLibrary.GameLocation In MapData Where Qu.Location = Filter
+    }
+    // this overload returns all locations in a specified hex
+    public LinkedList<GameLocation> RetrieveLocationsfromMapTable(int Filter, String LookingFor) {
+        /*Select Case Trim(LookingFor)
+        Case "Hexnum"
+        Try
+        Return From Qu As MapDataClassLibrary.GameLocation In MapData Where Qu.Hexnum = Filter
+        Catch
+        Return Nothing
+        End Try
+        End Select*/
+                return null;
+    }
     public String GetnamefromdatatableMap(int hexnumber) {
         // Called by Map.HexbyHexClear, Map.LOSCheck, MapCoord.Gethexname, RangeClassC.DirExtent
         // Returns Hexname from a scenario maptable based on hexnumber passed as parameter

@@ -7,7 +7,7 @@ package VASL.build.module.map;
  * Uses interfaces and concrete classes to implement MVC pattern for determining IFT
  * combat opportunities based on either Target or Firer
  */
-package VASL.build.module.map;
+package VASL.build.module.fullrules.IFTCombatClasses;
 
 
 import VASL.build.module.fullrules.Constantvalues;

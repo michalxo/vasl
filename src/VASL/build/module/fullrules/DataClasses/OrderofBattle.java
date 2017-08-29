@@ -8,7 +8,7 @@ public class OrderofBattle {
     private double phexnum;
     private int pLocIndex;
     private int pScenario;
-    private int phexlocation;
+    private Constantvalues.Location phexlocation;
     private Constantvalues.AltPos pPosition;
     private double pLevelinHex;
     private double pLOBLink;
@@ -46,8 +46,8 @@ public class OrderofBattle {
     public void setLocIndex(int value) {pLocIndex = value;}
     public int  getScenario() {return pScenario;}
     public void setScenario(int value) {pScenario = value;}
-	public int   gethexlocation() {return  phexlocation;}
-    public void sethexlocation(int value) {phexlocation = value;}
+	public Constantvalues.Location   gethexlocation() {return  phexlocation;}
+    public void sethexlocation(Constantvalues.Location value) {phexlocation = value;}
 	public Constantvalues.AltPos  getPosition() {return  pPosition;}
     public void setPosition(Constantvalues.AltPos value) {pPosition = value;}
 	public double  getLevelinHex() {return  pLevelinHex;}

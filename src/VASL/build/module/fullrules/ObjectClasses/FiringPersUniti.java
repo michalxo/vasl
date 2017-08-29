@@ -4,11 +4,13 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 
+import java.util.LinkedList;
+
 // Second level interface implemented by personnel unit instances
 public  interface FiringPersUniti{
 
     int getSolID();
-    int getType();
+    Constantvalues.Utype getType();
     int getLOBLink();
     Constantvalues.CombatStatus getCombatStatus();
     void setCombatStatus(Constantvalues.CombatStatus value);
@@ -31,18 +33,18 @@ public  interface FiringPersUniti{
         void setUsingfirstMG(boolean value);
         boolean getUsingsecondMG();
         void setUsingsecondMG(boolean value);
-        /*LinkedList<SuppWeapi> getFiringMGs();    temporary while debugging undo
-        void setFiringMGs(LinkedList<SuppWeapi> value);*/
+        LinkedList<SuppWeapi> FiringMGs = new LinkedList<SuppWeapi>();
+
         void RangeModification(double range, double LevelDifference, PersUniti TargetU);
         void PinnedModification();
-        void AdvancingFireModification(int Phase);
+        void AdvancingFireModification(Constantvalues.Phase phase);
         void FireVsConcealedModification(PersUniti TargetUnit);
         void FirstFireModification();
         void SprayFireModification(boolean UsingSprayFire);
-        void AssaultFireModification(int Phase);
+        void AssaultFireModification(Constantvalues.Phase phase);
         void AreaFireModification(int FGSize, GameLocation targloc);
         void MGModification();
         void CrestStatusModification(int Targethexnum);
         void ResetCombatFP();
-        void UpdateCombatStatus(int NewCombatStatus, int ROFdr);
+        void UpdateCombatStatus(Constantvalues.CombatStatus NewCombatStatus, int ROFdr);
 }

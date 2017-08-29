@@ -28,7 +28,7 @@ public class MapDataC {
     //Friend DataTableMapLOS As New DataTable temporary while debugging undo
     private int ScenarioID = 0;
     private String ScenarioName;
-    public LinkedList<GameLocation> LocationCol;
+    private LinkedList<GameLocation> LocationCol;
     //Public db As MapDataClassesDataContext  temporary while debugging undo
 
     // constructors
@@ -58,6 +58,10 @@ public class MapDataC {
         // creates the datacontext
 
         // db = New MapDataClassesDataContext
+    }
+
+    public LinkedList<GameLocation> getLocationCol(){
+        return LocationCol;
     }
 
             /*

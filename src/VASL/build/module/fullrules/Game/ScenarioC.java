@@ -5,6 +5,8 @@ import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTC;
 import VASL.build.module.fullrules.IFTCombatClasses.IIFTC;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
+import VASL.build.module.fullrules.MapDataClasses.MapDataC;
+import VASL.build.module.fullrules.MovementClasses.MakeMoveC;
 import VASL.build.module.fullrules.ObjectClasses.Scenlisttype;
 import VASL.build.module.fullrules.PhaseClasses.PhaseMVCPattern;
 import VASSAL.build.GameModule;
@@ -17,6 +19,7 @@ public class ScenarioC extends CampaignC {
     // Opened whenever game is being played; holds routines needed for individual game play
     // private ReportEvent As New LogReporting
     private int ScenIDValue;
+    private String ScenName;
     private Constantvalues.Phase PhaseValue;
     private static ScenarioC Sceninstance;
     public Hashtable HexesWithCounter = new Hashtable();
@@ -24,11 +27,11 @@ public class ScenarioC extends CampaignC {
     public LinkedList<GameLocation> LocationCol;
     private Constantvalues.WhoCanDo PlayerTurnvalue;
     private int CurrentTurnvalue;
-    // public MakeMoveC DoMove;  // temporary while debugging undo
+    public MakeMoveC DoMove;  // temporary while debugging undo
     private PhaseMVCPattern PhasePattern;
     // public MapGeoC MapGeo; // temporary while debugging undo
     private List<Scenlisttype> ListofScenarios;
-
+    private VASL.LOS.Map.Map pgamemap;
     // constructors
     private ScenarioC(String test) {
         // called by ScenarioC.Getinstance as part of singleton pattern
@@ -47,6 +50,8 @@ public class ScenarioC extends CampaignC {
     public int getScenID() {
         return ScenIDValue;
     }
+    public String getScenname() {return ScenName;}
+    public VASL.LOS.Map.Map getGameMap() {return pgamemap;}
 
     public Constantvalues.Phase getPhase() {
         return PhaseValue;
@@ -126,18 +131,20 @@ public class ScenarioC extends CampaignC {
         return false;
     }
 
-    public boolean OpenScenario(int PassScenID) {
+    public boolean OpenScenario(String PassScenID, VASL.LOS.Map.Map Gamemap) {
         // open existing scenario
         // set scenario ID property
-        ScenIDValue = PassScenID;
+        ScenName = PassScenID;
         boolean StartScenario = true;
         String Fulltitle = "";
+        pgamemap=Gamemap;
         // retrieve scenario data
         // temporary while debugging undo
-        Scenario Scendet = Linqdata.GetScenarioData(ScenIDValue);
+        Scenario Scendet = Linqdata.GetScenarioData(ScenName);
+        ScenIDValue=Scendet.getScenNum();
         // use scenario data to set property values
-        PhaseValue =Constantvalues.Phase.PrepFire;  // temporary while debugging UNDO (Scendet.getPhase());
-        /*PlayerTurnvalue = Scendet.getPTURN();
+        PhaseValue = Scendet.getPhase();
+        PlayerTurnvalue = Scendet.getPTURN();
         // create map and graphics classes, Map table collection
         String ASLMapLink = "Scen" + getScenID();
         // need to pass string value to create terrain collection
@@ -200,7 +207,7 @@ public class ScenarioC extends CampaignC {
                 IFT.FirePhasePreparation();
                 break;
             case Movement:
-                //DoMove = new MakeMoveC();
+                DoMove = new MakeMoveC();
                 IFT = new IFTC(getScenID());
                 IFT.FirePhasePreparation();
                 break;
@@ -272,7 +279,7 @@ public class ScenarioC extends CampaignC {
         } else {
             // saving existing scenario
             // get record
-            Scenario Scendet = Linqdata.GetScenarioData(getScenID());
+            Scenario Scendet = Linqdata.GetScenarioData(getScenname());
             // update changed values -ANY OTHER VALUES NEED CHANGING - Sniper, etc?
             Scendet.setPhase(PhaseValue);
             Scendet.setPTURN(PlayerTurnvalue);
@@ -416,7 +423,7 @@ public class ScenarioC extends CampaignC {
 
     public Constantvalues.Nationality WhoseTurnIsIt() {
 
-        Scenario Scendet = Linqdata.GetScenarioData(getScenID());
+        Scenario Scendet = Linqdata.GetScenarioData(getScenname());
         if (PlayerTurnvalue == Constantvalues.WhoCanDo.Attacker) {
             return Scendet.getATT1();
         } else {
@@ -465,7 +472,7 @@ public class ScenarioC extends CampaignC {
 
     public int GetBoardtype() {
         // called by lots of Mapactions routines
-        Scenario Scendet = Linqdata.GetScenarioData(getScenID()); // retrieves scenario data
+        Scenario Scendet = Linqdata.GetScenarioData(getScenname()); // retrieves scenario data
         // use scenario data to set MapBtype
         Constantvalues.Map Maptype = Scendet.getMap();
         Scendet = null;
@@ -502,7 +509,7 @@ public class ScenarioC extends CampaignC {
         PlayerTurnvalue = PhasePattern.GetCurrentPlayerTurn();
         boolean Finishedvalue = PhasePattern.IsScenarioFinished();
         // update display
-        Scenario Scendet = Linqdata.GetScenarioData(getScenID());
+        Scenario Scendet = Linqdata.GetScenarioData(getScenname());
         // Game.Window.Title = "ASL Scenario: " + Scendet.getFULLNAME();
         Constantvalues.Nationality PhaseSide = WhoseTurnIsIt();
         String PhaseSideString = Linqdata.GetNatInfo(PhaseSide, 1);
@@ -526,7 +533,7 @@ public class ScenarioC extends CampaignC {
         int Endcheck = 0;
         String msg;
         // get record
-        Scenario Scendet = Linqdata.GetScenarioData(getScenID());
+        Scenario Scendet = Linqdata.GetScenarioData(getScenname());
         if (Scendet.getCURRENTTURN() >= 5) {
             // Endcheck = dice.Dieroll();
             switch (Scendet.getRules()) {

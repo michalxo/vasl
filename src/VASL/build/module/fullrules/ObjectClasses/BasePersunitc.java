@@ -13,7 +13,7 @@ public class BasePersunitc implements Basepersuniti {
     private String pHexname;
     private int pScenario;
     private int pHexnum;
-    private int phexlocation;
+    private Constantvalues.Location phexlocation;
     private Constantvalues.AltPos phexPosition;
     private double pLevelinHex;
     private int pLOCIndex;
@@ -45,7 +45,7 @@ public class BasePersunitc implements Basepersuniti {
     private LinkedList<PersUniti> pGuarding;
 
     // constructor
-    public BasePersunitc(String PassHexname, int PassScenario, int PassHexnum, int Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
+    public BasePersunitc(String PassHexname, int PassScenario, int PassHexnum, Constantvalues.Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
                          int PassELR, int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassFirstSWLink, int PassSecondSWlink,
                          int PassHexEntSideCrossed, int PassSolID, String PassUnitName, int PassLOBLink, Constantvalues.CombatStatus PassCombatStatus, Constantvalues.VisibilityStatus PassVisibilityStatus,
                          Constantvalues.FortitudeStatus PassFortitudeStatus, Constantvalues.OrderStatus PassOrderStatus, Constantvalues.MovementStatus PassMovementStatus, boolean PassPinned, int PassSW,
@@ -108,11 +108,11 @@ public class BasePersunitc implements Basepersuniti {
         pHexnum = value;
     }
 
-    public int gethexlocation() {
+    public Constantvalues.Location gethexlocation() {
         return phexlocation;
     }
 
-    public void sethexlocation(int value) {
+    public void sethexlocation(Constantvalues.Location value) {
         phexlocation = value;
     }
 

@@ -11,7 +11,7 @@ public class German838c  implements PersUniti {
     private FiringPersUniti myFiringPU;
     private TargetPersUniti myTargetPU;
 
-    public German838c (String PassHexname, int PassScenario, int PassHexnum, int Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
+    public German838c (String PassHexname, int PassScenario, int PassHexnum, Constantvalues.Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
         int PassELR , int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassFirstSWLink, int PassSecondSWlink,
         int PassHexEntSideCrossed, int PassSolID, String PassUnitName, int PassLOBLink, Constantvalues.CombatStatus PassCombatStatus, Constantvalues.VisibilityStatus PassVisibilityStatus,
         Constantvalues.FortitudeStatus PassFortitudeStatus, Constantvalues.OrderStatus PassOrderStatus, Constantvalues.MovementStatus PassMovementStatus, boolean PassPinned, int PassSW,
@@ -40,6 +40,9 @@ public class German838c  implements PersUniti {
     public FiringPersUniti getFiringunit() {return myFiringPU;}
     public MovingPersuniti getMovingunit() {return myMovingPU;}
     public TargetPersUniti getTargetunit() {return myTargetPU;}
+    public void setFiringunit(FiringPersUniti value) {myFiringPU = value;}
+    public void setMovingunit(MovingPersuniti value) {myMovingPU = value;}
+    public void setTargetunit(TargetPersUniti value) {myTargetPU = value;}
     // methods
 
     

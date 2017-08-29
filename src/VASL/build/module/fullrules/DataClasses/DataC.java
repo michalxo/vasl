@@ -5,7 +5,10 @@ package VASL.build.module.fullrules.DataClasses;
  */
 
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASSAL.build.GameModule;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -21,36 +24,61 @@ public class DataC {
 
     private static DataC Datainstance;
     //remmed out while debugging undo
-    /*        'Public ReadOnly ScenarioID As Integer
-    Public ReadOnly ScenarioName As String
-    Public db As ASLDataDataContext
-        'Public TempCombatTerrCol As New Collection
-    Public Unitcol As IQueryable(Of OrderofBattle)
-    Public OBSWcol As IQueryable(Of OrderofBattleSW)
-    Public VehicleCol As IQueryable(Of AFV)
-    Public ScenFeatcol As IQueryable(Of ScenarioTerrain)
-    Public Concealcol As IQueryable(Of Concealment)
-        'Public UnitsInHex As IQueryable(Of OrderofBattle)
-    Public VehiclesInhex As IQueryable(Of AFV)
-    Public Unposscol As List(Of Unpossessed)
-    Public dataTableMap As New DataTable*/
+
+    private String pScenarioName;
+    private int pScenID;
+    // public db As ASLDataDataContext
+    //    'publicTempCombatTerrCol As New Collection
+    public LinkedList<OrderofBattle> Unitcol = new LinkedList<OrderofBattle>();
+    public LinkedList<OrderofBattleSW> OBSWcol = new LinkedList<OrderofBattleSW>();
+    //public VehicleCol As IQueryable(Of AFV)
+    private LinkedList<ScenarioTerrain> pScenFeatcol = new LinkedList<ScenarioTerrain>();
+    //public Concealcol As IQueryable(Of Concealment)
+    //    'publicUnitsInHex As IQueryable(Of OrderofBattle)
+    //public VehiclesInhex As IQueryable(Of AFV)
+    //public Unposscol As List(Of Unpossessed)
+    //public dataTableMap As New DataTable
 
     // constructors
-    private DataC(String test) {
+    private DataC() {
         // called by MapTables.Getinstance as part of singleton pattern
+
+        //pScenarioName = PassScenname;
+       // pScenID = PassScenID;
+    }
+
+    public String getScenarioName() {
+        return pScenarioName;
+    }
+
+    public int getScenID() {
+        return pScenID;
+    }
+
+    public LinkedList<ScenarioTerrain> getScenFeatcol() {
+        return pScenFeatcol;
     }
 
     // Methods
     public static DataC GetInstance() {
         // called by Game.Scenario.Openscenario and NewScenario and Campaign.OpenCampaign, Campaign.SaveCampaign
         // instantiates object as singleton class - using singleton design pattern
-        // can pass Scenname as "" and ScenID as 0 when know that Datainstance already exists
+
         if (Datainstance == null) {
-            String test = "test";
-            Datainstance = new DataC(test);
+            Datainstance = new DataC();
         }
         return Datainstance;
     }
+
+    /*public static DataC GetInstance(String PassScenname, int PassScenID) {
+        // called by Game.Scenario.Openscenario and NewScenario and Campaign.OpenCampaign, Campaign.SaveCampaign
+        // instantiates object as singleton class - using singleton design pattern
+        // can pass Scenname as "" and ScenID as 0 when know that Datainstance already exists
+        if (Datainstance == null) {
+            Datainstance = new DataC(PassScenname, PassScenID);
+        }
+        return Datainstance;
+    }*/
 
     public void InitializeData() {
         // db = New ASLDataDataContext
@@ -102,7 +130,7 @@ public class DataC {
     }
 
     //remmed out while debugging undo
-    /*Public Function GetConnectionString(ByVal WhichOne As Integer) As String
+    /*publicFunction GetConnectionString(ByVal WhichOne As Integer) As String
             'called by routines in Terraindata to create connection string to use in database connection
                     'Value of WhichOne determines which database connection string is returned
     Select Case WhichOne
@@ -116,7 +144,7 @@ public class DataC {
     InputBox("Enter connection string: ", "Parameter failed in Terraindata.GetConnectionString", , , )
     End Select
     End Function
-    Public Function GetNewScenFeaturenum() As Integer
+    publicFunction GetNewScenFeaturenum() As Integer
             'called by CreateNewFeature
                     'pulls all Feature records into a temporary collection of type ScenTerrain and identifies highest value of scenter_id
                     'adds 1 to get new scenario number
@@ -135,7 +163,7 @@ public class DataC {
     Next ScenFeattest
     Return (Maxhexnum + 1)  'creates new largest for next scen value
     End Function
-    Public Function GetNewConIDnum() As Integer
+    publicFunction GetNewConIDnum() As Integer
             'called by ConcealUnitC.Conceal
                     'pulls all Concealment records into a temporary collection of type Concealment and identifies highest value of con_id
                     'adds 1 to get new conceal number
@@ -156,7 +184,7 @@ public class DataC {
     Next Contest
     Return (Maxconnum + 1)  'creates new largest for next scen value
     End Function
-    Public Function GetNewScennum() As Integer
+    publicFunction GetNewScennum() As Integer
             'called by Gameform.Scenario.SaveScenario
                     'pulls all scenario records into a temporary collection of type Scen and identifies highest value of Scen.scenario
                     'adds 1 to get new scenario number
@@ -175,7 +203,7 @@ public class DataC {
     Next Scentest
     Return (Maxhexnum + 1)  'creates new largest for next scen value
     End Function
-    Public Function GetNewUnitID() As Integer
+    publicFunction GetNewUnitID() As Integer
     Dim Unicol As IQueryable(Of OrderofBattle)
     Try
                 'gets records
@@ -192,23 +220,34 @@ public class DataC {
     Return (Maxhexnum + 1)  'creates new largest for next scen value
     End Function
 */
-    public Scenario GetScenarioData(int ScenID) {
+    public Scenario GetScenarioData(String ScenName) {
         // called by Scenario.OpenScenario - is meant to retrieve scenario record from database - via a stored procedure\function call
 
-        Scenario Sceninfo = null; // temporary while debugging undo (From QU In db.scens Where QU.ScenNum = ScenID Select QU).First
+        Scenario Sceninfo = new Scenario(ScenName); // temporary while debugging undo (From QU In db.scens Where QU.ScenNum = ScenID Select QU).First
+        pScenarioName = ScenName;
+        pScenID = Sceninfo.getScenNum();
         return Sceninfo;
     }
 
+    public Scenario GetScenarioData(int ScenID) {
+        // called by Scenario.OpenScenario - is meant to retrieve scenario record from database - via a stored procedure\function call
+
+        Scenario Sceninfo = new Scenario(pScenarioName); // temporary while debugging undo (From QU In db.scens Where QU.ScenNum = ScenID Select QU).First
+        //pScenarioName = ScenName;
+        pScenID = Sceninfo.getScenNum();
+        return Sceninfo;
+    }
     public List<Scenario> GetScenList() {
         try {
             // Dim Scenlist = From QU In db.scens Where QU.Finished = False Select QU
             return null; //Scenlist;
-        } catch (Exception ex){
+        } catch (Exception ex) {
             GameModule.getGameModule().getChatter().send("Some kind of error: Retieve Scenario List Failure");
-        return null;
+            return null;
         }
 
     }
+
     public LinkedList<OrderofBattle> RetrieveScenarioUnits(int ScenarioID) {
         // called by Unitactions.New
         // pulls all OB units for a given scenario it a collection of type OrderofBattle
@@ -230,9 +269,9 @@ public class DataC {
 
     }
 
-    private LinkedList<OrderofBattle> CreatetestOBunits(){
+    private LinkedList<OrderofBattle> CreatetestOBunits() {
         LinkedList<OrderofBattle> Testunits = new LinkedList<OrderofBattle>();
-        OrderofBattle Newunit =new OrderofBattle();
+        OrderofBattle Newunit = new OrderofBattle();
         Newunit.setOBUnit_ID(1234);
         Newunit.setCharacterStatus(Constantvalues.CharacterStatus.NONE);
         Newunit.setCombatStatus(Constantvalues.CombatStatus.None);
@@ -242,7 +281,7 @@ public class DataC {
         Newunit.setFirstSWLink(0);
         Newunit.setFortitudeStatus(Constantvalues.FortitudeStatus.Normal);
         Newunit.setHexEnteredSideCrossedLastMove(0);
-        Newunit.sethexlocation(0);
+        Newunit.sethexlocation(Constantvalues.Location.OpenGround);
         Newunit.setHexname("A3");
         Newunit.sethexnum(0);
         Newunit.setLevelinHex(0);
@@ -266,7 +305,7 @@ public class DataC {
         return Testunits;
     }
 
-    /*Public Function RetrieveScenarioVehicles(ByVal ScenarioID As Integer) As IQueryable(Of AFV)
+    /*publicFunction RetrieveScenarioVehicles(ByVal ScenarioID As Integer) As IQueryable(Of AFV)
             'called by Vehicleactions.New
             'pulls all OB vehicles for a given scenario it a collection of type AFV
     Try
@@ -279,7 +318,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function RetrieveConcealment(ByVal ScenarioID As Integer) As IQueryable(Of Concealment)
+    publicFunction RetrieveConcealment(ByVal ScenarioID As Integer) As IQueryable(Of Concealment)
             'called by ConcealActions.New
             'pulls all Concealment for a given scenario it a collection of type Concealment
     Try
@@ -292,7 +331,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function RetrieveConcealedUnits(ByVal ConID As Integer) As IQueryable(Of OrderofBattle)
+    publicFunction RetrieveConcealedUnits(ByVal ConID As Integer) As IQueryable(Of OrderofBattle)
             'called by movementvalidation
             'pulls all Concealed units associated with a specific Concealment counter
     Try
@@ -305,7 +344,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function RetrieveScenarioOBSW(ByVal ScenarioID As Integer) As IQueryable(Of OrderofBattleSW)
+    publicFunction RetrieveScenarioOBSW(ByVal ScenarioID As Integer) As IQueryable(Of OrderofBattleSW)
             'called by SWactions.New
             'pulls all OB SW for a given scenario it a collection of type OrderofBattleSW
     Try
@@ -318,7 +357,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function RetrieveUnpossessed() As IQueryable(Of Unpossessed)
+    publicFunction RetrieveUnpossessed() As IQueryable(Of Unpossessed)
             'called by Unpossactions.New
             'pulls all unpossessed SW into a collection of type Unpossessed
     Try
@@ -330,7 +369,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function GetUnitsInHex(ByVal hexnum As Integer, ByVal ScenarioID As Integer) As IQueryable(Of OrderofBattle)
+    publicFunction GetUnitsInHex(ByVal hexnum As Integer, ByVal ScenarioID As Integer) As IQueryable(Of OrderofBattle)
             'called by UnitActions.DetermineWhoIsOnTop
             'puts all units in hex chosen into a collection
     Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance(ScenarioName, ScenarioID)
@@ -349,7 +388,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function GetSWinhex(ByVal hexnum As Integer) As IQueryable(Of OrderofBattleSW)
+    publicFunction GetSWinhex(ByVal hexnum As Integer) As IQueryable(Of OrderofBattleSW)
             'called by VisibleOccupiedhexes.GetAllspritesinhex
             'pulls all unpossessed SW in a hex into a collection of type Unpossessed
     Try
@@ -360,7 +399,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function GetConcealedInLocation(ByVal LOcIndex As Integer) As IQueryable(Of Concealment)
+    publicFunction GetConcealedInLocation(ByVal LOcIndex As Integer) As IQueryable(Of Concealment)
             'called by
             'puts all units in a location chosen into a collection
     Try
@@ -371,7 +410,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function GetConInhex(ByVal hexnum As Integer) As IQueryable(Of Concealment)
+    publicFunction GetConInhex(ByVal hexnum As Integer) As IQueryable(Of Concealment)
             'called by
             'puts all units in a location chosen into a collection
     Try
@@ -382,7 +421,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function GetUnitsInLocation(ByVal LOcIndex As Integer) As IQueryable(Of OrderofBattle)
+    publicFunction GetUnitsInLocation(ByVal LOcIndex As Integer) As IQueryable(Of OrderofBattle)
             'called by
             'puts all units in a location chosen into a collection
     Try
@@ -393,7 +432,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function GetVehiclesInHex(ByVal hexnum As Integer) As IQueryable(Of AFV)
+    publicFunction GetVehiclesInHex(ByVal hexnum As Integer) As IQueryable(Of AFV)
             'called by VehicleActions.DetermineWhoIsOnTop
             'puts all vehicles in hex chosen into a collection
     Try
@@ -406,109 +445,108 @@ public class DataC {
     Return Nothing
     End Try
     End Function
-    Public Function GetUnitfromCol(ByVal IDtopass As Integer) As OrderofBattle
-            'called by Gamecontrol.determineclickpossibilities and Gameform.pbGameMap_MouseMove
-                    'add Gameform.DetermineWhoIsOnTop
-                    'returns specific unit
+    */
+    public OrderofBattle GetUnitfromCol(int IDtopass) {
+        // called by Gamecontrol.determineclickpossibilities and Gameform.pbGameMap_MouseMove
+        // add Gameform.DetermineWhoIsOnTop
+        // returns specific unit
 
-                    'error checking
-    If IDtopass = 0 Then
-                'ContextShowing = True
-    Dim InputStr As String = InputBox("UnitID must be > 1. Use -1 to Quit. Enter valid UnitID: ", "UnitID is zero")
-                'ContextShowing = False
-    If CInt(InputStr) = -1 Then Return Nothing
-            IDtopass = CInt(InputStr)
-    End If
-            'query
-    Dim getunit As OrderofBattle = (From QU In Unitcol _
-    Where QU.OBUnit_ID = IDtopass Select QU).First
-    Return getunit
-    End Function
-    Public Function GetVehiclefromCol(ByVal IDtopass As Integer) As AFV
-            'called by ContextBuilder.MenuFilter
-                    'returns specific vehilce
+        // error checking
+        if (IDtopass == 0) {
+            return null;
+        }
+        // query
+        OrderofBattle getunit = null; // (From QU In Unitcol Where QU.OBUnit_ID = IDtopass Select QU).First;
+        return getunit;
+    }
 
-                    'error checking
-    If IDtopass = 0 Then
-                'contextshowing = True
-    Dim InputStr As String = InputBox("Vehicle ID must be > 1. Use -1 to Quit. Enter valid Vehicle ID: ", "VehicleID is zero")
-                'contextshowing = False
-    If CInt(InputStr) = -1 Then Return Nothing
-            IDtopass = CInt(InputStr)
-    End If
-            'query
-    Dim getveh As AFV = (From QU In VehicleCol Where QU.AFVID = IDtopass Select QU).First
-            'MsgBox("you have chosen " & getveh.AFVName)
-    Return getveh
-    End Function
-    Public Function GetFeaturefromCol(ByVal IDtopass As Integer) As ScenarioTerrain
-            'called by SearchAHex.PutHiddenOnBoard
-                    'returns specific scenario terrain feature
+    /*
+        publicFunction GetVehiclefromCol(ByVal IDtopass As Integer) As AFV
+                'called by ContextBuilder.MenuFilter
+                        'returns specific vehilce
 
-                    'error checking
-    If IDtopass = 0 Then
-                'contextshowing = True
-    Dim InputStr As String = InputBox("Feature ID must be > 1. Use -1 to Quit. Enter valid Feature ID: ", "ScenTerr is zero")
-                'contextshowing = False
-    If CInt(InputStr) = -1 Then Return Nothing
-            IDtopass = CInt(InputStr)
-    End If
-            'query
-    Dim getfeat As ScenarioTerrain = (From QU In ScenFeatcol Where QU.Scenter_id = IDtopass Select QU).First
-            'MsgBox("you have chosen " & getveh.AFVName)
-    Return getfeat
-    End Function
-    Public Function GetScenTerrInHex(ByVal hexname As String) As IQueryable(Of ScenarioTerrain)
-            'called by TerrainActions.DetermineWhichIsOnTop
-            'puts all scenario terrain in hex chosen into a collection
-    hexname = Trim(hexname)
-    Try
-    Dim ScenTerHexcol As IQueryable(Of ScenarioTerrain) = From QU In ScenFeatcol _
-    Where QU.Hexname = hexname _
-    Select QU
-    Return ScenTerHexcol
-    Catch ex As Exception
-    MsgBox("Some kind of error " & hexname, , "GetScenTerrInHex Failure")
-    Return Nothing
-    End Try
-    End Function
-    Public Function GetConcealmentfromCol(ByVal IDtopass As Integer) As Concealment
-            'called by
-                    'returns specific concealment
+                        'error checking
+        If IDtopass = 0 Then
+                    'contextshowing = True
+        Dim InputStr As String = InputBox("Vehicle ID must be > 1. Use -1 to Quit. Enter valid Vehicle ID: ", "VehicleID is zero")
+                    'contextshowing = False
+        If CInt(InputStr) = -1 Then Return Nothing
+                IDtopass = CInt(InputStr)
+        End If
+                'query
+        Dim getveh As AFV = (From QU In VehicleCol Where QU.AFVID = IDtopass Select QU).First
+                'MsgBox("you have chosen " & getveh.AFVName)
+        Return getveh
+        End Function
+        publicFunction GetFeaturefromCol(ByVal IDtopass As Integer) As ScenarioTerrain
+                'called by SearchAHex.PutHiddenOnBoard
+                        'returns specific scenario terrain feature
 
-                    'error checking
-    If IDtopass = 0 Then
-                'contextshowing = True
-    Dim InputStr As String = InputBox("ConcealmentID must be > 1. Use -1 to Quit. Enter valid ConcealmentID: ", "UnitID is zero")
-                'contextshowing = False
-    If CInt(InputStr) = -1 Then Return Nothing
-            IDtopass = CInt(InputStr)
-    End If
-            'query
-    Dim getconceal As Concealment = (From QU In Concealcol _
-    Where QU.Con_ID = IDtopass Select QU).First
-    Return getconceal
-    End Function
-    Public Function RemoveConFromCol(ByVal idtopass As Integer) As Boolean
-            'called by StatusChange.ElimConcealC.Takeaction
-                    'eliminates specific concealment item in collection
+                        'error checking
+        If IDtopass = 0 Then
+                    'contextshowing = True
+        Dim InputStr As String = InputBox("Feature ID must be > 1. Use -1 to Quit. Enter valid Feature ID: ", "ScenTerr is zero")
+                    'contextshowing = False
+        If CInt(InputStr) = -1 Then Return Nothing
+                IDtopass = CInt(InputStr)
+        End If
+                'query
+        Dim getfeat As ScenarioTerrain = (From QU In ScenFeatcol Where QU.Scenter_id = IDtopass Select QU).First
+                'MsgBox("you have chosen " & getveh.AFVName)
+        Return getfeat
+        End Function
+        publicFunction GetScenTerrInHex(ByVal hexname As String) As IQueryable(Of ScenarioTerrain)
+                'called by TerrainActions.DetermineWhichIsOnTop
+                'puts all scenario terrain in hex chosen into a collection
+        hexname = Trim(hexname)
+        Try
+        Dim ScenTerHexcol As IQueryable(Of ScenarioTerrain) = From QU In ScenFeatcol _
+        Where QU.Hexname = hexname _
+        Select QU
+        Return ScenTerHexcol
+        Catch ex As Exception
+        MsgBox("Some kind of error " & hexname, , "GetScenTerrInHex Failure")
+        Return Nothing
+        End Try
+        End Function
+        publicFunction GetConcealmentfromCol(ByVal IDtopass As Integer) As Concealment
+                'called by
+                        'returns specific concealment
 
-                    'error checking
-    If idtopass = 0 Then
-    Dim InputStr As String = InputBox("ConcealmentID must be > 1. Use -1 to Quit. Enter valid ConcealmentID: ", "UnitID is zero")
-    If CInt(InputStr) = -1 Then Return Nothing
-            idtopass = CInt(InputStr)
-    End If
-            ' delete query
-    Dim RemoveCon = (From Qu In db.Concealments Where Qu.Con_ID = idtopass Select Qu).First
-    Dim ScenarioID As Integer = RemoveCon.Scenario
+                        'error checking
+        If IDtopass = 0 Then
+                    'contextshowing = True
+        Dim InputStr As String = InputBox("ConcealmentID must be > 1. Use -1 to Quit. Enter valid ConcealmentID: ", "UnitID is zero")
+                    'contextshowing = False
+        If CInt(InputStr) = -1 Then Return Nothing
+                IDtopass = CInt(InputStr)
+        End If
+                'query
+        Dim getconceal As Concealment = (From QU In Concealcol _
+        Where QU.Con_ID = IDtopass Select QU).First
+        Return getconceal
+        End Function
+        */
+    public boolean RemoveConFromCol(int ConToRemove) {
+        // called by StatusChange.ElimConcealC.Takeaction
+        // eliminates specific concealment item in collection
+
+        // error checking
+        if (ConToRemove == 0) {
+            GameModule.getGameModule().getChatter().send("ConcealmentID must be > 1. No unit found: UnitID is zero");
+            return false;
+        }
+        // delete query
+        // temporary while debugging UNDO
+        /*Dim RemoveCon = (From Qu In db.Concealments Where  Qu.Con_ID = idtopass Select Qu).First
+        Dim ScenarioID As Integer = RemoveCon.Scenario
             db.Concealments.DeleteOnSubmit(RemoveCon)
             db.SubmitChanges()
             'redo the collection
-    Concealcol = RetrieveConcealment(ScenarioID)
-            'Concealcol = Concealcol.Where(Function(FindCol) FindCol.Con_ID <> idtopass)
-    Return True
-    End Function*/
+        Concealcol = RetrieveConcealment(ScenarioID)
+            'Concealcol = Concealcol.Where(Function(FindCol) FindCol.Con_ID <> idtopass)*/
+        return true;
+    }
 
     public String GetNatInfo(Constantvalues.Nationality Playerside, int InfoToGet) {
         // called by Gameform.setphaseenvironment
@@ -526,11 +564,11 @@ public class DataC {
         Case Else
         Return Nothing
         End Select*/
-                return "German";
+        return "German";
     }
 
-            /*
-    Public Function GetPhasename(ByVal Currentphase As Integer) As String
+           /*
+    publicFunction GetPhasename(ByVal Currentphase As Integer) As String
             'called by Gameform.setphaseenvironment
                     'uses database lookup table to get side name
     Dim getname As LookUpPhase = (From QU In db.LookUpPhases _
@@ -538,7 +576,7 @@ public class DataC {
     Dim phasestring As String = getname.PhaseString
     Return phasestring
     End Function
-    Public Function GetContextItems(ByVal CurrentPhase As Integer, ByVal WhatwasClicked As Integer, ByVal attordef As Integer, ByVal TypeClicked As Integer) As List(Of Objectholder)
+    publicFunction GetContextItems(ByVal CurrentPhase As Integer, ByVal WhatwasClicked As Integer, ByVal attordef As Integer, ByVal TypeClicked As Integer) As List(Of Objectholder)
             'Called by Contextbuilder.new
             'queries the database base using Dynamic Linq Query for Linq to SQL to search
             'phase and unittype specific criteria
@@ -560,7 +598,7 @@ public class DataC {
     Next
     Return ContextItems
     End Function
-    Public Function GetSelectionTypeName(ByVal WhatClicked As Integer, ByVal TypeClicked As Integer) As String
+    publicFunction GetSelectionTypeName(ByVal WhatClicked As Integer, ByVal TypeClicked As Integer) As String
             'this takes an enum value and provide the appropriate name as a string - used in ContextMenu generation to determine which db col to query
                     'called by Linqdata.GetContextItems
     Select Case WhatClicked
@@ -589,14 +627,15 @@ public class DataC {
 
     public boolean WriteScenarioData(Scenario scendat) {
         // return if (db.TryToUpdateScendata(scendat),True, False)
-            return false;
+        return false;
     }
+
     public int GetUnpossessedHex(int EquipID, int EquipType) {
         // called by OBSW.Ownerhex
         // gets number of hex in which unpossessed SW or Gun is located
 
-    int  Hexnumber = 0;
-    // tempoarary while debugging undo
+        int Hexnumber = 0;
+        // tempoarary while debugging undo
     /*        'query
     Try
             Hexnumber = (From
@@ -611,8 +650,9 @@ public class DataC {
     As Exception
     Hexnumber =0
     End Try*/
-    return Hexnumber;
-}
+        return Hexnumber;
+    }
+
     public String GetLOBData(Constantvalues.LOBItem PassLOBItem, int PassLobID) {
         // called by IFT.GetUnitRangeFPAssF, FireUnit.new, TargUnit.New, OBSW.CanStillUseInherentFP
         // is meant to retrieve specific item from LOB table in database
@@ -673,48 +713,103 @@ public class DataC {
                     LOBInfo = "0";
                 }
                 break;*/
-            default: LOBInfo=null;
+            default:
+                LOBInfo = null;
         }
 
         return LOBInfo;
     }
-    //remmed out while debugging undo
-    /*Public Function GetLOBRecord(ByVal lobitem As Integer) As DataClassLibrary.LineofBattle
-            Try
-    Return (From qu In db.LineofBattles Where qu.OBLink = lobitem Select qu).First
-            Catch
-    Return Nothing
-    End Try
-    End Function
-    Public Function GetLOBSWRecord(ByVal lobitem As Integer) As DataClassLibrary.SupportWeapon
-            Try
-    Return (From qu In db.SupportWeapons Where qu.WeaponType = lobitem Select qu).First
-            Catch
-    Return Nothing
-    End Try
-    End Function
-    Public Function GetLOBVehData(ByVal LOBitem As Integer, ByVal LobID As Integer) As String
-            'called by ManageTexture.GetTexture
-                    'is meant to retrieve specific item from AFVDefault table in database
-                    'LobItem identifies which field to retrieve; LobID identifies which row to use
-    Dim LOBInfo As String = ""
+
+    public LineofBattle GetLOBRecord(int lobitem) {
+
+        // temporary while debugging UNDO
+        /*Try
+
+        Return(From qu In db.LineofBattles Where qu.OBLink = lobitem Select qu).
+                First
+        Catch
+        Return Nothing
+        End Try
+        */
+        LineofBattle Newunit = new LineofBattle();
+        Newunit.setAssaultFire(false);
+        Newunit.setBPV(0);
+        Newunit.setBrokenML(7);
+        Newunit.setELR5(false);
+        Newunit.setFirePower(4);
+        Newunit.setHardensTo(0);
+        Newunit.setHardTo("468");
+        Newunit.setLOBName("467");
+        Newunit.setMoraleLevel(7);
+        Newunit.setNationality(Constantvalues.Nationality.Germans);
+        Newunit.setOBLink(5);
+        Newunit.setRange(6);
+        Newunit.setRedTo("247");
+        Newunit.setReducesTo(0);
+        Newunit.setSelfRally(false);
+        Newunit.setSmoke(1);
+        Newunit.setSprayFire(false);
+        Newunit.setSubstitutesTo(0);
+        Newunit.setSubTo("447");
+        Newunit.setUClass(1);
+        Newunit.setUnitType(Constantvalues.Utype.Squad);
+
+        return Newunit;
+
+    }
+
+
+    public SupportWeapon GetLOBSWRecord(int lobitem) {
+        /*Try
+
+        Return(From qu In db.SupportWeapons Where qu.WeaponType = lobitem Select qu).
+                First
+        Catch
+        Return Nothing
+        End Try*/
+
+        SupportWeapon Newweapon = new SupportWeapon();
+        /*Newweapon.setASSAULTFIRE();
+        Newweapon.setBREAKDOWN();
+        Newweapon.getDismantledPP();
+        Newweapon.setFIREPOWER();
+        Newweapon.setID();
+        Newweapon.setMALFUNCTION();
+        Newweapon.setNationality();
+        Newweapon.setPORTAGECOST();
+        Newweapon.setRANGE();
+        Newweapon.setREPAIR();
+        Newweapon.setROF();
+        Newweapon.setSPRAYINGFIRE();
+        Newweapon.setWeaponName();
+        Newweapon.setWeaponType();*/
+
+        return Newweapon;
+
+    }
+
+    public String GetLOBVehData(int LOBitem, int LobID) {
+        // called by ManageTexture.GetTexture
+        // is meant to retrieve specific item from AFVDefault table in database
+        // LobItem identifies which field to retrieve; LobID identifies which row to use
+        /*Dim LOBInfo As String = ""
             'query
-    Select Case LOBitem
-    Case ConstantClassLibrary.ASLXNA.LOBVeh.VehType
-            LOBInfo = (From QU In db.AFVDefaults Where QU.AFVDefaultsID = LobID _
-    Select QU.Type).First
-    Case ConstantClassLibrary.ASLXNA.LOBVeh.Image
-            LOBInfo = (From QU In db.AFVDefaults Where QU.AFVDefaultsID = LobID _
-    Select QU.Image).First
-    Case (ConstantClassLibrary.ASLXNA.LOBVeh.PP)
-    LOBInfo = ((From QU In db.AFVDefaults Where QU.AFVDefaultsID = LobID _
-    Select QU.PP).First).ToString
-    Case Else
-    LOBInfo = ""
-    End Select
-    Return LOBInfo
-    End Function
-    Public Function IsUnitAPassOrRider(ByVal UnitID As Integer, ByVal TypeTest As Integer) As Boolean
+        Select Case
+        LOBitem
+        Case ConstantClassLibrary.ASLXNA.LOBVeh.VehType
+            LOBInfo = (From QU In db.AFVDefaults Where QU.AFVDefaultsID = LobID Select QU.Type).First
+        Case ConstantClassLibrary.ASLXNA.LOBVeh.Image
+            LOBInfo = (From QU In db.AFVDefaults Where QU.AFVDefaultsID = LobID Select QU.Image).First
+        Case(ConstantClassLibrary.ASLXNA.LOBVeh.PP)
+            LOBInfo =((From QU In db.AFVDefaults Where QU.AFVDefaultsID = LobID  Select QU.PP).First).ToString
+        Case Else
+                LOBInfo =""
+        End Select
+        Return LOBInfo*/
+        return null;
+    }
+    //remmed out while debugging undo
+    /*publicFunction IsUnitAPassOrRider(ByVal UnitID As Integer, ByVal TypeTest As Integer) As Boolean
             'called by MovementC.Statusprevents
                     'error checking
     If UnitID = 0 Then
@@ -733,10 +828,10 @@ public class DataC {
     Return False  'no match found
     End Try
     End Function
-    Public Function RetrievePassRider(ByVal PRID As Integer, ByVal AFVID As Integer, ByVal TypeTest As Integer) As PassRider
+    publicFunction RetrievePassRider(ByVal PRID As Integer, ByVal AFVID As Integer, ByVal TypeTest As Integer) As PassRider
     Return (From QU In db.PassRiders Where QU.PRID = PRID And QU.PRType = TypeTest And QU.VehicleID = AFVID Select QU).First
     End Function
-    Public Function GetTypeOfThing(ByVal SpecificType As Integer) As Integer
+    publicFunction GetTypeOfThing(ByVal SpecificType As Integer) As Integer
     Select Case SpecificType
     Case 1 To 1999
     Return ConstantClassLibrary.ASLXNA.Typetype.Personnel
@@ -756,7 +851,7 @@ public class DataC {
     Return 0
     End Select
     End Function
-    Public Function IsThingATypeOf(ByVal TypetoTest As Integer, ByVal ItemtoTest As Integer) As Boolean
+    publicFunction IsThingATypeOf(ByVal TypetoTest As Integer, ByVal ItemtoTest As Integer) As Boolean
     Select Case TypetoTest
     Case ConstantClassLibrary.ASLXNA.Typetype.Personnel
     If ItemtoTest > 0 And ItemtoTest < 2000 Then Return True
@@ -783,48 +878,51 @@ public class DataC {
     End Select
     Return False
     End Function
-    Public Function GetIFTResult(ByVal FPCol As String, ByVal FDR As Integer) As Integer
 
-    If FDR < 0 Then FDR = 0
-            'FDR = 6
-    Select Case CInt(FPCol)
-    Case 1
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._1).First
-    Case 2
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._2).First
-    Case 4
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._4).First
-    Case 6
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._6).First
-    Case 8
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._8).First
-    Case 12
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._12).First
-    Case 16
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._16).First
-    Case 20
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._20).First
-    Case 24
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._24).First
-    Case 30
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._30).First
-    Case 36
-    Return (From QU In db.LookUpIFTs Where QU.FDR = FDR _
-            Select QU._36).First
-    Case Else
-    Return ConstantClassLibrary.ASLXNA.IFTResult.NR
-    End Select
-    End Function*/
+    */
+    public Constantvalues.IFTResult GetIFTResult(int FPCol, int FDR) {
+
+        /*If FDR <0 Then FDR = 0
+        'FDR = 6
+        Select Case CInt(FPCol)
+        Case 1
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._1).First
+        Case 2
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._2).First
+        Case 4
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._4).First
+        Case 6
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._6).First
+        Case 8
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._8).First
+        Case 12
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._12).First
+        Case 16
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._16).First
+        Case 20
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._20).First
+        Case 24
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._24).First
+        Case 30
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._30).First
+        Case 36
+        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
+                Select QU._36).First
+        Case Else
+        Return ConstantClassLibrary.ASLXNA.IFTResult.NR
+        End Select*/
+        return Constantvalues.IFTResult.NR;
+    }
 
 
     public Object GetLOBSWData(Constantvalues.LOBItem SWLOBitem, int SWLOBID) {
@@ -858,7 +956,7 @@ public class DataC {
         return SWLOBInfo;
     }
     //remmed out while debugging undo
-    /*Public Function GetOBSWData(ByVal SWOBitem As Integer, ByVal SWOBID As Integer) As String
+    /*publicFunction GetOBSWData(ByVal SWOBitem As Integer, ByVal SWOBID As Integer) As String
             'called by  - is meant to retrieve specific item from
                     'OBSW table in database
                     'SWOBItem is the field to be retrieved, SWOBID is the weapon identifier
@@ -881,24 +979,28 @@ public class DataC {
     End Select
     Return SWOBInfo
     End Function
-    Public Function GetOBSWRecord(ByVal OBSWname As String) As OrderofBattleSW
-            'called by IFT.AddtoFireGroupandTargetGroup
-                    'is meant to retrieve record of firing SW from database
-                    'query
-    Dim OBSWInfo As OrderofBattleSW = (From QU In OBSWcol Where QU.OBWeapon = OBSWname _
-    Select QU).First
-    Return OBSWInfo
-    End Function
-    Public Function GetOBSWRecord(ByVal OBSWID As Integer) As OrderofBattleSW
-            'called by IFT.AddtoFireGroupandTargetGroup
-                    'is meant to retrieve record of firing SW from database
-                    'query
-    Dim OBSWInfo As OrderofBattleSW = (From QU In OBSWcol Where QU.OBSW_ID = OBSWID _
-    Select QU).First
-            'MsgBox("you have chosen " & Sceninfo.FULLNAME)
-    Return OBSWInfo
-    End Function
-        'Public Function GetTerrainData(ByVal Territem As Integer, ByVal TerrID As Integer) As String
+    */
+    public OrderofBattleSW GetOBSWRecord(String OBSWname) {
+        // called by IFT.AddtoFireGroupandTargetGroup
+        // is meant to retrieve record of firing SW from database
+
+        // query
+        OrderofBattleSW OBSWInfo  = null; //(From QU In OBSWcol Where QU.OBWeapon = OBSWname Select QU).First;
+        return OBSWInfo;
+    }
+
+
+    public OrderofBattleSW GetOBSWRecord(int OBSWID) {
+        // 'called by IFT.AddtoFireGroupandTargetGroup
+        // is meant to retrieve record of firing SW from database
+
+        // query
+        OrderofBattleSW OBSWInfo  = null; //(From QU In OBSWcol Where QU.OBSW_ID = OBSWID Select QU).First;
+        return OBSWInfo;
+    }
+
+            /*
+        'publicFunction GetTerrainData(ByVal Territem As Integer, ByVal TerrID As Integer) As String
                 '    'called by Linqdata.addtocollection - is meant to retrieve specific item from
         '    'Terrain table in database
         '    'TerrID is type of terrain - which record to look at
@@ -935,7 +1037,7 @@ public class DataC {
                 '    End Select
                 '    Return TerrInfo
                 'End Function
-                'Public Function GetLocationsData(ByVal hexnumber As Integer) As IQueryable(Of Location)
+                'publicFunction GetLocationsData(ByVal hexnumber As Integer) As IQueryable(Of Location)
                 '    'called by TerrainActions.GetLocationsInHex
         '    'pulls locations from the database table
 
@@ -949,7 +1051,7 @@ public class DataC {
                 '    Return LocationsFound
                 'End Function
                 'THIS SHOULD NOW BE HANDLED BY MapDataClass April 13
-                'Public Function GetHexSideData(ByVal Sideitem As Integer, ByVal SideID As Integer) As String
+                'publicFunction GetHexSideData(ByVal Sideitem As Integer, ByVal SideID As Integer) As String
                 '    'called by Mapactions.DoesHexsideBlockLOS and
         '    'IFT.CalcFP - is meant to retrieve specific item from hexside table in database
         '    'SideID holds type of hexside - which record to retrieve
@@ -973,7 +1075,7 @@ public class DataC {
                 '    End Select
                 '    Return SideInfo
                 'End Function
-    Public Function GetScenFeatDatafromDB(ByVal ScenarioID As Integer) As System.Linq.IQueryable(Of ScenarioTerrain)
+    publicFunction GetScenFeatDatafromDB(ByVal ScenarioID As Integer) As System.Linq.IQueryable(Of ScenarioTerrain)
             'called by TerrainActions.CreateScenFeatureCol
             'returns Scenario Terrain features in the parameter scenario
 
@@ -989,7 +1091,7 @@ public class DataC {
     End Try
     End Function
         'MOVED TO LOSCLASSLIBRARY.THREADEDLOSCHECK
-                'Public Function MistDustmodifier(ByVal range As Integer, ByRef MistIsLOSH As Boolean, ByRef DustLOSh As Integer, ByVal MistDust As Integer) As Integer
+                'publicFunction MistDustmodifier(ByVal range As Integer, ByRef MistIsLOSH As Boolean, ByRef DustLOSh As Integer, ByVal MistDust As Integer) As Integer
                 '    'called  by IFT.Combatdrm
         '    'return mist modifier based on range, -1 is returned if mistdrm =6 and LOS is blocked
         '    'return dust modifier based on range, dust LV never blocks LOS
@@ -1045,7 +1147,7 @@ public class DataC {
                 '    'End With
 
         'End Function
-    Public Function RedoUnitCol(ByVal ScenID As Integer) As Boolean
+    publicFunction RedoUnitCol(ByVal ScenID As Integer) As Boolean
     Unitcol = RetrieveScenarioUnits(ScenID)
     If Unitcol.Count = 0 Then
     MsgBox("No scenario units found. Exiting")
@@ -1054,7 +1156,7 @@ public class DataC {
     Return True
     End Function
 
-    Public Function CreateNewDBrecord(ByVal ScenarioNum As Integer, ByVal BoardNumber As Integer) As Boolean
+    publicFunction CreateNewDBrecord(ByVal ScenarioNum As Integer, ByVal BoardNumber As Integer) As Boolean
             'Called by Scenario.SaveScenario
                     'this needs to be broadened out from Scenario
                     'to any db table - can it be?
@@ -1083,7 +1185,7 @@ public class DataC {
     Return False
     End Try
     End Function
-    Public Function CreateNewUnitinDB(ByVal PassCharacterStatus As Integer, ByVal PassCombatStatus As Integer, ByVal PassConID As Integer, ByVal PassCX As Boolean, ByVal PassELR As Integer, ByVal PassFirstSWLink As Integer, ByVal PassFortitudeStatus As Integer,
+    publicFunction CreateNewUnitinDB(ByVal PassCharacterStatus As Integer, ByVal PassCombatStatus As Integer, ByVal PassConID As Integer, ByVal PassCX As Boolean, ByVal PassELR As Integer, ByVal PassFirstSWLink As Integer, ByVal PassFortitudeStatus As Integer,
                                       ByVal PassHexEnteredSideCrossedLastMove As Integer, ByVal PassHexlocation As Integer, ByVal Passhexname As String, ByVal Passhexnum As Integer, ByVal PassLevelInHex As Integer, ByVal PassLobLink As Integer,
                                       ByVal PassLocIndex As Integer, ByVal PassMovementStatus As Integer, ByVal Passnationality As Integer, ByVal PassOBname As String, ByVal PassOrderStatus As Integer, ByVal Passpinned As Boolean, ByVal Passhexposition As Integer,
                                       ByVal PassRoleStatus As Integer, ByVal PassScenario As Integer, ByVal passsecondswlink As Integer, ByVal PassSW As Integer, ByVal PassTurnArrives As Integer, ByVal PassVisibilityStatus As Integer) As OrderofBattle
@@ -1128,7 +1230,7 @@ public class DataC {
     End Try
 
     End Function
-    Public Function CreateNewConinDB(ByVal PassCX As Boolean, ByVal PassFortitudeStatus As Integer,
+    publicFunction CreateNewConinDB(ByVal PassCX As Boolean, ByVal PassFortitudeStatus As Integer,
                                      ByVal PassHexEnteredSideCrossedLastMove As Integer, ByVal PassHexlocation As Integer, ByVal Passhexname As String, ByVal Passhexnum As Integer, ByVal PassLevelInHex As Integer,
                                      ByVal PassLocIndex As Integer, ByVal PassMovementStatus As Integer, ByVal Passnationality As Integer, ByVal PassOBname As String, ByVal Passhexposition As Integer,
                                      ByVal PassScenario As Integer) As Concealment
@@ -1172,7 +1274,7 @@ public class DataC {
     End Try
 
     End Function
-    Public Function Gethexsidetype(ByVal hexside As Integer, ByVal hexnumber As Integer) As Integer
+    publicFunction Gethexsidetype(ByVal hexside As Integer, ByVal hexnumber As Integer) As Integer
 
     Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)
     Dim LocationCol As IQueryable(Of MapDataClassLibrary.GameLocation) = Maptables.LocationCol
@@ -1198,7 +1300,7 @@ public class DataC {
     End Select
     End With
     End Function
-    Public Function QuickUpdate() As Boolean
+    publicFunction QuickUpdate() As Boolean
     Try
                 'table must have primary key otherwise readonly and submit changes will not work
                         db.SubmitChanges()
@@ -1207,7 +1309,7 @@ public class DataC {
     Return False
     End Try
     End Function
-    Public Function UpdateAfterMove() As Boolean    '  ByVal movementoptionclicked As Integer, ByVal SelectedList As System.Collections.Generic.List(Of MovingObjecttypeinterface)) As Boolean
+    publicFunction UpdateAfterMove() As Boolean    '  ByVal movementoptionclicked As Integer, ByVal SelectedList As System.Collections.Generic.List(Of MovingObjecttypeinterface)) As Boolean
             'called by all .MoveUpdate functions except in Clearance and PlaceDC classes which use an overload
             'Dim UnitMoved As OrderofBattle
             'Dim OBSWitem As OrderofBattleSW
@@ -1318,7 +1420,7 @@ public class DataC {
     Return False
     End Try
     End Function
-        'Public Function UpdateAfterMoveClDC(ByVal movementoptionclicked As Integer, ByVal SelectedList As System.Collections.Generic.List(Of MovingObjecttypeinterface)) As Boolean
+        'publicFunction UpdateAfterMoveClDC(ByVal movementoptionclicked As Integer, ByVal SelectedList As System.Collections.Generic.List(Of MovingObjecttypeinterface)) As Boolean
                 '    'called by Clearance.moveupdate and PlaceDC.moveupdate - overloads
         '    Dim UnitMoved As OrderofBattle : Dim OBSWitem As OrderofBattleSW
                 '    For Each MovingUnit As MovingObjecttypeinterface In SelectedList
@@ -1377,7 +1479,7 @@ public class DataC {
                 '        Return False
                 '    End Try
                 'End Function
-    Public Function UpdateVehicleAfterMove(ByVal Vehloading As AFV) As Boolean
+    publicFunction UpdateVehicleAfterMove(ByVal Vehloading As AFV) As Boolean
             MessageBox.Show(Vehloading.AFVName & " is using " & Vehloading.PPUsing.ToString)
             'UnitMoved = GetUnitfromCol(MovingUnit.ItemID)
     Try
@@ -1388,7 +1490,7 @@ public class DataC {
     Return False
     End Try
     End Function
-    Public Function UpdateFeatureAfterMove(ByVal Featloading As ScenarioTerrain) As Boolean
+    publicFunction UpdateFeatureAfterMove(ByVal Featloading As ScenarioTerrain) As Boolean
     Try
                 'table must have primary key otherwise readonly and submit changes will not work
                         db.SubmitChanges()
@@ -1397,7 +1499,7 @@ public class DataC {
     Return False
     End Try
     End Function
-    Public Function CreateNewPassRiders(ByVal Passlist As List(Of PassRider)) As Boolean
+    publicFunction CreateNewPassRiders(ByVal Passlist As List(Of PassRider)) As Boolean
     For Each NewPR As PassRider In Passlist
                 db.PassRiders.InsertOnSubmit(NewPR)
     Next
@@ -1409,7 +1511,7 @@ public class DataC {
                 MessageBox.Show("Somehow this failed")
     End Try
     End Function
-    Public Function DeletePassRiders(ByVal Vehloading As AFV, ByVal Passlist As List(Of PassRider)) As Boolean
+    publicFunction DeletePassRiders(ByVal Vehloading As AFV, ByVal Passlist As List(Of PassRider)) As Boolean
     For Each NewPR As PassRider In Passlist
     Dim UnitToDel As Integer = NewPR.PRID
     Dim DelPassRider As PassRider = (From QU In db.PassRiders _
@@ -1425,7 +1527,7 @@ public class DataC {
                 MessageBox.Show("Somehow this failed")
     End Try
     End Function
-    Public Function DeleteUnpossessed(ByVal SWtoDel As Integer) As Boolean
+    publicFunction DeleteUnpossessed(ByVal SWtoDel As Integer) As Boolean
             'called by RecoveringSW.RecoverIt
                     'deletes unpossessed SW which has been recovered
 
@@ -1443,7 +1545,7 @@ public class DataC {
     Unposscol = Nothing
             Unposscol = CType(Me.RetrieveUnpossessed, List(Of Unpossessed))
     End Function
-    Public Function DeleteScenFeature(ByVal ScenFeatureID As Integer) As Boolean
+    publicFunction DeleteScenFeature(ByVal ScenFeatureID As Integer) As Boolean
             'called by ClearanceAttempt.MoveUpdate
     Dim DelFeature As ScenarioTerrain = (From QU In db.ScenarioTerrains _
     Where QU.Scenter_id = ScenFeatureID _
@@ -1462,7 +1564,7 @@ public class DataC {
             ScenFeatcol = Me.GetScenFeatDatafromDB(ScenarioID)
     End Function
         'Moved to ObjectChange as a class April 14
-                'Public Function CreateNewUnpossessed(ByVal OBSW As OrderofBattleSW, ByVal hexnumber As Integer) As Boolean
+                'publicFunction CreateNewUnpossessed(ByVal OBSW As OrderofBattleSW, ByVal hexnumber As Integer) As Boolean
                 '    Dim DroppedSW As New Unpossessed
                 '    DroppedSW.EquipmentID = OBSW.OBSW_ID
                 '    DroppedSW.Equipmenttype = CInt(OBSW.WeaponType)
@@ -1473,7 +1575,7 @@ public class DataC {
                 '    db.SubmitChanges()
                 '    Return True
                 'End Function
-                'Public Function CreateNewFeature(ByVal hexlocation As Integer, ByVal hexnumber As Integer, ByVal Featurestring As String,
+                'publicFunction CreateNewFeature(ByVal hexlocation As Integer, ByVal hexnumber As Integer, ByVal Featurestring As String,
                 '                                     ByVal Featuretype As Integer) As Integer
 
                 '    Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance(Trim(ScenarioName), ScenarioID)
@@ -1497,7 +1599,7 @@ public class DataC {
                 '    ScenFeatcol = Me.GetScenFeatDatafromDB()
                 '    Return ReturnID
                 'End Function
-    Public Function CreateNewThingsToDo(ByVal PassToDo As Integer, ByVal Passhexnum As Integer, ByVal Passhexloc As Integer, ByVal PassPlayerTurn As Integer, ByVal ScenarioID As Integer) As Boolean
+    publicFunction CreateNewThingsToDo(ByVal PassToDo As Integer, ByVal Passhexnum As Integer, ByVal Passhexloc As Integer, ByVal PassPlayerTurn As Integer, ByVal ScenarioID As Integer) As Boolean
             'called by Movement.ClearanceAttempt.MoveUpdate
     Dim SomethingToDo As New ThingsToDo
     SomethingToDo.scenario = CShort(ScenarioID)
@@ -1513,7 +1615,7 @@ public class DataC {
     End Function
         'These are admin functions used to handle large scale data entry of new terrain and location data
                 'not available when game running
-                'Public Function CreateNewTerrain() As Boolean
+                'publicFunction CreateNewTerrain() As Boolean
                 '    Dim SomethingToDo As Terrain
                 '    Dim y As Integer = 15000
                 '    For z = 100 To 800 Step 100
@@ -1533,7 +1635,7 @@ public class DataC {
                 '    db.SubmitChanges()
                 '    Return True
                 'End Function
-                'Public Function CreateNewlocation() As Boolean
+                'publicFunction CreateNewlocation() As Boolean
                 '    Dim SomethingToDo As Location
                 '    Dim DataToSubmit = New List(Of Location)
                 '    Dim y As Integer = 30500
@@ -1597,7 +1699,7 @@ public class DataC {
                 '    db.SubmitChanges()
                 '    Return True
                 'End Function
-                'Public Function UpdateTerrainEntry() As Boolean
+                'publicFunction UpdateTerrainEntry() As Boolean
                 '    Dim x = 15000 : Dim z As Integer = 0 : Dim terrinfo As String ': Dim TerrainUpdate As Terrain
         '    Dim a = 800
                 '    For y = 1 To 96
@@ -1610,7 +1712,7 @@ public class DataC {
                 '        db.SubmitChanges()
                 '    Next
                 'End Function
-                'Public Function CreateBuildingTypes() As Boolean
+                'publicFunction CreateBuildingTypes() As Boolean
                 '    Dim BuildingList = New List(Of LookupBuilding)
                 '    For Each Tertest As Terrain In db.Terrains
                 '        If Tertest.Building Then
@@ -1635,7 +1737,7 @@ public class DataC {
                 '    db.LookupBuildings.InsertAllOnSubmit(BuildingList)
                 '    db.SubmitChanges()
                 'End Function
-    Public Function GetAllConForOneSide(ByVal SideNat1 As Integer, ByVal SideNat2 As Integer) As IQueryable(Of Concealment)
+    publicFunction GetAllConForOneSide(ByVal SideNat1 As Integer, ByVal SideNat2 As Integer) As IQueryable(Of Concealment)
             'called by
             'returns a list of all concealment for one side in the scenario
 
@@ -1643,7 +1745,7 @@ public class DataC {
     Return (From Qu As Concealment In Concealcol Where (Qu.Nationality = SideNat1 Or Qu.Nationality = SideNat2) And Qu.hexnum > 0) 'And Qu.VisibilityStatus = Visible)
 
     End Function
-    Public Function GetAllUnitsForOneSide(ByVal SideNat1 As Integer, ByVal SideNat2 As Integer) As IQueryable(Of OrderofBattle)
+    publicFunction GetAllUnitsForOneSide(ByVal SideNat1 As Integer, ByVal SideNat2 As Integer) As IQueryable(Of OrderofBattle)
             'called by EnemyValuesConcreteC.SetLOSFPdrmValues in DFFMVCPattern and by ConcealmentLoss class
             'returns a list of enemy units present in the scenario
 
@@ -1651,7 +1753,7 @@ public class DataC {
     Return (From Qu As OrderofBattle In Unitcol Where (Qu.Nationality = SideNat1 Or Qu.Nationality = SideNat2) AndAlso Qu.hexnum > 0 AndAlso Qu.VisibilityStatus = Visible AndAlso Qu.OrderStatus <> ConstantClassLibrary.ASLXNA.OrderStatus.NotInPlay AndAlso Qu.OrderStatus <> ConstantClassLibrary.ASLXNA.OrderStatus.KIAInf)
 
     End Function
-    Public Function GetEnemyUnitsInHex(ByVal EnemyNat1 As Integer, ByVal EnemyNat2 As Integer, ByVal Hexnum As Integer) As IQueryable(Of OrderofBattle)
+    publicFunction GetEnemyUnitsInHex(ByVal EnemyNat1 As Integer, ByVal EnemyNat2 As Integer, ByVal Hexnum As Integer) As IQueryable(Of OrderofBattle)
             'called by EnemyValuesConcreteC.SetLOSFPdrmValues in DFFMVCPattern and by ConcealmentLoss class
             'returns a list of enemy units present in the scenario
 
@@ -1659,7 +1761,7 @@ public class DataC {
     Return (From Qu As OrderofBattle In Unitcol Where (Qu.Nationality = EnemyNat1 Or Qu.Nationality = EnemyNat2) And Qu.hexnum = Hexnum And Qu.VisibilityStatus = Visible)
 
     End Function
-    Public Function GetEnemyUnitsFromSpecifiedLocationsInHex(ByVal EnemyNat1 As Integer, ByVal EnemyNat2 As Integer, ByVal LOCList As List(Of Integer)) As IQueryable(Of OrderofBattle)
+    publicFunction GetEnemyUnitsFromSpecifiedLocationsInHex(ByVal EnemyNat1 As Integer, ByVal EnemyNat2 As Integer, ByVal LOCList As List(Of Integer)) As IQueryable(Of OrderofBattle)
             'called by
                     'returns a list of enemy units present in some but not all locations in a hex
     Dim Visible As Integer = ConstantClassLibrary.ASLXNA.VisibilityStatus.Visible
@@ -1676,14 +1778,14 @@ public class DataC {
 
     End Function
 
-    Public Function GetSideConInHex(ByVal SideNat1 As Integer, ByVal SideNat2 As Integer, ByVal Hexnum As Integer) As IQueryable(Of Concealment)
+    publicFunction GetSideConInHex(ByVal SideNat1 As Integer, ByVal SideNat2 As Integer, ByVal Hexnum As Integer) As IQueryable(Of Concealment)
             'called by
             'returns a list of enemy units present in the hex
 
     Return (From Qu As Concealment In Concealcol Where (Qu.Nationality = SideNat1 Or Qu.Nationality = SideNat2) And Qu.hexnum = Hexnum)
 
     End Function
-    Public Function GetSideConFromSpecifiedLocationsInHex(ByVal EnemyNat1 As Integer, ByVal EnemyNat2 As Integer, ByVal LOCList As List(Of Integer)) As IQueryable(Of Concealment)
+    publicFunction GetSideConFromSpecifiedLocationsInHex(ByVal EnemyNat1 As Integer, ByVal EnemyNat2 As Integer, ByVal LOCList As List(Of Integer)) As IQueryable(Of Concealment)
             'called by
                     'returns a list of enemy concealed present in some but not all locations in a hex
                     'Dim Visible As Integer = ConstantClassLibrary.ASLXNA.VisibilityStatus.Visible
@@ -1701,7 +1803,7 @@ public class DataC {
     End Function
 
         'this class is meant to be temporary while I get rid of Feature objects
-    Public Function Getscenterrinhex(ByVal hexnumber As Integer) As ArrayList
+    publicFunction Getscenterrinhex(ByVal hexnumber As Integer) As ArrayList
             'add any scenario terrain in this hex
     Dim ScenTerr = New ArrayList
     If Not IsNothing(ScenFeatcol) Then

@@ -2872,7 +2872,7 @@ public class ScenarioCollectionsc {
     private static ScenarioCollectionsc Colinstance = null;
     public LinkedList<PersUniti> Unitcol = new LinkedList<PersUniti>();
     public LinkedList<PersUniti> SelMoveUnits = new LinkedList<PersUniti>();
-    // Public Property SWCol As List(Of SuppWeapi)
+    public LinkedList<SuppWeapi> SWCol = new LinkedList<SuppWeapi>();
     // Public Property Unpossesseds As List(Of DataClassLibrary.Unpossessed)
 
     // constructor; class uses singleton pattern to ensure only one instance ever exists

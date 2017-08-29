@@ -52,8 +52,16 @@ public class Scenario {
     private boolean pNoQuarter;
 
     // constructor
-    public Scenario() {
-        
+    public Scenario(String Passname) {
+        // test code
+        pGT=5;
+        pCURRENTTURN=1;
+        pPTURN = Constantvalues.WhoCanDo.Attacker;
+        pFULLNAME= Passname;
+        pATT1 = Constantvalues.Nationality.Germans;
+        pDFN1= Constantvalues.Nationality.Russians;
+        pPhase = Constantvalues.Phase.PrepFire;
+        pScenNum =1;
     }
     		
 	public double getGT() {return pGT;}

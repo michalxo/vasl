@@ -32,7 +32,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class StartGame extends AbstractConfigurable implements MouseListener, GameComponent, CommandEncoder, Drawable {
+public class  StartGame extends AbstractConfigurable implements MouseListener, GameComponent, CommandEncoder, Drawable {
     private ScenarioC scen;
     private DataC Linqdata;
     private VASL.LOS.Map.Map GameMap;
@@ -43,26 +43,20 @@ public class StartGame extends AbstractConfigurable implements MouseListener, Ga
     protected PieceVisitorDispatcher selectionProcessor;
     protected Comparator<GamePiece> pieceSorter = new PieceSorter();
 
-    /*public StartGame(){
-        // create classes required at start
-        scen = ScenarioC.getInstance();
-        Linqdata = DataC.GetInstance();
-        Linqdata.InitializeData();
 
-        Initialize();
-
-    }*/
     public void Initialize(boolean getgoing) {
 
         this.map.pushMouseListener(this);
         this.dragTargetSelector = this.createDragTargetSelector();
         this.selectionProcessor = this.createSelectionProcessor();
+        initializeMap();
         // create classes required at start
         scen = ScenarioC.getInstance();
         Linqdata = DataC.GetInstance();
         Linqdata.InitializeData();
-        scen.OpenScenario(0);
-        initializeMap();
+        String PassScenID = ""; // need to link this to VASL scenario name
+        scen.OpenScenario(PassScenID, GameMap);
+
     }
     private void initializeMap() {
 
