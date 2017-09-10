@@ -33,18 +33,40 @@ import VASSAL.build.GameModule;
 import VASSAL.build.module.Map;
 import VASSAL.build.module.map.StackMetrics;
 import VASSAL.configure.BooleanConfigurer;
-import VASSAL.counters.BasicPiece;
-import VASSAL.counters.GamePiece;
-import VASSAL.counters.Highlighter;
-import VASSAL.counters.PieceIterator;
-import VASSAL.counters.Properties;
-import VASSAL.counters.Stack;
+import VASSAL.counters.*;
 import VASSAL.i18n.Resources;
 import VASSAL.preferences.Prefs;
+import VASL.build.module.map.DoubleBlindViewer;
 
 public class ASLStackMetrics extends StackMetrics {
 
     private boolean disableFullColorStacks = false;
+
+    public ASLStackMetrics() {
+        this(false, DEFAULT_EXSEP_X, DEFAULT_EXSEP_Y, DEFAULT_UNEXSEP_X, DEFAULT_UNEXSEP_Y);
+    }
+
+    public ASLStackMetrics(boolean dis,
+                           int exSx, int exSy,
+                           int unexSx, int unexSy) {
+        super(dis, exSx, exSy, unexSx, unexSy);
+
+        // include DB logic in stack fillters
+        unselectedVisible = new PieceFilter() {
+            public boolean accept(GamePiece piece) {
+                return !Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME))
+                        && !Boolean.TRUE.equals(piece.getProperty(Properties.SELECTED))
+                        && DoubleBlindViewer.isSpotted(piece);
+            }
+        };
+        selectedVisible = new PieceFilter() {
+            public boolean accept(GamePiece piece) {
+                return !Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME))
+                        && Boolean.TRUE.equals(piece.getProperty(Properties.SELECTED))
+                        && DoubleBlindViewer.isSpotted(piece);
+            }
+        };
+    }
 
     @Override
     public void addTo(Buildable buildable) {
@@ -82,7 +104,7 @@ public class ASLStackMetrics extends StackMetrics {
             BitSet visibleOther = new BitSet(count);
             for (int i = 0; i < count; ++i) {
                 GamePiece p = parent.getPieceAt(i);
-                boolean visibleToMe = !Boolean.TRUE.equals(p.getProperty(Properties.INVISIBLE_TO_ME));
+                boolean visibleToMe = !Boolean.TRUE.equals(p.getProperty(Properties.INVISIBLE_TO_ME)) || !DoubleBlindViewer.isSpotted(p);
                 boolean isLocation = p.getProperty((ASLProperties.LOCATION)) != null;
                 visibleLocations.set(i, isLocation && visibleToMe);
                 visibleOther.set(i, !isLocation && visibleToMe);
