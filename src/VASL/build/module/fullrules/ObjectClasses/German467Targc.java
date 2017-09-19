@@ -3,8 +3,6 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 import VASL.build.module.fullrules.UtilityClasses.HOBCheckC;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-
 import java.util.List;
 
 public class German467Targc implements TargetPersUniti {
@@ -151,6 +149,8 @@ public class German467Targc implements TargetPersUniti {
                     'Target replaces [UC204-TargetReplaces] (Alternate Course A: UC218-TargetDisrupts, Alternate Course B: UC214-TargetSubstitutes)
                     '	Target DMs [UC208-TargetDMs]*/
 
+
+            // MISSING CODE SEE RUSSIAN447TARGC
         myMCNum = MCNum;
         myTargSTackLdrdrm = TargStackLdrdrm;
         DiceC Dieclass = new DiceC();
@@ -233,8 +233,8 @@ public class German467Targc implements TargetPersUniti {
         return Constantvalues.PersUnitResult.NoEffects;
     }
 
-    public int HOBMC() {
-        return 0; // to be coded
+    public Constantvalues.PersUnitResult HOBMC() {
+        return Constantvalues.PersUnitResult.NoEffects; // to be coded
     }
 
 

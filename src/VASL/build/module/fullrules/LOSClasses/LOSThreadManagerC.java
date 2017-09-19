@@ -1,5 +1,6 @@
 package VASL.build.module.fullrules.LOSClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.EnemyHexLOSHFPdrm;
@@ -81,13 +82,13 @@ public class LOSThreadManagerC {
         // adds a validated fire solution to the ValidSolutions group
 
         try {
-            ValidSolutions_Thread.add(new LOSSolution(TempSolitem.getSeeHexNum(),
+            ValidSolutions_Thread.add(new LOSSolution(TempSolitem.getSeeHex(),
                     TempSolitem.getSeeLevelInHex(),
                     TempSolitem.getTotalSeeLevel(),
                     TempSolitem.getSeeLOSIndex(),
                     TempSolitem.getSeePositionInHex(),
-                    TempSolitem.getSeeHexNum(),
-                    TempSolitem.getSeenHexNum(),
+                    TempSolitem.getSeenHex(),
+                    TempSolitem.getSeenLevelInHex(),
                     TempSolitem.getTotalSeenLevel(),
                     TempSolitem.getSeenLOSIndex(),
                     TempSolitem.getSeenPositionInHex(),
@@ -111,7 +112,7 @@ public class LOSThreadManagerC {
         return true;
     }
 
-    public Constantvalues.LosStatus LOSRangeTest(int Starthexnum, int Testhexnum, LinkedList<PersUniti> SeeingTocheck) {
+    public Constantvalues.LosStatus LOSRangeTest(Hex Starthex, Hex Testhex, LinkedList<PersUniti> SeeingTocheck) {
         // called by MapShade.LOSShade
         // determines range between two hexes (pointblank, normal, long, beyond)
         Constantvalues.LosStatus losrangetest=Constantvalues.LosStatus.None;

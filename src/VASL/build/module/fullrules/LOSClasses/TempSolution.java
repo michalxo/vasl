@@ -1,5 +1,6 @@
 package VASL.build.module.fullrules.LOSClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.build.module.fullrules.Constantvalues;
 
 /**
@@ -9,9 +10,9 @@ public class TempSolution extends BaseSolution {
     private int TempSolIDvalue;
 
     // constructor
-    public TempSolution(int PassSeehexnum, double PassSeelevelinhex, int PassSeeLOSindex, Constantvalues.AltPos PassSeePosition, int PassSeenhexnum,
+    public TempSolution(Hex PassSeehex, double PassSeelevelinhex, int PassSeeLOSindex, Constantvalues.AltPos PassSeePosition, Hex PassSeenhex,
                         double PassSeenlevelinhex, int PassSeenLOSIndex, Constantvalues.AltPos PassSeenPosition, boolean PassSolWorks, int PassTempSolID, VASL.LOS.Map.Map PassScenMap) {
-        super(PassSeehexnum,PassSeelevelinhex,PassSeeLOSindex,PassSeePosition,PassSeenhexnum,PassSeenlevelinhex,PassSeenLOSIndex,PassSeenPosition,PassSolWorks,PassScenMap);
+        super(PassSeehex,PassSeelevelinhex,PassSeeLOSindex,PassSeePosition,PassSeenhex,PassSeenlevelinhex,PassSeenLOSIndex,PassSeenPosition,PassSolWorks,PassScenMap);
         TempSolIDvalue =PassTempSolID +1;
     }
 

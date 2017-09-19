@@ -1,6 +1,11 @@
 package VASL.build.module.fullrules.DataClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.UtilityClasses.ConversionC;
+
+import java.sql.*;
+import java.util.Date;
+
 
 public class Scenario {
     private double pGT;
@@ -9,7 +14,7 @@ public class Scenario {
     private int pYEAR;
     private String pMONTH;
     private Constantvalues.DayNight pDAYNIGHT;
-    private String pDATETIME;
+    private Date pDATETIME;
     private int pWINDSPEED;
     private String pWINDDIR;
     private int pECDRM;
@@ -28,10 +33,10 @@ public class Scenario {
     private int pCVPDEF;
     private int pLVPATT;
     private int pLVPDEF;
-    private int pSanattaloc;
-    private int pSanattbloc;
-    private int pSandfnaloc;
-    private int pSandfnbloc;
+    private String pSanattaloc;
+    private String pSanattbloc;
+    private String pSandfnaloc;
+    private String pSandfnbloc;
     private Constantvalues.Nationality pATT1;
     private Constantvalues.Nationality pDFN1;
     private Constantvalues.Phase pPhase;
@@ -52,16 +57,68 @@ public class Scenario {
     private boolean pNoQuarter;
 
     // constructor
-    public Scenario(String Passname) {
-        // test code
-        pGT=5;
-        pCURRENTTURN=1;
-        pPTURN = Constantvalues.WhoCanDo.Attacker;
-        pFULLNAME= Passname;
-        pATT1 = Constantvalues.Nationality.Germans;
-        pDFN1= Constantvalues.Nationality.Russians;
-        pPhase = Constantvalues.Phase.PrepFire;
-        pScenNum =1;
+    public Scenario(ResultSet rs) {
+        // put database info into object
+        String tempstring=null;
+        try {
+            while (rs.next()) {
+                try {
+                    pGT = rs.getInt(1);
+                    pCURRENTTURN = rs.getInt(2);
+                    tempstring = rs.getString(3);
+                    pPTURN = ConverttoWhoCanDo(tempstring); //Constantvalues.WhoCanDo.Attacker;
+                    pYEAR = rs.getInt(4);
+                    pMONTH = rs.getString(5);
+                    pDAYNIGHT = ConverttoDayNight(rs.getInt(6));  // Constantvalues.DayNight
+                    pDATETIME = rs.getDate(7);
+                    pWINDSPEED = rs.getInt(8);
+                    pWINDDIR = rs.getString(9);
+                    pECDRM = rs.getInt(10);
+                    pATTSAN = rs.getInt(11);
+                    pDFNSAN = rs.getInt(12);
+                    pATTIB = rs.getInt(13);
+                    pDFNIB = rs.getInt(14);
+                    pATTCP = rs.getInt(15);
+                    pDFNCP = rs.getInt(16);
+                    pATTIBL = rs.getInt(17);
+                    pDFNIBL = rs.getInt(18);
+                    pAREINFORCE = rs.getString(19);
+                    pDREINFORCE = rs.getString(20);
+                    pFULLNAME = rs.getString(21);
+                    pCVPATT = rs.getInt(22);
+                    pCVPDEF = rs.getInt(23);
+                    pLVPATT = rs.getInt(24);
+                    pLVPDEF = rs.getInt(25);
+                    pSanattaloc = rs.getString(26);
+                    pSanattbloc = rs.getString(27);
+                    pSandfnaloc = rs.getString(28);
+                    pSandfnbloc = rs.getString(29);
+
+                    pATT1 = ConverttoNationality(rs.getInt(30));  //Constantvalues.Nationality.Germans;
+                    pDFN1 = ConverttoNationality(rs.getInt(31));  // Constantvalues.Nationality.Russians;
+                    pPhase = ConverttoPhase(rs.getInt(32));  //Constantvalues.Phase.PrepFire;
+                    pScenNum = rs.getInt(33);
+                    pMistDust = rs.getInt(34);
+                    pATT2 = ConverttoNationality(rs.getInt(35));
+                    pDFN2 = ConverttoNationality(rs.getInt(36));
+                    pWeather = rs.getInt(37);
+                    pRules = ConverttoRules(rs.getInt(38));
+                    pMap = ConverttoMap(rs.getInt(39));
+                    pWindHexGrain = rs.getInt(40);
+                /*private String pASLName;
+                private boolean pFinished;
+                private boolean pattsanpinned;
+                private boolean pdfnsanpinned;
+                private boolean pattsanactivated;
+                private boolean pdfnsanactivated;
+                private boolean pNoQuarter;*/
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     		
 	public double getGT() {return pGT;}
@@ -76,8 +133,8 @@ public class Scenario {
     public void setMONTH(String value) {pMONTH = value;}
 	public Constantvalues.DayNight getDAYNIGHT() {return pDAYNIGHT;}
     public void setDAYNIGHT(Constantvalues.DayNight value) {pDAYNIGHT = value;}
-	public String getDATETIME() {return pDATETIME;}
-    public void setDATETIME( String value) {pDATETIME = value;}
+	public Date getDATETIME() {return pDATETIME;}
+    public void setDATETIME( Date value) {pDATETIME = value;}
 	public int getWINDSPEED() {return pWINDSPEED;}
     public void setWINDSPEED(int value) {pWINDSPEED = value;}
 	public String getWINDDIR() {return pWINDDIR;}
@@ -114,14 +171,14 @@ public class Scenario {
     public void setLVPATT(int value) {pLVPATT = value;}
 	public int getLVPDEF() {return pLVPDEF;}
 	public void setLVPDEF(int value) {pLVPDEF=value;}
-    public int getSanattaloc() {return pSanattaloc;}
-    public void setSanattaloc(int value) {pSanattaloc = value;}
-	public int getSanattbloc() {return pSanattbloc;}
-    public void setSanattbloc(int value) {pSanattbloc = value;}
-	public int getSandfnaloc() {return pSandfnaloc;}
-    public void setSandfnaloc(int value) {pSandfnaloc = value;}
-	public int getSandfnbloc() {return pSandfnbloc;}
-    public void setSandfnbloc(int value) {pSandfnbloc = value;}
+    public String getSanattaloc() {return pSanattaloc;}
+    public void setSanattaloc(String value) {pSanattaloc = value;}
+	public String getSanattbloc() {return pSanattbloc;}
+    public void setSanattbloc(String value) {pSanattbloc = value;}
+	public String getSandfnaloc() {return pSandfnaloc;}
+    public void setSandfnaloc(String value) {pSandfnaloc = value;}
+	public String getSandfnbloc() {return pSandfnbloc;}
+    public void setSandfnbloc(String value) {pSandfnbloc = value;}
 	public Constantvalues.Nationality getATT1() {return pATT1;}
     public void setATT1(Constantvalues.Nationality value) {pATT1 = value;}
 	public Constantvalues.Nationality getDFN1() {return pDFN1;}
@@ -158,4 +215,41 @@ public class Scenario {
     public void setdfnsanactivated(boolean value) {pdfnsanactivated=value;}
     public boolean getNoQuarter() {return pNoQuarter;}
     public void setNoQuarter(boolean value) {pNoQuarter=value;}
+
+    private Constantvalues.WhoCanDo ConverttoWhoCanDo(String databasevalue){
+
+        ConversionC DoConversion = new ConversionC();
+        return DoConversion.ConverttoWhoCanDo(databasevalue);
+
+    }
+    private Constantvalues.DayNight ConverttoDayNight(int databasevalue) {
+
+        ConversionC DoConversion = new ConversionC();
+        return DoConversion.ConverttoDayNight(databasevalue);
+
+    }
+    private Constantvalues.Nationality ConverttoNationality(int databasevalue) {
+
+        ConversionC DoConversion = new ConversionC();
+        return DoConversion.ConverttoNationality(databasevalue);
+
+    }
+    private Constantvalues.Phase ConverttoPhase(int databasevalue) {
+
+        ConversionC DoConversion = new ConversionC();
+        return DoConversion.ConverttoPhase(databasevalue);
+
+    }
+    private Constantvalues.Rules ConverttoRules(int databasevalue) {
+
+        ConversionC DoConversion = new ConversionC();
+        return DoConversion.ConverttoRules(databasevalue);
+
+    }
+    private Constantvalues.Map ConverttoMap(int databasevalue) {
+
+        ConversionC DoConversion = new ConversionC();
+        return DoConversion.ConverttoMap(databasevalue);
+
+    }
 }

@@ -5,7 +5,7 @@ import VASL.build.module.fullrules.Constantvalues;
 public class SupportWeapon {
     private int pID;
     private String pWeaponName;
-    private int pWeaponType;
+    private Constantvalues.SWtype pWeaponType;
     //private String _National As String
     private int pFIREPOWER;
     private int pRANGE;
@@ -19,15 +19,31 @@ public class SupportWeapon {
     private int pDismantledPP;
     private Constantvalues.Nationality pNationality;
 
-    public SupportWeapon() {
+    public SupportWeapon(int PassID, String PassWeaponName, Constantvalues.SWtype PassWeaponType, int PassFIREPOWER, int PassRANGE, int PassPORTAGECOST, int  PassMALFUNCTION, int PassREPAIR,
+        int PassROF, int PassBREAKDOWN, boolean PassASSAULTFIRE, boolean PassSPRAYINGFIRE, int PassDismantledPP, Constantvalues.Nationality PassNationality) {
+
+        pID = PassID;
+        pWeaponName = PassWeaponName;
+        pWeaponType = PassWeaponType;
+        pFIREPOWER = PassFIREPOWER;
+        pRANGE = PassRANGE;
+        pPORTAGECOST = PassPORTAGECOST;
+        pMALFUNCTION = PassMALFUNCTION;
+        pREPAIR = PassREPAIR;
+        pROF = PassROF;
+        pBREAKDOWN = PassBREAKDOWN;
+        pASSAULTFIRE = PassASSAULTFIRE;
+        pSPRAYINGFIRE = PassSPRAYINGFIRE;
+        pDismantledPP = PassDismantledPP;
+        pNationality = PassNationality;
     }
 
     public int getID() {return pID;}
     public void setID(int value) {pID = value;}
     public String getWeaponName() {return pWeaponName;}
     public void setWeaponName(String value) {pWeaponName = value;}
-    public int getWeaponType() {return pWeaponType;}
-    public void setWeaponType(int value) {pWeaponType = value;}
+    public Constantvalues.SWtype getWeaponType() {return pWeaponType;}
+    public void setWeaponType(Constantvalues.SWtype value) {pWeaponType = value;}
     public int getFIREPOWER() {return pFIREPOWER;}
     public void setFIREPOWER(int value) {pFIREPOWER = value;}
     public int getRANGE() {return pRANGE;}
@@ -50,5 +66,5 @@ public class SupportWeapon {
     public void setDismantledPP(int value){pDismantledPP = value;}
     public Constantvalues.Nationality getNationality() {return pNationality;}
     public void setNationality(Constantvalues.Nationality value) {pNationality = value;}
-
+    public Constantvalues.Typetype getTypeType() {return Constantvalues.Typetype.SW;}
 }

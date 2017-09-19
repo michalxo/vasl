@@ -3,6 +3,7 @@ package VASL.build.module.fullrules.PhaseClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.Game.ScenarioC;
 
 public interface iStatusClear {
         boolean DoClear();
@@ -18,8 +19,8 @@ class ClearMovement implements iStatusClear {
         ScenID = PassScenID;
     }
     public boolean DoClear() {
-        DataC Linqdata = DataC.GetInstance(); // use null values when sure instance already exists
-        Scenario Scendet = Linqdata.GetScenarioData(ScenID);
+        ScenarioC scen  = ScenarioC.getInstance();
+        Scenario Scendet = scen.getScendet();
         if (UsingPlayer == Constantvalues.WhoCanDo.Attacker) {
             player1 = Scendet.getATT1();
             player2 = Scendet.getATT2();

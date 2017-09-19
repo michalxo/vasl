@@ -125,20 +125,43 @@ public class IsSide {
         '    '        Return False
         '    'End Select
         'End Function*/
-    public boolean IsAWallHedgeRdBlk(int hexsidetouse, int LOCIndextouse) {
+    public boolean IsAWallHedgeRdBlk(Constantvalues.Hexside hexsidetype) {
         // called by
-        // checks if side crossed is some kind of
+        // checks if side crossed is some kind of wall Hedge, rdblk
 
-        // temporary while debugging UNDO
-        /*'Create reference to required hexside attribute field
-        Dim Hexside As String = "Side" & hexsidetouse.ToString & "IsWHR"
-        'query using Dynamic Linq
-        Dim SideisWHR = MapData.Where("locindex=" & LOCIndextouse.ToString).Select(Hexside)
-        'SideisWHR is an Iqyuerable so need to select first instance
-        For Each WHRCheck As Boolean In SideisWHR
-        If WHRCheck Then Return True Else Return False
-        Next*/
-        return false;
+        if (hexsidetype == Constantvalues.Hexside.Hedge ||
+                hexsidetype == Constantvalues.Hexside.HedgePO ||
+                hexsidetype == Constantvalues.Hexside.HedgeUnpavedRoad ||
+                hexsidetype == Constantvalues.Hexside.Roadblock ||
+                hexsidetype == Constantvalues.Hexside.Roadblock1 ||
+                hexsidetype == Constantvalues.Hexside.Roadblock2 ||
+                hexsidetype == Constantvalues.Hexside.Roadblock3 ||
+                hexsidetype == Constantvalues.Hexside.Roadblock4 ||
+                hexsidetype == Constantvalues.Hexside.Roadblock5 ||
+                hexsidetype == Constantvalues.Hexside.Roadblock6 ||
+                hexsidetype == Constantvalues.Hexside.Wall ||
+                hexsidetype == Constantvalues.Hexside.WallPO ||
+                hexsidetype == Constantvalues.Hexside.WallUnpavedRoad ||
+                hexsidetype == Constantvalues.Hexside.CLDnWallSlope ||
+                hexsidetype == Constantvalues.Hexside.CLDnWallSlopePO ||
+                hexsidetype == Constantvalues.Hexside.CLDownWall ||
+                hexsidetype == Constantvalues.Hexside.CLUpWall ||
+                hexsidetype == Constantvalues.Hexside.CrestDownSlopeWall ||
+                hexsidetype == Constantvalues.Hexside.CrestDownWall ||
+                hexsidetype == Constantvalues.Hexside.CrestUpSlopeWall ||
+                hexsidetype == Constantvalues.Hexside.CrestUpWall ||
+                hexsidetype == Constantvalues.Hexside.GullyDownWall ||
+                hexsidetype == Constantvalues.Hexside.GullyUpWall ||
+                hexsidetype == Constantvalues.Hexside.SlopeDownWall ||
+                hexsidetype == Constantvalues.Hexside.SlopeUpWall ||
+                hexsidetype == Constantvalues.Hexside.CLUpWallSlope ||
+                hexsidetype == Constantvalues.Hexside.CLUpWallSlopePO
+            ) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
     public boolean IsWAAllowed(int hexnum, int hexsidetouse, int Otherhexnum) {
         //'called by ContextMenu.MenuFilter

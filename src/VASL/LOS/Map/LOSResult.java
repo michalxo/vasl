@@ -21,6 +21,7 @@ import VASL.LOS.counters.OBA;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 /**
  * Title:        LOSResult.java
@@ -55,6 +56,9 @@ public class LOSResult {
 	private	HashMap<Integer, Integer>	smokeHindrances	= new HashMap<Integer, Integer>();
     private	HashMap<Integer, Integer>	vehicleHindrances	= new HashMap<Integer, Integer>();
     private HashSet<OBA> obaHindrances = new HashSet<OBA>();
+
+	// stuff added to Hex to support IFT combat
+	private LinkedList<Hex> hexesInLOS = new LinkedList<Hex>();
 
 	// hindrance/blocked methods
 	public boolean  isBlocked()				{return blocked;}
@@ -250,4 +254,18 @@ public class LOSResult {
 		blockedAtPoint		= null;
 		reason				= "";
 	}
+
+    // stuff added to  support IFT combat
+    public LinkedList<Hex> gethexesInLOS(){
+        return hexesInLOS;
+    }
+    public void addHextohexesInLOS(Hex addHex){
+        hexesInLOS.add(addHex);
+    }
+    public void ClearhexesInLOS()  {
+        hexesInLOS.clear();
+    }
+    public Location getSourceLocation() {return sourceLocation;}
+    public Location getTargetLocation() {return targetLocation;}
+
 }

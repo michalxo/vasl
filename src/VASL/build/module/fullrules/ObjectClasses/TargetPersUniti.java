@@ -73,5 +73,5 @@ public interface TargetPersUniti {
         boolean Break();
         boolean UpdateTargetStatus(PersUniti PassTarget);
         Constantvalues.PersUnitResult SniperImpact(int Sniperdr);
-        int HOBMC();
+        Constantvalues.PersUnitResult HOBMC();
 }

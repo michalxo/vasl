@@ -19,6 +19,10 @@ package VASL.build.module.map;
  */
 
 import VASL.build.module.ASLMap;
+import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.Game.ScenarioC;
+import VASL.build.module.fullrules.IFTCombatClasses.IIFTC;
 import VASSAL.build.AbstractConfigurable;
 import VASSAL.build.Buildable;
 import VASSAL.build.GameModule;
@@ -36,6 +40,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import VASSAL.configure.StringConfigurer;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -227,7 +232,7 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
             Component l_objVertGlue = Box.createVerticalGlue();
             AddButton(l_objPanel, l_objVertGlue, l_iRow++, 2);
 
-            JToggleButton l_objTBtn = CreateChangePhaseActionsButton("Next", "Move to Next Phase");
+            JToggleButton l_objTBtn = CreateChangePhaseActionsButton("Start", "Move to Next Phase");
             AddButton(l_objPanel, l_objTBtn, l_iRow++, 20);
 
             l_objBtn = CreateActionButton("", "Prep", "Prep Fire", new ActionListener() {public void actionPerformed(ActionEvent e) {ProcessAction("Prep");}});
@@ -283,6 +288,8 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
     private void ProcessAction(String actiontype) {
 
         if (actiontype=="Prep") {
+            ScenarioC scen = ScenarioC.getInstance();
+            scen.IFT.ProcessIFTCombat();
             //IFTMVCPattern Actiontest= new IFTMVCPattern();
         } else if (actiontype=="Opp"){
             OppFire markOppFire = new OppFire();
@@ -370,24 +377,43 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
                 if(e.getStateChange() == ItemEvent.SELECTED)
                 {
                     if (l_btn.getText()=="Start") {
-                        l_btn.setText("Prep");
-                        //StartGame playgame = new StartGame();
+                        ScenarioC scen = ScenarioC.getInstance();
+                        Constantvalues.Phase currentphase = scen.getPhase();
+                        String currentphasename = PhasetoString(currentphase);
+                        l_btn.setText(currentphasename);
+                        //scen.PhaseChangeNext();
                     } else if (l_btn.getText()=="Prep") {
+                        ScenarioC scen = ScenarioC.getInstance();
+                        scen.PhaseChangeNext();
                         l_btn.setText("Move");
                     } else if (l_btn.getText()=="Move"){
                         l_btn.setText("DefF");
+                        ScenarioC scen = ScenarioC.getInstance();
+                        scen.PhaseChangeNext();
                     } else if (l_btn.getText()=="DefF"){
                         l_btn.setText("AdvF");
+                        ScenarioC scen = ScenarioC.getInstance();
+                        scen.PhaseChangeNext();
                     } else if (l_btn.getText()=="AdvF"){
                         l_btn.setText("Rout");
+                        ScenarioC scen = ScenarioC.getInstance();
+                        scen.PhaseChangeNext();
                     } else if (l_btn.getText()=="Rout"){
                         l_btn.setText("Adv");
+                        ScenarioC scen = ScenarioC.getInstance();
+                        scen.PhaseChangeNext();
                     } else if (l_btn.getText()=="Adv"){
                         l_btn.setText("CC");
+                        ScenarioC scen = ScenarioC.getInstance();
+                        scen.PhaseChangeNext();
                     } else if (l_btn.getText()=="CC"){
                         l_btn.setText("Rally");
+                        ScenarioC scen = ScenarioC.getInstance();
+                        scen.PhaseChangeNext();
                     } else if (l_btn.getText()=="Rally"){
                         l_btn.setText("Prep");
+                        ScenarioC scen = ScenarioC.getInstance();
+                        scen.PhaseChangeNext();
                     }
                     SetPhaseActions(l_btn.getText());
                     l_btn.setSelected(false);
@@ -441,5 +467,37 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
         {
         if (m_objASLMap != null)
         m_objASLMap.repaint();
+    }
+    /*public void setPhaseatStartofPlay(String currentphase) {
+        for (Component findbutton: m_Toolbar.getComponents()) {
+            if (findbutton instanceof JButton) {
+                JButton newbutton = (JButton) findbutton;
+                if (newbutton.getText() == "Next") {
+                    newbutton.setText(currentphase);
+                }
+            }
+        }
+    }*/
+    private String PhasetoString(Constantvalues.Phase currentphase) {
+        switch (currentphase) {
+            case PrepFire:
+                return "Prep";
+            case Movement:
+                return "Move";
+            case DefensiveFire:
+                return "DefF";
+            case AdvancingFire:
+                return "AdvF";
+            case Rout:
+                return "Rout";
+            case Advance:
+                return "Adv";
+            case CloseCombat:
+                return "CC";
+            case Rally:
+                return "Rally";
+            default:
+                return "";
+        }
     }
 }

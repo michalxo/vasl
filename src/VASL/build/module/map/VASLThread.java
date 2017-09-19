@@ -44,6 +44,7 @@ import VASL.build.module.map.boardPicker.ASLBoard;
 import VASSAL.build.Buildable;
 import VASSAL.build.GameModule;
 import VASSAL.build.module.GameComponent;
+import VASSAL.build.module.Map;
 import VASSAL.build.module.map.LOS_Thread;
 import VASSAL.build.module.map.boardPicker.Board;
 import VASSAL.build.module.map.boardPicker.board.HexGrid;
@@ -99,6 +100,10 @@ public class VASLThread extends LOS_Thread implements KeyListener, GameComponent
     private Color hindranceColor;
     private Color blockedColor;
 
+    // enable LOS checks in IFTC routine
+    public Map getmap() {
+        return map;
+    }
     private void setGridSnapToVertex(boolean toVertex) {
         for (Board b : map.getBoards()) {
             HexGrid grid =

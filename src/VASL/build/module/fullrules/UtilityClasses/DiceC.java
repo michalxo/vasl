@@ -1,5 +1,7 @@
 package VASL.build.module.fullrules.UtilityClasses;
 
+import java.util.Random;
+
 public class DiceC {
     // Implements System.ComponentModel.INotifyPropertyChanged
     // handles all dice and die rolling functions
@@ -30,10 +32,11 @@ public class DiceC {
     public int Dieroll() {  // CODE NEEDS FIXInG
         // called all over; returns single die value
         //  Initialize the random-number generator.
-        //randomize();
-        // Generate random value between 1 and 6.
-        int mydr = 0;  //(int)((int)(6 * Rnd()) + 1);
-        return mydr;
+        final Random rand;
+        rand = new Random();
+
+        return 1 + rand.nextInt(6);
+
     }
     public int Diceroll() {
         // called all over; returns value of 2 dice roll and sets Colored and White values

@@ -1,5 +1,7 @@
 package VASL.build.module.fullrules.Game;
 
+import VASL.LOS.Map.LOSResult;
+import VASL.build.module.ASLMap;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTC;
@@ -9,6 +11,7 @@ import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.MovementClasses.MakeMoveC;
 import VASL.build.module.fullrules.ObjectClasses.Scenlisttype;
 import VASL.build.module.fullrules.PhaseClasses.PhaseMVCPattern;
+import VASL.build.module.map.ActionsToolbar;
 import VASSAL.build.GameModule;
 
 import java.util.Hashtable;
@@ -32,6 +35,8 @@ public class ScenarioC extends CampaignC {
     // public MapGeoC MapGeo; // temporary while debugging undo
     private List<Scenlisttype> ListofScenarios;
     private VASL.LOS.Map.Map pgamemap;
+    private ASLMap pmap;
+    private Scenario pScenario;
     // constructors
     private ScenarioC(String test) {
         // called by ScenarioC.Getinstance as part of singleton pattern
@@ -52,7 +57,7 @@ public class ScenarioC extends CampaignC {
     }
     public String getScenname() {return ScenName;}
     public VASL.LOS.Map.Map getGameMap() {return pgamemap;}
-
+    public ASLMap getASLMap() {return pmap;}
     public Constantvalues.Phase getPhase() {
         return PhaseValue;
     }
@@ -60,11 +65,12 @@ public class ScenarioC extends CampaignC {
     public Constantvalues.WhoCanDo getPlayerTurn() {
         return PlayerTurnvalue;
     }
+    public Scenario getScendet() {return pScenario;}
 
     public int getCurrentTurn() {
         return CurrentTurnvalue;
     }
-
+    public IIFTC getIFT() {return IFT;}
     public boolean StartASLScenario(int PassASLScenID) {
         // start new ASL scenario from preset ASLScenario
 
@@ -131,51 +137,42 @@ public class ScenarioC extends CampaignC {
         return false;
     }
 
-    public boolean OpenScenario(String PassScenID, VASL.LOS.Map.Map Gamemap) {
+    public boolean OpenScenario(String PassScenID, ASLMap theMap) {
         // open existing scenario
         // set scenario ID property
         ScenName = PassScenID;
         boolean StartScenario = true;
         String Fulltitle = "";
-        pgamemap=Gamemap;
+        pmap = (ASLMap) theMap;
+        if (pmap == null) {
+
+        } else {
+            pgamemap = pmap.getVASLMap();
+        }
         // retrieve scenario data
         // temporary while debugging undo
-        Scenario Scendet = Linqdata.GetScenarioData(ScenName);
-        ScenIDValue=Scendet.getScenNum();
+        pScenario = Linqdata.GetScenarioData(ScenName);
+        ScenIDValue=pScenario.getScenNum();
         // use scenario data to set property values
-        PhaseValue = Scendet.getPhase();
-        PlayerTurnvalue = Scendet.getPTURN();
+        PhaseValue = pScenario.getPhase();
+        PlayerTurnvalue = pScenario.getPTURN();
         // create map and graphics classes, Map table collection
         String ASLMapLink = "Scen" + getScenID();
         // need to pass string value to create terrain collection
         MapDataC Maptables = MapDataC.GetInstance(ASLMapLink, getScenID());
         LocationCol = Maptables.CreateMapCollection();
-        StartScenario = (LocationCol.size() > 0) ? true: false;
-        //MessageBox.Show("Major League Error")*/
 
-        ContinueScenarioStart(Scendet);
+        ContinueScenarioStart(pScenario);
         return StartScenario;
 
     }
 
     private void ContinueScenarioStart(Scenario PassScenario) {
         boolean Startscenario = true;
-        // create class to handle map activities
-        // Dim pMapBtype As Integer = GetBoardtype()
-        // MapGeo = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(pMapBtype, 0, 0, 0, 0, 0, 0, 0, Game.XNAGph.MapHeightPixels, Game.XNAGph.MapWidthPixels, CInt(PassScenario.Map))
-
-        // load toolbox and detailed display forms
-        /*Game.Toolbox = New Panelform 'toolbox
-        Game.Toolbox.Show()
-        Game.Toolbox.setupform()
-        Game.Unittab = New dispform 'detailed display
-        Game.Unittab.SendToBack()
-        Game.Unittab.Show()
-        Game.Unittab.Visible = False
-        Game.gameform.Hide() 'hide form used for scenario selection*/
 
         // join scenario
         if (!CreatePhaseMVC(Constantvalues.ScenarioAction.JoinPhase)) {
+
             Startscenario = false;
         }
 
@@ -203,8 +200,8 @@ public class ScenarioC extends CampaignC {
         // temporary while debugging undo
         switch (PhasePattern.GetCurrentPhase()) {
             case PrepFire: case DefensiveFire: case AdvancingFire:
-                IFT = new IFTC(getScenID());
-                IFT.FirePhasePreparation();
+                //IFT = new IFTC(getScenID());
+                 //IFT.FirePhasePreparation();
                 break;
             case Movement:
                 DoMove = new MakeMoveC();
@@ -278,21 +275,19 @@ public class ScenarioC extends CampaignC {
 //            '' GameForm.SetBaseControls()
         } else {
             // saving existing scenario
-            // get record
-            Scenario Scendet = Linqdata.GetScenarioData(getScenname());
             // update changed values -ANY OTHER VALUES NEED CHANGING - Sniper, etc?
-            Scendet.setPhase(PhaseValue);
-            Scendet.setPTURN(PlayerTurnvalue);
-            Scendet.setCURRENTTURN(CurrentTurnvalue);
-            Scendet.setFinished(PhasePattern.IsScenarioFinished());
+            pScenario.setPhase(PhaseValue);
+            pScenario.setPTURN(PlayerTurnvalue);
+            pScenario.setCURRENTTURN(CurrentTurnvalue);
+            pScenario.setFinished(PhasePattern.IsScenarioFinished());
 
             // write new values back to database
-            Linqdata.WriteScenarioData(Scendet);
+            Linqdata.WriteScenarioData(pScenario);
         }
     }
 
     public void PhaseChangeNext() {
-        // called by Panelform "Ph >>" action button
+        // called by ActionsToolbar action button
 
         // check move legal and if so exit current phase then create new MVC
         if (PhaseValue == Constantvalues.Phase.CloseCombat) {
@@ -423,11 +418,10 @@ public class ScenarioC extends CampaignC {
 
     public Constantvalues.Nationality WhoseTurnIsIt() {
 
-        Scenario Scendet = Linqdata.GetScenarioData(getScenname());
         if (PlayerTurnvalue == Constantvalues.WhoCanDo.Attacker) {
-            return Scendet.getATT1();
+            return pScenario.getATT1();
         } else {
-            return Scendet.getDFN1();
+            return pScenario.getDFN1();
         }
     }
 
@@ -472,10 +466,9 @@ public class ScenarioC extends CampaignC {
 
     public int GetBoardtype() {
         // called by lots of Mapactions routines
-        Scenario Scendet = Linqdata.GetScenarioData(getScenname()); // retrieves scenario data
         // use scenario data to set MapBtype
-        Constantvalues.Map Maptype = Scendet.getMap();
-        Scendet = null;
+        Constantvalues.Map Maptype = pScenario.getMap();
+        pScenario = null;
 
         switch (Maptype) {
             case bdBloodReef:
@@ -509,7 +502,7 @@ public class ScenarioC extends CampaignC {
         PlayerTurnvalue = PhasePattern.GetCurrentPlayerTurn();
         boolean Finishedvalue = PhasePattern.IsScenarioFinished();
         // update display
-        Scenario Scendet = Linqdata.GetScenarioData(getScenname());
+
         // Game.Window.Title = "ASL Scenario: " + Scendet.getFULLNAME();
         Constantvalues.Nationality PhaseSide = WhoseTurnIsIt();
         String PhaseSideString = Linqdata.GetNatInfo(PhaseSide, 1);
@@ -532,40 +525,38 @@ public class ScenarioC extends CampaignC {
         // DiceC dice = new UtilClassLibrary.ASLXNA.DiceC;
         int Endcheck = 0;
         String msg;
-        // get record
-        Scenario Scendet = Linqdata.GetScenarioData(getScenname());
-        if (Scendet.getCURRENTTURN() >= 5) {
+        if (pScenario.getCURRENTTURN() >= 5) {
             // Endcheck = dice.Dieroll();
-            switch (Scendet.getRules()) {
+            switch (pScenario.getRules()) {
                 case PlatoonLCampaign:
                     if (PlayerTurnvalue == Constantvalues.WhoCanDo.Attacker) {
-                        if (Scendet.getDAYNIGHT() == Constantvalues.DayNight.NIGHT) {
+                        if (pScenario.getDAYNIGHT() == Constantvalues.DayNight.NIGHT) {
                             Endcheck = Endcheck + 1;
                         }
                         switch (CurrentTurnvalue) {
                             // process situations that end the game
                             case 6:
                                 if (Endcheck <= 2) {
-                                    CurrentTurnvalue = (int) Scendet.getGT() + 1;
+                                    CurrentTurnvalue = (int) pScenario.getGT() + 1;
                                     break;
                                 }
                             case 7:
                                 if (Endcheck <= 3) {
-                                    CurrentTurnvalue = (int) Scendet.getGT() + 1;
+                                    CurrentTurnvalue = (int) pScenario.getGT() + 1;
                                     break;
                                 }
                             case 8:
                                 if (Endcheck <= 6) {
-                                    CurrentTurnvalue = (int) Scendet.getGT() + 1;
+                                    CurrentTurnvalue = (int) pScenario.getGT() + 1;
                                     break;
                                 }
                             case 9:
                                 if (Endcheck <= 6) {
-                                    CurrentTurnvalue = (int) Scendet.getGT() + 1;
+                                    CurrentTurnvalue = (int) pScenario.getGT() + 1;
                                     break;
                                 }
                             case 10: {
-                                CurrentTurnvalue = (int) Scendet.getGT() + 1;
+                                CurrentTurnvalue = (int) pScenario.getGT() + 1;
                                 break;
                             }
                         }
@@ -577,22 +568,22 @@ public class ScenarioC extends CampaignC {
                         switch (CurrentTurnvalue) {
                             case 5:
                                 if (Endcheck == 1) {
-                                    CurrentTurnvalue = (int) Scendet.getGT() + 1;
+                                    CurrentTurnvalue = (int) pScenario.getGT() + 1;
                                     break;
                                 }
                             case 6:
                                 if (Endcheck <= 3) {
-                                    CurrentTurnvalue = (int) Scendet.getGT() + 1;
+                                    CurrentTurnvalue = (int) pScenario.getGT() + 1;
                                     break;
                                 }
                             case 7:
                                 if (Endcheck <= 5) {
-                                    CurrentTurnvalue = (int) Scendet.getGT() + 1;
+                                    CurrentTurnvalue = (int) pScenario.getGT() + 1;
                                     break;
                                 }
                             case 8:
                                 if (Endcheck <= 6) {
-                                    CurrentTurnvalue = (int) Scendet.getGT() + 1;
+                                    CurrentTurnvalue = (int) pScenario.getGT() + 1;
                                     break;
                                 }
                         }
@@ -611,14 +602,14 @@ public class ScenarioC extends CampaignC {
                     }
             }
             msg = "You rolled a " + Integer.toString(Endcheck);
-            if (CurrentTurnvalue > Scendet.getGT()) {
-                Scendet.setFinished(true);
+            if (CurrentTurnvalue > pScenario.getGT()) {
+                pScenario.setFinished(true);
                 msg = msg + ". IT'S ALL OVER BOYS!";
                 GameModule.getGameModule().getChatter().send(msg);
                 return true;
             } else {
                 // CurrentTurnvalue += 1 - do this in the PhaseMVCPattern
-                if (CurrentTurnvalue + 1 == Scendet.getGT()) {
+                if (CurrentTurnvalue + 1 == pScenario.getGT()) {
                     msg = msg + ". NOW STARTING LAST TURN";
                     GameModule.getGameModule().getChatter().send(msg);
                 } else {

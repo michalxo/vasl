@@ -35,13 +35,13 @@ public class Constantvalues {
     public enum Rules {SingleScenario, KGPCampaign, RedBCampaign, PlatoonLCampaign, PegasusCampaign, BloodReefcampaign, PrimosoleCampaign, KGPScenario,
         RedBScenario, PlatoonLScenario, PegasusScenario, BloodReefScenario, PrimosoleScenario, VotGCampaign, VotGScenario}
     public enum DayNight {Day, AM, PM, NIGHT, Dawn, Dusk}
-    public enum Nationality {Yanks, Russians, Germans, British, French, Japanese, Italians, Finns, Partisans, Gurkhas, Commonwealth, Axisminor, Alliedminor, Chinese, Hungarians, None}
+    public enum Nationality {Yanks, Russians, Germans, British, French, Japanese, Italians, Finns, Partisans, Gurkhas, Commonwealth, Axisminor, Alliedminor, Chinese, Hungarians, Poles, None}
     public enum CombatSel{None, InhandFirstMG, InhandSecondMG, BothMG, FirstMG, SecondMG, InhOnly, ShowMenu}
     public enum SWStatus{None, GoodOrderSW, Brokendown, Dismantled, Dis_Broken, Malfunctioned, DCPlaced, Used}
     public enum SWtype{None, LMGun, MMGun, HMGun, H50cal, AnyMG, OBRadio, OBPhn, FThr, DemoC, BazK, Mortar, ATR, PIAT, PSK, Lahti, Rclr, InfG, MolP, SetDC}
     public enum IFTResult{KIA7, KIA6, KIA5, KIA4, KIA3, KIA2, KIA1, K4, K3, K2, K1, MC4, MC3, MC2, MC1, NMC, PTC, NR, Broken, KIA, CR}
     public enum IFTdrm{FFMO, FFNAM, HA, Terrain, LOSH, HexHind, TargHasFT, Hexside, Feature, Leader, Hero, FirerCX, FirerEnc, TargLOSH, VisLoSH, VehWrkTEM, VehWrkLOSH}
-    public enum LOS{HexGrain, AltHexGrain, VertHexGrain, NoHexGrain, HorizontalHexGrain}
+    public enum LOS{HexGrain, AltHexGrain, VertHexGrain, NoHexGrain, HorizontalHexGrain, Is60}
     public enum Location {Ocean, OpenGround, River, Marsh, Brush, Streamshallow, Ford, PineWoods, Woods, Crag, Airfield, Mudflats, Orchard, OrchardPavedRoad, OrchardUnpavedRoad,
         PavedRoad, UnpavedRoad, TrailWoods, TrailBrush, TrailPineWoods, WoodsPavedRoad, WoodsUnpavedRoad, PineWoodsPavedRoad, PineWoodsUnpavedRoad, GullyBrush, GullyWoods,
         Graveyard, SunkenPavedRoad, OrchardStreamshallow, StreamWoodsshallow, StreamPineWoodsshallow, StreamBrushshallow, SunkenUnpvRoad, StratLoc, Grainfield, Gully,
@@ -94,5 +94,6 @@ public class Constantvalues {
         HeroHardens, NoEffects, ReducesHOB, ReducesDies, ReducesPins, ReducesReplaces, DisruptDMs, StepReduces, StepReducesHS, ReplacesStepReduces, ReplacesStepReducesHS, RevealDummy, RevealConUnitbySniper,
         RevealAllDummy, HeroicLdrCreation, HeroicLdrHardens}
     public enum HOBResult{Hardens, HeroCreation, HardensAndHero, Berserk, Surrenders}
+
 }
 

@@ -1,7 +1,11 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
+import VASL.build.module.fullrules.MapDataClasses.LocationType;
+import VASL.build.module.fullrules.MapDataClasses.MapDataC;
+import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -519,5 +523,19 @@ public class BasePersunitc implements Basepersuniti {
         //UpdateUnit.Guard_ID = 0;
         //Linqdata.QuickUpdate();
         return true;
+    }
+    public boolean IsLocationAMatch(Location testLOCformatch){
+        TerrainChecks Terrchk = new TerrainChecks();
+        if ((this.gethexlocation()).equals(Terrchk.getLocationtypefromVASLLocation(testLOCformatch)) &&
+                this.getLevelinHex() == testLOCformatch.getBaseHeight()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public LocationType getLocationType(Constantvalues.Location phexlocation) {
+        TerrainChecks Terrchk = new TerrainChecks();
+        return Terrchk.getLocationType(phexlocation);
     }
 }

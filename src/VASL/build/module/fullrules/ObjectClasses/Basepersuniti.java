@@ -1,6 +1,8 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.MapDataClasses.LocationType;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -86,5 +88,7 @@ public interface Basepersuniti {
     boolean CanGuard(Constantvalues.Utype Prisonertype);
     boolean AddPrisoner(PersUniti PassUnit);
     boolean DeletePrisoner(PersUniti PassUnit);
+    public boolean IsLocationAMatch(Location testLOCformatch);
+    public LocationType getLocationType(Constantvalues.Location phexlocation);
 
 }

@@ -1,5 +1,6 @@
 package VASL.build.module.fullrules.IFTCombatClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.EnemyHexLOSHFPdrm;
@@ -238,6 +239,7 @@ class DFFEnemyValuesConcreteC {
         MovingList = MovingUnits;
         // now get the list of enemy units
         int Movinghexclicked = MovingList[0].getbaseunit().getHexnum();
+        Hex MovingHex = scen.getGameMap().getHex(MovingList[0].getbaseunit().getHexName());
         Constantvalues.Location Movinglocation = MovingList[0].getbaseunit().gethexlocation();
         Constantvalues.AltPos MovingPosition = MovingList[0].getbaseunit().gethexPosition();
         boolean SeenUsingCrestStatus = false;
@@ -247,9 +249,8 @@ class DFFEnemyValuesConcreteC {
         }
 
         // instantiate various classes used during calculations
-        DataC Linqdata = DataC.GetInstance();    // use null values when sure instance already exists
         MapDataC Maptables  = MapDataC.GetInstance("", 0) ;  // use null values when sure that instance already exists
-        LinkedList<GameLocation> LocationCol = Maptables.getLocationCol();
+        LinkedList<GameLocation> LocationCol = null;  //Maptables.getLocationCol();
         GetALocationFromMap GetLocs = new GetALocationFromMap(LocationCol);
         LevelChecks LevelChk = new LevelChecks(LocationCol);
         // set some data variables
@@ -258,7 +259,8 @@ class DFFEnemyValuesConcreteC {
         int MovingLOSIndex =  LoCtouse.getLocIndex();
         PersUniti MovingItem = MovingList[0];
         scennum = MovingItem.getbaseunit().getScenario();
-        Scenario Scendet = Linqdata.GetScenarioData(scennum); // retrieves scenario data
+        ScenarioC scen  = ScenarioC.getInstance();
+        Scenario Scendet = scen.getScendet(); // retrieves scenario data
         Constantvalues.Map scenmap = Scendet.getMap();
         VASL.LOS.Map.Map MapInUse = scen.getGameMap();
         int ScenDustMist = Scendet.getMistDust();
@@ -303,12 +305,12 @@ class DFFEnemyValuesConcreteC {
                 TempSolution TempSol;
                 // get the required input variables for Tempsolution
                 DFFlevel = EnemyUnit.getbaseunit().getLevelinHex();
-                DFFHexnum = EnemyUnit.getbaseunit().getHexnum();
+                Hex DFFHex = scen.getGameMap().getHex(EnemyUnit.getbaseunit().getHexName());
                 PassHexname = EnemyUnit.getbaseunit().getHexName();
                 DFFPositioninHex = EnemyUnit.getbaseunit().gethexPosition();
                 SeeUsingCrestStatus = EnemyUnit.getbaseunit().IsInCrestStatus();
                 // create TempSolution
-                TempSol = new TempSolution(DFFHexnum, DFFlevel, DFFLOSIndex, DFFPositioninHex, Movinghexclicked, Movinglevel, MovingLOSIndex, MovingPosition, PassSolWorks, TempSolList.size(), MapInUse);
+                TempSol = new TempSolution(DFFHex, DFFlevel, DFFLOSIndex, DFFPositioninHex, MovingHex, Movinglevel, MovingLOSIndex, MovingPosition, PassSolWorks, TempSolList.size(), MapInUse);
 
                 if (TempSol != null) {
                     // add to list of temp
@@ -352,7 +354,7 @@ class DFFEnemyValuesConcreteC {
                                 TempLOSTestFireGroup.add(TestFireUnit);
                             }
                         }
-                        EnemyHex.setLOSStatus(ThreadManager.LOSRangeTest(Tempsol.getSeeHexNum(), Tempsol.getSeenHexNum(), TempLOSTestFireGroup));
+                        EnemyHex.setLOSStatus(ThreadManager.LOSRangeTest(Tempsol.getSeeHex(), Tempsol.getSeenHex(), TempLOSTestFireGroup));
                     } else {
                         EnemyHex.setdrm(0); EnemyHex.setFP(0);
                     }
@@ -517,8 +519,8 @@ class DFFEnemyValuesConcreteC {
     private boolean SetEnemy(Constantvalues.Nationality FirstFriendly, int scennum){
         // called by SetLOSHFPdrmValues
         // set the nationality values of the "enemy" side
-        DataC Linqdata = DataC.GetInstance(); // use null values when sure instance already exists
-        Scenario Scendet = Linqdata.GetScenarioData(scennum);  // retrieves scenario data
+        ScenarioC scen  = ScenarioC.getInstance();
+        Scenario Scendet = scen.getScendet();  // retrieves scenario data
         if (FirstFriendly == Scendet.getATT1() || FirstFriendly == Scendet.getATT2()) {
             EnemySide1 = Scendet.getDFN1();
             EnemySide2 = Scendet.getDFN2();

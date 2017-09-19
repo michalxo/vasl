@@ -1,7 +1,10 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
+import VASL.build.module.fullrules.MapDataClasses.LocationType;
+import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 
 import java.util.LinkedList;
 
@@ -9,8 +12,8 @@ public class TerrainChecks {
 
     private LinkedList<GameLocation> MapData = new LinkedList<GameLocation>();
 
-    public TerrainChecks(LinkedList<GameLocation> LocationCol) {
-        MapData = LocationCol;
+    public TerrainChecks() {
+
     }
 
 
@@ -142,27 +145,59 @@ public class TerrainChecks {
         End Select*/
         return true;
     }
+    public LocationType getLocationType(Constantvalues.Location getLocation){
+        // takes a Constantvalues enum parameter and uses it to search the LocationType collection and return a specific LocationType object
+        MapDataC MapData = MapDataC.GetInstance("", 0);
+        LinkedList<LocationType> LocationTypeCol = MapData.getLocationTypeCol();
+        for(LocationType testlocation: LocationTypeCol){
+            if ((testlocation.getLocationvalue()).equals(getLocation)){
+                return testlocation;
+            }
+        }
+        return null;
+    }
+    public Constantvalues.Location getLocationtypefromVASLLocation(Location SeeLOSLoc){
 
+        if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+            return Constantvalues.Location.OpenGround;
+        } else if ((SeeLOSLoc.getTerrain().getName()).equals("Grain")) {
+            return Constantvalues.Location.Grainfield;
+        } else if ((SeeLOSLoc.getTerrain().getName()).equals("Woods")) {
+            return Constantvalues.Location.Woods;
+        } else {
+            return Constantvalues.Location.NA;
+        }
+        // this routine turns the terrain type and base level of a VASL Location (VASL.LOS.Map.Location) into a Constantvalues.Location value - which can then be searched in the Locations collection
+    }
+    public Constantvalues.Location getVASLLocationtype(Location testLOCformatch) {
+        // takes a VASL Location object and returns the matching value from the Constantvalues.Location enum
+        if (testLOCformatch.getTerrain().getName() == "Open Ground" ) {
+            return Constantvalues.Location.OpenGround;
+        } else if (testLOCformatch.getTerrain().getName() == "Grain" ) {
+            return Constantvalues.Location.Grainfield;
+        } else if (testLOCformatch.getTerrain().getName() == "Woods" ) {
+            return Constantvalues.Location.Woods;
+        } else {
+            return Constantvalues.Location.NA;
+        }
+    }
     public String GetLocationData(Constantvalues.TerrFactor Territem, Constantvalues.Location TerrID) {
-            /*'called by Linqdata.addtocollection - is meant to retrieve specific item from Location type table
-                    'TerrID is type of terrain - which record to look at
-                    'Territem is which terrain element to return
-    Dim Loctab
-    As MapDataClassLibrary.MapDataClassesDataContext =Maptables.GetMapDatabase
-    Dim TerrInfo
-    As String = ""
-            'query
-    If TerrID = 0
-    Then return TerrInfo
-    Select Case
-    Territem
-                'Case LocFactor.TEM
-                        '    TerrInfo = (From QU In Loctab.Locations Where QU.Locationtype = TerrID _
-                        '                      Select QU.TEM).First.ToString
-                        'Case LocFactor.LOSHind
-                        '    TerrInfo = (From QU In Loctab.Locations Where QU.Locationtype = TerrID _
-                        '                      Select QU.LOSHindDRM).First.ToString
-    Case ConstantClassLibrary.
+        // called by Linqdata.addtocollection - is meant to retrieve specific item from Location type table
+        // TerrID is type of terrain - which record to look at
+        // Territem is which terrain element to return
+        MapDataC MapData = MapDataC.GetInstance("", 0);
+        LinkedList<LocationType> LocationTypeCol = MapData.getLocationTypeCol();
+
+        switch (Territem) {
+            case TEM:
+                for (LocationType loctypetoget : LocationTypeCol) {
+                    if (loctypetoget.getLocationvalue() == TerrID) {
+                        return Integer.toString(loctypetoget.getTEM());
+                    }
+                }
+        }
+        return "";
+    /*Case ConstantClassLibrary.
     ASLXNA.TerrFactor.Desc
             TerrInfo = (From
     QU In
@@ -197,9 +232,9 @@ public class TerrainChecks {
                     'Case LocFactor.ObstHeight
                             '    TerrInfo = (From QU In db.Locations Where QU.Terraintype = TerrID _
                             '                     Select QU.ObstHeight).First.ToString
-    End Select*/
+    End Select
         String TerrInfo = "";
-        return TerrInfo;
+        return TerrInfo;*/
     }
 
     public boolean IsLocationCounterRemoveable(int Territem, int TerrID) {

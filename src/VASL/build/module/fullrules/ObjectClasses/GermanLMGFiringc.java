@@ -21,7 +21,7 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
 
     public GermanLMGFiringc(SuppWeapi PassSW) {
 
-        try {
+        /*try {
             MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
             MapCol = MapData.getLocationCol();
         } catch (Exception ex) {
@@ -29,7 +29,7 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
         }
         GetALocationFromMap Getlocs = new GetALocationFromMap(MapCol);
         myLoc = Getlocs.RetrieveLocationfromMaptable(PassSW.getbaseSW().getLOCIndex());
-        myBaseUnit = PassSW;
+        myBaseUnit = PassSW;*/
     }
 
     public void AdvancingFireModification(Constantvalues.Phase phase) {

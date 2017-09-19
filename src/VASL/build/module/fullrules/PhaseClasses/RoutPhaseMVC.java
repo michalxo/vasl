@@ -3,6 +3,7 @@ package VASL.build.module.fullrules.PhaseClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASSAL.build.GameModule;
 // concrete class implementing iPhaseMVC
 public class RoutPhaseMVC implements iPhaseMVC {
@@ -14,8 +15,8 @@ public class RoutPhaseMVC implements iPhaseMVC {
     private PhaseObserverInterface PhaseObserver;
 
     public RoutPhaseMVC(int ScenID) {
-        DataC Linqdata = DataC.GetInstance();    // use null values when sure instance already exists
-        Scenario Scendet  = Linqdata.GetScenarioData(ScenID);
+        ScenarioC scen  = ScenarioC.getInstance();
+        Scenario Scendet = scen.getScendet();
         CurrentPlayerTurnvalue = Scendet.getPTURN();
         CurrentTurnvalue = Scendet.getCURRENTTURN();
         IsFinishedvalue = false;
@@ -40,20 +41,21 @@ public class RoutPhaseMVC implements iPhaseMVC {
         CurrentPhasevalue = Constantvalues.Phase.Rout;
         AutoActions.SaveScenario(false);  // save existing scenario
         GameModule.getGameModule().getChatter().send("You are now in new Phase: Database save complete");
+        GameModule.getGameModule().getChatter().send("Now in Rout Phase");
         JoinPhase();
         // ReportEvent.LognewPhase()
     }
 
     public void LeaveCurrentPhase() {
-        /*' called by Quit menu item and ExitfromPhase
-        ' at quit, leave current phase
+        // called by Quit menu item and ExitfromPhase
+        // at quit, leave current phase
 
-        ' Do routines that need to be each time you stop during a phase
-        ' could handle some parts of cleanup before Exitfromphase
+        // Do routines that need to be each time you stop during a phase
+        // could handle some parts of cleanup before Exitfromphase
 
-        ' Do saving and updating routines that are required everytime a phase is left
-        'UpdateOBUnitDatabase() : UpdateOBSWDatabase() : UpdateOBGunDatabase()
-        'UpdateMapTerrainDatabase: WriteActiveScenariotoDatabase()*/
+        // Do saving and updating routines that are required everytime a phase is left
+        //UpdateOBUnitDatabase() : UpdateOBSWDatabase() : UpdateOBGunDatabase()
+        //UpdateMapTerrainDatabase: WriteActiveScenariotoDatabase()
     }
 
     public void ExitFromPhaseBack() {

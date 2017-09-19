@@ -43,7 +43,4 @@ public class German467c implements PersUniti {
     public void setFiringunit(FiringPersUniti value) {myFiringPU = value;}
     public void setMovingunit(MovingPersuniti value) {myMovingPU = value;}
     public void setTargetunit(TargetPersUniti value) {myTargetPU = value;}
-    // methods
-
-
 }

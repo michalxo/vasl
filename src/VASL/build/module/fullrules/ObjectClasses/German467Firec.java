@@ -5,7 +5,6 @@ import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
-
 import java.util.LinkedList;
 
 public class German467Firec implements FiringPersUniti {
@@ -50,7 +49,7 @@ public class German467Firec implements FiringPersUniti {
         this.myUsingsecondMG = PassUsingsecondMG;
 
         MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
-        Mapcol = MapData.getLocationCol();
+        Mapcol = null; //MapData.getLocationCol();
         Getlocs = new GetALocationFromMap(Mapcol);
         MyLoc = Getlocs.RetrieveLocationfromMaptable(PassUnit.getbaseunit().getLOCIndex());
         myIsInCrestStatus = PassUnit.getbaseunit().IsInCrestStatus();
@@ -178,7 +177,7 @@ public class German467Firec implements FiringPersUniti {
                     // get Pillbox location
                     UsingHex = Getlocs.RetrieveLocationfromMaptable(HexLocIndex);
                     // Now determine Pillbox covered arc
-                    TerrainChecks TerrChk = new TerrainChecks(Mapcol);
+                    TerrainChecks TerrChk = new TerrainChecks();
                     String Imagename = TerrChk.GetLocationData(Constantvalues.TerrFactor.Image, (UsingHex.getLocation()));
                     // temporary while debugging UNDO
                     /*Dim TestCA As DataClassLibrary.LookupCA = (From Qu In Linqdata.db.LookupCAs Where
@@ -261,7 +260,7 @@ public class German467Firec implements FiringPersUniti {
 
     public void AssaultFireModification(Constantvalues.Phase Phase) {
         //called by ifT.CalcFP
-        //changes CombatFP property based on use of Spraying Fire
+        //changes CombatFP property based on use of Assault Fire
 
         //'if Phase = Constantvalues.Phase.AdvancingFire Then myCombatFP = myCombatFP + 1
         //'MsgBox("Using Assault Fire Capability", , "Assault Fire raises FP to " & Str$(Int(myCombatFP)))

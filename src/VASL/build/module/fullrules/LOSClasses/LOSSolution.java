@@ -17,10 +17,10 @@ public class LOSSolution extends BaseSolution {
     private LinkedList<AltHexGTerrain> prAltHexesinLOS = new LinkedList<AltHexGTerrain>();
 
     // constructor called by
-    public LOSSolution(int PassSeehexnum, double PassSeelevelinhex, double PassTotalSeeLevel, int PassSeeLOSindex, Constantvalues.AltPos PassSeePositionInHex, int PassSeenhexnum,
+    public LOSSolution(Hex PassSeehex, double PassSeelevelinhex, double PassTotalSeeLevel, int PassSeeLOSindex, Constantvalues.AltPos PassSeePositionInHex, Hex PassSeenhex,
                        double PassSeenlevelinhex, double PassTotalSeenLevel, int PassSeenLOSIndex, Constantvalues.AltPos PassSeenPositionInHex, boolean PassSolWorks,
                        Constantvalues.LOS PassLOSFollows, int PassID, VASL.LOS.Map.Map PassScenMap) {
-        super(PassSeehexnum, PassSeelevelinhex, PassSeeLOSindex, PassSeePositionInHex, PassSeenhexnum, PassSeenlevelinhex,
+        super(PassSeehex, PassSeelevelinhex, PassSeeLOSindex, PassSeePositionInHex, PassSeenhex, PassSeenlevelinhex,
                 PassSeenLOSIndex, PassSeenPositionInHex, PassSolWorks, PassScenMap);
         prSolIDvalue = PassID;
         setTotalSeeLevel(PassTotalSeeLevel);

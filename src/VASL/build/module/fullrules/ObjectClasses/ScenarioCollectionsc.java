@@ -1,5 +1,7 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.build.module.fullrules.DataClasses.Unpossessed;
+
 import java.util.LinkedList;
 
 /**
@@ -2873,7 +2875,7 @@ public class ScenarioCollectionsc {
     public LinkedList<PersUniti> Unitcol = new LinkedList<PersUniti>();
     public LinkedList<PersUniti> SelMoveUnits = new LinkedList<PersUniti>();
     public LinkedList<SuppWeapi> SWCol = new LinkedList<SuppWeapi>();
-    // Public Property Unpossesseds As List(Of DataClassLibrary.Unpossessed)
+    public LinkedList<Unpossessed> Unpossesseds = new LinkedList<Unpossessed>();
 
     // constructor; class uses singleton pattern to ensure only one instance ever exists
     private ScenarioCollectionsc() {

@@ -3,6 +3,10 @@ package VASL.build.module.fullrules.PhaseClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.Game.ScenarioC;
+import VASL.build.module.fullrules.IFTCombatClasses.IFTC;
+import VASSAL.build.GameModule;
+
 // concrete class implementing iPhaseMVC
 public class PrepPhaseMVC implements iPhaseMVC {
     private AutomatedPhaseActions AutoActions;
@@ -13,27 +17,24 @@ public class PrepPhaseMVC implements iPhaseMVC {
     private PhaseObserverInterface PhaseObserver;
 
     public PrepPhaseMVC(int ScenID) {
-        DataC Linqdata = DataC.GetInstance();    // use null values when sure instance already exists
-        Scenario Scendet = Linqdata.GetScenarioData(ScenID);
-        // temporary while debugging UNDO
-        CurrentPlayerTurnvalue = Constantvalues.WhoCanDo.Attacker;  // Scendet.getPTURN();
-        CurrentTurnvalue =  1;               // Scendet.getCURRENTTURN();
+        ScenarioC scen = ScenarioC.getInstance();
+        CurrentPlayerTurnvalue =  scen.getPlayerTurn();
+        CurrentTurnvalue =  scen.getCurrentTurn();
         IsFinishedvalue = false;
         CurrentPhasevalue = Constantvalues.Phase.PrepFire;
         AutoActions = new AutomatedPhaseActions(CurrentPlayerTurnvalue, ScenID);
     }
 
     public boolean JoinPhase() {
-       /* ' Called by EnterIntonewPhase and PhaseChange, Gameform.buSavScen
-        ' Open Existing Scenario menu item and Open Campaign routine
-        ' does not run routine called the first time a phase is entered, that is done in EnternewPhase
-
-        'Try
-        '    Game.Scenario.IFT.FirePhasePreparation()
-        'Catch ex As Exception
-        '    Game.Scenario.IFT = new IFTC
-        '    Game.Scenario.IFT.FirePhasePreparation()
-        'End Try*/
+        // Called by EnterIntonewPhase and PhaseChange, Open Existing Scenario and Open Campaign routine
+        // does not run routine called the first time a phase is entered, that is done in EnternewPhase
+        ScenarioC scen = ScenarioC.getInstance();
+        try {
+            scen.IFT.FirePhasePreparation();
+        } catch (Exception ex) {
+            scen.IFT = new IFTC(scen.getScenID());
+            scen.IFT.FirePhasePreparation();
+        }
         return true;
     }
 
@@ -46,18 +47,19 @@ public class PrepPhaseMVC implements iPhaseMVC {
         AutoActions.VehicleDustCHeck();
         JoinPhase();
         // ReportEvent.LognewPhase()
+        GameModule.getGameModule().getChatter().send("Now in Prep Fire Phase");
     }
 
     public void LeaveCurrentPhase() {
-                /*' called by Quit menu item and ExitfromPhase
-                    ' at quit, leave current phase
+        // called by Quit menu item and ExitfromPhase
+        // at quit, leave current phase
 
-                    ' Do routines that need to be each time you stop during a phase
-                    ' could handle some parts of cleanup before Exitfromphase
+        // Do routines that need to be each time you stop during a phase
+        // could handle some parts of cleanup before Exitfromphase
 
-                    ' Do saving and updating routines that are required everytime a phase is left
-                    'UpdateOBUnitDatabase() : UpdateOBSWDatabase() : UpdateOBGunDatabase()
-                    'UpdateMapTerrainDatabase: WriteActiveScenariotoDatabase()*/
+        // Do saving and updating routines that are required everytime a phase is left
+        //UpdateOBUnitDatabase() : UpdateOBSWDatabase() : UpdateOBGunDatabase()
+        //UpdateMapTerrainDatabase: WriteActiveScenariotoDatabase()
     }
 
 

@@ -57,7 +57,7 @@ public class PersCreation {
                     CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))*/
             case 5:
                 return new German467c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(), unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
-                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel, (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(), 2, unititem.getCombatStatus(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel, (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(), 5, unititem.getCombatStatus(),
                         unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(), unititem.getPinned(), (int) unititem.getSW(), PassClass, unititem.getCharacterStatus(), PassUtype, unititem.getRoleStatus());
 
             /*case 9
@@ -90,12 +90,11 @@ public class PersCreation {
             ObjectClassLibrary.ASLXNA.Russian458c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
                     CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 26, CInt(unititem.CombatStatus),
                     CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            case 27
-            return new
-            ObjectClassLibrary.ASLXNA.Russian447c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 27, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            case 28
+            */
+            case 27:             return new Russian447c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(), unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel, (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(), 27, unititem.getCombatStatus(),
+                    unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(), unititem.getPinned(), (int) unititem.getSW(), PassClass, unititem.getCharacterStatus(), PassUtype, unititem.getRoleStatus());
+/*case 28
             return new
             ObjectClassLibrary.ASLXNA.Russian527c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
                     CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 28, CInt(unititem.CombatStatus),
@@ -422,7 +421,7 @@ public class PersCreation {
         // creates a new persuniti firing property class in a persuniti object and returns updated persuniti to calling method
 
         if (Constantvalues.Typetype.Personnel == Unititem.getbaseunit().getTypeType_ID()) {  // item is infantry
-            OrderofBattle PassUnit = Linqdata.GetUnitfromCol(Unititem.getbaseunit().getCon_ID());
+            OrderofBattle PassUnit = Linqdata.GetUnitfromCol(Unititem.getbaseunit().getUnit_ID());
             // set Firing Unit property of persuniti object
             Unititem.setFiringunit(createfiringunitproperty(PassUnit, Unititem));
         }
@@ -460,7 +459,7 @@ public class PersCreation {
             case 26:
                 //return new Russian458Firec(PassIsCX, PassIsPinned, PassHasMG, PassUsingInherentFP, PassUsingfirstMG, PassUsingsecondMG, FiringUnit);
             case 27:
-                //return new Russian447Firec(PassIsCX, PassIsPinned, PassHasMG, PassUsingInherentFP, PassUsingfirstMG, PassUsingsecondMG, FiringUnit);
+                return new Russian447Firec(PassIsCX, PassIsPinned, PassHasMG, PassUsingInherentFP, PassUsingfirstMG, PassUsingsecondMG, FiringUnit);
             case 28:
                 //return new Russian527Firec(PassIsCX, PassIsPinned, PassHasMG, PassUsingInherentFP, PassUsingfirstMG, PassUsingsecondMG, FiringUnit);
             case 29:
@@ -588,8 +587,8 @@ public class PersCreation {
                 //return new Russian458Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
                 //    PassSmoke, TargetUnit);
             case 27:
-                //return new Russian447Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
-                //    PassSmoke, TargetUnit);
+                return new Russian447Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
+                    PassSmoke, TargetUnit);
             case 28:
                 //return new Russian527Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
                 //    PassSmoke, TargetUnit);

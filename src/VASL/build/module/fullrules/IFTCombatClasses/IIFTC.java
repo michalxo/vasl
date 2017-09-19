@@ -1,6 +1,7 @@
 package VASL.build.module.fullrules.IFTCombatClasses;
 
 import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.LOSResult;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.IFTMods;
@@ -31,9 +32,11 @@ public interface IIFTC {
     int getTargetloc();
     void setTargetloc(int value);
     boolean getNeedtoResumeResolution();
+    LOSResult getLOSResult();
 
     boolean InitializeIFTCombat();
     void FirePhasePreparation();
     void ClickedOnNewParticipants(Hex ClickedHex, LinkedList<GamePiece> SelectedUnits);
+    void ProcessIFTCombat();
 }
 

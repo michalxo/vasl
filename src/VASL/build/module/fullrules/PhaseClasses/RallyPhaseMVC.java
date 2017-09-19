@@ -3,6 +3,8 @@ package VASL.build.module.fullrules.PhaseClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.Game.ScenarioC;
+import VASSAL.build.GameModule;
 
 // concrete class implementing iPhaseMVC
 public class RallyPhaseMVC implements iPhaseMVC {
@@ -14,8 +16,8 @@ public class RallyPhaseMVC implements iPhaseMVC {
     private PhaseObserverInterface PhaseObserver;
 
     public RallyPhaseMVC(int ScenID) {
-        DataC Linqdata = DataC.GetInstance();    // use null values when sure instance already exists
-        Scenario Scendet  = Linqdata.GetScenarioData(ScenID);
+        ScenarioC scen  = ScenarioC.getInstance();
+        Scenario Scendet = scen.getScendet();
         CurrentPlayerTurnvalue = Scendet.getPTURN();
         CurrentTurnvalue = Scendet.getCURRENTTURN();
         IsFinishedvalue = false;
@@ -49,19 +51,19 @@ public class RallyPhaseMVC implements iPhaseMVC {
         WeatherCheck();
         JoinPhase();
         NotifyObservers();
-
+        GameModule.getGameModule().getChatter().send("Now in Rally Phase");
     }
 
     public void LeaveCurrentPhase() {
-        /*' called by Quit menu item and ExitfromPhase
-        ' at quit, leave current phase
+        // called by Quit menu item and ExitfromPhase
+        // at quit, leave current phase
 
-        ' Do routines that need to be each time you stop during a phase
-        ' could handle some parts of cleanup before Exitfromphase
+        // Do routines that need to be each time you stop during a phase
+        // could handle some parts of cleanup before Exitfromphase
 
-        ' Do saving and updating routines that are required everytime a phase is left
-        'UpdateOBUnitDatabase() : UpdateOBSWDatabase() : UpdateOBGunDatabase()
-        'UpdateMapTerrainDatabase: WriteActiveScenariotoDatabase()*/
+        // Do saving and updating routines that are required everytime a phase is left
+        //UpdateOBUnitDatabase() : UpdateOBSWDatabase() : UpdateOBGunDatabase()
+        //UpdateMapTerrainDatabase: WriteActiveScenariotoDatabase()
     }
 
     public void ExitFromPhaseBack() {

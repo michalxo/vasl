@@ -1,29 +1,43 @@
 package VASL.build.module.fullrules.LOSClasses;
 
+import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Location;
+import VASL.LOS.Map.Terrain;
+import VASL.LOS.VASLGameInterface;
+import VASL.LOS.counters.OBA;
+import VASL.LOS.counters.Smoke;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
+import VASL.build.module.fullrules.MapDataClasses.LocationType;
+import VASL.build.module.fullrules.MapDataClasses.MapDataC;
+import VASL.build.module.fullrules.ObjectClasses.AltHexGTerrain;
+import VASL.build.module.fullrules.ObjectClasses.CombatTerrain;
+import VASL.build.module.fullrules.ObjectClasses.SmokeHolder;
+import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 
+
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ThreadedLOSCheckCommonc {
     
-    //public TempCombatTerrColCommon As New Collection
-    //public TempAltHexLOSGroupCommon As New ArrayList   // holds Althexgrain instances before los confirmed
-    //public AltHexLOSGroupCommon As New ArrayList   // holds CombatTerrain.AltHexGTerrain instances
+    public LinkedList<CombatTerrain> TempCombatTerrColCommon = new LinkedList<CombatTerrain>();
+    public LinkedList<AltHexGTerrain> TempAltHexLOSGroupCommon = new LinkedList<AltHexGTerrain>();   // holds Althexgrain instances before los confirmed
+    public LinkedList<AltHexGTerrain> AltHexLOSGroupCommon = new LinkedList<AltHexGTerrain>();   // holds CombatTerrain.AltHexGTerrain instances
     private TerrainChecks terrchk;
-    private LinkedList<GameLocation> MapCol = new LinkedList<GameLocation>();   // holds collection of all gamelocations in the current map
     private boolean pMistIsLOSH= false;
     private boolean pDustIsLOSH= false;
-    public ThreadedLOSCheckCommonc(TerrainChecks PassTerrChk, LinkedList<GameLocation> PassMapCol) {
+    public ThreadedLOSCheckCommonc(TerrainChecks PassTerrChk) {
         terrchk = PassTerrChk;
-        MapCol = PassMapCol;
     }
     
     public boolean IsMistLOSH() {return pMistIsLOSH;}
     public boolean IsDustLOSH() {return pDustIsLOSH;}
-        /*'Private Function AddtoCollection(ByVal Maphex As MapDataClassLibrary.GameLocation, ByVal Hexrole As Integer, ByVal PassSmokeList As List(Of CombatTerrainClassLibrary.ASLXNA.SmokeHolder)) As Boolean
+    /* 'Private Function AddtoCollection(ByVal Maphex As MapDataClassLibrary.GameLocation, ByVal Hexrole As Integer, ByVal PassSmokeList As List(Of CombatTerrainClassLibrary.ASLXNA.SmokeHolder)) As Boolean
                 '    'called by Me.
         '    'from Mapgeo
         '    Dim UsingTarget As Boolean = false
@@ -77,58 +91,63 @@ public class ThreadedLOSCheckCommonc {
             '    If Not (IsNothing(FireTerrain)) Then TempCombatTerrColCommon.Add(FireTerrain)
             '    'if get this far then Terrain addeded
         '    return true
-                'End Function
-    Friend Function AddtoCollectionThread(ByVal Maphex As MapDataClassLibrary.GameLocation, ByVal Hexrole As Integer, ByVal PassHexDesc As String, ByVal TempsolID As Integer, ByVal PassSmokeList As List(Of ObjectClassLibrary.ASLXNA.SmokeHolder)) As Boolean
-            'called by Me.DoSightcheck
-                    'adds a new CombatTerrain to a collection
-    Dim UsingTarget As Boolean = false
-            'no hex found by RetrieveData - exit
-    If CStr(Maphex.Hexname) = "" Then return false
-            'check if hex already present
-    If TempCombatTerrColCommon.Count <> 0 Then
-                'other hexes exist in collection
-    For Each TempCT As ObjectClassLibrary.ASLXNA.CombatTerrain In TempCombatTerrColCommon
-    If Maphex.Hexnum = TempCT.HexID Then
-    If TempCT.IsTarget Then UsingTarget = true
-                        'REM out Aug 13 - not using TargetID in fire routines so no point in setting
-                                ' ''For i = 0 To 99
-                                ' ''    If TempCT.TargetID(i) = Maphex.LocIndex Then Exit For
-                                ' ''    If TempCT.TargetID(i) <> 0 Then Continue For
-                                ' ''    TempCT.TargetID(i) = Maphex.LocIndex
-                                ' ''    Exit For
-                                ' ''Next
-    If TempCT.LocIndex = Maphex.LocIndex Then return false
-    End If
-    Next
-    End If
-            'determine if Target is in location or otherterraininlocation
-    Dim PasshexTerrtype As Integer = 0 : Dim Passhextem As Integer = 0
-    PasshexTerrtype = CInt(Maphex.Location)
-    Passhextem = CInt(Maphex.TEM)
-    Dim PassHexname As String = Trim(CStr(Maphex.Hexname))
-    Dim PassHexID As Integer = CInt(Maphex.Hexnum)
-    Dim PassHexside1 As Integer = CInt(Maphex.Hexside1)
-    Dim PassHexside2 As Integer = CInt(Maphex.Hexside2)
-    Dim PassHexside3 As Integer = CInt(Maphex.Hexside3)
-    Dim PassHexside4 As Integer = CInt(Maphex.Hexside4)
-    Dim PassHexside5 As Integer = CInt(Maphex.Hexside5)
-    Dim PassHexside6 As Integer = CInt(Maphex.Hexside6)
-    Dim PassBaseLevel As Single = CSng(Maphex.Baselevel)
-    Dim PassStaircase As String = CStr(Maphex.HasStair)
-    Dim Passcontrol As String = ""  'CStr(Maphex.Control)
-    Dim Passoba As Integer = CInt(Maphex.OBA)
-    Dim PassHexHind As Integer = CInt(Maphex.LOSHdrm) 'GetTerrainData(EnumCon.TerrFactor.LOSHind, PasshexTerrtype))
-    Dim Passhexrole As Integer = Hexrole
-    Dim PassTargetID As Integer = Maphex.LocIndex   'this doesn't feel right - CHECK IT OUT
-    Dim FireTerrain As New ObjectClassLibrary.ASLXNA.CombatTerrain(PassHexname, _
-            PassHexID, PasshexTerrtype, PassHexside1, PassHexside2, _
-    PassHexside3, PassHexside4, PassHexside5, PassHexside6, _
-            Passhextem, PassHexHind, PassHexDesc, Passhexrole,
-    PassStaircase, PassBaseLevel, Passcontrol, PassTargetID, Maphex.LocIndex, TempsolID, PassSmokeList, Passoba)
-    If Not (IsNothing(FireTerrain)) Then TempCombatTerrColCommon.Add(FireTerrain)
-            'if get this far then Terrain addeded
-    return true
-    End Function
+                'End Function*/
+    public boolean AddtoCollectionThread(Location LOSLoc, Constantvalues.Hexrole Hexrole, String PassHexDesc, int TempsolID, LinkedList<SmokeHolder> PassSmokeList) {
+        //called by Me.DoSightcheck
+        // adds a new CombatTerrain to a collection
+        boolean UsingTarget = false;
+        // no hex found by RetrieveData - exit
+        if (LOSLoc.getHex().getName() == "") {return false;}
+        //check if hex already present
+        if (TempCombatTerrColCommon.size() != 0) {
+            // other hexes exist in collection
+            for (CombatTerrain TempCT : TempCombatTerrColCommon) {
+                if (LOSLoc.getHex().getName() == TempCT.getHexName()) {
+                    if (TempCT.IsTarget()) {
+                        UsingTarget = true;
+                    }
+                    if (TempCT.getHexBaseLevel() == LOSLoc.getBaseHeight()) {   // this may be wrong CombatTerrain needs to be location specific - may not be; may be hex specific
+                        return false;
+                    }
+                }
+            }
+        }
+        // determine if Target is in location or otherterraininlocation
+        int Passhextem = 0;
+        Constantvalues.Feature Passoba = null;
+        Constantvalues.Location PasshexTerrtype = getLocationtypefromVASLLocation(LOSLoc);
+        LocationType LocType = terrchk.getLocationType(PasshexTerrtype);
+        Passhextem = (LocType.getTEM());
+        int PassHexHind  = LocType.getLOSHindDRM();
+        String PassHexname  = (LOSLoc.getHex().getName());
+        int PassHexID = 0;  //= Maphex.getHexnum();
+        Constantvalues.Hexside PassHexside1  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(1).getTerrain()));
+        Constantvalues.Hexside PassHexside2  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(2).getTerrain()));
+        Constantvalues.Hexside PassHexside3  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(3).getTerrain()));
+        Constantvalues.Hexside PassHexside4  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(4).getTerrain()));
+        Constantvalues.Hexside PassHexside5  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(5).getTerrain()));
+        Constantvalues.Hexside PassHexside6  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(0).getTerrain()));
+        int PassBaseLevel = (LOSLoc.getBaseHeight());
+        boolean PassStaircase  = LOSLoc.getHex().hasStairway();
+        String Passcontrol  = "";  //Maphex.getControl)
+        if (OBAPresentinHex(LOSLoc.getHex())) {
+            Passoba = Constantvalues.Feature.FFE1;  // this is wrong needs to be generalized OBA value
+        } else {
+            Passoba = Constantvalues.Feature.None;
+        }
+        Constantvalues.Hexrole Passhexrole  = Hexrole;
+        int PassTargetID  = 0;  // Maphex.getLocIndex();   // this doesn' t feel right - CHECK IT OUT
+        CombatTerrain FireTerrain = new CombatTerrain(PassHexname,
+                PassHexID, PasshexTerrtype, PassHexside1, PassHexside2,
+                PassHexside3, PassHexside4, PassHexside5, PassHexside6,
+                Passhextem, PassHexHind, PassHexDesc, Passhexrole,
+                PassStaircase, PassBaseLevel, Passcontrol, PassTargetID, PassSmokeList, Passoba, TempsolID, LOSLoc);
+        if (FireTerrain != null) {TempCombatTerrColCommon.add(FireTerrain);}
+        // if get this far then Terrain addeded
+        return true;
+    }
+
+    /*
     Friend Function IsLocationAlreadyInTempCombatTerrColThread(ByVal LOCIndexToTest As Integer) As Boolean
     Dim LocationIsIn As Boolean = false 'flags if Location is already added to TempCombatTerrCol
     For Each TestComTer As objectclasslibrary.aslxna.combatterrain In TempCombatTerrColCommon
@@ -138,23 +157,34 @@ public class ThreadedLOSCheckCommonc {
     Next
     return LocationIsIn
     End Function
-    Friend Function AddCombatTerrainHexThread(ByVal SeeLOSLoc As Integer, ByVal UsingSol As Integer, ByVal MapTableInstance As MapDataClassLibrary.ASLXNA.MapDataC, ByVal Hexrole As Integer) As Boolean
-    Dim Maphex As MapDataClassLibrary.GameLocation
-    Dim PassSmokelist = New List(Of ObjectClassLibrary.ASLXNA.SmokeHolder)
-    Dim Getlocs As New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-    Try
-            Maphex = Getlocs.RetrieveLocationfromMaptable(CInt(SeeLOSLoc))
-    Dim PasshexTerrtype As Integer = CInt(Maphex.Location)
-    Dim PassHexdesc As String = TerrChk.GetLocationData(constantclasslibrary.aslxna.terrfactor.Desc, PasshexTerrtype, MapTableInstance)
-                'Dim Hexrole As Integer = constantclasslibrary.aslxna.hexrole.Firer
-    PassSmokelist = SmokePresentinHex(CInt(Maphex.Hexnum), Getlocs)
-    AddtoCollectionThread(Maphex, Hexrole, PassHexdesc, UsingSol, PassSmokelist)
-    AddCombatTerrainHexThread = true
-            Catch
-                'no hex found by RetrieveData - exit
-    AddCombatTerrainHexThread = false
-    End Try
-    End Function
+    */
+    public boolean AddCombatTerrainHexThread(Location SeeLOSLoc, int UsingSol, Constantvalues.Hexrole Hexrole) {
+        LinkedList<SmokeHolder> PassSmokelist; // = new LinkedList<SmokeHolder>();
+        try {
+            Constantvalues.Location PassLocationtype = getLocationtypefromVASLLocation(SeeLOSLoc);
+            String Passroledesc = terrchk.GetLocationData(Constantvalues.TerrFactor.Desc, PassLocationtype);
+            PassSmokelist = SmokePresentinHex(SeeLOSLoc.getHex());
+            AddtoCollectionThread(SeeLOSLoc, Hexrole, Passroledesc, UsingSol, PassSmokelist);
+            return true;
+        } catch (Exception e) {
+            // no hex found by RetrieveData - exit
+            return false;
+        }
+    }
+    private Constantvalues.Location getLocationtypefromVASLLocation(Location SeeLOSLoc){
+
+        if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+            return Constantvalues.Location.OpenGround;
+        } else if ((SeeLOSLoc.getTerrain().getName()).equals("Grain")) {
+            return Constantvalues.Location.Grainfield;
+        } else if ((SeeLOSLoc.getTerrain().getName()).equals("Woods")) {
+            return Constantvalues.Location.Woods;
+        } else {
+            return Constantvalues.Location.NA;
+        }
+        // this routine turns the terrain type and base level of a VASL Location (VASL.LOS.Map.Location) into a Constantvalues.Location value - which can then be searched in the Locations collection
+    }
+            /*
         'Upslopecheck from Mapgeo
     Friend Sub UpSlopeCheckThread(ByRef TempSolItem As LOSClassLibrary.ASLXNA.TempSolution, ByVal MapGeo As MapGeoClassLibrary.ASLXNA.MapGeoC, ByVal SideCheck As TerrainClassLibrary.ASLXNA.IsSide, ByVal hexsidecrossed() As Integer)
             ' called by Me.DoSightCheck
@@ -1049,21 +1079,38 @@ public class ThreadedLOSCheckCommonc {
                 return 0;
         }
     }
-    /*Friend Function SmokePresentinHex(ByVal hexnum As Integer, ByVal GetLocs As TerrainClassLibrary.ASLXNA.GetALocationFromMapTable) As List(Of ObjectClassLibrary.ASLXNA.SmokeHolder)
-            'called by Me.DoSightCheck
-            'returns list of smoke present in the hex - searches all locations in the hex
-    Dim Smokelist = New List(Of ObjectClassLibrary.ASLXNA.SmokeHolder)
-    Dim AllLOCs As IQueryable(Of MapDataClassLibrary.GameLocation) = GetLocs.RetrieveLocationsfromMapTable(hexnum, "Hexnum")
-    For Each LookforSmoke As MapDataClassLibrary.GameLocation In AllLOCs
-                'test for smoke, if found then set values and return
-    If LookforSmoke.Smoke > 0 Then
-    Dim NewSmoke = New ObjectClassLibrary.ASLXNA.SmokeHolder(LookforSmoke.Smoke, LookforSmoke.SmokeBaseLevel)
-            Smokelist.Add(NewSmoke)
-    End If
-    Next
-    return Smokelist
-    End Function
-    Friend Function PixelLOSCheckThread(ByVal TempSolItem As LOSClassLibrary.ASLXNA.TempSolution, ByVal ScenID As Integer,
+    public LinkedList<SmokeHolder> SmokePresentinHex(Hex Hextocheck) {
+        // called by Me.DoSightCheck
+        // returns list of smoke present in the hex - searches all locations in the hex
+        LinkedList<SmokeHolder>  Smokelist = new LinkedList<SmokeHolder>();
+        Smoke nextSmoke=null;
+        ScenarioC scendet = ScenarioC.getInstance();
+        VASLGameInterface vaslgameinterface = new VASLGameInterface(scendet.getASLMap(), scendet.getGameMap());
+        HashSet<Smoke> LookforSmoke= vaslgameinterface.getSmoke(Hextocheck);
+        // test for smoke, if found then set values and return
+        Iterator<Smoke> itr=LookforSmoke.iterator();
+        while(itr.hasNext()){
+            nextSmoke = itr.next();
+            Constantvalues.VisHind  Passvishind = ConverttoVisHind(nextSmoke.getName());
+            int Passsmokebaselevel = nextSmoke.getLocation().getBaseHeight();
+            SmokeHolder NewSmoke = new SmokeHolder(Passvishind, Passsmokebaselevel);
+            Smokelist.add(NewSmoke);
+        }
+        return Smokelist;
+    }
+    public boolean OBAPresentinHex(Hex Hextocheck) {
+        ScenarioC scendet = ScenarioC.getInstance();
+        VASLGameInterface vaslgameinterface = new VASLGameInterface(scendet.getASLMap(), scendet.getGameMap());
+        HashSet<OBA> LookforOBA= vaslgameinterface.getOBA(Hextocheck);
+        // test for OBA, if found then return
+        Iterator<OBA> itr=LookforOBA.iterator();
+        while(itr.hasNext()){
+            return true;
+        }
+        return false;
+    }
+
+    /*Friend Function PixelLOSCheckThread(ByVal TempSolItem As LOSClassLibrary.ASLXNA.TempSolution, ByVal ScenID As Integer,
                                         ByVal MapTableInstance As MapDataClassLibrary.ASLXNA.MapDataC, ByVal GetLocs As TerrainClassLibrary.ASLXNA.GetALocationFromMapTable, ByVal IsTerrChk As TerrainClassLibrary.ASLXNA.IsTerrain) As Boolean
             'Called by LOSCheckclass.DoSightCheck, returns LOS Yes/No 
                     'it searches for obstacles on a pixel by pixel basis as hex-by-hex already done
@@ -1391,4 +1438,21 @@ public class ThreadedLOSCheckCommonc {
     End With
 
     End Function*/
+
+    private Constantvalues.VisHind ConverttoVisHind(String smoketype){
+        if (smoketype == "White +3 Smoke") {
+            return Constantvalues.VisHind.GunSmoke;
+        } else {
+            return Constantvalues.VisHind.None;
+        }
+    }
+    private Constantvalues.Hexside ConverttoHexside(Terrain Passterrain){
+        if (Passterrain.getName() == "Open Ground"){
+            return Constantvalues.Hexside.NoTerrain;
+        } else if (Passterrain.getName() == "Wall") {
+            return Constantvalues.Hexside.Wall;
+        } else {
+            return Constantvalues.Hexside.NoTerrain;
+        }
+    }
 }

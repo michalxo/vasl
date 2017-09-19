@@ -3,7 +3,9 @@ package VASL.build.module.fullrules.IFTCombatClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectChangeClasses.StatusChangei;
+import VASL.build.module.fullrules.ObjectChangeClasses.UnitDiesC;
 import VASL.build.module.fullrules.ObjectChangeClasses.UnitSurrendersc;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
@@ -65,7 +67,8 @@ public class CombatResC implements CombatResi {
     public void ResolveCombat(LinkedList<PersUniti> TargGroup, LinkedList<TargetType> FPdrmCombos, int FirerSAN, int ScenID) {
         // at this point each member of TargGroup can be handled individually to resolve their specific IFT result - random selection for KIA && K is done
         // however, need to manage leader results for possible LLTC/LLMC
-        Scenario Scendet  = Linqdata.GetScenarioData(ScenID);
+        ScenarioC scen  = ScenarioC.getInstance();
+        Scenario Scendet = scen.getScendet();
         int LdrDRMforTargets = 0; String Resultstring = "";
         // first order units
         // take all units undergoing the same attack && order them
@@ -98,7 +101,7 @@ public class CombatResC implements CombatResi {
                     StatusChangei RunStatusChange = null;
                     switch (CombatImpact) {
                         case Dies:
-                            //RunStatusChange = new UnitDiesc();
+                            RunStatusChange = new UnitDiesC();
                             break;
                         case Breaks:
                             //RunStatusChange = new UnitBreaksc();

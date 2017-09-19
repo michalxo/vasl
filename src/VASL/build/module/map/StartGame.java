@@ -8,10 +8,7 @@ This class is called by ActionsToolbar.addTo and initiates the full rules code f
 import VASL.LOS.Map.Hex;
 import VASL.build.module.ASLMap;
 import VASL.build.module.fullrules.DataClasses.DataC;
-import VASL.build.module.fullrules.Game.ClickLeftPrepC;
-import VASL.build.module.fullrules.Game.ClickLeftSetupC;
-import VASL.build.module.fullrules.Game.Clicki;
-import VASL.build.module.fullrules.Game.ScenarioC;
+import VASL.build.module.fullrules.Game.*;
 import VASSAL.build.AbstractConfigurable;
 import VASSAL.build.Buildable;
 import VASSAL.build.GameModule;
@@ -38,6 +35,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
     private VASL.LOS.Map.Map GameMap;
     protected Map map;
     private Clicki ProcessClick;
+    private ASLMap pmap;
 
     protected PieceFinder dragTargetSelector;
     protected PieceVisitorDispatcher selectionProcessor;
@@ -54,8 +52,8 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
         scen = ScenarioC.getInstance();
         Linqdata = DataC.GetInstance();
         Linqdata.InitializeData();
-        String PassScenID = ""; // need to link this to VASL scenario name
-        scen.OpenScenario(PassScenID, GameMap);
+        String PassScenID = "Fullrules"; // need to link this to VASL scenario name
+        if (scen.OpenScenario(PassScenID, pmap)) {Linqdata.closeconnection();}
 
     }
     private void initializeMap() {
@@ -63,6 +61,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
         // make sure we have a map
         String VASLVersion = GameModule.getGameModule().getGameVersion();
         final ASLMap theMap = (ASLMap) map;
+        pmap=theMap;
         if (theMap == null) {
 
         } else {
@@ -437,14 +436,15 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
             }*/
         } else if (leftbutton &&  e.isShiftDown() && ItemFound) {
             // Left - Shift on units: switchs all units in hex location
-            /*switch (scen.getPhase()) {
-                case Setup:
+            switch (scen.getPhase()) {
+                /*case Setup:
                     ProcessClick = new ClickLeftShiftSetupC;
                 case Rally:
-                    ProcessClick = new ClickLeftShiftRallyC;
+                    ProcessClick = new ClickLeftShiftRallyC;*/
                 case PrepFire:
-                    ProcessClick = new ClickLeftShiftPrepC;
-                case Movement:
+                    ProcessClick = new ClickLeftShiftPrepC();
+                    break;
+                /*case Movement:
                     ProcessClick = new ClickLeftShiftMovementC;
                 case DefensiveFire:
                     ProcessClick = new ClickLeftShiftDefensiveC;
@@ -457,8 +457,8 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
                 case CloseCombat:
                     ProcessClick = new ClickLeftShiftCloseCombatC;
                 case Refitphase:
-                    ProcessClick = new ClickLeftShiftRefitC;
-            }*/
+                    ProcessClick = new ClickLeftShiftRefitC;*/
+            }
         } else if (leftbutton &&  e.isControlDown() && ItemFound) {
             // Left - Control on units: switchs all units in hex
             /*switch (scen.getPhase()) {
@@ -567,6 +567,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
                     ProcessClick = new ClickLeftRallyC;*/
                 case PrepFire:
                     ProcessClick = new ClickLeftPrepC();
+                    break;
                /* case Movement:
                     ProcessClick = new ClickLeftMovementC;
                 case DefensiveFire:

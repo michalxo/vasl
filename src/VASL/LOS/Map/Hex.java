@@ -16,11 +16,14 @@
  */
 package VASL.LOS.Map;
 
+import VASL.build.module.fullrules.Constantvalues;
+
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
+import java.util.LinkedList;
 
 import static java.lang.StrictMath.cos;
 
@@ -65,6 +68,9 @@ public class Hex {
     //TODO: bridge object no longer used
 	private	Bridge	bridge;
     private	boolean stairway;
+
+    // stuf addeded to support IFT combat
+    private Constantvalues.Hexrole combatHexrole = null;
 
     /**
      * Create a new hex
@@ -1329,6 +1335,9 @@ public class Hex {
 
     //}
 
+    // stuff added to support IFT combat
+    public Constantvalues.Hexrole getCombatHexrole() {return combatHexrole;}
+    public void setCombatHexrole(Constantvalues.Hexrole value){combatHexrole=value;}
 
 }
 

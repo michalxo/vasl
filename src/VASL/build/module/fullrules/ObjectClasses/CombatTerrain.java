@@ -1,13 +1,18 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.LOSResult;
+import VASL.LOS.Map.Location;
+import VASL.LOS.Map.Map;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.IFTMods;
 import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.DataClasses.ScenarioTerrain;
 import VASL.build.module.fullrules.Game.ScenarioC;
+import VASL.build.module.fullrules.IFTCombatClasses.CombatCalcC;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
+import VASL.build.module.fullrules.MapDataClasses.LocationType;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.TerrainClasses.*;
 import VASSAL.build.GameModule;
@@ -26,21 +31,23 @@ public class CombatTerrain  extends BaseHex {
     private ArrayList prLOSTarget = new ArrayList();  // holds value of eventual target hex - used in CombatFPandDRM
     private boolean prHexLOSHApplies;
     private int prHexsideCrossedTEM;
+    private Constantvalues.Hexside prHexsideCrossedtype;
     private String prHexsideCrossedDesc;
     private int prSolutionID;
     private int prHexTEM;
     private MapDataC Maptables = MapDataC.GetInstance("", 0);  // use null values for parameters when sure instance exists
     private LinkedList<GameLocation> LocationCol = new LinkedList<GameLocation>();
     private DataC Linqdata= DataC.GetInstance();
-    private Scenario Scendet;
-    private ScenarioC scen = ScenarioC.getInstance();
+    private ScenarioC prscen;
+    private Scenario prScendet;
+    private Location prLocation;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     // Constructors
 
     public CombatTerrain(String PassHexname, int PassHexID, Constantvalues.Location PasshexTerrtype, Constantvalues.Hexside PassHexside1, Constantvalues.Hexside PassHexside2, Constantvalues.Hexside PassHexside3,
                          Constantvalues.Hexside PassHexside4, Constantvalues.Hexside PassHexside5, Constantvalues.Hexside PassHexside6, int PassHexTEM, int PassHexHind, String Passhexdesc,
-                         Constantvalues.Hexrole PassHexrole, boolean Passstaircase, double PassBaseLevel, String Passcontrol, double PassTargetID,
-                         LinkedList<SmokeHolder> PassSmokelist, Constantvalues.Feature PassOBA, int PassScenID) {
+                         Constantvalues.Hexrole PassHexrole, boolean Passstaircase, int PassBaseLevel, String Passcontrol, int PassTargetID,
+                         LinkedList<SmokeHolder> PassSmokelist, Constantvalues.Feature PassOBA, int PassSolID, Location PassLocation) {
         // called by Linqdata.AddtoCollection
         // creates new CombatTerrain object for any hex involved in combat, passes Staircase and Control to base class constructor but does not use them
         super(PassHexname, PassHexID, PasshexTerrtype,
@@ -54,14 +61,17 @@ public class CombatTerrain  extends BaseHex {
         prHexsideCrossedTEM = 0;
         prHexsideCrossedDesc = "";
         prLOSTarget.add(PassTargetID);
-        Scendet = Linqdata.GetScenarioData(PassScenID);
+        prSolutionID= PassSolID;
+        prscen  = ScenarioC.getInstance();
+        prScendet = prscen.getScendet();
+        prLocation = PassLocation;
     }
 
     // thread version
     public CombatTerrain(String PassHexname, int PassHexID, Constantvalues.Location PasshexTerrtype, Constantvalues.Hexside PassHexside1, Constantvalues.Hexside PassHexside2, Constantvalues.Hexside PassHexside3,
                          Constantvalues.Hexside PassHexside4, Constantvalues.Hexside PassHexside5, Constantvalues.Hexside PassHexside6, int PassHexTEM, int PassHexHind, String Passhexdesc,
                          Constantvalues.Hexrole PassHexrole, boolean Passstaircase, double PassBaseLevel, String Passcontrol, double PassTargetID,
-                         int PassthreadLOCindex, int PassSolid, LinkedList<SmokeHolder> PassSmokelist, Constantvalues.Feature PassOBA, int PassScenID) {
+                         int PassthreadLOCindex, int PassSolid, LinkedList<SmokeHolder> PassSmokelist, Constantvalues.Feature PassOBA, int PassScenID, Location PassLocation) {
         // called by Linqdata.AddtoCollection
         // creates new CombatTerrain object for any hex involved in combat, passes Staircase and Control to base class constructor but does not use them
         super(PassHexname, PassHexID, PasshexTerrtype,
@@ -76,7 +86,9 @@ public class CombatTerrain  extends BaseHex {
         prHexsideCrossedDesc = "";
         prLOSTarget.add(PassTargetID);
         prSolutionID = PassSolid;
-        Scendet = Linqdata.GetScenarioData(PassScenID);
+        prscen  = ScenarioC.getInstance();
+        prScendet = prscen.getScendet();
+        prLocation = PassLocation;
     }
 
     public Constantvalues.Hexrole getHexrole() {
@@ -138,6 +150,9 @@ public class CombatTerrain  extends BaseHex {
     public void setSolID(int value) {
         prSolutionID = value;
     }
+
+    public Location getLocation() {return prLocation;}
+    public void setLocation(Location value){prLocation=value;}
 
     public boolean IsFirer() {
         boolean CheckIsFirer = (prHexrolevalue == Constantvalues.Hexrole.Firer ||
@@ -219,11 +234,11 @@ public class CombatTerrain  extends BaseHex {
     public int SharedhexsideAdjacentHexes(String Firsthexname, String Secondhexname){
         // returns the value of the commmon hexside between two adjacent hexes
         // returns the hexside of the Firsthex
-        Hex firsthex = scen.getGameMap().getHex(Firsthexname);
-        Hex secondhex = scen.getGameMap().getHex(Secondhexname);
+        Hex firsthex = prscen.getGameMap().getHex(Firsthexname);
+        Hex secondhex = prscen.getGameMap().getHex(Secondhexname);
 
         for(int x = 0; x < 6; x++) {
-            Hex adjacentHex = scen.getGameMap().getAdjacentHex(secondhex, x);
+            Hex adjacentHex = prscen.getGameMap().getAdjacentHex(secondhex, x);
             if (adjacentHex == firsthex) {
                 return x;
             }
@@ -312,7 +327,7 @@ public class CombatTerrain  extends BaseHex {
             String TargLOSHName, int TargetLOSH, LinkedList<PersUniti> FireGroup_Thread) {
         
         
-        TerrainChecks TerrChk = new TerrainChecks(LocationCol);
+        TerrainChecks TerrChk = new TerrainChecks();
         IFTMods NewDRM;
         boolean PositiveDRM = false;
         boolean ScenFeatureTest  = false;
@@ -654,35 +669,42 @@ public class CombatTerrain  extends BaseHex {
         // if this far then not already added
         return true;
     }
-
-    public void SetTargetVariables(PersUniti TargetUnit, int lasthexnum, boolean hexsidetest, int TEMdrm, MapDataC Maptableinstance, String Terrainname,
-                                   boolean Terraintest, Constantvalues.Hexside hexsidetype, Constantvalues.LOS LOSFollows, int Seehexnum) {
+// new TargetVariables(), TargetUnit, lasthexnum, TerrainName, Hexsidetype, ValidSol.getLOSFollows(), ValidSol.getSeeHex()
+    public void SetTargetVariables(CombatCalcC.TargetVariables targetvar, PersUniti TargetUnit, int lasthexnum, String Terrainname,
+            Constantvalues.Hexside Passhexsidetype, Constantvalues.LOS LOSFollows, Hex Seehex) {
+        // retrieve LOS status and LOS result values
+        TerrainChecks TerrChk = new TerrainChecks();
+        Map.LOSStatus losstatus = Seehex.getMap().getLOSStatus();
+        LOSResult losresult = prscen.getIFT().getLOSResult();
         // working with target hex so need to determine where Target is
-        GetALocationFromMap Getlocs = new GetALocationFromMap(LocationCol);
-        GameLocation Maphex = Getlocs.RetrieveLocationfromMaptable(this.getLocIndex());
-        TerrainChecks TerrChk = new TerrainChecks(LocationCol);
+        Location TargetLoc = losresult.getTargetLocation();
+        Constantvalues.Location loctype = TerrChk.getLocationtypefromVASLLocation(TargetLoc);
+        int HexTEM = Integer.parseInt(TerrChk.GetLocationData(Constantvalues.TerrFactor.TEM, loctype));
         // check hexside of entry into target hex
+        int [] targetenterhexsides = losstatus.targetEnterHexsides;
         // no need to check other hexes as LOS has already cleared hexsides of intervening hexes
         IsSide SideChk = new IsSide(LocationCol);
         boolean IsWallSide = false;
         boolean TargUsingWA = false; // whether target is WA
         int Hexsidetem = 0; // value of hexside TEM
         int hexsideinuse  = 0; // which hexside(1-6) crossed by LOS, also held by SidesToCheck
+        prHexsideCrossedtype = Constantvalues.Hexside.NoTerrain;
         Constantvalues.Hexside hexside = Constantvalues.Hexside.NoTerrain; // temp hexside type value
 
         // First set hexside variables: hexsidetype, _HexsidecrossedTEM, _HexSideCrossedDesc
-        if (LOSFollows == Constantvalues.LOS.AltHexGrain || LOSFollows == Constantvalues.LOS.VertHexGrain) {
-            int[] SidesToCheck = new int[2];
-            // temporary while debugging UNDO and FIX
+        if (losresult.isLOSis60Degree() || losresult.isLOSisHorizontal()) {
+        //if (LOSFollows == Constantvalues.LOS.AltHexGrain || LOSFollows == Constantvalues.LOS.VertHexGrain) {
+            //int[] SidesToCheck = new int[2];
             //MapGeo.DetermineSidesToCheck(Seehexnum, this.getHexID(), SidesToCheck);
 
             for (int x = 0; x < 2; x++) { // test entry sides only
-                IsWallSide = SideChk.IsAWallHedgeRdBlk(SidesToCheck[x], this.getLocIndex());
-                if (IsWallSide) {
+
+                //IsWallSide = SideChk.IsAWallHedgeRdBlk(targetenterhexsides[x], this.getLocIndex());
+                //if (IsWallSide) {
                     // determine hexside type of hexside crossed
-                    int sidetocheck = SidesToCheck[x];
-                    hexside= SideChk.Gethexsidetype(Maphex , sidetocheck);
-                    /*switch (sidetocheck) {
+                    int sidetocheck = targetenterhexsides[x];
+                    //hexside= SideChk.Gethexsidetype(Maphex , sidetocheck);
+                    switch (sidetocheck) {
                         case 1:
                             if (this.getHexside1() != Constantvalues.Hexside.NoTerrain) {
                                 hexside = this.getHexside1();
@@ -715,70 +737,73 @@ public class CombatTerrain  extends BaseHex {
                             break;
                         default:
                             hexside = Constantvalues.Hexside.NoTerrain;
-                    }*/
+                    }
                     // if not No Terrain then determine TEM and Desc of hexside crossed
                     if (hexside != Constantvalues.Hexside.NoTerrain) {
                         // set property values
                         Hexsidetem = Integer.parseInt(SideChk.GetSideData(Constantvalues.TerrFactor.HexsideTEM, hexside));
-                        if (prHexsideCrossedTEM < Hexsidetem) {  // select the hexside with the highest TEM
+                        if (Hexsidetem !=0 && prHexsideCrossedTEM < Hexsidetem) {  // select the hexside with the highest TEM
                             prHexsideCrossedTEM = Hexsidetem;
-                            hexsidetype = hexside;
-                            prHexsideCrossedDesc = SideChk.GetSideData(Constantvalues.TerrFactor.Hexsidedesc, hexsidetype);
+                            prHexsideCrossedtype = hexside;
+                            prHexsideCrossedDesc = SideChk.GetSideData(Constantvalues.TerrFactor.Hexsidedesc, hexside);
                         }
                     }
-                }
+                //}
             }
         } else {
-            String lasthexname = "";
+            /*String lasthexname = "";
             for (GameLocation testlocation: LocationCol){
                 if (testlocation.getHexnum()== lasthexnum ){lasthexname=testlocation.getHexname();}
                 break;
             }
             hexsideinuse = SharedhexsideAdjacentHexes(lasthexname, this.getHexName());
             IsWallSide = SideChk.IsAWallHedgeRdBlk(hexsideinuse, this.getLocIndex());
-            if (IsWallSide) {
-                // determine hexside type of hexside crossed
-                switch (hexsideinuse) {
+            if (IsWallSide) {*/
+            hexsideinuse = targetenterhexsides[0];
+
+            // determine hexside type of hexside crossed
+            switch (hexsideinuse) {
                     case 1:
                         if (this.getHexside1() != Constantvalues.Hexside.NoTerrain) {
-                            hexsidetype = this.getHexside1();
-                            break;
+                            hexside = this.getHexside1();
                         }
+                        break;
                     case 2:
                         if (this.getHexside2() != Constantvalues.Hexside.NoTerrain) {
-                            hexsidetype = this.getHexside2();
-                            break;
+                            hexside = this.getHexside2();
                         }
+                        break;
                     case 3:
                         if (this.getHexside3() != Constantvalues.Hexside.NoTerrain) {
-                            hexsidetype = this.getHexside3();
-                            break;
+                            hexside = this.getHexside3();
                         }
+                        break;
                     case 4:
                         if (this.getHexside4() != Constantvalues.Hexside.NoTerrain) {
-                            hexsidetype = this.getHexside4();
-                            break;
+                            hexside = this.getHexside4();
                         }
+                        break;
                     case 5:
                         if (this.getHexside5() != Constantvalues.Hexside.NoTerrain) {
-                            hexsidetype = this.getHexside5();
-                            break;
+                            hexside = this.getHexside5();
                         }
+                        break;
                     case 6:
                         if (this.getHexside6() != Constantvalues.Hexside.NoTerrain) {
-                            hexsidetype = this.getHexside6();
-                            break;
+                            hexside = this.getHexside6();
                         }
+                        break;
                     default:
-                        hexsidetype = Constantvalues.Hexside.NoTerrain;
+                        hexside = Constantvalues.Hexside.NoTerrain;
                 }
                 // if not No Terrain then determine TEM and Desc of hexside crossed
-                if (hexsidetype != Constantvalues.Hexside.NoTerrain) {
+                if (hexside != Constantvalues.Hexside.NoTerrain) {
                     // set property values
-                    prHexsideCrossedTEM = Integer.parseInt(SideChk.GetSideData(Constantvalues.TerrFactor.HexsideTEM, hexsidetype));
-                    prHexsideCrossedDesc = SideChk.GetSideData(Constantvalues.TerrFactor.Hexsidedesc, hexsidetype);
+                    prHexsideCrossedTEM = Integer.parseInt(SideChk.GetSideData(Constantvalues.TerrFactor.HexsideTEM, hexside));
+                    prHexsideCrossedDesc = SideChk.GetSideData(Constantvalues.TerrFactor.Hexsidedesc, hexside);
+                    prHexsideCrossedtype = hexside;
                 }
-            }
+            // }
         }
         // Now deal with hex itself: position is more specfic so takes precedence over Location if >0
         if (TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WallAdv ||
@@ -789,17 +814,17 @@ public class CombatTerrain  extends BaseHex {
                 TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus4 ||
                 TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus5 ||
                 TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus6) {
-            if (lasthexnum != this.getHexID()) {
+            if (losstatus.sourceHex != losstatus.targetHex) {
                 TargUsingWA = true;
+                IsWallSide = SideChk.IsAWallHedgeRdBlk(hexside);
                 if (IsWallSide) {
-                    hexsidetest = true; // use hexside TEM
+                    targetvar.setHexSideTest(true); // use hexside TEM
                 } else { //'use OG even if in obstacle hex
-                    // TEMdrm = CInt(Maphex.TEM)
-                    if (Maphex.getTEM() < 0) {
-                        TEMdrm = Maphex.getTEM();
-                    } else {
-                        TEMdrm = 0;
-                    }
+                   if (HexTEM < 0) {
+                        targetvar.setTEMdrm(HexTEM);
+                   } else {
+                        targetvar.setTEMdrm(0);
+                   }
                 }
             }
         } else if (TargetUnit.getbaseunit().gethexPosition() != null && TargetUnit.getbaseunit().gethexPosition() != Constantvalues.AltPos.None) {
@@ -811,38 +836,48 @@ public class CombatTerrain  extends BaseHex {
                     TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest5 ||
                     TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest6) {
                 // if exitedcrest then use location TEM
-                TEMdrm = Maphex.getTEM();
+                targetvar.setTEMdrm(HexTEM);
             } else {
-                TEMdrm = Integer.parseInt(TerrChk.GetPositionData(Constantvalues.TerrFactor.TEM, TargetUnit.getbaseunit().getUnit_ID()));
-                Terrainname = TerrChk.GetPositionData(Constantvalues.TerrFactor.Desc, TargetUnit.getbaseunit().getSolID());
+                targetvar.setTEMdrm(Integer.parseInt(TerrChk.GetPositionData(Constantvalues.TerrFactor.TEM, TargetUnit.getbaseunit().getUnit_ID())));
+                targetvar.setTerrainName(TerrChk.GetPositionData(Constantvalues.TerrFactor.Desc, TargetUnit.getbaseunit().getSolID()));
             }
         } else {
             // Use location tem or otherterrain tem
-            if (TargetUnit.getbaseunit().gethexlocation() == Maphex.getLocation()) {
-                TEMdrm = Maphex.getTEM();
-            } else if (TargetUnit.getbaseunit().gethexlocation() == Maphex.getOtherTerraininLocation()) {
+            if (TargetUnit.getbaseunit().IsLocationAMatch(prLocation)) {
+                LocationType unitlocationtype = TargetUnit.getbaseunit().getLocationType(TargetUnit.getbaseunit().gethexlocation());
+                targetvar.setTEMdrm(unitlocationtype.getTEM());
+                targetvar.setTerrainName(TargetLoc.getTerrain().getName());
+
+                // need to put code below back in when things are working
+            /*} else if (TargetUnit.getbaseunit().gethexlocation() == Maphex.getOtherTerraininLocation()) {
                 Terrainname = TerrChk.GetLocationData(Constantvalues.TerrFactor.Desc, Maphex.getOtherTerraininLocation());
-                TEMdrm = Maphex.getTEMOtherTerrain();
+                TEMdrm = Maphex.getTEMOtherTerrain();*/
             }
         }
-        if (TEMdrm != 0) {Terraintest = true;}
+        if (targetvar.getTEMdrm() != 0) {targetvar.setTerraintest(true);}
         // special case; any others?
-        if (TEMdrm == 0 && this.getHextertype() == Constantvalues.Location.CitySquareShellhole) {Terraintest = true;}
+        if (targetvar.getTEMdrm() == 0 && this.getHextertype() == Constantvalues.Location.CitySquareShellhole) {targetvar.setTerraintest(true);}
         // now check hexside - set value of hexsidetest
         // need to deal with adjacent to firer hex special case
-        if (lasthexnum == 0 || lasthexnum == Seehexnum) {
+        /*String lasthexname = "";
+        for (GameLocation testlocation: LocationCol){
+            if (testlocation.getHexnum()== lasthexnum ){lasthexname=testlocation.getHexname();}
+            break;
+        }*/
+        if (losresult.getRange() == 1 & TargetLoc.getHex().getMap().isAdjacentHexside(TargetLoc.getHex(), TargetLoc.getHex().getHexsideLocation(targetenterhexsides[0]))) {
+        //String SeehexName = Seehex.getName();
+        //if (lasthexname == null || lasthexname == SeehexName) {
             // lasthex is firerhex
             if (IsWallSide && !TargUsingWA) {
                 // firer/target on either side of wall, etc and target does not have WA
                 // target still gets hexside tem unless firer has WA
                 // get all enemy units
-                Constantvalues.Nationality enemyside1 = Constantvalues.Nationality.None;
-                Constantvalues.Nationality enemyside2 = Constantvalues.Nationality.None;
-                SetEnemy(TargetUnit.getbaseunit().getNationality(), TargetUnit.getbaseunit().getScenario(), enemyside1, enemyside2);
+                Constantvalues.Nationality enemyside1 = SetEnemy1(TargetUnit.getbaseunit().getNationality());
+                Constantvalues.Nationality enemyside2 = SetEnemy2(TargetUnit.getbaseunit().getNationality());
                 LinkedList<PersUniti> EnemyToCheck = new LinkedList<PersUniti>();
                 for (PersUniti testforenemy : Scencolls.Unitcol) {
                     if ((testforenemy.getbaseunit().getNationality() == enemyside1 || testforenemy.getbaseunit().getNationality() == enemyside2) &&
-                            (testforenemy.getbaseunit().getHexnum() == Seehexnum && testforenemy.getbaseunit().getVisibilityStatus() == Constantvalues.VisibilityStatus.Visible &&
+                            (testforenemy.getbaseunit().getHexName() == Seehex.getName() && testforenemy.getbaseunit().getVisibilityStatus() == Constantvalues.VisibilityStatus.Visible &&
                                     testforenemy.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.KIAInf &&
                                     testforenemy.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.NotInPlay &&
                                     testforenemy.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.Prisoner &&
@@ -854,30 +889,31 @@ public class CombatTerrain  extends BaseHex {
                 for (PersUniti EnemyPresent : EnemyToCheck) {
                     if (EnemyPresent.getbaseunit().HasWallAdvantage()) {
                         // no hexside tem for Target
-                        hexsidetype = Constantvalues.Hexside.NoTerrain;
-                        hexsidetest = false;
+                        prHexsideCrossedtype = Constantvalues.Hexside.NoTerrain;
+                        targetvar.setHexSideTest(false);
                         prHexsideCrossedDesc = "";
                         prHexsideCrossedTEM = 0;
                     }
                 }
             }
-        } else if (lasthexnum != 0 && lasthexnum != this.getHexID()) {
+        } else {  //if (lasthexnum != 0 && lasthexnum != this.getHexID()) {
             // check hexside of entry into target hex
-            if (hexsidetype != Constantvalues.Hexside.NoTerrain) {
-                hexsidetest = true;
+            if (prHexsideCrossedtype != Constantvalues.Hexside.NoTerrain) {
+                targetvar.setHexSideTest(true);
             }
         }
+
 
     }
     public void InterveningDRM(int VisLOSH, int FinalLOSHDRM, int LOSHdrm, VASL.LOS.Map.Map Map, String LOSHName, String TerrainName, int Featuredrm, String Featurename,
             String FinalLOSHName, boolean LOSAlongHexside , double FirerBaseLevel, double Firerinhexlevel, String FinalVisLOSHName, String VisLOSHname, int FinalVisLOSH,
             int hexspinedrm, LinkedList<PersUniti> FireGroupThread, LinkedList<IFTMods> DRMList, PersUniti TargetUnit, int TotalLocationLOSHdrm, int TotalLOSLOSHdrm,
             double TargetTotalLevel, int Lasthexloshdrm, int lasthexnum, String UseAltName, LinkedList<AltHexGTerrain> AltHexesInLoSLIst, int SolID,
-            LinkedList<CombatTerrain> CombatTerrCol, int SeeHexNum, int SeenHexnum) {
-         CombatTerrain UsingComTer;
-         TerrainChecks TerrChk = new TerrainChecks(LocationCol);
-         IsTerrain IsTerrChk = new IsTerrain(LocationCol);
-         MapDataC Maptableinstance = MapDataC.GetInstance("", 0);  // use null values for parameters when sure instance exists
+            LinkedList<CombatTerrain> CombatTerrCol, Hex SeeHex, Hex SeenHex) {
+        CombatTerrain UsingComTer;
+        TerrainChecks TerrChk = new TerrainChecks();
+        IsTerrain IsTerrChk = new IsTerrain(LocationCol);
+        MapDataC Maptableinstance = MapDataC.GetInstance("", 0);  // use null values for parameters when sure instance exists
         IFTMods NEWDrm;
         int FinalFeatureDRM = 0;
         int Lastlocindex = 0; // holds value of last hex checked LocIndex
@@ -1003,15 +1039,16 @@ public class CombatTerrain  extends BaseHex {
                         }
                     }
                 }
+                Location PassNewLoc = null;  //  need to fix this and make it a real location
                 GetALocationFromMap GetLocs = new GetALocationFromMap(LocationCol);
                 String PassHexdesc = TerrChk.GetLocationData(Constantvalues.TerrFactor.Desc, hexterrtype);
                 LinkedList<SmokeHolder> Smokelist = SmokePresentinHex(Baselocation.getHexnum(), GetLocs);
                 CombatTerrain NextTempComTer = new CombatTerrain(UseAltName, AltHextoCheck, Baselocation.getLocation(), Baselocation.getHexside1(), Baselocation.getHexside2(),
                     Baselocation.getHexside3(), Baselocation.getHexside4(), Baselocation.getHexside5(), Baselocation.getHexside6(), Baselocation.getTEM(), Baselocation.getLOSHdrm(),
                     UseAltName, Constantvalues.Hexrole.Intervening, Baselocation.getHasStair(), Baselocation.getBaselevel(), "", TargetUnit.getbaseunit().getLOCIndex(), Baselocation.getLocIndex(),
-                    SolID, Smokelist, Baselocation.getOBA(), scen.getScenID());
+                    SolID, Smokelist, Baselocation.getOBA(), prscen.getScenID(), PassNewLoc);
                 if (NextTempComTer.getHexID() == AltHextoCheck) {
-                    AltVisLOSH = CalcVisLOSH(AltVisName, AltOBAAlreadyFound, NextTempComTer, TotalFirerlevel, TargetTotalLevel, SeeHexNum, SeenHexnum);
+                    AltVisLOSH = CalcVisLOSH(AltVisName, AltOBAAlreadyFound, NextTempComTer, TotalFirerlevel, TargetTotalLevel, SeeHex, SeenHex);
                     if (AltVisLOSH == 0) {
                         AltVisName = "";
                     }
@@ -1091,17 +1128,9 @@ public class CombatTerrain  extends BaseHex {
                 }
             }
             // see if a hexspine drm needs to be calculated - and then store for use in ComTer.IsTarget section
-            String Seenhexname=""; String Seehexname = "";
-            for (GameLocation testlocation: LocationCol){
-                if (testlocation.getHexnum()== SeenHexnum ){Seenhexname=testlocation.getHexname();}
-                break;
-            }
-            for (GameLocation testlocation: LocationCol){
-                if (testlocation.getHexnum()== SeeHexNum ){Seehexname=testlocation.getHexname();}
-                break;
-            }
-            int LOSRange = scen.getGameMap().range(scen.getGameMap().getHex(Seehexname), scen.getGameMap().getHex(Seenhexname), scen.getGameMap().getMapConfiguration());
-            int TestRange = scen.getGameMap().range(scen.getGameMap().getHex(Seehexname), scen.getGameMap().getHex(this.getHexName()), scen.getGameMap().getMapConfiguration());
+            String Seenhexname= SeenHex.getName(); String Seehexname = SeeHex.getName();
+            int LOSRange = prscen.getGameMap().range(prscen.getGameMap().getHex(Seehexname), prscen.getGameMap().getHex(Seenhexname), prscen.getGameMap().getMapConfiguration());
+            int TestRange = prscen.getGameMap().range(prscen.getGameMap().getHex(Seehexname), prscen.getGameMap().getHex(this.getHexName()), prscen.getGameMap().getMapConfiguration());
 
             if (TestRange + 1 == LOSRange) {
                 // hexspine connects to Targethex vertex
@@ -1117,10 +1146,12 @@ public class CombatTerrain  extends BaseHex {
                 GetALocationFromMap Getlocs = new GetALocationFromMap(LocationCol);
                 GameLocation hexsidehex = Getlocs.RetrieveLocationfromMaptable(this.getLocIndex());
                 Constantvalues.Hexside hexsideterrain  = IsSideCheck.Gethexsidetype(hexsidehex, SpineSide);
-                if (IsSideCheck.IsAWallHedgeRdBlk(SpineSide, this.getLocIndex())) {
+
+                // temporary while debugging UNDO
+                /*if (IsSideCheck.IsAWallHedgeRdBlk(SpineSide, this.getLocIndex())) {
                     hexspinedrm =Integer.parseInt((IsSideCheck.GetSideData(Constantvalues.TerrFactor.HexsideTEM, hexsideterrain)));
                  // MessageBox.Show("hexspine " & SpineSide.ToString & " has a drm of " & hexspinedrm.ToString)
-                }
+                }*/
             }
             //'Else
             //'    Featuredrm = 0 : LOSHdrm = 0
@@ -1144,7 +1175,7 @@ public class CombatTerrain  extends BaseHex {
         boolean AddIsGood = true;
         // need to do range test (A6.7) - two hexes of same range, add only one
         if (lasthexnum > 0) {
-            if (RangeIsEqual(this.getHexID(), lasthexnum, SeeHexNum)) {
+            if (RangeIsEqual(this.getHexID(), lasthexnum, SeeHex)) {
                 if (Lasthexloshdrm >= FinalLOSHDRM) {
                     // don't add new mods
                     //'MessageBox.Show("Range equal to previous hex; no additional LOSH drm added (A6.7)")
@@ -1268,7 +1299,7 @@ public class CombatTerrain  extends BaseHex {
         return true;
     }
 
-    private int CalcVisLOSH(String VisLOSHName, boolean OBAAlreadyFound, CombatTerrain NextComTer, double SeeLevelinHex, double SeenLevelinhex, int Seehexnum, int seenhexnum) {
+    private int CalcVisLOSH(String VisLOSHName, boolean OBAAlreadyFound, CombatTerrain NextComTer, double SeeLevelinHex, double SeenLevelinhex, Hex Seehex, Hex seenhex) {
         // called by IFTC.Combatdrm
         //        'determines if any visibility-LOSH exists in hex (only from OBA and/or Smoke coded so far ) - NEED TO add MIST AND DUST
         //        'NEED TO add CODE TO HANDLE DIFFERENT LEVEL TESTS
@@ -1322,17 +1353,17 @@ public class CombatTerrain  extends BaseHex {
                     // if blind hex would block then goes through smoke
                     // determine range and height differences
                     //  AddSmoke As Boolean = false
-                    String Seenhexname=""; String Seehexname = "";
-                    for (GameLocation testlocation: LocationCol){
+                    String Seenhexname= seenhex.getName(); String Seehexname = Seehex.getName();
+                    /*for (GameLocation testlocation: LocationCol){
                         if (testlocation.getHexnum()== seenhexnum ){Seenhexname=testlocation.getHexname();}
                         break;
                     }
                     for (GameLocation testlocation: LocationCol){
                         if (testlocation.getHexnum()== Seehexnum ){Seehexname=testlocation.getHexname();}
                         break;
-                    }
-                    int ObsTargRange = scen.getGameMap().range(scen.getGameMap().getHex(NextComTer.getHexName()), scen.getGameMap().getHex(Seenhexname), scen.getGameMap().getMapConfiguration());
-                    int FirerObsRange = scen.getGameMap().range(scen.getGameMap().getHex(NextComTer.getHexName()), scen.getGameMap().getHex(Seehexname), scen.getGameMap().getMapConfiguration());
+                    }*/
+                    int ObsTargRange = prscen.getGameMap().range(prscen.getGameMap().getHex(NextComTer.getHexName()), prscen.getGameMap().getHex(Seenhexname), prscen.getGameMap().getMapConfiguration());
+                    int FirerObsRange = prscen.getGameMap().range(prscen.getGameMap().getHex(NextComTer.getHexName()), prscen.getGameMap().getHex(Seehexname), prscen.getGameMap().getMapConfiguration());
                     double ObsTargElev = Smokelevel - Targetlevel;
                     double FirerObsElev = FirerLevel - Smokelevel;
                     if ((ObsTargRange == 1 && ObsTargElev >= 1) || (FirerObsRange == 1 && FirerObsElev <= -1)) {
@@ -1472,8 +1503,8 @@ public class CombatTerrain  extends BaseHex {
         return Smokelist;
     }
 
-    private boolean RangeIsEqual(int Currenthex, int lasthex, int Starthex) {
-        String Currenthexname=""; String lasthexname = ""; String Starthexname = "";
+    private boolean RangeIsEqual(int Currenthex, int lasthex, Hex Starthex) {
+        String Currenthexname=""; String lasthexname = ""; //String Starthexname = "";
         for (GameLocation testlocation: LocationCol){
             if (testlocation.getHexnum()== Currenthex ){Currenthexname=testlocation.getHexname();}
             break;
@@ -1482,31 +1513,36 @@ public class CombatTerrain  extends BaseHex {
             if (testlocation.getHexnum()== lasthex ){lasthexname=testlocation.getHexname();}
             break;
         }
-        for (GameLocation testlocation: LocationCol){
+        /*for (GameLocation testlocation: LocationCol){
             if (testlocation.getHexnum()== Starthex ){Starthexname=testlocation.getHexname();}
             break;
-        }
-        int FirstRange = scen.getGameMap().range(scen.getGameMap().getHex(Starthexname), scen.getGameMap().getHex(Currenthexname), scen.getGameMap().getMapConfiguration());
-        int SecondRange = scen.getGameMap().range(scen.getGameMap().getHex(lasthexname), scen.getGameMap().getHex(Currenthexname), scen.getGameMap().getMapConfiguration());
+        }*/
+        int FirstRange = prscen.getGameMap().range(Starthex, prscen.getGameMap().getHex(Currenthexname), prscen.getGameMap().getMapConfiguration());
+        int SecondRange = prscen.getGameMap().range(prscen.getGameMap().getHex(lasthexname), prscen.getGameMap().getHex(Currenthexname), prscen.getGameMap().getMapConfiguration());
         if (FirstRange == SecondRange) {
             return true;
         } else {
             return false;
         }
     }
-    private boolean SetEnemy(Constantvalues.Nationality FirstFriendly, int scennum, Constantvalues.Nationality Enemyside1, Constantvalues.Nationality enemyside2) {
-        // called by SetLOSHFPdrmValues
+    private Constantvalues.Nationality SetEnemy1(Constantvalues.Nationality FirstFriendly) {
+        // called by
         // set the nationality values of the "enemy" side
-        if (FirstFriendly == Scendet.getATT1() || FirstFriendly == Scendet.getATT2()) {
-            Enemyside1 = Scendet.getDFN1();
-            enemyside2 = Scendet.getDFN2();
-        } else if (FirstFriendly == Scendet.getDFN1() || FirstFriendly == Scendet.getDFN2()) {
-            Enemyside1 = Scendet.getATT1();
-            enemyside2 = Scendet.getATT2();
-        } else {
-            return false; // no nationality values set
+        if (FirstFriendly == prScendet.getATT1() || FirstFriendly == prScendet.getATT2()) {
+            return prScendet.getDFN1();
+        } else if (FirstFriendly == prScendet.getDFN1() || FirstFriendly == prScendet.getDFN2()) {
+            return prScendet.getATT1();
         }
-        return true;
+        return Constantvalues.Nationality.None;
     }
-        
+    private Constantvalues.Nationality SetEnemy2(Constantvalues.Nationality FirstFriendly) {
+        // called by
+        // set the nationality values of the "enemy" side
+        if (FirstFriendly == prScendet.getATT1() || FirstFriendly == prScendet.getATT2()) {
+            return prScendet.getDFN2();
+        } else if (FirstFriendly == prScendet.getDFN1() || FirstFriendly == prScendet.getDFN2()) {
+            return prScendet.getATT2();
+        }
+        return Constantvalues.Nationality.None;
+    }
 }

@@ -46,7 +46,7 @@ public class CombatCalcC implements CombatCalci {
     
         try {
             MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
-            Mapcol = MapData.getLocationCol();
+            Mapcol = null; //MapData.getLocationCol();
         } catch (Exception ex) {
 
         }
@@ -513,7 +513,8 @@ public class CombatCalcC implements CombatCalci {
                 // crest fire modification (no FP if behind wall; 1/2 FP if out of Crest CA) - behind wall will show NOLOS unless other units in location have LOS so need to set FP to zero
                 if (Firingunit.getbaseunit().IsInCrestStatus()) {
                     Firingunit.getFiringunit().CrestStatusModification(targethex);
-                } else {    // Firer is ineligible
+                }
+            } else {    // Firer is ineligible
                     switch (FirerStatus) {
                         case PrepFirer:
                             msg = " has Prep Fired. Can't fire again.";
@@ -526,10 +527,10 @@ public class CombatCalcC implements CombatCalci {
                             msg = " is on the other side buddy!";
                             break;
                         default:
-                            msg = " is Broken";
+                            //msg = " is Broken";
                     }
+                    // addd OrderStatus switch to handle broken - can't be part of firer status switch
                     GameModule.getGameModule().getChatter().send(Firingunit.getbaseunit().getUnitName() + msg + " No FP Added");
-                }
             }
         }
     }
@@ -687,8 +688,8 @@ public class CombatCalcC implements CombatCalci {
         // NOTE: need to incorporate dust into this routine
         Constantvalues.Mist Mistvalue= Constantvalues.Mist.None;  //  temporary while debugging UNDO
         Constantvalues.Dust Dustvalue = Constantvalues.Dust.None; // need to seperate mist and dust in Scendet.MistDust
-        TerrainChecks TerrChk = new TerrainChecks(Mapcol);   // class for various data-based terrain checks
-        ThreadedLOSCheckCommonc ThreadedCommonMethods = new ThreadedLOSCheckCommonc(TerrChk, Mapcol);
+        TerrainChecks TerrChk = new TerrainChecks();   // class for various data-based terrain checks
+        ThreadedLOSCheckCommonc ThreadedCommonMethods = new ThreadedLOSCheckCommonc(TerrChk);
         Mistdrm = ThreadedCommonMethods.MistDustmodifier(range, MistIsLOSH, DustLOSH, Mistvalue, Dustvalue);
         if(Mistdrm > 0) {
             //        ''GameForm.GridAddRows(GameForm.grdDRMMOd, "", "Mist", "", CStr(Mistdrm))
@@ -726,19 +727,7 @@ public class CombatCalcC implements CombatCalci {
                         continue;
                     }
                     // initialize variables
-                    Terraintest = false;
-                    HexSideTest = false;
-                    hexvalue = 0;
-                    Featuredrm = 0;
-                    FeatureName = "";
-                    ScenFeatureTest = false;
-                    TEMdrm = 0;
-                    Hexsidedrm = 0;
-                    LOSHdrm = 0;
-                    UseAltName = "";
-                    TerrainName = "";
-                    TotalLocationLOSHdrm = 0;
-                    LOSHName = ""; // need to reset it here because not reset later
+
                     // Terrain Modifiers
                     // determine what hex is being checked: firer, intervening or target
                     // can be more than one at the same time
@@ -750,15 +739,16 @@ public class CombatCalcC implements CombatCalci {
                     if (HexBaselevel != FirerBaseLevel) {
                         FirerBaseLevel = HexBaselevel;
                     }
+                    TargetVariables targetvar = new TargetVariables();
                     if (ComTer.IsTarget() && ComTer.getHexID() == TargetUnit.getbaseunit().getHexnum()) {
-                        ComTer.SetTargetVariables(TargetUnit, lasthexnum, HexSideTest, TEMdrm, MapTableInstance, TerrainName, Terraintest, Hexsidetype, ValidSol.getLOSFollows(), ValidSol.getSeeHexNum());
+                        ComTer.SetTargetVariables(targetvar, TargetUnit, lasthexnum, TerrainName, Hexsidetype, ValidSol.getLOSFollows(), ValidSol.getSeeHex());
                     }
                     if (TerrainName == "") {
                         TerrainName = ComTer.gethexdesc();
                     }
                     lasthexnum = ComTer.getHexID();
                     // Hexside modifiers
-                    if (HexSideTest) {
+                    if (targetvar.getHexSideTest()) {
                         Hexsidedrm = ComTer.getHexsideCrossedTEM();
                         SideTerrainName = ComTer.getHexsideCrosseddesc();
                         if (Hexsidedrm < 1) {
@@ -804,10 +794,10 @@ public class CombatCalcC implements CombatCalci {
                     if (ComTer.IsIntervening()) {
                         // now add visibility losh
                         VisLOSH = ValidSol.CalcVisLOSH(VisLOSHName, OBAAlreadyFound, ComTer);
-                        ComTer.InterveningDRM(VisLOSH, FinalLOSHDrm, LOSHdrm, ValidSol.getScenMap(), LOSHName, TerrainName, Featuredrm, FeatureName, FinalLOSHName, LOSAlongHexside,
+                        ComTer.InterveningDRM(VisLOSH, FinalLOSHDrm, targetvar.getLOSHdrm(), ValidSol.getScenMap(), LOSHName, TerrainName, Featuredrm, FeatureName, FinalLOSHName, LOSAlongHexside,
                                 FirerBaseLevel, FirerInHexLevel, FinalVisLOSHName, VisLOSHName, FinalVisLOSH, HexSpineDRM, FireGroupToUse, DRMList, TargetUnit, TotalLocationLOSHdrm,
-                                TotalLOSLOSHdrm, TargetTotalLevel, Lasthexloshdrm, lasthexnum, UseAltName, ValidSol.getAltHexesInLOS(), ValidSol.getID(),
-                                ValidSol.getHexesInLOS(), ValidSol.getSeeHexNum(), ValidSol.getSeenHexNum());
+                                TotalLOSLOSHdrm, TargetTotalLevel, Lasthexloshdrm, lasthexnum, targetvar.getUseAltName(), ValidSol.getAltHexesInLOS(), ValidSol.getID(),
+                                ValidSol.getHexesInLOS(), ValidSol.getSeeHex(), ValidSol.getSeenHex());
                         if (TotalLOSLOSHdrm >= 6) {
                             GameModule.getGameModule().getChatter().send("LOSH is Blocked in " + ComTer.getHexName());
                             return 99;
@@ -815,8 +805,8 @@ public class CombatCalcC implements CombatCalci {
                     }
                     if (ComTer.IsTarget() && ComTer.getHexID() == TargetUnit.getbaseunit().getHexnum()) {
                         TargetLOSH = ValidSol.CalcVisLOSH(TargLOSHName, OBAAlreadyFound, ComTer);
-                        ComTer.TargetHexdrm(TEMdrm, TotalLocationLOSHdrm, Hexsidedrm, Featuredrm, DRMList, TargetUnit, HexSpineDRM, TerrainName, SideTerrainName, FeatureName,
-                                TotalLOSLOSHdrm, alreadymoved, Terraintest, HexSideTest, FirerBaseLevel, FirerInHexLevel, TargLOSHName, TargetLOSH, FireGroupToUse);
+                        ComTer.TargetHexdrm(targetvar.getTEMdrm(), TotalLocationLOSHdrm, Hexsidedrm, Featuredrm, DRMList, TargetUnit, HexSpineDRM, TerrainName, SideTerrainName, FeatureName,
+                                TotalLOSLOSHdrm, alreadymoved, targetvar.getTerraintest(), targetvar.getHexSideTest(), FirerBaseLevel, FirerInHexLevel, TargLOSHName, TargetLOSH, FireGroupToUse);
 
                         if (TotalLOSLOSHdrm >= 6) {
                             GameModule.getGameModule().getChatter().send("LOSH is Blocked in " + ComTer.getHexName());
@@ -831,10 +821,10 @@ public class CombatCalcC implements CombatCalci {
                                     'the purpose of the above line is to use smoke or other LOSH in target hex in addition
                                     'to Terrain or hexside TEM; already checked if total LOSH blocks LOS
                                     'now determine and paste results to results box*/
-                    TotalhexDRM = TEMdrm + TotalLocationLOSHdrm + Hexsidedrm + Featuredrm;  // need to add others
+                    TotalhexDRM = targetvar.getTEMdrm() + TotalLocationLOSHdrm + Hexsidedrm + Featuredrm;  // need to add others
                     hexdrmstring = TerrainName + LOSHName + FeatureName + SideTerrainName + TargLOSHName;
                     if (TotalhexDRM != 0) {
-                        ReportName = (UseAltName == "" ? ComTer.getHexName(): UseAltName);
+                        ReportName = (targetvar.getUseAltName() == "" ? ComTer.getHexName(): targetvar.getUseAltName());
                         //        ''GameForm.GridAddRows(GameForm.grdDRMMOd, ReportName,  "Total: " & hexdrmstring, "", CStr(TotalhexDRM))
                     }
                     FinalCombatDRM += TotalhexDRM;
@@ -992,5 +982,49 @@ public class CombatCalcC implements CombatCalci {
         if Firstrange = Secondrange Then return true Else return false*/
         // temporary while debugging UNDO
         return false;
+    }
+    public class TargetVariables{
+        private boolean pTerraintest = false;
+        private boolean pHexSideTest = false;
+        private int phexvalue = 0;
+        private int pFeaturedrm = 0;
+        private String pFeatureName = "";
+        private boolean pScenFeatureTest = false;
+        private int pTEMdrm = 0;
+        private int pHexsidedrm = 0;
+        private int pLOSHdrm = 0;
+        private String pUseAltName = "";
+        private String pTerrainName = "";
+        private int pTotalLocationLOSHdrm = 0;
+        private String pLOSHName = ""; // need to reset it here because not reset later
+        private TargetVariables(){
+
+        }
+        public boolean getHexSideTest() {return pHexSideTest;}
+        public void setHexSideTest(boolean value) {pHexSideTest=value;}
+        public boolean getTerraintest() {return pTerraintest;}
+        public void setTerraintest(boolean value) {pTerraintest=value;}
+        public int getHexvalue() {return phexvalue;}
+        public void setHexvalue(int value){phexvalue = value;}
+        public int getFeaturedrm() {return pFeaturedrm;}
+        public void setFeaturedrm(int value){pFeaturedrm=value;}
+        public String getFeatureName() {return pFeatureName;}
+        public void setFeatureName(String value){pFeatureName=value;}
+        public boolean getScenFeatureTest() {return pScenFeatureTest;}
+        public void setScenFeatureTest(boolean value) {pScenFeatureTest=value;}
+        public int getTEMdrm() {return pTEMdrm;}
+        public void setTEMdrm(int value){pTEMdrm=value;}
+        public int getHexsidedrm() {return pHexsidedrm;}
+        public void setHexsidedrm(int value){pHexsidedrm=value;}
+        public int getLOSHdrm(){return pLOSHdrm;}
+        public void setLOSHdrm(int value){pHexsidedrm=value;}
+        public String getUseAltName() {return pUseAltName;}
+        public void setUseAltName(String value) {pUseAltName=value;}
+        public String getTerrainName() {return pTerrainName;}
+        public void setTerrainName(String value){pTerrainName=value;}
+        public int getTotalLocationLOSHdrm() {return pTotalLocationLOSHdrm;}
+        public void setTotalLocationLOHSdrm(int value) {pTotalLocationLOSHdrm=value;}
+        public String getLOSHName() {return pLOSHName;}
+        public void setLOSHName(String value){pLOSHName=value;}
     }
 }

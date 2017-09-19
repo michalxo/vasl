@@ -16,6 +16,7 @@
  */
 package VASL.LOS.Map;
 
+import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.map.boardArchive.BoardArchive;
 import VASL.build.module.map.boardArchive.RBrrembankments;
 import VASL.build.module.map.boardArchive.Slopes;
@@ -29,6 +30,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
+import java.lang.annotation.Target;
 import java.util.*;
 
 /**
@@ -810,7 +812,7 @@ public class Map  {
             return;
         }
 
-        LOSStatus status = new LOSStatus(source, useAuxSourceLOSPoint, target, useAuxTargetLOSPoint, result, VASLGameInterface);
+        LOSStatus status = new  LOSStatus(source, useAuxSourceLOSPoint, target, useAuxTargetLOSPoint, result, VASLGameInterface);
 
         // check same hex rules
         if(checkSameHexSmokeRule(status, result)) {
@@ -908,6 +910,9 @@ public class Map  {
 
         // set continuous slope result
         result.setContinuousSlope(status.continuousSlope);
+
+        // added to support IFT combat
+        prstatus=status;
     }
 
     /**
@@ -1023,7 +1028,7 @@ public class Map  {
      * The constructor initializes the LOS status
      * Note that all properties are public to eliminate getter/setter clutter
      */
-    private class LOSStatus {
+    public class LOSStatus {
 
         public Location source;
         public boolean useAuxSourceLOSPoint;
@@ -1074,8 +1079,8 @@ public class Map  {
         public boolean LOSisHorizontal;
 
         private final static int NONE = -1;
-        private int[] sourceExitHexsides = {NONE, NONE};
-        private int[] targetEnterHexsides = {NONE, NONE};
+        public int[] sourceExitHexsides = {NONE, NONE};
+        public int[] targetEnterHexsides = {NONE, NONE};
 
 
         // need lots of variables to track state of LOS across hillocks
@@ -1115,6 +1120,7 @@ public class Map  {
 
         public double slope;
 
+
         private LOSStatus(Location source, boolean useAuxSourceLOSPoint, Location target, boolean useAuxTargetLOSPoint, LOSResult result, VASLGameInterface VASLGameInterface) {
 
             this.source = source;
@@ -1141,6 +1147,12 @@ public class Map  {
             currentHex = sourceHex;
             sourceElevation = sourceHex.getBaseHeight() + source.getBaseHeight();
             targetElevation = targetHex.getBaseHeight() + target.getBaseHeight();
+
+            // set values used in IFT combat
+            sourceHex.setCombatHexrole(Constantvalues.Hexrole.Firer);
+            result.addHextohexesInLOS(sourceHex);
+            targetHex.setCombatHexrole(Constantvalues.Hexrole.Target);
+            result.addHextohexesInLOS(targetHex);
 
             range = range(sourceHex, targetHex, source.getHex().getMap().getMapConfiguration());
 
@@ -1615,6 +1627,7 @@ public class Map  {
                 }
             }
         }
+
     }
 
     /**
@@ -1661,6 +1674,12 @@ public class Map  {
 
             status.rangeToSource = range(status.currentHex, status.sourceHex, getMapConfiguration());
             status.rangeToTarget = range(status.currentHex, status.targetHex, getMapConfiguration());
+
+            // stuff added to Hex to support IFT combat
+            if (status.currentHex != status.sourceHex && status.currentHex != status.targetHex ) {
+                status.currentHex.setCombatHexrole(Constantvalues.Hexrole.Intervening);
+                result.addHextohexesInLOS(status.currentHex);
+            }
 
             // set the bridge variables
             status.bridge = status.currentHex.getBridge();
@@ -4871,6 +4890,11 @@ public class Map  {
 
         return "Normal";
     }
+
+    // added to support IFT combat
+    LOSStatus prstatus;
+    private void setLOSStatus(LOSStatus value ){ prstatus = value;}
+    public LOSStatus getLOSStatus() {return prstatus;}
 }
 
 

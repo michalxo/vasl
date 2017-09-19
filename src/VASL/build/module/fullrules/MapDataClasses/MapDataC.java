@@ -1,5 +1,9 @@
 package VASL.build.module.fullrules.MapDataClasses;
 
+import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.UtilityClasses.ConversionC;
+
+import java.sql.*;
 import java.util.LinkedList;
 
 /**
@@ -28,7 +32,9 @@ public class MapDataC {
     //Friend DataTableMapLOS As New DataTable temporary while debugging undo
     private int ScenarioID = 0;
     private String ScenarioName;
-    private LinkedList<GameLocation> LocationCol;
+    private Connection aslmapdatacon;
+    private LinkedList<LocationType> LocationTypeCol = new LinkedList<LocationType>();
+    private LinkedList<HexsideType> HexsideTypeCol = new LinkedList<HexsideType>();
     //Public db As MapDataClassesDataContext  temporary while debugging undo
 
     // constructors
@@ -49,121 +55,262 @@ public class MapDataC {
 
     }
 
-
-    //remmed out while debugging undo
-/*#Region "Methods"
-*/
     public void InitializeData() {
-        // called by Me.CreateMapCollection
-        // creates the datacontext
+        // called by
+        // Create a variable for the connection string.
+        String connectionUrl = "jdbc:sqlserver://localhost:11825;database=ASLMapData17;integratedSecurity=true";
+        // Declare the JDBC objects.
+        aslmapdatacon = null;
 
-        // db = New MapDataClassesDataContext
+        try {
+            // Establish the connection.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            aslmapdatacon = DriverManager.getConnection(connectionUrl);
+
+        }
+        // Handle any errors that may have occurred.
+        catch (Exception e) {
+            e.printStackTrace();
+            return;
+        } finally {
+
+        }
+        CreateLocationTypeCollection();
+        CreateHexsideTypeCollection();
+        try {
+            aslmapdatacon.close();
+        } catch (Exception e){
+
+        }
     }
 
-    public LinkedList<GameLocation> getLocationCol(){
-        return LocationCol;
+    public void CreateLocationTypeCollection(){
+
+        Constantvalues.Location PassLocationvalue=null;
+        int PassTEM=0;
+        int PassLOSHindDRM=0;
+        double Passmfcot=0;
+        double Passmpcot=0;
+        boolean PassBypassOK=false;
+        boolean Passbogcheck=false;
+        String PassTerrainDesc="";
+        int PassObstHeight=0;
+        boolean PassBuilding=false;
+        boolean PassRoad=false;
+        boolean PassBridge=false;
+        boolean PassPillbox=false;
+        boolean PassRemoveWhenUnoccupied=false;
+        Statement stmt = null;
+        ResultSet rs = null;
+        LocationType AddLocType=null;
+        // Create and execute an SQL statement that returns the data.
+        if (aslmapdatacon != null) {
+            try {
+                String SQL = "SELECT * FROM Location";
+                stmt = aslmapdatacon.createStatement();
+                rs = stmt.executeQuery(SQL);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        try {
+            while (rs.next()) {
+                PassLocationvalue = ConverttoLocationType(rs.getInt(1));
+                PassTEM = rs.getInt(2);
+                PassLOSHindDRM = rs.getInt(3);
+                Passmfcot = rs.getDouble(4);
+                Passmpcot = rs.getDouble(5);
+                PassBypassOK = rs.getBoolean(6);
+                Passbogcheck = rs.getBoolean(7);
+                PassTerrainDesc = rs.getString(8);
+                PassObstHeight = rs.getInt(10);
+                PassBuilding = rs.getBoolean(11);
+                PassRoad = rs.getBoolean(12);
+                PassBridge = rs.getBoolean(13);
+                PassPillbox = rs.getBoolean(14);
+                PassRemoveWhenUnoccupied = rs.getBoolean(15);
+                AddLocType = new LocationType(PassLocationvalue, PassTEM,  PassLOSHindDRM,  Passmfcot,  Passmpcot,  PassBypassOK,  Passbogcheck,  PassTerrainDesc,
+                 PassObstHeight,  PassBuilding,  PassRoad,  PassBridge,  PassPillbox,  PassRemoveWhenUnoccupied);
+                LocationTypeCol.add(AddLocType);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            if (rs != null) try { rs.close(); } catch(Exception e) {}
+            if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+        }
+    }
+    public void CreateHexsideTypeCollection(){
+
+        Constantvalues.Hexside PassHexsidevalue = null;
+        int PassTEM = 0;
+        boolean PassSideHalfObstacle = false;
+        boolean PassSideBypassOK = false;
+        String PassSidedesc = "";
+        double Passmfcot = 0;
+        double Passmpcot = 0;
+        boolean PassIsRoad = false;
+        boolean PassIsWallHdRdbk = false;
+
+        Statement stmt = null;
+        ResultSet rs = null;
+        HexsideType AddHexSideType=null;
+        // Create and execute an SQL statement that returns the data.
+        if (aslmapdatacon != null) {
+            try {
+                String SQL = "SELECT * FROM Hexside";
+                stmt = aslmapdatacon.createStatement();
+                rs = stmt.executeQuery(SQL);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        try {
+            while (rs.next()) {
+                PassHexsidevalue = ConverttoHexsideType(rs.getInt(1));
+                PassTEM = rs.getInt(2);
+                PassSideHalfObstacle = rs.getBoolean(3);
+                PassSideBypassOK = rs.getBoolean(4);
+                PassSidedesc = rs.getString(5);
+                Passmfcot = rs.getInt(6);
+                Passmpcot = rs.getInt(7);
+                PassIsRoad = rs.getBoolean(9);
+                PassIsWallHdRdbk = rs.getBoolean(10);
+
+                AddHexSideType = new HexsideType(PassHexsidevalue, PassTEM,  PassSideHalfObstacle,  PassSideBypassOK,  PassSidedesc,  Passmfcot,
+                        Passmpcot,  PassIsRoad,  PassIsWallHdRdbk);
+                HexsideTypeCol.add(AddHexSideType);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            if (rs != null) try { rs.close(); } catch(Exception e) {}
+            if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+        }
+    }
+    public Constantvalues.Location ConverttoLocationType(int Locvalue){
+
+        ConversionC DoConversion = new ConversionC();
+        return DoConversion.ConverttoLocationType(Locvalue);
+
     }
 
-            /*
-    Public Function UpdateMaptables(ByVal ASLMapLink As String, ByVal ASLLOSLink As String) As Boolean
-    Try
-                'table must have primary key otherwise readonly and submit changes will not work
-                        'first save changes to GameLocation and GameLOS tables
-                        'MessageBox.Show(db.GameLOs.Count.ToString)
-                        db.SubmitChanges()
-                        'Now copy from those tables to the Map and LOS Table
-                        'MessageBox.Show(db.GameLOs.Count.ToString)
-                        'db.Connection.Close()
-    UpdateScenMapTable(ASLMapLink)
-    UpdateScenLOSTable(ASLLOSLink)
-                'db.Connection.Open()
-                        'MessageBox.Show(db.GameLOs.Count.ToString)
-    Return True
+    public Constantvalues.Hexside ConverttoHexsideType( int databasevalue){
 
-    Catch ex As Exception
-    Return False
-    End Try
-    End Function
-    Private Function UpdateScenMapTable(ByVal AslLink As String) As Boolean
-            'called by MapDataC.UpdateMapTable
-                    'copies hex data from Gamelocation table to Scenario location table after change to terrain (rubble creation, smoke added, etc)
-    Dim connectionstring As String = GetConnectionString(2) 'standard variables for connecting to database
-    Dim connection As New SqlConnection(connectionstring)
-    Dim cmd As SqlCommand
-    Dim strsql As String   'hold sql text
-    Dim result As Boolean
+        ConversionC DoConversion = new ConversionC();
+        return DoConversion.ConverttoHexsideType(databasevalue);
 
-    Using connection
-                connection.Open()
-    Try
-            strsql = "delete from dbo." & Trim(AslLink)
-    cmd = New SqlCommand(strsql, connection)
-                    cmd.ExecuteNonQuery()
-                            'MessageBox.Show("Table " & AslLink & " successfully deletes old data", "Table Update Status", _
-                            'MessageBoxButtons.OK, MessageBoxIcon.Information)
-    result = True
-    Catch sqlExc As SqlException
-                    MessageBox.Show(sqlExc.ToString, "SQL Exception Error! in MapDataC.UpdateScenMapTable", _
-    MessageBoxButtons.OK, MessageBoxIcon.Error)
-    result = False
-    End Try
-    Try
-            strsql = "INSERT INTO dbo." & AslLink & vbCrLf & _
-                    " SELECT * FROM dbo.GameLocation"
-    cmd = New SqlCommand(strsql, connection)
-                    cmd.ExecuteNonQuery()
-                            'MessageBox.Show("Table GameLocation successfully copies data to " & AslLink, "Table Update Status", _
-                            'MessageBoxButtons.OK, MessageBoxIcon.Information)
-    result = True
-    Catch sqlExc As SqlException
-                    MessageBox.Show(sqlExc.ToString, "SQL Exception Error! in MapDataC.UpdateScenMapTable", _
-    MessageBoxButtons.OK, MessageBoxIcon.Error)
-    result = False
-    End Try
+    }
+    public LinkedList<LocationType> getLocationTypeCol() {return LocationTypeCol;}
 
-    End Using
-    Return result
-    End Function
-    Private Function UpdateScenLOSTable(ByVal AslLink As String) As Boolean
-            'called by MapDataC.UpdateMapTable
-                    'copies hex data from GameLOS table to Scenario LOS table after change to update/add LOS results
-    Dim connectionstring As String = GetConnectionString(2) 'standard variables for connecting to database
-    Dim connection As New SqlConnection(connectionstring)
-    Dim cmd As SqlCommand
-    Dim strsql As String   'hold sql text
-    Dim result As Boolean
+    public LinkedList<HexsideType> getHexsideTypeCol() {return HexsideTypeCol;}
 
-    Using connection
-                connection.Open()
-    Try
-            strsql = "delete from dbo." & Trim(AslLink)
-    cmd = New SqlCommand(strsql, connection)
-                    cmd.ExecuteNonQuery()
-                            'MessageBox.Show("Table " & AslLink & " successfully deletes old data", "Table Update Status", _
-                            'MessageBoxButtons.OK, MessageBoxIcon.Information)
-    result = True
-    Catch sqlExc As SqlException
-                    MessageBox.Show(sqlExc.ToString, "SQL Exception Error! in MapDataC.UpdateScenLOSTable", _
-    MessageBoxButtons.OK, MessageBoxIcon.Error)
-    result = False
-    End Try
-    Try
-            strsql = "INSERT INTO dbo." & AslLink & vbCrLf & _
-                    " SELECT * FROM dbo.GameLOS"
-    cmd = New SqlCommand(strsql, connection)
-                    cmd.ExecuteNonQuery()
-                            'MessageBox.Show("Table GameLOS successfully copies data to " & AslLink, "Table Update Status", _
-                            'MessageBoxButtons.OK, MessageBoxIcon.Information)
-    result = True
-    Catch sqlExc As SqlException
-                    MessageBox.Show(sqlExc.ToString, "SQL Exception Error! in MapDataC.UpdateScenLOSTable", _
-    MessageBoxButtons.OK, MessageBoxIcon.Error)
-    result = False
-    End Try
+    /*
+        Public Function UpdateMaptables(ByVal ASLMapLink As String, ByVal ASLLOSLink As String) As Boolean
+        Try
+                    'table must have primary key otherwise readonly and submit changes will not work
+                            'first save changes to GameLocation and GameLOS tables
+                            'MessageBox.Show(db.GameLOs.Count.ToString)
+                            db.SubmitChanges()
+                            'Now copy from those tables to the Map and LOS Table
+                            'MessageBox.Show(db.GameLOs.Count.ToString)
+                            'db.Connection.Close()
+        UpdateScenMapTable(ASLMapLink)
+        UpdateScenLOSTable(ASLLOSLink)
+                    'db.Connection.Open()
+                            'MessageBox.Show(db.GameLOs.Count.ToString)
+        Return True
 
-    End Using
-    Return result
-    End Function*/
+        Catch ex As Exception
+        Return False
+        End Try
+        End Function
+        Private Function UpdateScenMapTable(ByVal AslLink As String) As Boolean
+                'called by MapDataC.UpdateMapTable
+                        'copies hex data from Gamelocation table to Scenario location table after change to terrain (rubble creation, smoke added, etc)
+        Dim connectionstring As String = GetConnectionString(2) 'standard variables for connecting to database
+        Dim connection As New SqlConnection(connectionstring)
+        Dim cmd As SqlCommand
+        Dim strsql As String   'hold sql text
+        Dim result As Boolean
+
+        Using connection
+                    connection.Open()
+        Try
+                strsql = "delete from dbo." & Trim(AslLink)
+        cmd = New SqlCommand(strsql, connection)
+                        cmd.ExecuteNonQuery()
+                                'MessageBox.Show("Table " & AslLink & " successfully deletes old data", "Table Update Status", _
+                                'MessageBoxButtons.OK, MessageBoxIcon.Information)
+        result = True
+        Catch sqlExc As SqlException
+                        MessageBox.Show(sqlExc.ToString, "SQL Exception Error! in MapDataC.UpdateScenMapTable", _
+        MessageBoxButtons.OK, MessageBoxIcon.Error)
+        result = False
+        End Try
+        Try
+                strsql = "INSERT INTO dbo." & AslLink & vbCrLf & _
+                        " SELECT * FROM dbo.GameLocation"
+        cmd = New SqlCommand(strsql, connection)
+                        cmd.ExecuteNonQuery()
+                                'MessageBox.Show("Table GameLocation successfully copies data to " & AslLink, "Table Update Status", _
+                                'MessageBoxButtons.OK, MessageBoxIcon.Information)
+        result = True
+        Catch sqlExc As SqlException
+                        MessageBox.Show(sqlExc.ToString, "SQL Exception Error! in MapDataC.UpdateScenMapTable", _
+        MessageBoxButtons.OK, MessageBoxIcon.Error)
+        result = False
+        End Try
+
+        End Using
+        Return result
+        End Function
+        Private Function UpdateScenLOSTable(ByVal AslLink As String) As Boolean
+                'called by MapDataC.UpdateMapTable
+                        'copies hex data from GameLOS table to Scenario LOS table after change to update/add LOS results
+        Dim connectionstring As String = GetConnectionString(2) 'standard variables for connecting to database
+        Dim connection As New SqlConnection(connectionstring)
+        Dim cmd As SqlCommand
+        Dim strsql As String   'hold sql text
+        Dim result As Boolean
+
+        Using connection
+                    connection.Open()
+        Try
+                strsql = "delete from dbo." & Trim(AslLink)
+        cmd = New SqlCommand(strsql, connection)
+                        cmd.ExecuteNonQuery()
+                                'MessageBox.Show("Table " & AslLink & " successfully deletes old data", "Table Update Status", _
+                                'MessageBoxButtons.OK, MessageBoxIcon.Information)
+        result = True
+        Catch sqlExc As SqlException
+                        MessageBox.Show(sqlExc.ToString, "SQL Exception Error! in MapDataC.UpdateScenLOSTable", _
+        MessageBoxButtons.OK, MessageBoxIcon.Error)
+        result = False
+        End Try
+        Try
+                strsql = "INSERT INTO dbo." & AslLink & vbCrLf & _
+                        " SELECT * FROM dbo.GameLOS"
+        cmd = New SqlCommand(strsql, connection)
+                        cmd.ExecuteNonQuery()
+                                'MessageBox.Show("Table GameLOS successfully copies data to " & AslLink, "Table Update Status", _
+                                'MessageBoxButtons.OK, MessageBoxIcon.Information)
+        result = True
+        Catch sqlExc As SqlException
+                        MessageBox.Show(sqlExc.ToString, "SQL Exception Error! in MapDataC.UpdateScenLOSTable", _
+        MessageBoxButtons.OK, MessageBoxIcon.Error)
+        result = False
+        End Try
+
+        End Using
+        Return result
+        End Function*/
     public LinkedList<GameLocation> CreateMapCollection() {
         // called by Game.Scenario.OpenScenario and NewScenario
         // pulls all Location records for current scenario from GameLocation into LocationCol
@@ -173,7 +320,7 @@ public class MapDataC {
         InitializeData();
         try {
             LinkedList<GameLocation> Loccol = null; // NEED TO FIXFrom QU As MapDataClassLibrary.GameLocation In db.GameLocations Select QU;
-            LocationCol = Loccol;
+            //LocationCol = Loccol;
             return Loccol;
         } catch(Exception ex) {
             //MsgBox("Some kind of error" & CStr(ScenarioID), , "CreateMapCollection Failure")

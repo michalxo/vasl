@@ -639,42 +639,9 @@ public interface Clicki {
     End If
     End Sub
     End Class
-    Friend Class ClickLeftShiftPrepC
-    Implements Clicki
-    public Sub DetermineClickPossibilities(Hexnumber As Integer, Optional ByVal Action As Integer = 0) Implements Clicki.DetermineClickPossibilities
-            'called by XNAGph.CheckforMouseClick
-                    'selecting all units in hex location
+    */
 
-                    'Get list of counters for the hex
-    Dim OH As VisibleOccupiedhexes
-    OH = CType(Game.Scenario.HexesWithCounter(Hexnumber), VisibleOccupiedhexes)
-    Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
-    Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
-    If hexlocationsvalue.Count = 1 Then
-                'only one location so select everything in hex
-    For Each DisplaySprite As ObjectClassLibrary.ASLXNA.SpriteOrder In OH.VisibleCountersInHex
-    If DisplaySprite.TypeID <= 5000 Then 'infantry, vehicle, gun or concealment, not SW or Terrain
-    DisplaySprite.Selected = True
-    End If
-    Next
-                Game.Scenario.IFT.ClickedOnNewParticipants(Hexnumber)
-    Else
-                'need a popup to show locations to choose from
-                        'set point to draw menu
-    For Each Passitem As MapDataClassLibrary.GameLocation In hexlocationsvalue
-                    hexlocationslist.Add(Passitem)
-    Next
-    Dim MouseAction As Integer = Constantvalues.MouseAction.LeftShift
-    Dim Showpoint = New System.Drawing.Point
-    Dim MapGeo As mapgeoclasslibrary.aslxna.mapgeoc = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-    Showpoint = MapGeo.SetPoint(Hexnumber)
-
-    Dim ShowLocPop = New LocationContentPopup(Hexnumber, hexlocationslist, Showpoint, MouseAction, 0)
-    Game.contextshowing = True
-    End If
-    End Sub
-    End Class
+        /*
     Friend Class ClickLeftShiftMovementC
     Implements Clicki
     public Sub DetermineClickPossibilities(Hexnumber As Integer, Optional ByVal Action As Integer = 0) Implements Clicki.DetermineClickPossibilities

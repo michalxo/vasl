@@ -6,9 +6,8 @@ package VASL.build.module.fullrules.DataClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASSAL.build.GameModule;
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -27,10 +26,12 @@ public class DataC {
 
     private String pScenarioName;
     private int pScenID;
-    // public db As ASLDataDataContext
+    private Connection asldatacon;
     //    'publicTempCombatTerrCol As New Collection
     public LinkedList<OrderofBattle> Unitcol = new LinkedList<OrderofBattle>();
     public LinkedList<OrderofBattleSW> OBSWcol = new LinkedList<OrderofBattleSW>();
+    public LinkedList<LineofBattle> LOBTypeCol = new LinkedList<LineofBattle>();
+    public LinkedList<SupportWeapon> SWLOBTypeCol = new LinkedList<SupportWeapon>();
     //public VehicleCol As IQueryable(Of AFV)
     private LinkedList<ScenarioTerrain> pScenFeatcol = new LinkedList<ScenarioTerrain>();
     //public Concealcol As IQueryable(Of Concealment)
@@ -38,6 +39,7 @@ public class DataC {
     //public VehiclesInhex As IQueryable(Of AFV)
     //public Unposscol As List(Of Unpossessed)
     //public dataTableMap As New DataTable
+    private Constantvalues.IFTResult[][] IFTTable = new Constantvalues.IFTResult[16][12];
 
     // constructors
     private DataC() {
@@ -81,54 +83,229 @@ public class DataC {
     }*/
 
     public void InitializeData() {
-        // db = New ASLDataDataContext
-
         // Create a variable for the connection string.
-        // temporary while debugging undo
-        String connectionUrl = "jdbc:sqlserver://localhost;integratedSecurity=true";  // "jdbc:sqlserver://localhost:1433; databaseName=AdventureWorks;user=UserName;password=*****";
-
+        String connectionUrl = "jdbc:sqlserver://localhost:11825;database=ASLData17;integratedSecurity=true";
         // Declare the JDBC objects.
-        Connection con = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+        asldatacon = null;
+        //Statement stmt = null;
+        //ResultSet rs = null;
 
-        // temporary while debugging undo
-        /*try {
+        try {
             // Establish the connection.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-
-            // Create and execute an SQL statement that returns some data.
-            String SQL = "SELECT TOP 10 * FROM Person.Contact";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
-
-            // Iterate through the data in the result set and display it.
-            while (rs.next()) {
-                System.out.println(rs.getString(4) + " " + rs.getString(6));
-            }
+            asldatacon = DriverManager.getConnection(connectionUrl);
+            // create collections of static data drawn from db
+            CreateLOBTypeCollection();
+            CreateSWLOBTypeCollection();
+            CreateIFTTable();
         }
-
         // Handle any errors that may have occurred.
         catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (rs != null) try {
+            /*if (rs != null) try {
                 rs.close();
             } catch (Exception e) {
             }
             if (stmt != null) try {
                 stmt.close();
             } catch (Exception e) {
-            }
-            if (con != null) try {
-                con.close();
-            } catch (Exception e) {
-            }
-        }*/
+            }*/
+
+        }
 
     }
+    public void closeconnection(){
+        if (asldatacon != null) try {
+            asldatacon.close();
+        } catch (Exception e) {
+        }
+    }
+    public void CreateLOBTypeCollection(){
 
+        String PassLOBName = "";
+        Constantvalues.Nationality PassNationality = Constantvalues.Nationality.None;
+        int PassOBLink = 0;
+        int PassFirePower = 0;
+        int PassRange = 0;
+        int PassMoraleLevel = 0;
+        boolean PassAssaultFire = false;
+        boolean PassSprayFire = false;
+        boolean PassELR5 = false;
+        int PassClass = 0;
+        int PassSmoke = 0;
+        int PassBrokenML = 0;
+        int PassBPV = 0;
+        String PassRedTo = "";
+        String PassSubTo = "";
+        String PassHardTo = "";
+        boolean PassSelfRally = false;
+        int PassReducesTo = 0;
+        int PassSubstitutesTo = 0;
+        int PassHardensTo = 0;
+        Constantvalues.Utype PassUnitType = null;
+
+        Statement stmt = null;
+        ResultSet rs = null;
+        LineofBattle AddLOBType=null;
+        // Create and execute an SQL statement that returns the data.
+        if (asldatacon != null) {
+            try {
+                String SQL = "SELECT * FROM LineofBattle";
+                stmt = asldatacon.createStatement();
+                rs = stmt.executeQuery(SQL);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        try {
+            ConversionC DoConversion = new ConversionC();
+            while (rs.next()) {
+                PassLOBName = rs.getString(1);
+                PassNationality = DoConversion.ConverttoNationality(rs.getInt(17));
+                PassOBLink = rs.getInt(2);
+                PassFirePower = rs.getInt(3);
+                PassRange = rs.getInt(4);
+                PassMoraleLevel = rs.getInt(5);
+                PassAssaultFire = rs.getBoolean(6);
+                PassSprayFire = rs.getBoolean(8);
+                PassELR5 = rs.getBoolean(8);
+                PassClass = rs.getInt(9);
+                PassSmoke = rs.getInt(10);
+                PassBrokenML = rs.getInt(11);
+                PassBPV = rs.getInt(12);
+                PassRedTo = rs.getString(13);
+                PassSubTo = rs.getString(14);
+                PassHardTo = rs.getString(15);
+                PassSelfRally= rs.getBoolean(16);
+                PassUnitType = DoConversion.ConverttoUnitType(rs.getInt(18));
+                PassReducesTo = rs.getInt(19);
+                PassSubstitutesTo = rs.getInt(20);
+                PassHardensTo = rs.getInt(21);
+
+                AddLOBType = new LineofBattle(PassLOBName, PassNationality,  PassOBLink,  PassFirePower,  PassRange,  PassMoraleLevel,  PassAssaultFire,  PassSprayFire,
+                        PassELR5,  PassClass,  PassSmoke,  PassBrokenML,  PassBPV, PassRedTo, PassSubTo, PassHardTo, PassSelfRally, PassUnitType, PassReducesTo,
+                        PassSubstitutesTo, PassHardensTo);
+                LOBTypeCol.add(AddLOBType);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            if (rs != null) try { rs.close(); } catch(Exception e) {}
+            if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+        }
+    }
+
+    public void CreateSWLOBTypeCollection(){
+
+        int PassID = 0;
+        String PassWeaponName = "";
+        Constantvalues.SWtype PassWeaponType = null;
+        //private String _National As String
+        int PassFIREPOWER = 0;
+        int PassRANGE = 0;
+        int PassPORTAGECOST = 0;
+        int PassMALFUNCTION = 0;
+        int PassREPAIR = 0;
+        int PassROF = 0;
+        int PassBREAKDOWN = 0;
+        boolean PassASSAULTFIRE = false;
+        boolean PassSPRAYINGFIRE = false;
+        int PassDismantledPP = 0;
+        Constantvalues.Nationality PassNationality = null;
+
+        Statement stmt = null;
+        ResultSet rs = null;
+        SupportWeapon AddSWType=null;
+        // Create and execute an SQL statement that returns the data.
+        if (asldatacon != null) {
+            try {
+                String SQL = "SELECT * FROM SupportWeapons";
+                stmt = asldatacon.createStatement();
+                rs = stmt.executeQuery(SQL);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        try {
+            ConversionC DoConversion = new ConversionC();
+            while (rs.next()) {
+                PassID = rs.getInt(1);
+                PassWeaponName = rs.getString(2);
+                PassWeaponType = DoConversion.ConverttoSWType(rs.getInt(3));
+                PassFIREPOWER = rs.getInt(5);
+                PassRANGE = rs.getInt(6);
+                PassPORTAGECOST = rs.getInt(7);
+                PassMALFUNCTION = rs.getInt(8);
+                PassREPAIR = rs.getInt(9);
+                PassROF = rs.getInt(10);
+                PassBREAKDOWN = rs.getInt(11);
+                PassASSAULTFIRE = rs.getBoolean(12);
+                PassSPRAYINGFIRE = rs.getBoolean(13);
+                PassDismantledPP = rs.getInt(14);
+                PassNationality = DoConversion.ConverttoNationality(rs.getInt(15));
+
+
+                AddSWType = new SupportWeapon(PassID, PassWeaponName,  PassWeaponType,  PassFIREPOWER,  PassRANGE,  PassPORTAGECOST,  PassMALFUNCTION,  PassREPAIR,
+                        PassROF,  PassBREAKDOWN,  PassASSAULTFIRE,  PassSPRAYINGFIRE,  PassDismantledPP, PassNationality);
+                SWLOBTypeCol.add(AddSWType);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            if (rs != null) try { rs.close(); } catch(Exception e) {}
+            if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+        }
+    }
+
+    public void CreateIFTTable(){
+
+        Statement stmt = null;
+        ResultSet rs = null;
+        Constantvalues.IFTResult AddIFTResult=null;
+        // Create and execute an SQL statement that returns the data.
+        if (asldatacon != null) {
+            try {
+                String SQL = "SELECT * FROM LookUpIFT";
+                stmt = asldatacon.createStatement();
+                rs = stmt.executeQuery(SQL);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        try {
+            int x=0;
+            ConversionC DoConversion = new ConversionC();
+            while (rs.next()) {
+                IFTTable[x][0] = DoConversion.ConverttoIFTResult(rs.getInt(1));
+                IFTTable[x][1] = DoConversion.ConverttoIFTResult(rs.getInt(2));
+                IFTTable[x][2] = DoConversion.ConverttoIFTResult(rs.getInt(3));
+                IFTTable[x][3] = DoConversion.ConverttoIFTResult(rs.getInt(4));
+                IFTTable[x][4] = DoConversion.ConverttoIFTResult(rs.getInt(5));
+                IFTTable[x][5] = DoConversion.ConverttoIFTResult(rs.getInt(6));
+                IFTTable[x][6] = DoConversion.ConverttoIFTResult(rs.getInt(7));
+                IFTTable[x][7] = DoConversion.ConverttoIFTResult(rs.getInt(8));
+                IFTTable[x][8] = DoConversion.ConverttoIFTResult(rs.getInt(9));
+                IFTTable[x][9] = DoConversion.ConverttoIFTResult(rs.getInt(10));
+                IFTTable[x][10] = DoConversion.ConverttoIFTResult(rs.getInt(11));
+                x += 1;
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            if (rs != null) try { rs.close(); } catch(Exception e) {}
+            if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+        }
+    }
     //remmed out while debugging undo
     /*publicFunction GetConnectionString(ByVal WhichOne As Integer) As String
             'called by routines in Terraindata to create connection string to use in database connection
@@ -220,13 +397,57 @@ public class DataC {
     Return (Maxhexnum + 1)  'creates new largest for next scen value
     End Function
 */
-    public Scenario GetScenarioData(String ScenName) {
+    public Scenario GetScenarioData(String ScenID) {
         // called by Scenario.OpenScenario - is meant to retrieve scenario record from database - via a stored procedure\function call
+        String Scenname = ScenID;
 
-        Scenario Sceninfo = new Scenario(ScenName); // temporary while debugging undo (From QU In db.scens Where QU.ScenNum = ScenID Select QU).First
-        pScenarioName = ScenName;
-        pScenID = Sceninfo.getScenNum();
-        return Sceninfo;
+        PreparedStatement prestmt = null;
+        ResultSet rs = null;
+        // Create and execute an SQL statement that returns the data.
+        if (asldatacon != null) {
+            try {
+                String SQL = "SELECT * FROM scen WHERE FULLNAME = ?";   // '" + Scenname + "'";
+                prestmt = asldatacon.prepareStatement(SQL);
+                prestmt.setString(1, Scenname);
+                rs = prestmt.executeQuery();
+                Scenario Sceninfo = new Scenario(rs); // temporary while debugging undo (From QU In db.scens Where QU.ScenNum = ScenID Select QU).First
+                pScenarioName = Sceninfo.getFULLNAME();
+                pScenID = Sceninfo.getScenNum();
+                return Sceninfo;
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+                if (rs != null) try { rs.close(); } catch(Exception e) {}
+                if (prestmt != null) try { prestmt.close(); } catch(Exception e) {}
+            }
+        }
+        return null;
+    }
+    /*public Scenario GetScenarioData(int ScenID) {
+        // called by Scenario.OpenScenario - is meant to retrieve scenario record from database - via a stored procedure\function call
+        String Scenname = Integer.toString(ScenID);
+        Statement stmt = null;
+        ResultSet rs = null;
+        // Create and execute an SQL statement that returns the data.
+        if (asldatacon != null) {
+            try {
+                String SQL = "SELECT * FROM dbo.scen where dbo.scen.scennum =" + Scenname;
+                stmt = asldatacon.createStatement();
+                rs = stmt.executeQuery(SQL);
+                Scenario Sceninfo = new Scenario(rs); // temporary while debugging undo (From QU In db.scens Where QU.ScenNum = ScenID Select QU).First
+                pScenarioName = Sceninfo.getFULLNAME();
+                pScenID = Sceninfo.getScenNum();
+                return Sceninfo;
+            }catch (Exception e) {
+
+            }
+            finally {
+                if (rs != null) try { rs.close(); } catch(Exception e) {}
+                if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+            }
+        }
+        return null;
     }
 
     public Scenario GetScenarioData(int ScenID) {
@@ -236,7 +457,7 @@ public class DataC {
         //pScenarioName = ScenName;
         pScenID = Sceninfo.getScenNum();
         return Sceninfo;
-    }
+    }*/
     public List<Scenario> GetScenList() {
         try {
             // Dim Scenlist = From QU In db.scens Where QU.Finished = False Select QU
@@ -253,7 +474,7 @@ public class DataC {
         // pulls all OB units for a given scenario it a collection of type OrderofBattle
 
         // test code
-        LinkedList<OrderofBattle> Unitcol = CreatetestOBunits();
+        Unitcol = CreatetestOBunits();
         return Unitcol;
 
 
@@ -270,8 +491,105 @@ public class DataC {
     }
 
     private LinkedList<OrderofBattle> CreatetestOBunits() {
+
+        // temporary while debugging; creates units linked to counters on board
         LinkedList<OrderofBattle> Testunits = new LinkedList<OrderofBattle>();
+
+        // test unit: German 467
         OrderofBattle Newunit = new OrderofBattle();
+        Newunit.setOBUnit_ID(5678);
+        Newunit.setCharacterStatus(Constantvalues.CharacterStatus.NONE);
+        Newunit.setCombatStatus(Constantvalues.CombatStatus.None);
+        Newunit.setCon_ID(0);
+        Newunit.setCX(false);
+        Newunit.setELR(3);
+        Newunit.setFirstSWLink(0);
+        Newunit.setFortitudeStatus(Constantvalues.FortitudeStatus.Normal);
+        Newunit.setHexEnteredSideCrossedLastMove(0);
+        Newunit.sethexlocation(Constantvalues.Location.Woods);
+        Newunit.setHexname("L1");
+        Newunit.sethexnum(0);
+        Newunit.setLevelinHex(0);
+        Newunit.setLOBLink(5);
+        Newunit.setLocIndex(0);
+        Newunit.setMovementStatus(Constantvalues.MovementStatus.NotMoving);
+        Newunit.setNationality(Constantvalues.Nationality.Germans);
+        Newunit.setOBName("467B");
+        Newunit.setOrderStatus(Constantvalues.OrderStatus.GoodOrder);
+        Newunit.setPinned(false);
+        Newunit.setPosition(Constantvalues.AltPos.None);
+        Newunit.setRoleStatus(Constantvalues.RoleStatus.None);
+        Newunit.setScenario(1);
+        Newunit.setSecondSWlink(0);
+        Newunit.setSW(0);
+        Newunit.setTurnArrives(0);
+        Newunit.setVisibilityStatus(Constantvalues.VisibilityStatus.Visible);
+
+        Testunits.add(Newunit);
+        // test unit Russian 447
+        Newunit = new OrderofBattle();
+        Newunit.setOBUnit_ID(789);
+        Newunit.setCharacterStatus(Constantvalues.CharacterStatus.NONE);
+        Newunit.setCombatStatus(Constantvalues.CombatStatus.None);
+        Newunit.setCon_ID(0);
+        Newunit.setCX(false);
+        Newunit.setELR(3);
+        Newunit.setFirstSWLink(0);
+        Newunit.setFortitudeStatus(Constantvalues.FortitudeStatus.Normal);
+        Newunit.setHexEnteredSideCrossedLastMove(0);
+        Newunit.sethexlocation(Constantvalues.Location.OpenGround);
+        Newunit.setHexname("H4");
+        Newunit.sethexnum(0);
+        Newunit.setLevelinHex(0);
+        Newunit.setLOBLink(27);
+        Newunit.setLocIndex(0);
+        Newunit.setMovementStatus(Constantvalues.MovementStatus.NotMoving);
+        Newunit.setNationality(Constantvalues.Nationality.Russians);
+        Newunit.setOBName("447Z");
+        Newunit.setOrderStatus(Constantvalues.OrderStatus.GoodOrder);
+        Newunit.setPinned(false);
+        Newunit.setPosition(Constantvalues.AltPos.None);
+        Newunit.setRoleStatus(Constantvalues.RoleStatus.None);
+        Newunit.setScenario(1);
+        Newunit.setSecondSWlink(0);
+        Newunit.setSW(0);
+        Newunit.setTurnArrives(0);
+        Newunit.setVisibilityStatus(Constantvalues.VisibilityStatus.Visible);
+
+        Testunits.add(Newunit);
+        // testunit Russian 447
+        Newunit = new OrderofBattle();
+        Newunit.setOBUnit_ID(456);
+        Newunit.setCharacterStatus(Constantvalues.CharacterStatus.NONE);
+        Newunit.setCombatStatus(Constantvalues.CombatStatus.None);
+        Newunit.setCon_ID(0);
+        Newunit.setCX(false);
+        Newunit.setELR(3);
+        Newunit.setFirstSWLink(0);
+        Newunit.setFortitudeStatus(Constantvalues.FortitudeStatus.Normal);
+        Newunit.setHexEnteredSideCrossedLastMove(0);
+        Newunit.sethexlocation(Constantvalues.Location.OpenGround);
+        Newunit.setHexname("L3");
+        Newunit.sethexnum(0);
+        Newunit.setLevelinHex(0);
+        Newunit.setLOBLink(27);
+        Newunit.setLocIndex(0);
+        Newunit.setMovementStatus(Constantvalues.MovementStatus.NotMoving);
+        Newunit.setNationality(Constantvalues.Nationality.Russians);
+        Newunit.setOBName("447Y");
+        Newunit.setOrderStatus(Constantvalues.OrderStatus.GoodOrder);
+        Newunit.setPinned(false);
+        Newunit.setPosition(Constantvalues.AltPos.None);
+        Newunit.setRoleStatus(Constantvalues.RoleStatus.None);
+        Newunit.setScenario(1);
+        Newunit.setSecondSWlink(0);
+        Newunit.setSW(0);
+        Newunit.setTurnArrives(0);
+        Newunit.setVisibilityStatus(Constantvalues.VisibilityStatus.Visible);
+
+        Testunits.add(Newunit);
+        // testunit German 467
+        Newunit = new OrderofBattle();
         Newunit.setOBUnit_ID(1234);
         Newunit.setCharacterStatus(Constantvalues.CharacterStatus.NONE);
         Newunit.setCombatStatus(Constantvalues.CombatStatus.None);
@@ -282,13 +600,13 @@ public class DataC {
         Newunit.setFortitudeStatus(Constantvalues.FortitudeStatus.Normal);
         Newunit.setHexEnteredSideCrossedLastMove(0);
         Newunit.sethexlocation(Constantvalues.Location.OpenGround);
-        Newunit.setHexname("A3");
+        Newunit.setHexname("H2");
         Newunit.sethexnum(0);
         Newunit.setLevelinHex(0);
         Newunit.setLOBLink(5);
         Newunit.setLocIndex(0);
         Newunit.setMovementStatus(Constantvalues.MovementStatus.NotMoving);
-        Newunit.setNationality(Constantvalues.Nationality.None);
+        Newunit.setNationality(Constantvalues.Nationality.Germans);
         Newunit.setOBName("467A");
         Newunit.setOrderStatus(Constantvalues.OrderStatus.GoodOrder);
         Newunit.setPinned(false);
@@ -301,7 +619,6 @@ public class DataC {
         Newunit.setVisibilityStatus(Constantvalues.VisibilityStatus.Visible);
 
         Testunits.add(Newunit);
-
         return Testunits;
     }
 
@@ -456,6 +773,12 @@ public class DataC {
             return null;
         }
         // query
+         // TEST
+        for (OrderofBattle findunit: Unitcol){
+            if (findunit.getOBUnit_ID()== IDtopass) {return findunit;}
+        }
+
+
         OrderofBattle getunit = null; // (From QU In Unitcol Where QU.OBUnit_ID = IDtopass Select QU).First;
         return getunit;
     }
@@ -699,8 +1022,10 @@ public class DataC {
                     LOBInfo = CStr(ConstantClassLibrary.ASLXNA.UClass.Elite);
                 }
                 break;
-            case SMOKE: LOBInfo = (From qu In db.LineofBattles Where qu.OBLink = LobID Select qu.Smoke).First.ToString;
+                */
+            case SMOKE: LOBInfo = "1"; // test code (From qu In db.LineofBattles Where qu.OBLink = LobID Select qu.Smoke).First.ToString;
                 break;
+                /*
             case MORALELEVEL: if (PassLobID <1000) {
                     LOBInfo = (From qu In db.LineofBattles Where qu.OBLink = LobID Select qu.MoraleLevel).First.ToString;
                 } else {
@@ -722,71 +1047,27 @@ public class DataC {
 
     public LineofBattle GetLOBRecord(int lobitem) {
 
-        // temporary while debugging UNDO
-        /*Try
-
-        Return(From qu In db.LineofBattles Where qu.OBLink = lobitem Select qu).
-                First
-        Catch
-        Return Nothing
-        End Try
-        */
-        LineofBattle Newunit = new LineofBattle();
-        Newunit.setAssaultFire(false);
-        Newunit.setBPV(0);
-        Newunit.setBrokenML(7);
-        Newunit.setELR5(false);
-        Newunit.setFirePower(4);
-        Newunit.setHardensTo(0);
-        Newunit.setHardTo("468");
-        Newunit.setLOBName("467");
-        Newunit.setMoraleLevel(7);
-        Newunit.setNationality(Constantvalues.Nationality.Germans);
-        Newunit.setOBLink(5);
-        Newunit.setRange(6);
-        Newunit.setRedTo("247");
-        Newunit.setReducesTo(0);
-        Newunit.setSelfRally(false);
-        Newunit.setSmoke(1);
-        Newunit.setSprayFire(false);
-        Newunit.setSubstitutesTo(0);
-        Newunit.setSubTo("447");
-        Newunit.setUClass(1);
-        Newunit.setUnitType(Constantvalues.Utype.Squad);
-
-        return Newunit;
-
+       for (LineofBattle Newunit: LOBTypeCol) {
+            if (Newunit.getOBLink() == lobitem) {
+                return Newunit;
+            }
+       }
+       return null;
     }
 
 
     public SupportWeapon GetLOBSWRecord(int lobitem) {
-        /*Try
-
-        Return(From qu In db.SupportWeapons Where qu.WeaponType = lobitem Select qu).
-                First
-        Catch
-        Return Nothing
-        End Try*/
-
-        SupportWeapon Newweapon = new SupportWeapon();
-        /*Newweapon.setASSAULTFIRE();
-        Newweapon.setBREAKDOWN();
-        Newweapon.getDismantledPP();
-        Newweapon.setFIREPOWER();
-        Newweapon.setID();
-        Newweapon.setMALFUNCTION();
-        Newweapon.setNationality();
-        Newweapon.setPORTAGECOST();
-        Newweapon.setRANGE();
-        Newweapon.setREPAIR();
-        Newweapon.setROF();
-        Newweapon.setSPRAYINGFIRE();
-        Newweapon.setWeaponName();
-        Newweapon.setWeaponType();*/
-
-        return Newweapon;
+        for (SupportWeapon NewWeapon: SWLOBTypeCol) {
+            if (NewWeapon.getID() == lobitem) {
+                return NewWeapon;
+            }
+        }
+        return null;
 
     }
+    public LinkedList<LineofBattle> getLOBTypeCol() {return LOBTypeCol;}
+
+    public LinkedList<SupportWeapon> getSWLOBTypeCol() {return SWLOBTypeCol;}
 
     public String GetLOBVehData(int LOBitem, int LobID) {
         // called by ManageTexture.GetTexture
@@ -882,46 +1163,47 @@ public class DataC {
     */
     public Constantvalues.IFTResult GetIFTResult(int FPCol, int FDR) {
 
-        /*If FDR <0 Then FDR = 0
-        'FDR = 6
-        Select Case CInt(FPCol)
-        Case 1
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._1).First
-        Case 2
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._2).First
-        Case 4
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._4).First
-        Case 6
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._6).First
-        Case 8
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._8).First
-        Case 12
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._12).First
-        Case 16
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._16).First
-        Case 20
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._20).First
-        Case 24
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._24).First
-        Case 30
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._30).First
-        Case 36
-        Return(From QU In db.LookUpIFTs Where QU.FDR = FDR _
-                Select QU._36).First
-        Case Else
-        Return ConstantClassLibrary.ASLXNA.IFTResult.NR
-        End Select*/
-        return Constantvalues.IFTResult.NR;
+        int useCol=0;
+        if (FDR <0 ) {FDR = 0;}
+
+        switch(FPCol) {
+            case 1:
+                useCol=0;
+                break;
+            case 2:
+                useCol=1;
+                break;
+            case 4:
+                useCol=2;
+                break;
+            case 6:
+                useCol=3;
+                break;
+            case 8:
+                useCol=4;
+                break;
+            case 12:
+                useCol=5;
+                break;
+            case 16:
+                useCol=6;
+                break;
+            case 20:
+                useCol=7;
+                break;
+            case 24:
+                useCol=8;
+                break;
+            case 30:
+                useCol=9;
+                break;
+            case 36:
+                useCol=10;
+                break;
+            default:
+
+        }
+        return IFTTable[FDR][useCol];
     }
 
 

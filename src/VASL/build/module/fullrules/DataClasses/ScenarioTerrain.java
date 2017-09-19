@@ -51,7 +51,7 @@ public class ScenarioTerrain {
         // returns TEM for specified Scenario Terrain
         int TEM = 0;
         // get TEM and name of terrain found
-        TerrainChecks TerrChk = new TerrainChecks(LocationCol);
+        TerrainChecks TerrChk = new TerrainChecks();
         // temporary while debugging REDO - think about with AltPos
         /*TEM = (TerrChk.GetLocationData(Constantvalues.TerrFactor.TEM, pFeatureType);
         'GetTEM = CInt(GetTerrainData(ConstantClassLibrary.ASLXNA.TerrFactor.TEM, Featuretype))
@@ -65,7 +65,7 @@ public class ScenarioTerrain {
         // returns LOSH for specified Scenario Terrain
         int LOSH = 0;
         // 'get LOSH and name of terrain found
-        TerrainChecks TerrChk = new TerrainChecks(LocationCol);
+        TerrainChecks TerrChk = new TerrainChecks();
         switch (pFeatureType) {
             // temporary while debuggin REDO
             /*Case ConstantClassLibrary.ASLXNA.VisHind.BlazeWood To ConstantClassLibrary.ASLXNA.VisHind.GreyWPDisp

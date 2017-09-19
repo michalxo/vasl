@@ -26,8 +26,32 @@ public class LineofBattle {
     private int pHardensTo;
     private Constantvalues.Utype pUnitType;
 
-   public LineofBattle(){
-       
+   public LineofBattle(String PassLOBName, Constantvalues.Nationality PassNationality, int PassOBLink, int PassFirePower, int  PassRange, int PassMoraleLevel, boolean PassAssaultFire, boolean PassSprayFire,
+        boolean PassELR5, int PassClass, int PassSmoke, int PassBrokenML, int PassBPV, String PassRedTo, String PassSubTo, String PassHardTo, boolean PassSelfRally, Constantvalues.Utype PassUnitType,
+        int PassReducesTo, int PassSubstitutesTo, int PassHardensTo){
+
+       pLOBName = PassLOBName;
+       pNationality = PassNationality;
+       pOBLink = PassOBLink;
+       pFirePower = PassFirePower;
+       pRange = PassRange;
+       pMoraleLevel = PassMoraleLevel;
+       pAssaultFire = PassAssaultFire;
+       pSprayFire= PassSprayFire;
+       pELR5 = PassELR5;
+       pClass = PassClass;
+       pSmoke = PassSmoke;
+       pBrokenML = PassBrokenML;
+       pBPV = PassBPV;
+       pRedTo = PassRedTo;
+       pSubTo = PassSubTo;
+       pHardTo = PassHardTo;
+       pSelfRally = PassSelfRally;
+       pReducesTo = PassReducesTo;
+       pSubstitutesTo = PassSubstitutesTo;
+       pHardensTo = PassHardensTo;
+       pUnitType = PassUnitType;
+
    }
    
    public String getLOBName(){return pLOBName;}
