@@ -794,8 +794,8 @@ public class CombatCalcC implements CombatCalci {
                     if (ComTer.IsIntervening()) {
                         // now add visibility losh
                         VisLOSH = ValidSol.CalcVisLOSH(VisLOSHName, OBAAlreadyFound, ComTer);
-                        ComTer.InterveningDRM(VisLOSH, FinalLOSHDrm, targetvar.getLOSHdrm(), ValidSol.getScenMap(), LOSHName, TerrainName, Featuredrm, FeatureName, FinalLOSHName, LOSAlongHexside,
-                                FirerBaseLevel, FirerInHexLevel, FinalVisLOSHName, VisLOSHName, FinalVisLOSH, HexSpineDRM, FireGroupToUse, DRMList, TargetUnit, TotalLocationLOSHdrm,
+                        TotalLocationLOSHdrm = ComTer.InterveningDRM(VisLOSH, FinalLOSHDrm, targetvar.getLOSHdrm(), ValidSol.getScenMap(), LOSHName, TerrainName, Featuredrm, FeatureName, FinalLOSHName, LOSAlongHexside,
+                                FirerBaseLevel, FirerInHexLevel, FinalVisLOSHName, VisLOSHName, FinalVisLOSH, HexSpineDRM, FireGroupToUse, DRMList, TargetUnit,
                                 TotalLOSLOSHdrm, TargetTotalLevel, Lasthexloshdrm, lasthexnum, targetvar.getUseAltName(), ValidSol.getAltHexesInLOS(), ValidSol.getID(),
                                 ValidSol.getHexesInLOS(), ValidSol.getSeeHex(), ValidSol.getSeenHex());
                         if (TotalLOSLOSHdrm >= 6) {

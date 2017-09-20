@@ -47,7 +47,7 @@ public class CombatTerrain  extends BaseHex {
     public CombatTerrain(String PassHexname, int PassHexID, Constantvalues.Location PasshexTerrtype, Constantvalues.Hexside PassHexside1, Constantvalues.Hexside PassHexside2, Constantvalues.Hexside PassHexside3,
                          Constantvalues.Hexside PassHexside4, Constantvalues.Hexside PassHexside5, Constantvalues.Hexside PassHexside6, int PassHexTEM, int PassHexHind, String Passhexdesc,
                          Constantvalues.Hexrole PassHexrole, boolean Passstaircase, int PassBaseLevel, String Passcontrol, int PassTargetID,
-                         LinkedList<SmokeHolder> PassSmokelist, Constantvalues.Feature PassOBA, int PassSolID, Location PassLocation) {
+                         LinkedList<SmokeHolder> PassSmokelist, Constantvalues.Feature PassOBA, int PassSolID, Location PassLocation, boolean PassHexLOSHApplies) {
         // called by Linqdata.AddtoCollection
         // creates new CombatTerrain object for any hex involved in combat, passes Staircase and Control to base class constructor but does not use them
         super(PassHexname, PassHexID, PasshexTerrtype,
@@ -57,7 +57,7 @@ public class CombatTerrain  extends BaseHex {
         prHexHindvalue = PassHexHind;
         prhexdescvalue = Passhexdesc;
         prHexrolevalue = PassHexrole;
-        prHexLOSHApplies = false;
+        prHexLOSHApplies = PassHexLOSHApplies;
         prHexsideCrossedTEM = 0;
         prHexsideCrossedDesc = "";
         prLOSTarget.add(PassTargetID);
@@ -71,7 +71,7 @@ public class CombatTerrain  extends BaseHex {
     public CombatTerrain(String PassHexname, int PassHexID, Constantvalues.Location PasshexTerrtype, Constantvalues.Hexside PassHexside1, Constantvalues.Hexside PassHexside2, Constantvalues.Hexside PassHexside3,
                          Constantvalues.Hexside PassHexside4, Constantvalues.Hexside PassHexside5, Constantvalues.Hexside PassHexside6, int PassHexTEM, int PassHexHind, String Passhexdesc,
                          Constantvalues.Hexrole PassHexrole, boolean Passstaircase, double PassBaseLevel, String Passcontrol, double PassTargetID,
-                         int PassthreadLOCindex, int PassSolid, LinkedList<SmokeHolder> PassSmokelist, Constantvalues.Feature PassOBA, int PassScenID, Location PassLocation) {
+                         int PassthreadLOCindex, int PassSolid, LinkedList<SmokeHolder> PassSmokelist, Constantvalues.Feature PassOBA, int PassScenID, Location PassLocation, boolean PassHexLOSHApplies) {
         // called by Linqdata.AddtoCollection
         // creates new CombatTerrain object for any hex involved in combat, passes Staircase and Control to base class constructor but does not use them
         super(PassHexname, PassHexID, PasshexTerrtype,
@@ -81,7 +81,7 @@ public class CombatTerrain  extends BaseHex {
         prHexHindvalue = PassHexHind;
         prhexdescvalue = Passhexdesc;
         prHexrolevalue = PassHexrole;
-        prHexLOSHApplies = false;
+        prHexLOSHApplies = PassHexLOSHApplies;
         prHexsideCrossedTEM = 0;
         prHexsideCrossedDesc = "";
         prLOSTarget.add(PassTargetID);
@@ -905,11 +905,12 @@ public class CombatTerrain  extends BaseHex {
 
 
     }
-    public void InterveningDRM(int VisLOSH, int FinalLOSHDRM, int LOSHdrm, VASL.LOS.Map.Map Map, String LOSHName, String TerrainName, int Featuredrm, String Featurename,
+    public int InterveningDRM(int VisLOSH, int FinalLOSHDRM, int LOSHdrm, VASL.LOS.Map.Map Map, String LOSHName, String TerrainName, int Featuredrm, String Featurename,
             String FinalLOSHName, boolean LOSAlongHexside , double FirerBaseLevel, double Firerinhexlevel, String FinalVisLOSHName, String VisLOSHname, int FinalVisLOSH,
-            int hexspinedrm, LinkedList<PersUniti> FireGroupThread, LinkedList<IFTMods> DRMList, PersUniti TargetUnit, int TotalLocationLOSHdrm, int TotalLOSLOSHdrm,
+            int hexspinedrm, LinkedList<PersUniti> FireGroupThread, LinkedList<IFTMods> DRMList, PersUniti TargetUnit,  int TotalLOSLOSHdrm,
             double TargetTotalLevel, int Lasthexloshdrm, int lasthexnum, String UseAltName, LinkedList<AltHexGTerrain> AltHexesInLoSLIst, int SolID,
             LinkedList<CombatTerrain> CombatTerrCol, Hex SeeHex, Hex SeenHex) {
+        int TotalLocationLOSHdrm=0;
         CombatTerrain UsingComTer;
         TerrainChecks TerrChk = new TerrainChecks();
         IsTerrain IsTerrChk = new IsTerrain(LocationCol);
@@ -1039,14 +1040,15 @@ public class CombatTerrain  extends BaseHex {
                         }
                     }
                 }
-                Location PassNewLoc = null;  //  need to fix this and make it a real location
+                //why create this instance of CombatTerrain ???
+                Location PassNewLoc = null; boolean PassHexLOSHApplies = false; //  need to fix this and make it a real location and variable value
                 GetALocationFromMap GetLocs = new GetALocationFromMap(LocationCol);
                 String PassHexdesc = TerrChk.GetLocationData(Constantvalues.TerrFactor.Desc, hexterrtype);
                 LinkedList<SmokeHolder> Smokelist = SmokePresentinHex(Baselocation.getHexnum(), GetLocs);
                 CombatTerrain NextTempComTer = new CombatTerrain(UseAltName, AltHextoCheck, Baselocation.getLocation(), Baselocation.getHexside1(), Baselocation.getHexside2(),
                     Baselocation.getHexside3(), Baselocation.getHexside4(), Baselocation.getHexside5(), Baselocation.getHexside6(), Baselocation.getTEM(), Baselocation.getLOSHdrm(),
                     UseAltName, Constantvalues.Hexrole.Intervening, Baselocation.getHasStair(), Baselocation.getBaselevel(), "", TargetUnit.getbaseunit().getLOCIndex(), Baselocation.getLocIndex(),
-                    SolID, Smokelist, Baselocation.getOBA(), prscen.getScenID(), PassNewLoc);
+                    SolID, Smokelist, Baselocation.getOBA(), prscen.getScenID(), PassNewLoc, PassHexLOSHApplies);
                 if (NextTempComTer.getHexID() == AltHextoCheck) {
                     AltVisLOSH = CalcVisLOSH(AltVisName, AltOBAAlreadyFound, NextTempComTer, TotalFirerlevel, TargetTotalLevel, SeeHex, SeenHex);
                     if (AltVisLOSH == 0) {
@@ -1239,6 +1241,7 @@ public class CombatTerrain  extends BaseHex {
             TotalLOSLOSHdrm += TotalLocationLOSHdrm;
         }
         Lasthexloshdrm = FinalLOSHDRM;
+        return TotalLocationLOSHdrm;
 
     }
     private int VehicleTEMCheck(LinkedList<IFTMods> DRMList, PersUniti TargetUnit) {

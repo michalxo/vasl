@@ -113,13 +113,16 @@ public class ThreadedLOSCheckCommonc {
             }
         }
         // determine if Target is in location or otherterraininlocation
-        int Passhextem = 0;
+        int Passhextem = 0; boolean PassHexLOSHApplies = false;
         Constantvalues.Feature Passoba = null;
         Constantvalues.Location PasshexTerrtype = getLocationtypefromVASLLocation(LOSLoc);
         LocationType LocType = terrchk.getLocationType(PasshexTerrtype);
         Passhextem = (LocType.getTEM());
         int PassHexHind  = LocType.getLOSHindDRM();
+        if (PassHexHind >0) {PassHexLOSHApplies=true;}
+        PassHexDesc = LocType.getTerraindesc();
         String PassHexname  = (LOSLoc.getHex().getName());
+
         int PassHexID = 0;  //= Maphex.getHexnum();
         Constantvalues.Hexside PassHexside1  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(1).getTerrain()));
         Constantvalues.Hexside PassHexside2  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(2).getTerrain()));
@@ -141,7 +144,7 @@ public class ThreadedLOSCheckCommonc {
                 PassHexID, PasshexTerrtype, PassHexside1, PassHexside2,
                 PassHexside3, PassHexside4, PassHexside5, PassHexside6,
                 Passhextem, PassHexHind, PassHexDesc, Passhexrole,
-                PassStaircase, PassBaseLevel, Passcontrol, PassTargetID, PassSmokeList, Passoba, TempsolID, LOSLoc);
+                PassStaircase, PassBaseLevel, Passcontrol, PassTargetID, PassSmokeList, Passoba, TempsolID, LOSLoc, PassHexLOSHApplies);
         if (FireTerrain != null) {TempCombatTerrColCommon.add(FireTerrain);}
         // if get this far then Terrain addeded
         return true;
