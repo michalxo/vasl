@@ -24,13 +24,13 @@ public class Gamecontrol {
     public UnitStatusC UnitState; // = new UnitStatusC();
     public TerrainActionsC TerrainActions; // = new TerrainActionsC();
 
-    public VehicleActionsC VehicleActions; // = new VehicleActionsC();
-    public SWActionsC SWActions; // = new SWActionsC();
     public ConcealActionsC ConcealActions; // = new ConcealActionsC();
 
     public observeri Moveobs; //i = new observeri();*/
     public IIFTC IFT;
     public UnitActionsC UnitActions; // = new UnitActionsC();
+    public VehicleActionsC VehicleActions; // = new VehicleActionsC();
+    public SWActionsC SWActions; // = new SWActionsC();
     public LinkedList<SelectedThing> SelectedThings = new LinkedList<SelectedThing>();  // part of context menu process
     //    public ContextMenu As ContextMenuStrip   'part of context menu process
     //    public ContextLocation As ContextMenuStrip   'part of context menu process
@@ -42,8 +42,8 @@ public class Gamecontrol {
         // called by Campaign.New (which is always called by scenario.new)
 //        ContextMenu = New ContextMenuStrip
 //        ContextLocation = New ContextMenuStrip
-    }
 
+    }
     /*
     Friend Sub ShowContextPopups(ByVal OH As VisibleOccupiedhexes, ByVal mousepoint As Point)
             'called by classes that implmement Clicki interface
@@ -397,167 +397,9 @@ public class Gamecontrol {
     End Region*/
 }
 
-class UnitActionsC {
-    // called by Me.CreateCounters
-    // creates the Scencoll collection of units in the scenario and creates sprites for them
-
-    // constructor
-    public UnitActionsC(DataC Linqdata, ScenarioC Scendet) {
-        // get all units involved in a scenario and prepares them to be drawn
-        LinkedList<OrderofBattle> OBUnitcol = Linqdata.RetrieveScenarioUnits(Scendet.getScenID());
-        if (OBUnitcol.size() == 0) {
-            GameModule.getGameModule().getChatter().send("No scenario units found. Exiting");
-            return;
-        }
-
-        OrderofBattle testunit = OBUnitcol.getFirst();
-        int testvale = testunit.getOBUnit_ID();
-
-        // use Object Factory to create the units
-        PersCreation UseObjectFactory = new PersCreation();
-        // Dim MapGeo As mapgeoclasslibrary.aslxna.mapgeoc = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
-        PersUniti AddNewUnit;
-        Constantvalues.UClass PassClass = Constantvalues.UClass.NONE;
-        for (OrderofBattle unititem : OBUnitcol) {
-            PassClass = Constantvalues.UClass.NONE; //  CInt(Game.Linqdata.GetLOBData(Constantvalues.LOBItem.UnitClass, CInt(unititem.LOBLink)))
-            if (unititem.getOrderStatus() == Constantvalues.OrderStatus.KIAInf ||
-                    unititem.getOrderStatus() == Constantvalues.OrderStatus.NotInPlay) {
-                continue;
-            }
-            AddNewUnit = UseObjectFactory.CreateExistingInstance(unititem);
-            if (AddNewUnit == null) {
-                continue;
-            }
-            // temporary while debugging UNDO
-            /*if (UseObjectFactory.IsHeroic(AddNewUnit.getbaseunit().getFortitudeStatus())) {
-                // need to decorate leader
-                Dim DecNewLeader As ObjectClassLibrary.ASLXNA.PersunitDecoratori = New
-                ObjectClassLibrary.ASLXNA.PersunitHeroicldrc(AddNewUnit)
-                if (AddNewUnit.getbaseunit() != null) {
-                    DecNewLeader.BasePersUnit = New ObjectClassLibrary.ASLXNA.BaseHeroicLdrc(AddNewUnit.BasePersUnit);
-                }
-                AddNewUnit = DecNewLeader;
-            }*/
-            // add new unit to Unitcol collection
-            Scencolls.Unitcol.add(AddNewUnit);
-
-
-            // none of the below is needed as VASL handles the graphics DELETE
-            /*'determines if a counter should be visible and if so sets the texture
-            Dim TextureName  As String = AddNewUnit.SetTexture()
-            If Not IsNothing(TextureName) Then
-                AddNewUnit.BasePersUnit.OBTexture = Game.Content.Load(Of Texture2D) (Trim(TextureName))
-                'adds to list of hexes with a counter texture to show
-                Game.Scenario.DisplaySprite = New ObjectClassLibrary.ASLXNA.SpriteOrder(AddNewUnit.BasePersUnit.Unit_ID,
-                    CInt(AddNewUnit.BasePersUnit.hexlocation), CInt(AddNewUnit.BasePersUnit.LOBLink), AddNewUnit.BasePersUnit.OBTexture, AddNewUnit.BasePersUnit.DrawPos(MapGeo.MapBtype, MapGeo.Xoffset, MapGeo.Yoffset, MapGeo.MaxCols, MapGeo.MaxRows), AddNewUnit.BasePersUnit.UnitName,
-                    CInt(AddNewUnit.BasePersUnit.hexPosition), CInt(AddNewUnit.BasePersUnit.Hexnum),
-                    CInt(AddNewUnit.BasePersUnit.LOCIndex))
-                creates collection of hexes where counters are to be displayed
-                Dim hexnum As Integer = CInt(AddNewUnit.BasePersUnit.Hexnum)
-                If Not (Game.Scenario.HexesWithCounter.ContainsKey(hexnum)) Then
-                    'if hex not already added, then add
-                    Game.Scenario.HexesWithCounter.Add(hexnum, New VisibleOccupiedhexes(hexnum))
-                End If
-                'adds specific counter infor to collection for each occupied hex
-                Dim OH As VisibleOccupiedhexes
-                OH = CType(Game.Scenario.HexesWithCounter(hexnum), VisibleOccupiedhexes)
-                OH.AddObjecttoDisplay(Game.Scenario.DisplaySprite)
-                'check to see if level, sewer, or other location counter needs to be displayed - inherent locations only
-                OH.CheckforAssociatedLocationCounter(Game.Scenario.DisplaySprite)
-            OH = Nothing
-            End If*/
-        }
-
-        // temporary while debugging undo
-        /*'create guard lists - IS THIS BEST PLACE ? AUG 14
-        Dim GetGuards
-
-        As List (Of ObjectClassLibrary.ASLXNA.PersUniti) =(
-                From selunit
-        As ObjectClassLibrary.
-        ASLXNA.PersUniti In
-        Scencolls.Unitcol Where
-        selunit.BasePersUnit.RoleStatus =
-                Constantvalues.RoleStatus.GuardUnit Select
-        selunit).ToList
-        For Each
-        TestGuard As
-        ObjectClassLibrary.ASLXNA.PersUniti In
-        GetGuards
-        'find units it is guarding and add to list
-        Dim PrisonerUnits
-
-        As IQueryable (Of Integer) =
-        From PrisonerID
-        As DataClassLibrary.
-        OrderofBattle In
-        Game.Linqdata.Unitcol Where
-        PrisonerID.Guard_ID =
-                TestGuard.BasePersUnit.Unit_ID Select
-        PrisonerID.OBUnit_ID
-        For Each
-        GetPrisoner As
-        Integer In
-        PrisonerUnits
-        Dim Prisoner
-        As ObjectClassLibrary.ASLXNA.PersUniti = (
-                From selunit
-        As ObjectClassLibrary.
-        ASLXNA.PersUniti In
-        Scencolls.Unitcol Where
-        selunit.BasePersUnit.Unit_ID =
-                GetPrisoner Select
-        selunit).First
-        If Not
-
-        IsNothing(Prisoner) Then TestGuard.BasePersUnit.Guarding.Add(Prisoner)
-        Next
-                Next*/
-    }
-}
 
 
     /*
-    Friend Class VehicleActionsC
-        'called by Me.CreateCounters
-                'creates the collection of units in the scenario and creates sprites for them
-
-                'constructor
-    Friend Sub New()
-    Game.Linqdata.VehicleCol = Game.Linqdata.RetrieveScenarioVehicles(Game.Scenario.ScenID)
-    If IsNothing(Game.Linqdata.VehicleCol) Then
-    MsgBox("No scenario Vehicles found. Exiting")
-    Exit Sub
-    End If
-    Dim MapGeo As mapgeoclasslibrary.aslxna.mapgeoc = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-            'set the texture, display status for each unit
-            'First of all, sets whether an item should be displayed and creates list of hexes with a sprite to show
-            'Loop through counters
-    For Each Vehitem As DataClassLibrary.AFV In Game.Linqdata.VehicleCol
-                'determines if a counter should be visible and if so sets the texture
-    Dim TextureName As String = Vehitem.SetTexture()
-    If Not IsNothing(TextureName) Then
-    Vehitem.VehTexture = Game.Content.Load(Of Texture2D)(Trim(TextureName))
-    Game.Scenario.DisplaySprite = New ObjectClassLibrary.ASLXNA.SpriteOrder(Vehitem.AFVID, CInt(Vehitem.hexlocation), CInt(Vehitem.AFVDefaultsID), Vehitem.VehTexture, Vehitem.DrawPos(MapGeo.MapBtype, MapGeo.Xoffset, MapGeo.Yoffset, MapGeo.MaxCols, MapGeo.MaxRows), Vehitem.AFVName, CInt(Vehitem.Position), CInt(Vehitem.hexnum), CInt(Vehitem.LocIndex))
-            'creates collection of hexes where counters are to be displayed
-    Dim hexnum As Integer = CInt(Vehitem.hexnum)
-    If Not (Game.Scenario.HexesWithCounter.ContainsKey(hexnum)) Then
-                        'if hex not already added, then add
-                                Game.Scenario.HexesWithCounter.Add(hexnum, New VisibleOccupiedhexes(hexnum))
-    End If
-                    'adds specific counter infor to collection for each occupied hex
-    Dim OH As VisibleOccupiedhexes
-    OH = CType(Game.Scenario.HexesWithCounter(hexnum), VisibleOccupiedhexes)
-            OH.AddObjecttoDisplay(Game.Scenario.DisplaySprite)
-    OH = Nothing
-    End If
-    Next
-    End Sub
-        'Methods
-
-
-    End Class
     Friend Class GunActionsC
     Friend Sub New()
 
@@ -858,48 +700,8 @@ class UnitActionsC {
     OH = Nothing
     End Sub
     End Class
-    Friend Class SWActionsC
-        'called by Me.CreateCounters
-                'creates the Scencoll collection of SW in the scenario and creates sprites for them
 
-                'constructor
-    Friend Sub New()
-    Game.Linqdata.OBSWcol = Game.Linqdata.RetrieveScenarioOBSW(Game.Scenario.ScenID)
-    If Game.Linqdata.OBSWcol.Count = 0 Then
-    MsgBox("No scenario units found. Exiting")
-    Exit Sub
-    End If
-    Dim MapGeo As mapgeoclasslibrary.aslxna.mapgeoc = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-    Dim Scencolls = ObjectClassLibrary.ASLXNA.ScenarioCollectionsc.GetInstance : Dim AddNewUnit As ObjectClassLibrary.ASLXNA.SuppWeapi
-            'use Object Factory to create the SW
-    Dim UseObjectFactory = New ObjectFactoryClassLibrary.aslxna.SWCreation
-    For Each OBSWitem As DataClassLibrary.OrderofBattleSW In Game.Linqdata.OBSWcol
-            AddNewUnit = UseObjectFactory.CreateExistingSW(OBSWitem)
-    If IsNothing(AddNewUnit) Then Continue For
-                Scencolls.SWCol.Add(AddNewUnit)
-            'determines if a counter should be visible and if so sets the texture
-    Dim TextureName As String = AddNewUnit.SetTexture()
-    If Not IsNothing(TextureName) Then
-    AddNewUnit.BaseSW.OBTexture = Game.Content.Load(Of Texture2D)(Trim(TextureName))
-            'adds to list of hexes with a counter texture to show
-    Game.Scenario.DisplaySprite = New ObjectClassLibrary.ASLXNA.SpriteOrder(AddNewUnit.BaseSW.Unit_ID, CInt(AddNewUnit.BaseSW.hexlocation), AddNewUnit.BaseSW.LOBLink, AddNewUnit.BaseSW.OBTexture, AddNewUnit.BaseSW.DrawPos(MapGeo.MapBtype, MapGeo.Xoffset, MapGeo.Yoffset, MapGeo.MaxCols, MapGeo.MaxRows), AddNewUnit.BaseSW.UnitName, CInt(AddNewUnit.BaseSW.hexPosition), CInt(AddNewUnit.BaseSW.Hexnum), CInt(AddNewUnit.BaseSW.LOCIndex))
-            'creates collection of hexes where counters are to be displayed
-    Dim hexnum As Integer = CInt(AddNewUnit.BaseSW.Hexnum)
-    If Not (Game.Scenario.HexesWithCounter.ContainsKey(hexnum)) Then
-                        'if hex not already added, then add
-                                Game.Scenario.HexesWithCounter.Add(hexnum, New VisibleOccupiedhexes(hexnum))
-    End If
-                    'adds specific counter infor to collection for each occupied hex
-    Dim OH As VisibleOccupiedhexes
-    OH = CType(Game.Scenario.HexesWithCounter(hexnum), VisibleOccupiedhexes)
-            OH.AddObjecttoDisplay(Game.Scenario.DisplaySprite)
-            'check to see if level, sewer, or other location counter needs to be displayed - inherent locations only
-            OH.CheckforAssociatedLocationCounter(Game.Scenario.DisplaySprite)
-    OH = Nothing
-    End If
-    Next
-    End Sub
-    End Class
+
     Friend Class ConcealActionsC
         'called by Me.CreateCounters
                 'creates the Scencoll collection of Concealment counters in the scenario and creates sprites for them
@@ -946,6 +748,7 @@ class UnitActionsC {
     Next
     End Sub
     End Class
+    /*
     Friend Class BoatPlaneActionsC
     Friend Sub New()
 

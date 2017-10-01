@@ -366,327 +366,598 @@ public class ConversionC {
                 return Constantvalues.Location.StoneDebris;
             case 6040:
                 return Constantvalues.Location.Shellhole;
-
-            /*Jungle = 6041
-            DenseJungle = 6042
-            Bamboo = 6043
-            PalmTrees = 6044
-            Kunai = 6046
-            Swamp = 6047
-            RicePaddiesdrained = 6048
-            RicePaddiesIrrigated = 6049
-            RicePaddiesInSeason = 6050
-            Panjis = 6051
-            CaveComplex = 6052
-            Beaches = 6053
-            PalmTreesUnpavedRoad = 6054
-            TrailJungle = 6055
-            TrailDenseJungle = 6056
-            JungleUnpavedRoad = 6057
-            DenseJungleUnpaved = 6058
-            TrailBamboo = 6059
-            Trail = 6060
-            Trailpalmtrees = 6061
-            GullyShell = 6062
-            PalmDebris = 6063
-            PalmDebrisPalm = 6064
-            GullyUnpavedBridge = 6065
-            PierNoLoc = 6066
-            SunkenLane = 6067
-            Passage = 6068
-            PavedIntersectionManhole = 6069  'NEW - add to terrain
-            ElevRoad = 6070
-            'PavedRoadShellhole = 6071 '- don 't use - split as Road and otherterrain=shellhole
-            'UnpavedRoadShellhole = 6072
-            Pier = 6073
-            'UnpavedIntersctionManhole = 6074  'NEW - add to Terrain table - no, only works for paved
-                    Reef = 6075
-            Tetrahedron = 6076
-            Tetrawire = 6077
-            'FortStone = 6078  'need for image reasons - in terrain table not Map table
-            'FortWood = 6079
-            Vineyard = 6081
-            IrrigDitch = 6083
-            PartOrch = 6084
-            IrDPOrch = 6085
-            UnPavedIrDPO = 6086
-            UnPavedIrD = 6087
-            UnPavedPO = 6088
-            PavedPO = 6089
-            GullyPO = 6090
-            PavedIrD = 6091
-            Forest = 6092
-            CactusPatch = 6093
-            OliveGrove = 6094
-            Hillock = 6095
-            HillockSummit = 6103
-            SandDuneH = 6096
-            SandDuneL = 6097
-            Lumberyard = 6098
-            GullyOrchard = 6099
-            Canal = 6128
-            Pond = 6129
-            WoodRubbleFallen = 6101
-            StoneRubbleFallen = 6102
-
-            'RB and VotG
-            GrdLRR = 6111
-            RailCar = 6112
-            WreckedRC = 6113
-            GuttedRC = 6114
-            CitySquare = 6115
-            CitySquareShellhole = 6116
-            'CitySquareManhole = 6118 'don't use
-            CitySquareManShell = 6119
-            'PavedRoadManhole = 6120  'don't use
-            'UnpavedRoadManhole = 6121  'don't use
-            'PvRdManholeShellhole = 6122  'don't use
-            'UnpvRdManholeShellhole = 6123  'don't use
-            Fountain = 6124
-            GrdLRRMan = 6125
-            OrchardPvRoadMan = 6126
-            StorageTanks = 6127
-
-
-            'waterdepth
-            StreamDry = 6131
-            StreamDeep = 6132
-            StreamFlooded = 6133
-            OrchardStreamdry = 6134
-            OrchardStreamdeep = 6135
-            OrchardStreamflooded = 6136
-            StreamWoodsdry = 6137
-            streamwoodsdeep = 6138
-            Streamwoodsflooded = 6139
-            StreamPineWoodsdry = 6140
-            streamPinewoodsdeep = 6141
-            StreamPinewoodsflooded = 6142
-            StreamBrushdry = 6143
-            streambrushdeep = 6144
-            Streambrushflooded = 6145
-            'Desert
-            Wadi = 6146
-            Hammada = 6147
-            SandTrack = 6148
-            HammadaTrack = 6149
-            Deir = 6150
-            Track = 6151
-            HillockTrack = 6152
-            DeirTrack = 6153
-            Scrub = 6154
-            ScrubTrack = 6155
-            HillockSummitTrack = 6156
-            SandScrub = 6157
-            SandScrubTrack = 6158
-            SandDuneLTrack = 6159
-            SandDuneHTrack = 6160
-            Mausoleum = 6161
-            Camp = 6162
-            DesertCluster = 6163  'D12.43
-            'BrokenTerrain
-            BrkCrag = 6164
-            BrokenGround = 6165
-            'SteppeTerrain
-            SteppeBrush = 6166
-            SteppeWoods = 6167
-            SteppeGrain = 6168
-            'BRT
-            ExcavDitch = 6169
-            'Pacific
-            BambooPath = 6170
-            JunglePath = 6171
-            DenseJunglePath = 6172
-            'RiceBank = 6173  this is a hexside
-            BeachSlightSoft = 6174
-            BeachModerateSoft = 6175
-            BeachSteepSoft = 6176
-            Sandbar = 6177
-            BeachSlightHard = 6178
-            BeachModerateHard = 6179
-            BeachSteepHard = 6180
-            OceanShallow = 6181
-            ExposedReef = 6182
-            SubmergedReef = 6183
-            JungleDebris = 6184  'Z SC2
-            CordoroyRoads = 6185 'Z SC4
-            StreamShallowJungleDebris = 6186
-            'Italy
-            RiverBrush = 6187
-            BrushUnpavedRd = 6188
-            BrushIrrD = 6189
-            IrrDVineyard = 6190
-
-            PineForest = 6192
-            CulvertOG = 6193  '6258
-            CulvertPvRD = 6194  '6259
-            CulStrPvRd = 6195  '6260
-
-            'Building constants    6200
-            CommandBunker = 6234
-            IslComBunker = 6235
-            GunEmplacement = 6236
-            BRTTower = 6237
-            OneMarketStone = 6247
-            OneMarketWood = 6248
-            PBTower = 6254
-            SingleSteeple = 6255
-            OneSteeple = 6256
-            TwoSteeple = 6257
-            PartCol1 = 6261
-            PartCol15 = 6262
-            Manhole = 6273
-
-            'for searching
-
-            All = 5999
-            NA = 9999
-            NonStairBldg = 6301 'used in TerrainActions.IsHexTerrainA function
-            HindranceHex = 6302
-            HindranceFeature = 6303  'used in TerrainActins.IsFeatureA function
-            Shellholetype = 6304
-            Creststatustype = 6305
-            Bypassable = 6306
-            Smoketype = 6307
-            RoadOGtype = 6308
-            Manholetype = 6309
-            Factorytype = 6310
-            Rooflesstype = 6311
-            Cellartype = 6312
-            SplitLeveltype = 6313
-            Buildingtype = 6314
-            Pillboxtype = 6315
-            IntBuildtype = 6316
-            Rubbletype = 6317
-            FortBuildtype = 6318
-            bridgetype = 6319
-            Marshtype = 6320
-            ShallowStreamtype = 6321
-            DeepStreamtype = 6322
-            WaterObstacletype = 6323
-            Blazetype = 6324
-            towertype = 6325
-            Roadtype = 6326
-            OBAtype = 6327
-            HardSurftype = 6328
-            HasStairs = 6329
-            Burnabletype = 6330
-
-            Roof = 6701
-            'Roof25 = 6709
-            'Roof35 = 6710
-            BuildingGroundlevel = 6712
-            Building1stLevel = 6702
-            Building2ndLevel = 6703
-            Building3rdLevel = 6704
-            Cellar = 6705
-            InCave = 6706
-            BeneathBridge = 6707
-            Sewer = 6708
-            BeneathPier = 6711
-            'PillCellar = 6713
-            Tunnel = 6714
-            Huts = 6715
-            BunkUnder = 6713
-            FortStoneGrd = 6730
-            FortSTone1st = 6731
-            FortStone2nd = 6732
-            FortSTone3rd = 6733
-            FortWoodGrd = 6734
-            FortWood1st = 6735
-            FortWood2nd = 6736
-            FortWood3rd = 6737
-
-            Pill1571 = 15001
-            Pill1572 = 15002
-            Pill1573 = 15003
-            Pill1574 = 15004
-            Pill1575 = 15005
-            Pill1576 = 15006
-            Pill1351 = 15007
-            Pill1352 = 15008
-            Pill1353 = 15009
-            Pill1354 = 15010
-            Pill1355 = 15011
-            Pill1356 = 15012
-            Pill2351 = 15013
-            Pill2352 = 15014
-            Pill2353 = 15015
-            Pill2354 = 15016
-            Pill2355 = 15017
-            Pill2356 = 15018
-            Pill2571 = 15019
-            Pill2572 = 15020
-            Pill2573 = 15021
-            Pill2574 = 15022
-            Pill2575 = 15023
-            Pill2576 = 15024
-            Pill3351 = 15025
-            Pill3352 = 15026
-            Pill3353 = 15027
-            Pill3354 = 15028
-            Pill3355 = 15029
-            Pill3356 = 15030
-            Pill3571 = 15031
-            Pill3572 = 15032
-            Pill3573 = 15033
-            Pill3574 = 15034
-            Pill3575 = 15035
-            Pill3576 = 15036
-            Pill2461 = 15037
-            Pill2462 = 15038
-            Pill2463 = 15039
-            Pill2464 = 15040
-            Pill2465 = 15041
-            Pill2466 = 15042
-            Pill1461 = 15043
-            Pill1462 = 15044
-            Pill1463 = 15045
-            Pill1464 = 15046
-            Pill1465 = 15047
-            Pill1466 = 15048
-            Bombprf = 15897
-            Cave146 = 10001 'need to add caves to terrain table
-            CaveH46 = 10002
-            Cave146LM1 = 10003
-            CaveH46LM1 = 10004
-            Cave146L0 = 10005
-            CaveH46L0 = 10006
-            Cave146L1 = 10007
-            CaveH46L1 = 10008
-            Cave146L2 = 10009
-            CaveH46L2 = 10010
-            Cave146L3 = 10011
-            CaveH46L3 = 10012
-            Cave146L4 = 10013
-            CaveH46L4 = 10014
-            StBr14 = 30001
-            StBr25 = 30002
-            StBr36 = 30003
-            WdBr14 = 30004
-            WdBr25 = 30005
-            WdBr36 = 30006
-            SStBr14 = 30007
-            SStBr25 = 30008
-            SStBr36 = 30009
-            SWdBr14 = 30010
-            SWdBr25 = 30011
-            SWdBr36 = 30012
-            PoBr14 = 30013
-            PoBr25 = 30014
-            PoBr36 = 30015
-            FoBr = 30016
-            WoodsTB = 10030  'ADD TB to terrain table; all  but last two
-            MineTB = 10031
-            StoneRubbleTB = 10032
-            PineWTB = 10033
-            JungleTB = 10034
-            DenseJungleTB = 10035
-            DebrisTB = 10036
-            WoodRubbleTB = 10037
-            WoodRubbleFallTB = 10038
-            StoneRubbleFallTB = 10039
-
-            OneFactRooflessMan*/
+            case 6041:
+                return Constantvalues.Location.Jungle;
+            case 6042:
+                return Constantvalues.Location.DenseJungle;
+            case 6043:
+                return Constantvalues.Location.Bamboo;
+            case 6044:
+                return Constantvalues.Location.PalmTrees;
+            case 6045:
+                //return Constantvalues.Location.Gully;
+            case 6046:
+                return Constantvalues.Location.Kunai;
+            case 6047:
+                return Constantvalues.Location.Swamp;
+            case 6048:
+                return Constantvalues.Location.RicePaddiesdrained;
+            case 6049:
+                return Constantvalues.Location.RicePaddiesIrrigated;
+            case 6050:
+                return Constantvalues.Location.RicePaddiesInSeason;
+            case 6051:
+                return Constantvalues.Location.Panjis;
+            case 6052:
+                return Constantvalues.Location.CaveComplex;
+            case 6053:
+                return Constantvalues.Location.Beaches;
+            case 6054:
+                return Constantvalues.Location.PalmTreesUnpavedRoad;
+            case 6055:
+                return Constantvalues.Location.TrailJungle;
+            case 6056:
+                return Constantvalues.Location.TrailDenseJungle;
+            case 6057:
+                return Constantvalues.Location.JungleUnpavedRoad;
+            case 6058:
+                return Constantvalues.Location.DenseJungleUnpaved;
+            case 6059:
+                return Constantvalues.Location.TrailBamboo;
+            case 6060:
+                return Constantvalues.Location.Trail;
+            case 6061:
+                return Constantvalues.Location.Trailpalmtrees;
+            case 6062:
+                return Constantvalues.Location.GullyShell;
+            case 6063:
+                return Constantvalues.Location.PalmDebris;
+            case 6064:
+                return Constantvalues.Location.PalmDebrisPalm;
+            case 6065:
+                return Constantvalues.Location.GullyUnpavedBridge;
+            case 6066:
+                return Constantvalues.Location.PierNoLoc;
+            case 6067:
+                return Constantvalues.Location.SunkenLane;
+            case 6068:
+                return Constantvalues.Location.Passage;
+            case 6069:
+                return Constantvalues.Location.PavedIntersectionManhole;
+            case 6070:
+                return Constantvalues.Location.ElevRoad;
+            case 6071:
+                //return Constantvalues.Location.StreamBrushshallow;
+            case 6072:
+                //return Constantvalues.Location.SunkenUnpvRoad;
+            case 6073:
+                return Constantvalues.Location.Pier;
+            case 6074:
+                //return Constantvalues.Location.Grainfield;
+            case 6075:
+                return Constantvalues.Location.Reef;
+            case 6076:
+                return Constantvalues.Location.Tetrahedron;
+            case 6077:
+                return Constantvalues.Location.Tetrawire;
+            case 6078:
+                //return Constantvalues.Location.WoodDebris;
+            case 6079:
+                //return Constantvalues.Location.StoneDebris;
+            case 6080:
+                //return Constantvalues.Location.Shellhole;
+            case 6081:
+                return Constantvalues.Location.Vineyard;
+            case 6082:
+                //return Constantvalues.Location.SunkenUnpvRoad;
+            case 6083:
+                return Constantvalues.Location.IrrigDitch;
+            case 6084:
+                return Constantvalues.Location.PartOrch;
+            case 6085:
+                return Constantvalues.Location.IrDPOrch;
+            case 6086:
+                return Constantvalues.Location.UnPavedIrDPO;
+            case 6087:
+                return Constantvalues.Location.UnPavedIrD;
+            case 6088:
+                return Constantvalues.Location.UnPavedPO;
+            case 6089:
+                return Constantvalues.Location.PavedPO;
+            case 6090:
+                return Constantvalues.Location.GullyPO;
+            case 6091:
+                return Constantvalues.Location.PavedIrD;
+            case 6092:
+                return Constantvalues.Location.Forest;
+            case 6093:
+                return Constantvalues.Location.CactusPatch;
+            case 6094:
+                return Constantvalues.Location.OliveGrove;
+            case 6095:
+                return Constantvalues.Location.Hillock;
+            case 6096:
+                return Constantvalues.Location.SandDuneH;
+            case 6097:
+                return Constantvalues.Location.SandDuneL;
+            case 6098:
+                return Constantvalues.Location.Lumberyard;
+            case 6099:
+                return Constantvalues.Location.GullyOrchard;
+            case 6103:
+                return Constantvalues.Location.HillockSummit;
+            case 6101:
+                return Constantvalues.Location.WoodRubbleFallen;
+            case 6102:
+                return Constantvalues.Location.StoneRubbleFallen;
+            case 6111:
+                return Constantvalues.Location.GrdLRR;
+            case 6112:
+                return Constantvalues.Location.RailCar;
+            case 6113:
+                return Constantvalues.Location.WreckedRC;
+            case 6114:
+                return Constantvalues.Location.GuttedRC;
+            case 6115:
+                return Constantvalues.Location.CitySquare;
+            case 6116:
+                return Constantvalues.Location.CitySquareShellhole;
+            case 6119:
+                return Constantvalues.Location.CitySquareManShell;
+            case 6124:
+                return Constantvalues.Location.Fountain;
+            case 6125:
+                return Constantvalues.Location.GrdLRRMan;
+            case 6126:
+                return Constantvalues.Location.OrchardPvRoadMan;
+            case 6127:
+                return Constantvalues.Location.StorageTanks;
+            case 6128:
+                return Constantvalues.Location.Canal;
+            case 6129:
+                return Constantvalues.Location.Pond;
+            case 6131:
+                return Constantvalues.Location.StreamDry;
+            case 6132:
+                return Constantvalues.Location.StreamDeep;
+            case 6133:
+                return Constantvalues.Location.StreamFlooded;
+            case 6134:
+                return Constantvalues.Location.OrchardStreamdry;
+            case 6135:
+                return Constantvalues.Location.OrchardStreamdeep;
+            case 6136:
+                return Constantvalues.Location.OrchardStreamflooded;
+            case 6137:
+                return Constantvalues.Location.StreamWoodsdry;
+            case 6138:
+                return Constantvalues.Location.streamwoodsdeep;
+            case 6139:
+                return Constantvalues.Location.Streamwoodsflooded;
+            case 6140:
+                return Constantvalues.Location.StreamPineWoodsdry;
+            case 6141:
+                return Constantvalues.Location.streamPinewoodsdeep;
+            case 6142:
+                return Constantvalues.Location.StreamPinewoodsflooded;
+            case 6143:
+                return Constantvalues.Location.StreamBrushdry;
+            case 6144:
+                return Constantvalues.Location.streambrushdeep;
+            case 6145:
+                return Constantvalues.Location.Streambrushflooded;
+            case 6146:
+                return Constantvalues.Location.Wadi ;
+            case 6147:
+                return Constantvalues.Location.Hammada;
+            case 6148:
+                return Constantvalues.Location.SandTrack;
+            case 6149:
+                return Constantvalues.Location.HammadaTrack;
+            case 6150:
+                return Constantvalues.Location.Deir;
+            case 6151:
+                return Constantvalues.Location.Track;
+            case 6152:
+                return Constantvalues.Location.HillockTrack;
+            case 6153:
+                return Constantvalues.Location.DeirTrack;
+            case 6154:
+                return Constantvalues.Location.Scrub;
+            case 6155:
+                return Constantvalues.Location.ScrubTrack;
+            case 6156:
+                return Constantvalues.Location.HillockSummitTrack;
+            case 6157:
+                return Constantvalues.Location.SandScrub;
+            case 6158:
+                return Constantvalues.Location.SandScrubTrack;
+            case 6159:
+                return Constantvalues.Location.SandDuneLTrack;
+            case 6160:
+                return Constantvalues.Location.SandDuneHTrack;
+            case 6161:
+                return Constantvalues.Location.Mausoleum;
+            case 6162:
+                return Constantvalues.Location.Camp;
+            case 6163:
+                return Constantvalues.Location.DesertCluster;  //D12.43
+            case 6164:
+                return Constantvalues.Location.BrkCrag;
+            case 6165:
+                return Constantvalues.Location.BrokenGround;
+            case 6166:
+                return Constantvalues.Location.SteppeBrush;
+            case 6167:
+                return Constantvalues.Location.SteppeWoods;
+            case 6168:
+                return Constantvalues.Location.SteppeGrain;
+            case 6169:
+                return Constantvalues.Location.ExcavDitch;
+            case 6170:
+                return Constantvalues.Location.BambooPath;
+            case 6171:
+                return Constantvalues.Location.JunglePath;
+            case 6172:
+                return Constantvalues.Location.DenseJunglePath;
+            case 6173:
+                //return Constantvalues.Location.WoodDebris;
+            case 6174:
+                return Constantvalues.Location.BeachSlightSoft;
+            case 6175:
+                return Constantvalues.Location.BeachModerateSoft;
+            case 6176:
+                return Constantvalues.Location.BeachSteepSoft;
+            case 6177:
+                return Constantvalues.Location.Sandbar;
+            case 6178:
+                return Constantvalues.Location.BeachSlightHard;
+            case 6179:
+                return Constantvalues.Location.BeachModerateHard;
+            case 6180:
+                return Constantvalues.Location.BeachSteepHard;
+            case 6181:
+                return Constantvalues.Location.OceanShallow;
+            case 6182:
+                return Constantvalues.Location.ExposedReef;
+            case 6183:
+                return Constantvalues.Location.SubmergedReef;
+            case 6184:
+                return Constantvalues.Location.JungleDebris; //SC2
+            case 6185:
+                return Constantvalues.Location.CordoroyRoads;  //SC4
+            case 6186:
+                return Constantvalues.Location.StreamShallowJungleDebris;
+            case 6187:
+                return Constantvalues.Location.RiverBrush;
+            case 6188:
+                return Constantvalues.Location.BrushUnpavedRd;
+            case 6189:
+                return Constantvalues.Location.BrushIrrD;
+            case 6190:
+                return Constantvalues.Location.IrrDVineyard;
+            case 6191:
+                //return Constantvalues.Location.WoodRubble;
+            case 6192:
+                return Constantvalues.Location.PineForest;
+            case 6193:
+                return Constantvalues.Location.CulvertOG;
+            case 6194:
+                return Constantvalues.Location.CulvertPvRD;
+            case 6195:
+                return Constantvalues.Location.CulStrPvRd;
+            case 6234:
+                return Constantvalues.Location.CommandBunker;
+            case 6235:
+                return Constantvalues.Location.IslComBunker;
+            case 6236:
+                return Constantvalues.Location.GunEmplacement;
+            case 6237:
+                return Constantvalues.Location.BRTTower;
+            case 6247:
+                return Constantvalues.Location.OneMarketStone;
+            case 6248:
+                return Constantvalues.Location.OneMarketWood;
+            case 6254:
+                return Constantvalues.Location.PBTower;
+            case 6255:
+                return Constantvalues.Location.SingleSteeple;
+            case 6256:
+                return Constantvalues.Location.OneSteeple;
+            case 6257:
+                return Constantvalues.Location.TwoSteeple;
+            case 6261:
+                return Constantvalues.Location.PartCol1;
+            case 6262:
+                return Constantvalues.Location.PartCol15;
+            case 6273:
+                return Constantvalues.Location.Manhole;
+            case 5999:
+                return Constantvalues.Location.All;
+            case 9999:
+                return Constantvalues.Location.NA;
+            case 6301:
+                return Constantvalues.Location.NonStairBldg;
+            case 6302:
+                return Constantvalues.Location.HindranceHex;
+            case 6303:
+                return Constantvalues.Location.HindranceFeature;
+            case 6304:
+                return Constantvalues.Location.Shellholetype;
+            case 6305:
+                return Constantvalues.Location.Creststatustype;
+            case 6306:
+                return Constantvalues.Location.Bypassable;
+            case 6307:
+                return Constantvalues.Location.Smoketype;
+            case 6308:
+                return Constantvalues.Location.RoadOGtype;
+            case 6309:
+                return Constantvalues.Location.Manholetype;
+            case 6310:
+                return Constantvalues.Location.Factorytype;
+            case 6311:
+                return Constantvalues.Location.Rooflesstype;
+            case 6312:
+                return Constantvalues.Location.Cellartype;
+            case 6313:
+                return Constantvalues.Location.SplitLeveltype;
+            case 6314:
+                return Constantvalues.Location.Buildingtype;
+            case 6315:
+                return Constantvalues.Location.Pillboxtype;
+            case 6316:
+                return Constantvalues.Location.IntBuildtype;
+            case 6317:
+                return Constantvalues.Location.Rubbletype;
+            case 6318:
+                return Constantvalues.Location.FortBuildtype;
+            case 6319:
+                return Constantvalues.Location.bridgetype;
+            case 6320:
+                return Constantvalues.Location.Marshtype;
+            case 6321:
+                return Constantvalues.Location.ShallowStreamtype;
+            case 6322:
+                return Constantvalues.Location.DeepStreamtype;
+            case 6323:
+                return Constantvalues.Location.WaterObstacletype;
+            case 6324:
+                return Constantvalues.Location.Blazetype;
+            case 6325:
+                return Constantvalues.Location.towertype;
+            case 6326:
+                return Constantvalues.Location.Roadtype;
+            case 6327:
+                return Constantvalues.Location.OBAtype;
+            case 6328:
+                return Constantvalues.Location.HardSurftype;
+            case 6329:
+                return Constantvalues.Location.HasStairs;
+            case 6330:
+                return Constantvalues.Location.Burnabletype;
+            case 6701:
+                return Constantvalues.Location.Roof;
+            case 6702:
+                return Constantvalues.Location.Building1stLevel;
+            case 6703:
+                return Constantvalues.Location.Building2ndLevel;
+            case 6704:
+                return Constantvalues.Location.Building3rdLevel;
+            case 6705:
+                return Constantvalues.Location.Cellar;
+            case 6706:
+                return Constantvalues.Location.InCave;
+            case 6707:
+                return Constantvalues.Location.BeneathBridge;
+            case 6708:
+                return Constantvalues.Location.Sewer    ;
+            case 6711:
+                return Constantvalues.Location.BeneathPier;
+            case 6712:
+                return Constantvalues.Location.BuildingGroundlevel;
+            case 6713:
+                return Constantvalues.Location.BunkUnder;
+            case 6714:
+                return Constantvalues.Location.Tunnel;
+            case 6715:
+                return Constantvalues.Location.Huts;
+            case 6730:
+                return Constantvalues.Location.FortStoneGrd;
+            case 6731:
+                return Constantvalues.Location.FortSTone1st;
+            case 6732:
+                return Constantvalues.Location.FortStone2nd;
+            case 6733:
+                return Constantvalues.Location.FortSTone3rd;
+            case 6734:
+                return Constantvalues.Location.FortWoodGrd;
+            case 6735:
+                return Constantvalues.Location.FortWood1st;
+            case 6736:
+                return Constantvalues.Location.FortWood2nd;
+            case 6737:
+                return Constantvalues.Location.FortWood3rd;
+            case 15001:
+                return Constantvalues.Location.Pill1571;
+            case 15002:
+                return Constantvalues.Location.Pill1572;
+            case 15003:
+                return Constantvalues.Location.Pill1573;
+            case 15004:
+                return Constantvalues.Location.Pill1574;
+            case 15005:
+                return Constantvalues.Location.Pill1575;
+            case 15006:
+                return Constantvalues.Location.Pill1576;
+            case 15007:
+                return Constantvalues.Location.Pill1351;
+            case 15008:
+                return Constantvalues.Location.Pill1352;
+            case 15009:
+                return Constantvalues.Location.Pill1353;
+            case 15010:
+                return Constantvalues.Location.Pill1354;
+            case 15011:
+                return Constantvalues.Location.Pill1355;
+            case 15012:
+                return Constantvalues.Location.Pill1356;
+            case 15013:
+                return Constantvalues.Location.Pill2351;
+            case 15014:
+                return Constantvalues.Location.Pill2352;
+            case 15015:
+                return Constantvalues.Location.Pill2353;
+            case 15016:
+                return Constantvalues.Location.Pill2354;
+            case 15017:
+                return Constantvalues.Location.Pill2355;
+            case 15018:
+                return Constantvalues.Location.Pill2356;
+            case 15019:
+                return Constantvalues.Location.Pill2571;
+            case 15020:
+                return Constantvalues.Location.Pill2572;
+            case 15021:
+                return Constantvalues.Location.Pill2573;
+            case 15022:
+                return Constantvalues.Location.Pill2574;
+            case 15023:
+                return Constantvalues.Location.Pill2575;
+            case 15024:
+                return Constantvalues.Location.Pill2576;
+            case 15025:
+                return Constantvalues.Location.Pill3351;
+            case 15026:
+                return Constantvalues.Location.Pill3352;
+            case 15027:
+                return Constantvalues.Location.Pill3353;
+            case 15028:
+                return Constantvalues.Location.Pill3354;
+            case 15029:
+                return Constantvalues.Location.Pill3355;
+            case 15030:
+                return Constantvalues.Location.Pill3356;
+            case 15031:
+                return Constantvalues.Location.Pill3571;
+            case 15032:
+                return Constantvalues.Location.Pill3572;
+            case 15033:
+                return Constantvalues.Location.Pill3573;
+            case 15034:
+                return Constantvalues.Location.Pill3574;
+            case 15035:
+                return Constantvalues.Location.Pill3575;
+            case 15036:
+                return Constantvalues.Location.Pill3576;
+            case 15037:
+                return Constantvalues.Location.Pill2461;
+            case 15038:
+                return Constantvalues.Location.Pill2462;
+            case 15039:
+                return Constantvalues.Location.Pill2463;
+            case 15040:
+                return Constantvalues.Location.Pill2464;
+            case 15041:
+                return Constantvalues.Location.Pill2465;
+            case 15042:
+                return Constantvalues.Location.Pill2466;
+            case 15043:
+                return Constantvalues.Location.Pill1461;
+            case 15044:
+                return Constantvalues.Location.Pill1462;
+            case 15045:
+                return Constantvalues.Location.Pill1463;
+            case 15046:
+                return Constantvalues.Location.Pill1464;
+            case 15047:
+                return Constantvalues.Location.Pill1465;
+            case 15048:
+                return Constantvalues.Location.Pill1466;
+            case 15897:
+                return Constantvalues.Location.Bombprf;
+            case 10001:
+                return Constantvalues.Location.Cave146;
+            case 10002:
+                return Constantvalues.Location.CaveH46;
+            case 10003:
+                return Constantvalues.Location.Cave146LM1;
+            case 10004:
+                return Constantvalues.Location.CaveH46LM1;
+            case 10005:
+                return Constantvalues.Location.Cave146L0;
+            case 10006:
+                return Constantvalues.Location.CaveH46L0;
+            case 10007:
+                return Constantvalues.Location.Cave146L1;
+            case 10008:
+                return Constantvalues.Location.CaveH46L1;
+            case 10009:
+                return Constantvalues.Location.Cave146L2;
+            case 10010:
+                return Constantvalues.Location.CaveH46L2    ;
+            case 10011:
+                return Constantvalues.Location.Cave146L3;
+            case 10012:
+                return Constantvalues.Location.CaveH46L3;
+            case 10013:
+                return Constantvalues.Location.Cave146L4;
+            case 10014:
+                return Constantvalues.Location.CaveH46L4;
+            case 10030:
+                return Constantvalues.Location.WoodsTB;
+            case 10031:
+                return Constantvalues.Location.MineTB;
+            case 10032:
+                return Constantvalues.Location.StoneRubbleTB;
+            case 10033:
+                return Constantvalues.Location.PineWTB;
+            case 10034:
+                return Constantvalues.Location.JungleTB;
+            case 10035:
+                return Constantvalues.Location.DenseJungleTB;
+            case 10036:
+                return Constantvalues.Location.DebrisTB;
+            case 10037:
+                return Constantvalues.Location.WoodRubbleTB;
+            case 10038:
+                return Constantvalues.Location.WoodRubbleFallTB;
+            case 10039:
+                return Constantvalues.Location.StoneRubbleFallTB;
+            case 10040:
+                return Constantvalues.Location.OneFactRooflessMan;
+            case 30001:
+                return Constantvalues.Location.StBr14;
+            case 30002:
+                return Constantvalues.Location.StBr25;
+            case 30003:
+                return Constantvalues.Location.StBr36;
+            case 30004:
+                return Constantvalues.Location.WdBr14;
+            case 30005:
+                return Constantvalues.Location.WdBr25;
+            case 30006:
+                return Constantvalues.Location.WdBr36;
+            case 30007:
+                return Constantvalues.Location.SStBr14;
+            case 30008:
+                return Constantvalues.Location.SStBr25;
+            case 30009:
+                return Constantvalues.Location.SStBr36;
+            case 30010:
+                return Constantvalues.Location.SWdBr14    ;
+            case 30011:
+                return Constantvalues.Location.SWdBr25;
+            case 30012:
+                return Constantvalues.Location.SWdBr36;
+            case 30013:
+                return Constantvalues.Location.PoBr14;
+            case 30014:
+                return Constantvalues.Location.PoBr25;
+            case 30015:
+                return Constantvalues.Location.PoBr36;
+            case 30016:
+                return Constantvalues.Location.FoBr;
             default:
                 return Constantvalues.Location.NA;
         }

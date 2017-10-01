@@ -1,7 +1,6 @@
 package VASL.build.module.fullrules.Game;
 
 import VASL.LOS.Map.Hex;
-import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASSAL.build.GameModule;
 import VASSAL.counters.GamePiece;
@@ -11,13 +10,13 @@ import VASSAL.counters.Stack;
 
 import java.util.LinkedList;
 
-public class ClickLeftPrepC implements Clicki {
+public class ClickLeftMoveC {
 
     public final static String DB_COUNTER_TYPE_MARKER_KEY = "DBCounterType";
     public final static String DB_UNIT_TYPE = "unit";
 
-    public void DetermineClickPossibilities(Hex ClickedHex, LinkedList<GamePiece> SelectedCounters) {  // As Integer, Optional ByVal Action As Integer=0)
-        // called by XNAGph.CheckforMouseClick
+    public void DetermineClickPossibilities(Hex ClickedHex, LinkedList<GamePiece> SelectedCounters) {
+
         LinkedList<GamePiece> SelectedUnits = new LinkedList<GamePiece>();
         // clicking on top counter only
         ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
@@ -43,8 +42,12 @@ public class ClickLeftPrepC implements Clicki {
                 }
             }
         }
-        ScenarioC scen = ScenarioC.getInstance();
-        scen.IFT.ClickedOnNewParticipants(ClickedHex, SelectedUnits);
+        // add phase specific actions here
+        //Game.Scenario.Moveobsi.PasstoObserver(OH)
+        //If Scencolls.SelMoveUnits.Count > 0 Then 'moving units exist - could have clicked on moving or defending units
+        //'only do this if moving units selected - can't start MPh combat unless have moving units
+        //Game.Scenario.IFT.ClickedOnNewParticipants(Hexnumber)
+        //End If
     }
     private boolean isSelected(GamePiece p) {
         return Boolean.TRUE.equals(p.getProperty(Properties.SELECTED)) &&

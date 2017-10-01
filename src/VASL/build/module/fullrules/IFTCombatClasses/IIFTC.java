@@ -34,6 +34,9 @@ public interface IIFTC {
     boolean getNeedtoResumeResolution();
     LOSResult getLOSResult();
 
+    LinkedList<PersUniti> TempTarget = new LinkedList<PersUniti>();
+    LinkedList<PersUniti> TargGroup = new LinkedList<PersUniti>();
+
     boolean InitializeIFTCombat();
     void FirePhasePreparation();
     void ClickedOnNewParticipants(Hex ClickedHex, LinkedList<GamePiece> SelectedUnits);

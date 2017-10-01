@@ -33,8 +33,8 @@ public class IFTC implements IIFTC {
 
     protected LinkedList<PersUniti> TempFireGroup = new LinkedList<PersUniti>(); // holds selected items before LOS confirmed
     protected LinkedList<PersUniti> FireGroup = new LinkedList<PersUniti>();     // holds selected items with LOS
-    protected LinkedList<PersUniti> TempTarget = new LinkedList<PersUniti>();   // holds selected items before LOS confirmed
-    protected LinkedList<PersUniti> TargGroup = new LinkedList<PersUniti>();   // holds selected items with LOS
+    public LinkedList<PersUniti> TempTarget = new LinkedList<PersUniti>();   // holds selected items before LOS confirmed
+    public   LinkedList<PersUniti> TargGroup = new LinkedList<PersUniti>();   // holds selected items with LOS
     protected LinkedList<TempSolution> TempSolutions = new LinkedList<TempSolution>();  // holds LOScheck before LOS confirmed
     protected LinkedList<LOSSolution> ValidSolutions = new LinkedList<LOSSolution>(); // holds LOSCheck with LOS
     private Constantvalues.Nationality pFirerSide;      // holds value of firing side (Enum Nationality)
@@ -158,11 +158,10 @@ public class IFTC implements IIFTC {
         boolean test2;
         scen = ScenarioC.getInstance();
         scendet = scen.getScendet();
-        // temporary while debugging UNDO
-        Constantvalues.Phase test3 = Constantvalues.Phase.PrepFire;       // Scendet.getPhase();
+        Constantvalues.Phase test3 = scendet.getPhase();
         test1 = (test3 == Constantvalues.Phase.PrepFire);
         test2 = (test3 == Constantvalues.Phase.AdvancingFire);
-        Constantvalues.WhoCanDo test4 = Constantvalues.WhoCanDo.Attacker;        // Scendet.getPTURN();
+        Constantvalues.WhoCanDo test4 = scendet.getPTURN();
         if ((test4 == Constantvalues.WhoCanDo.Attacker && (test1 || test2)) ||
                 (test4 != Constantvalues.WhoCanDo.Attacker && (!test1 && !test2))) {
             // ATTACKER
@@ -539,7 +538,7 @@ public class IFTC implements IIFTC {
     }
 
     protected boolean AddtoTempTerrain(LOSResult result, TempSolution Tempsolitem) {
-        MapDataC MapData = MapDataC.GetInstance("", 0);
+        MapDataC MapData = scen.Maptables;
         LinkedList<GameLocation> LocationCol = null;  //MapData.getLocationCol();
         TerrainChecks PassTerrChk = new TerrainChecks();
         ThreadedLOSCheckCommonc LOSCheckCommon = new ThreadedLOSCheckCommonc(PassTerrChk);

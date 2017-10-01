@@ -249,7 +249,7 @@ class DFFEnemyValuesConcreteC {
         }
 
         // instantiate various classes used during calculations
-        MapDataC Maptables  = MapDataC.GetInstance("", 0) ;  // use null values when sure that instance already exists
+        MapDataC Maptables  = scen.Maptables;
         LinkedList<GameLocation> LocationCol = null;  //Maptables.getLocationCol();
         GetALocationFromMap GetLocs = new GetALocationFromMap(LocationCol);
         LevelChecks LevelChk = new LevelChecks(LocationCol);

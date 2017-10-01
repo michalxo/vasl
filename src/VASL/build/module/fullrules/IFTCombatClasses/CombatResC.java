@@ -4,9 +4,7 @@ import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.Game.ScenarioC;
-import VASL.build.module.fullrules.ObjectChangeClasses.StatusChangei;
-import VASL.build.module.fullrules.ObjectChangeClasses.UnitDiesC;
-import VASL.build.module.fullrules.ObjectChangeClasses.UnitSurrendersc;
+import VASL.build.module.fullrules.ObjectChangeClasses.*;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASSAL.build.GameModule;
@@ -104,7 +102,7 @@ public class CombatResC implements CombatResi {
                             RunStatusChange = new UnitDiesC();
                             break;
                         case Breaks:
-                            //RunStatusChange = new UnitBreaksc();
+                            RunStatusChange = new UnitBreaksc();
                             break;
                         case NoEffects:
                             //RunStatusChange = new UnitNoEffectsc();
@@ -126,10 +124,10 @@ public class CombatResC implements CombatResi {
                             //RunStatusChange = new UnitFanaticsc();
                             break;
                         case Hardens:
-                            //RunStatusChange = new UnitHardensc();
+                            RunStatusChange = new UnitHardensc();
                             break;
                         case Berserks:
-                            //RunStatusChange = new UnitBerserksc();
+                            RunStatusChange = new UnitBerserksc();
                             break;
                         case Surrenders:
                             //RunStatusChange = new UnitSurrendersc(AdjacentEnemy);
@@ -160,7 +158,7 @@ public class CombatResC implements CombatResi {
                             //RunStatusChange = new UnitHeroCreationc();
                             break;
                         case HeroHardens:
-                            //RunStatusChange = new UnitHeroHardensc();
+                            RunStatusChange = new UnitHeroHardensc();
                             break;
                         //'case ReducesHOB
                         //'    RunStatusChange = new UnitReducesHOBc
@@ -196,7 +194,7 @@ public class CombatResC implements CombatResi {
                             'case ReducesSurrenders
                             'RunStatusChange = new UnitReducessurrendersc(Resultstring)*/
                         case HeroicLdrCreation:
-                            //RunStatusChange = new UnitHeroicLdrCreationc();
+                            RunStatusChange = new UnitHeroicLdrCreationc();
                             break;
                         case HeroicLdrHardens:
                             //'RunStatusChange = new UnitHeroicLdrHardensc

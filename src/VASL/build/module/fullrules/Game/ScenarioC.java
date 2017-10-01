@@ -1,6 +1,5 @@
 package VASL.build.module.fullrules.Game;
 
-import VASL.LOS.Map.LOSResult;
 import VASL.build.module.ASLMap;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.Scenario;
@@ -11,10 +10,8 @@ import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.MovementClasses.MakeMoveC;
 import VASL.build.module.fullrules.ObjectClasses.Scenlisttype;
 import VASL.build.module.fullrules.PhaseClasses.PhaseMVCPattern;
-import VASL.build.module.map.ActionsToolbar;
 import VASSAL.build.GameModule;
 
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,18 +22,18 @@ public class ScenarioC extends CampaignC {
     private String ScenName;
     private Constantvalues.Phase PhaseValue;
     private static ScenarioC Sceninstance;
-    public Hashtable HexesWithCounter = new Hashtable();
-    // public MapDataC Maptables = MapDataC.GetInstance();
+    //public Hashtable HexesWithCounter = new Hashtable();
+    public MapDataC Maptables = MapDataC.GetInstance(ScenName, ScenIDValue);
     public LinkedList<GameLocation> LocationCol;
     private Constantvalues.WhoCanDo PlayerTurnvalue;
     private int CurrentTurnvalue;
     public MakeMoveC DoMove;  // temporary while debugging undo
     private PhaseMVCPattern PhasePattern;
-    // public MapGeoC MapGeo; // temporary while debugging undo
     private List<Scenlisttype> ListofScenarios;
     private VASL.LOS.Map.Map pgamemap;
     private ASLMap pmap;
     private Scenario pScenario;
+
     // constructors
     private ScenarioC(String test) {
         // called by ScenarioC.Getinstance as part of singleton pattern
@@ -61,16 +58,15 @@ public class ScenarioC extends CampaignC {
     public Constantvalues.Phase getPhase() {
         return PhaseValue;
     }
-
     public Constantvalues.WhoCanDo getPlayerTurn() {
         return PlayerTurnvalue;
     }
     public Scenario getScendet() {return pScenario;}
-
     public int getCurrentTurn() {
         return CurrentTurnvalue;
     }
     public IIFTC getIFT() {return IFT;}
+
     public boolean StartASLScenario(int PassASLScenID) {
         // start new ASL scenario from preset ASLScenario
 
@@ -150,13 +146,11 @@ public class ScenarioC extends CampaignC {
             pgamemap = pmap.getVASLMap();
         }
         // retrieve scenario data
-        // temporary while debugging undo
         pScenario = Linqdata.GetScenarioData(ScenName);
         ScenIDValue=pScenario.getScenNum();
         // use scenario data to set property values
         PhaseValue = pScenario.getPhase();
         PlayerTurnvalue = pScenario.getPTURN();
-        // create map and graphics classes, Map table collection
         String ASLMapLink = "Scen" + getScenID();
         // need to pass string value to create terrain collection
         MapDataC Maptables = MapDataC.GetInstance(ASLMapLink, getScenID());
@@ -172,20 +166,18 @@ public class ScenarioC extends CampaignC {
 
         // join scenario
         if (!CreatePhaseMVC(Constantvalues.ScenarioAction.JoinPhase)) {
-
             Startscenario = false;
         }
 
-        // create counter classes and populate collections of game objects
-        if (CreateCounters()) {
-            // Game.XNAGph.OrderCountersforDisplay();
+        // populate collections of game objects
+        if (CreateObjectCollections()) {
         } else {
             // get out of the scenario
             Startscenario = false;
         }
         // set title
         if (Startscenario) {
-            // UpdateScenarioValues();temporary while debugging UNDO
+            UpdateScenarioValues();  //temporary while debugging UNDO
         }
 
     }
@@ -425,7 +417,7 @@ public class ScenarioC extends CampaignC {
         }
     }
 
-    private boolean CreateCounters() {
+    private boolean CreateObjectCollections() {
         // called by OpenScenario
         // done as function to force completion before calling OrderCountersforDisplay
 
@@ -433,8 +425,8 @@ public class ScenarioC extends CampaignC {
 //        TerrainActions = new TerrainActionsC();
 //        TerrainActions.ShowTerrainCounters();
         UnitActions = new UnitActionsC(Linqdata, this);
-//        VehicleActions = new VehicleActionsC();
-//        SWActions = new SWActionsC();
+        VehicleActions = new VehicleActionsC(Linqdata, this);
+        SWActions = new SWActionsC(Linqdata, this);
 //        ConcealActions = new ConcealActionsC();
         return true;
     }
@@ -445,7 +437,7 @@ public class ScenarioC extends CampaignC {
 
     private List<Scenlisttype> SetScenList() {
         // called by ASLXNA.Game1.LoadContent
-        // returns list of current scenarios to be displayed in mainform list box
+        // returns list of current scenarios to be displayed in a list box
 
         List<Scenario> Scendatalist;
         Scendatalist = Linqdata.GetScenList();

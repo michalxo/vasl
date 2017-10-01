@@ -10,8 +10,10 @@ import VASL.build.module.fullrules.ObjectChangeClasses.VisibilityChangei;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
+import VASL.build.module.fullrules.UtilityClasses.CombatUtil;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 import VASL.build.module.fullrules.UtilityClasses.RandomSelection;
+import VASSAL.build.GameModule;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.awt.*;
@@ -143,29 +145,25 @@ public class IFTResultC implements IFTResulti {
         }
         // need to check for concealment loss plus  if concealed stack suffers KIA or K result then need to do random selection
         ConcealmentLossCheck(TargGroup);
-        /*'test code
-        for ( Targtest As Objectvalues.PersUniti In TargGroup
-                FDR = DR.Colored + DR.White + Targtest.TargetPersUnit.Attackedbydrm
-        Dim MSG
-        As String = "Attacked by " & Targtest.TargetPersUnit.AttackedbyFP.ToString & " FP with " & Targtest.TargetPersUnit.Attackedbydrm.ToString & " drm && a FDR of " & FDR.ToString & vbCrLf
-        'MSG &= "drm = " & Targtest.TargetPersUnit.Attackedbydrm.ToString & vbCrLf
-        'MSG &= "FDR = " & FDR.ToString & vbCrLf & vbCrLf
-        Dim CombatInfo = New Utilvalues.CombatUtil
-        MSG &= "IFT result is " & CombatInfo.IFTResultstring(Targtest.TargetPersUnit.IFTResult)
-        Targtest.TargetPersUnit.CombatResultString &= MSG & vbCrLf
-        Next*/
+        // test code
+        for (PersUniti Targtest: TargGroup) {
+            FDR = DR.getColored() + DR.getWhite() + Targtest.getTargetunit().getAttackedbydrm();
+            String MSG = "Attacked by " + Integer.toString(Targtest.getTargetunit().getAttackedbyFP()) + " FP with " + Integer.toString(Targtest.getTargetunit().getAttackedbydrm()) + " drm && a FDR of " + Integer.toString(FDR);
+            //MSG += "drm = " + Targtest.getTargetunit().getAttackedbydrm().ToString & vbCrLf
+            //MSG &= "FDR = " & FDR.ToString & vbCrLf & vbCrLf
+            CombatUtil CombatInfo = new CombatUtil();
+            MSG += "IFT result is " + CombatInfo.IFTResultstring(Targtest.getTargetunit().getIFTResult());
+            Targtest.getTargetunit().setCombatResultsString(MSG);
+            GameModule.getGameModule().getChatter().send(MSG);
+        }
 
         // ROF
-        // if DR.Colored <= 3 Then pROFdr = DR.Colored Else pROFdr = 0
-        pROFdr = DR.getColored();
+        pROFdr =(DR.getColored() <= 3) ? DR.getColored() : 0;
+
         //'AmmoShortage()
 
         // HitLocation
-        if (DR.getColored() < DR.getWhite()) {
-            pHitLoc = Constantvalues.HitLocation.Turret;
-        } else {
-            pHitLoc = Constantvalues.HitLocation.Hull;
-        }
+        pHitLoc = (DR.getColored() < DR.getWhite()) ? Constantvalues.HitLocation.Turret : Constantvalues.HitLocation.Hull;
 
         return TargGroup;
     }

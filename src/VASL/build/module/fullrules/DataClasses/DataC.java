@@ -622,20 +622,19 @@ public class DataC {
         return Testunits;
     }
 
-    /*publicFunction RetrieveScenarioVehicles(ByVal ScenarioID As Integer) As IQueryable(Of AFV)
-            'called by Vehicleactions.New
-            'pulls all OB vehicles for a given scenario it a collection of type AFV
-    Try
-    Dim Vehiclecol = From QU In db.AFVs _
-    Where QU.Scenario = ScenarioID _
-    Select QU
-    Return Vehiclecol
-    Catch ex As Exception
-    MsgBox("Some kind of error" & CStr(ScenarioID), , "RetieveScenarioVehicles Failure")
-    Return Nothing
-    End Try
-    End Function
-    publicFunction RetrieveConcealment(ByVal ScenarioID As Integer) As IQueryable(Of Concealment)
+    public LinkedList<OBVehicles> RetrieveScenarioVehicles(int ScenarioID) {
+        // called by VehicleActionsC()
+        // pulls all OB vehicles for a given scenario it a collection of type OBVehicles
+        try {
+            // Dim Vehiclecol = From QU In db.AFVs _Where QU.Scenario = ScenarioID _Select QU
+            // Return Vehiclecol
+        } catch (Exception e){
+            //MsgBox("Some kind of error" & CStr(ScenarioID), , "RetieveScenarioVehicles Failure")
+            //Return Nothing
+        }
+        return null;
+    }
+    /*public void RetrieveConcealment(ByVal ScenarioID As Integer) As IQueryable(Of Concealment)
             'called by ConcealActions.New
             'pulls all Concealment for a given scenario it a collection of type Concealment
     Try
@@ -660,21 +659,20 @@ public class DataC {
     MsgBox("Some kind of error" & CStr(ConID), , "Retieve Concealed Units Failure")
     Return Nothing
     End Try
-    End Function
-    publicFunction RetrieveScenarioOBSW(ByVal ScenarioID As Integer) As IQueryable(Of OrderofBattleSW)
-            'called by SWactions.New
-            'pulls all OB SW for a given scenario it a collection of type OrderofBattleSW
-    Try
-    Dim SWcol = From QU In db.OrderofBattleSWs _
-    Where QU.Scenario = ScenarioID _
-    Select QU
-    Return SWcol
-    Catch ex As Exception
-    MsgBox("Some kind of error" & CStr(ScenarioID), , "RetieveScenarioOBSW Failure")
-    Return Nothing
-    End Try
-    End Function
-    publicFunction RetrieveUnpossessed() As IQueryable(Of Unpossessed)
+    End Function*/
+    public LinkedList<OrderofBattleSW> RetrieveScenarioOBSW(int ScenarioID) {
+        // called by SWactionsC()
+        // pulls all OB SW for a given scenario it a collection of type OrderofBattleSW
+        try {
+            //Dim SWcol = From QU In db.OrderofBattleSWs Where QU.Scenario = ScenarioID Select QU
+            //Return SWcol
+        } catch (Exception e) {
+            //MsgBox("Some kind of error" & CStr(ScenarioID), , "RetieveScenarioOBSW Failure")
+            //Return Nothing
+        }
+        return null;
+    }
+    /*publicFunction RetrieveUnpossessed() As IQueryable(Of Unpossessed)
             'called by Unpossactions.New
             'pulls all unpossessed SW into a collection of type Unpossessed
     Try
@@ -685,8 +683,8 @@ public class DataC {
     MsgBox("Some kind of error: RetieveUnpossessed Failure")
     Return Nothing
     End Try
-    End Function
-    publicFunction GetUnitsInHex(ByVal hexnum As Integer, ByVal ScenarioID As Integer) As IQueryable(Of OrderofBattle)
+    End Function*/
+    /*publicFunction GetUnitsInHex(ByVal hexnum As Integer, ByVal ScenarioID As Integer) As IQueryable(Of OrderofBattle)
             'called by UnitActions.DetermineWhoIsOnTop
             'puts all units in hex chosen into a collection
     Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance(ScenarioName, ScenarioID)
