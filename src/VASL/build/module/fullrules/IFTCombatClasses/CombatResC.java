@@ -92,7 +92,7 @@ public class CombatResC implements CombatResi {
                 }  // don' t process units twice -will stop replacement units from being processed again
                 LdrDRMforTargets = DetermineTargetLdrDRM(TargetList);
                 // need to do each time through as can change if leader killed, wounded, broken or pinned
-                GameModule.getGameModule().getChatter().send("Leader DRM for " + TargetUnit.getbaseunit().getUnitName() + " is " + Integer.toString(LdrDRMforTargets));
+                //GameModule.getGameModule().getChatter().send("Leader DRM for " + TargetUnit.getbaseunit().getUnitName() + " is " + Integer.toString(LdrDRMforTargets));
                 // process impact on target
                 if (ProcessImpact(TargetUnit, LdrDRMforTargets, Resultstring)) {
                     Constantvalues.PersUnitResult CombatImpact = TargetUnit.getTargetunit().getPersUnitImpact();
@@ -105,23 +105,23 @@ public class CombatResC implements CombatResi {
                             RunStatusChange = new UnitBreaksc();
                             break;
                         case NoEffects:
-                            //RunStatusChange = new UnitNoEffectsc();
+                            RunStatusChange = new UnitNoEffectsc();
                             break;
                         case Pins:
-                            //RunStatusChange = new UnitPinsc();
+                            RunStatusChange = new UnitPinsc();
                             break;
                         case Reduces:
                             PassHoBCheck = true; // Hob test done by last unitchange
-                            //RunStatusChange = new UnitReducesc(Resultstring, PassHoBCHeck);
+                            RunStatusChange = new UnitReducesc(Resultstring, PassHoBCheck);
                             break;
                         case ReducesBreaks:
-                            //RunStatusChange = new UnitReducesBreaksc(Resultstring);
+                            RunStatusChange = new UnitReducesBreaksc(Resultstring);
                             break;
                         case DMs:
-                            //RunStatusChange = new UnitDMsc();
+                            RunStatusChange = new UnitDMsc();
                             break;
                         case Fanatics:
-                            //RunStatusChange = new UnitFanaticsc();
+                            RunStatusChange = new UnitFanaticsc();
                             break;
                         case Hardens:
                             RunStatusChange = new UnitHardensc();
@@ -130,32 +130,32 @@ public class CombatResC implements CombatResi {
                             RunStatusChange = new UnitBerserksc();
                             break;
                         case Surrenders:
-                            //RunStatusChange = new UnitSurrendersc(AdjacentEnemy);
+                            //'RunStatusChange = new UnitSurrendersc(AdjacentEnemy);
                             break;
                         case Replaces:
                             PassHoBCheck = true; // Hob test done by last unitchange
-                            //RunStatusChange = new UnitReplacesc(PassHoBCHeck);
+                            RunStatusChange = new UnitReplacesc(PassHoBCheck);
                             break;
                         case ReplacesReducesBreaks:
-                            //RunStatusChange = new UnitReplacesReducesBreaksc();
+                            RunStatusChange = new UnitReplacesReducesBreaksc();
                             break;
                         case ReplacesDMs:
-                            //RunStatusChange = new UnitReplacesDMsc();
+                            RunStatusChange = new UnitReplacesDMsc();
                             break;
                         case Wounds:
-                            //RunStatusChange = new UnitWoundsc();
+                            RunStatusChange = new UnitWoundsc();
                             break;
                         case Substitutues:
-                            //RunStatusChange = new UnitSubstitutesc();
+                            RunStatusChange = new UnitSubstitutesc();
                             break;
                         case StepReduces:
-                            //RunStatusChange = new UnitStepReducesc();
+                            RunStatusChange = new UnitStepReducesc();
                             break;
                         case Disrupts:
-                            //RunStatusChange = new UnitDisruptsc();
+                            RunStatusChange = new UnitDisruptsc();
                             break;
                         case HeroCreation:
-                            //RunStatusChange = new UnitHeroCreationc();
+                            RunStatusChange = new UnitHeroCreationc();
                             break;
                         case HeroHardens:
                             RunStatusChange = new UnitHeroHardensc();
@@ -163,25 +163,25 @@ public class CombatResC implements CombatResi {
                         //'case ReducesHOB
                         //'    RunStatusChange = new UnitReducesHOBc
                         case ReducesDies:
-                            //RunStatusChange = new UnitReducesDiesc();
+                            RunStatusChange = new UnitReducesDies();
                             break;
                         case ReducesPins:
-                            //RunStatusChange = new UnitReducesPinsc();
+                            RunStatusChange = new UnitReducesPinsc();
                             break;
                         case ReducesReplaces:
-                            //RunStatusChange = new UnitReducesReplacesc();
+                            RunStatusChange = new UnitReducesReplacesc();
                             break;
                         case StepReducesHS:
-                            //RunStatusChange = new UnitStepReducesHSc();
+                            RunStatusChange = new UnitStepReducesHSc();
                             break;
                         case ReplacesStepReduces:
-                            //RunStatusChange = new UnitReplacesStepReducesc();
+                            RunStatusChange = new UnitReplacesStepReducesc();
                             break;
                         case ReplacesStepReducesHS:
-                            //RunStatusChange = new UnitReplacesStepReducesHSc();
+                            RunStatusChange = new UnitReplacesStepReducesHSc();
                             break;
                         case DisruptDMs:
-                            //RunStatusChange = new UnitDisruptDMsc();
+                            RunStatusChange = new UnitDisruptsDMsc();
                             break;
                             /*'case ReducesHeroHardens
                             '    RunStatusChange = new UnitReducesHeroHardensc(Resultstring)
@@ -312,7 +312,7 @@ public class CombatResC implements CombatResi {
                 }
             }
             Keepgoing = false;
-        } while (Keepgoing=true);
+        } while (Keepgoing==true);
 
         msgtitle = "Checking Order of Units";
         /*For Each checkitem As Objectvalues.PersUniti In SameTargets
@@ -323,7 +323,7 @@ public class CombatResC implements CombatResi {
     }
     private boolean PauseForSniper() {
         myNeedToResume = true;
-        GameModule.getGameModule().getChatter().send("Pausing Combat Resolution to do Sniper Check");
+        //GameModule.getGameModule().getChatter().send("Pausing Combat Resolution to do Sniper Check");
                 return true;
     }
         public void ResumeResolution () {

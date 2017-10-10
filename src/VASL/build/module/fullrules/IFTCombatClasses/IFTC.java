@@ -392,7 +392,7 @@ public class IFTC implements IIFTC {
             // check new unit against items already selected
             for (PersUniti ExistingUnit : TestList) {
                 if (ExistingUnit.getbaseunit().getUnit_ID() == Selunit.getbaseunit().getUnit_ID() && ExistingUnit.getbaseunit().getTypeType_ID() == Selunit.getbaseunit().getTypeType_ID()) {   // already added
-                    GameModule.getGameModule().getChatter().send("Failure to Add Target Unit as already added in AddTargetUnit");
+                    //GameModule.getGameModule().getChatter().send("Failure to Add Target Unit as already added in AddTargetUnit");
                     return false;
                 } else {
                     int UnitDistance = scen.getGameMap().range(scen.getGameMap().getHex(ExistingUnit.getbaseunit().getHexName()), NewTarget, scen.getGameMap().getMapConfiguration());
@@ -1025,7 +1025,7 @@ public class IFTC implements IIFTC {
                 ObjIDlink = Integer.parseInt(SelUnit.getProperty("TextLabel").toString());
                 for(PersUniti findunit: Scencolls.Unitcol){
                     if(findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
-                        GameModule.getGameModule().getChatter().send("Have found selected unit in PersUniti collection: " + findunit.getbaseunit().getUnitName());
+                        //GameModule.getGameModule().getChatter().send("Have found selected unit in PersUniti collection: " + findunit.getbaseunit().getUnitName());
                         if (findunit.getbaseunit().getNationality() == getTargetSide()) {
                             WhichOne = Constantvalues.CombatStatus.None;
                         } else {
@@ -1040,28 +1040,30 @@ public class IFTC implements IIFTC {
         // if selected determine if unit or ? and use nationality to determine if Target or Firer
         for (GamePiece SelUnit : SelectedUnits) {
             ObjIDlink = Integer.parseInt(SelUnit.getProperty("TextLabel").toString());
-            for(PersUniti findunit: Scencolls.Unitcol){
-                if(findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
-                    GameModule.getGameModule().getChatter().send("Have found selected unit in PersUniti collection: " + findunit.getbaseunit().getUnitName());
+            for (PersUniti findunit : Scencolls.Unitcol) {
+                if (findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
+                    //GameModule.getGameModule().getChatter().send("Have found selected unit in PersUniti collection: " + findunit.getbaseunit().getUnitName());
                     if (findunit.getbaseunit().getNationality() == getTargetSide()) {
                         WhichOne = Constantvalues.CombatStatus.None;
                     } else {
                         WhichOne = Constantvalues.CombatStatus.Firing;
                     }
-                    Addunit= findunit;
+                    Addunit = findunit;
                 }
             }
-        }
-        // add unit or ? to Target or Firer (? not added to firer)
-        if (WhichOne == Constantvalues.CombatStatus.None && Addunit !=null) {  // TargetUniut
-            if (AddTargetUnit(Addunit)) {GoCombatSolutionTest = true;}
-        } else {  // FiringUnit
-            if (Addunit.getbaseunit().getVisibilityStatus() != Constantvalues.VisibilityStatus.Visible) {
-                // clicked on concealed unit; don't add
-                GameModule.getGameModule().getChatter().send("Failure to Add Concealed Firer Unit: " + Addunit.getbaseunit().getUnitName() + " in ClickedOnNewParticipants");
-            } else {
-                if (AddFirerUnit(Addunit)) {
+            // add unit or ? to Target or Firer (? not added to firer)
+            if (WhichOne == Constantvalues.CombatStatus.None && Addunit != null) {  // TargetUniut
+                if (AddTargetUnit(Addunit)) {
                     GoCombatSolutionTest = true;
+                }
+            } else {  // FiringUnit
+                if (Addunit.getbaseunit().getVisibilityStatus() != Constantvalues.VisibilityStatus.Visible) {
+                    // clicked on concealed unit; don't add
+                    GameModule.getGameModule().getChatter().send("Failure to Add Concealed Firer Unit: " + Addunit.getbaseunit().getUnitName() + " in ClickedOnNewParticipants");
+                } else {
+                    if (AddFirerUnit(Addunit)) {
+                        GoCombatSolutionTest = true;
+                    }
                 }
             }
         }
@@ -1158,7 +1160,7 @@ public class IFTC implements IIFTC {
         ManageCombatSolutionDetermination()
     }
 */
-    protected void ManageCombatSolutionDetermination() {
+    protected void  ManageCombatSolutionDetermination() {
         // called by ClickOnNewParticipants and ResetParticipants and MGandInherentFPSelection.ProcessChoice
         // takes valid Firer/Target selections and manages LOS and FP, DRM calculations
         // calls routines and functions which handle parts and then return here
@@ -1206,19 +1208,31 @@ public class IFTC implements IIFTC {
                     return;
                 }
 
-                // test code
-                String combatstring = null;
-                for (PersUniti eachTarget : TargGroup) {
-                    combatstring = eachTarget.getbaseunit().getUnitName() + " is attacked by " + Integer.toString(eachTarget.getTargetunit().getAttackedbyFP()) +
-                            " FP with a " + Integer.toString(eachTarget.getTargetunit().getAttackedbydrm()) + " drm";
-                    GameModule.getGameModule().getChatter().send(combatstring);
+                // fire solution report and request
+                String combatstring = "You have an IFT attack ready: ";
+                String attackersverb = "attacks ";
+                String combatunits="";
+                if(FireGroup.size() > 1 ) {
+                    attackersverb = "attack ";
                 }
-                // need to enable a "Fire' button
+                for (PersUniti firingunit: FireGroup){
+                    combatunits += firingunit.getbaseunit().getUnitName() + " ";
+                }
+                combatstring += combatunits + attackersverb;
+                for (PersUniti eachTarget : TargGroup) {
+                    combatstring += eachTarget.getbaseunit().getUnitName() + " ";
+                }
+                PersUniti testTarg = TargGroup.getFirst();
+                combatstring += "with  " + Integer.toString(testTarg.getTargetunit().getAttackedbyFP()) +
+                        " FP and a " + Integer.toString(testTarg.getTargetunit().getAttackedbydrm()) + " drm";
+                GameModule.getGameModule().getChatter().send(combatstring);
+                // clicking fire button will trigger combat; clicking units will rework fire solution back to here
+                GameModule.getGameModule().getChatter().send("Click Fire button to attack!");
             }
         }
     }
 
-    protected void ClearCurrentIFT() {
+    public void ClearCurrentIFT() {
         // called by Gameform.buClear_click, IFT.ManageCombatsolutionDetermination, EnemyValuesConcreteC.SetLOSHFPdrmValues
         // clears all temporary variables associated with ifT combat
         // Dim MapGeo as mapgeoclasslibrary.aslxna.mapgeoc = MapGeovalues.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -1346,9 +1360,9 @@ public class IFTC implements IIFTC {
         TargGroup = IFTRes.GetIFTResult(TargGroup, DR, FireGroup);
 
         // test code
-        for (PersUniti eachTarget: TargGroup){
-            GameModule.getGameModule().getChatter().send(eachTarget.getTargetunit().getCombatResultsString() + " test");
-        }
+//        for (PersUniti eachTarget: TargGroup){
+//            GameModule.getGameModule().getChatter().send(eachTarget.getTargetunit().getCombatResultsString() + " test");
+//        }
         // move to combat resolution
         CombatRes = new CombatResC();
         CombatRes.ResolveCombat(TargGroup, IFTRes.getFPdrmCombos(), getFirerSan(), scendet.getScenNum());
@@ -1358,7 +1372,10 @@ public class IFTC implements IIFTC {
             myNeedToResumeResolution = true;
             return;
         }*/
-
+// test code
+        for (PersUniti eachTarget: TargGroup){
+            GameModule.getGameModule().getChatter().send(eachTarget.getTargetunit().getCombatResultsString());
+        }
         // Update Target Group
         for (PersUniti TargUnit: TargGroup) {
             if (TargUnit.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.NotInPlay) {

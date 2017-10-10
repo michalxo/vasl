@@ -30,7 +30,7 @@ public class ClickLeftPrepC implements Clicki {
                     if (isSelected(p2)) {
                         if (isDBUnitCounter(Selitem)) {
                             SelectedUnits.add(Selitem);
-                            GameModule.getGameModule().getChatter().send("Have found selected unit in click class");
+                            //GameModule.getGameModule().getChatter().send("Have found selected unit in click class");
                         }
                     }
                 }
@@ -38,7 +38,7 @@ public class ClickLeftPrepC implements Clicki {
                 if (isSelected(Selitem)) {
                     if (isDBUnitCounter(Selitem)) {
                         SelectedUnits.add(Selitem);
-                        GameModule.getGameModule().getChatter().send("Have found selected unit in click class");
+                        //GameModule.getGameModule().getChatter().send("Have found selected unit in click class");
                     }
                 }
             }

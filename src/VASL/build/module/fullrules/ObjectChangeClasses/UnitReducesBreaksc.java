@@ -1,18 +1,26 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
-public class UnitReducesBreaksc {
-    /*Implements StatusChangei
-    Private Scencolls As ObjectClassLibrary.ASLXNA.ScenarioCollectionsc = ObjectClassLibrary.ASLXNA.ScenarioCollectionsc.GetInstance
-    Private myNewTargs As List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    Private myNewFiring As List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    Private myResultstring As String
-    Private myPopUpList As New List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface)
-    Public Sub New(ByVal Resultstring As String)
-    myNewTargs = New List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    myResultstring = Resultstring
-    End Sub
-    Public Function ReduceBreakUnit(ByRef TargParent As ObjectClassLibrary.ASLXNA.PersUniti) As Boolean Implements StatusChangei.Takeaction
-            'Name:       TargetReducesBreaks()
+import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import VASSAL.build.GameModule;
+
+import java.util.LinkedList;
+
+public class UnitReducesBreaksc implements StatusChangei {
+    private LinkedList<PersUniti> myNewTargs = new LinkedList<PersUniti>();
+    private LinkedList<PersUniti> myNewFiring = new LinkedList<PersUniti>();
+    private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+    private String myResultstring;
+    //private myPopUpList As New List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface)
+
+    public UnitReducesBreaksc(String Resultstring) {
+        myResultstring = Resultstring;
+    }
+    public boolean Takeaction(PersUniti TargParent) {
+               /*'Name:       TargetReducesBreaks()
 
                     'Identifier UC 203.5
 
@@ -34,96 +42,83 @@ public class UnitReducesBreaksc {
 
                     '            Post conditions
                     '2.
-                    'create the new HS
-    Dim ReducesTo As Integer = TargParent.TargetPersUnit.RedTo
-    Dim NewName As String = InputBox("Enter Name of New Half-Squad: ", TargParent.BasePersUnit.UnitName & " is reduced to a Half-Squad", )
-    Dim UseObjectFactory = New ObjectFactoryClassLibrary.aslxna.PersCreation
-    Dim NewUnit As ObjectClassLibrary.ASLXNA.PersUniti = UseObjectFactory.CreateNewInstance(ReducesTo, NewName, TargParent)
-            'update new HS with values of previous unit - Do we need all of this
-    Dim UnitUpdateNewWithOld As New UnitUpdateNewOldc(NewUnit, TargParent)
-    If Not IsNothing(TargParent.TargetPersUnit) Then
-                'NewUnit = UseObjectFactory.CreateTargetUnitandProperty(NewUnit)
-    With NewUnit.TargetPersUnit 'TargetPersUnit already created by UnitUpdateNewWithOldc
-            .CombatResultString = Trim(TargParent.BasePersUnit.UnitName) & ": " & TargParent.TargetPersUnit.CombatResultString & " Reduces to " & Trim(NewUnit.BasePersUnit.UnitName) & vbCrLf   'myResultstring & vbCrLf
-    End With
-    End If
-            'now break the HS
-    With NewUnit
-    If Not IsNothing(.TargetPersUnit) Then .TargetPersUnit.OrderStatus = ConstantClassLibrary.ASLXNA.OrderStatus.Broken_DM
-            .BasePersUnit.OrderStatus = ConstantClassLibrary.ASLXNA.OrderStatus.Broken_DM
-            .BasePersUnit.CX = False
-            .BasePersUnit.Pinned = False
-            .BasePersUnit.CombatStatus = ConstantClassLibrary.ASLXNA.CombatStatus.None
-            .BasePersUnit.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.NotMoving
-            .SetTexture()
-    End With
+                    'create the new HS*/
 
-    If IsNothing(TargParent.TargetPersUnit) Then
-    Dim ComFunc = New UtilWObj.ASLXNA.CommonFunctions(TargParent.BasePersUnit.Scenario)
-    Dim FirerSan As Integer = ComFunc.GetEnemySan(TargParent.BasePersUnit.Nationality)
-    TargParent = UseObjectFactory.CreateTargetUnitandProperty(TargParent, FirerSan)
-    End If
-    With TargParent
-                .TargetPersUnit.OrderStatus = ConstantClassLibrary.ASLXNA.OrderStatus.NotInPlay
-            .BasePersUnit.CX = False
-            .BasePersUnit.Pinned = False
-            .BasePersUnit.CombatStatus = ConstantClassLibrary.ASLXNA.CombatStatus.None
-            .BasePersUnit.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.NotMoving
-            .BasePersUnit.Hexnum = 0
-            .BasePersUnit.LOCIndex = 0
-            .BasePersUnit.hexlocation = 0
-            .BasePersUnit.hexPosition = 0
-            .SetTexture()
-    End With
+        int ReducesTo = TargParent.getTargetunit().getReducesTo();
+        String NewName = "";
+        GameModule.getGameModule().getChatter().send("Enter Name of New Half-Squad: " + TargParent.getbaseunit().getUnitName() + " is reduced to a Half-Squad");
+        PersCreation UseObjectFactory = new PersCreation();
+        PersUniti NewUnit = UseObjectFactory.CreateNewInstance(ReducesTo, NewName, TargParent);
+        // update new HS with values of previous unit - Do we need all of this
+        UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
+        if (TargParent.getTargetunit() != null) {  // TargetPersUnit already created by UnitUpdateNewWithOldc
+            //NewUnit = UseObjectFactory.CreateTargetUnitandProperty(NewUnit)
+            NewUnit.getTargetunit().setCombatResultsString(TargParent.getbaseunit().getUnitName() + ": " + TargParent.getTargetunit().getCombatResultsString() + " Reduces to " + NewUnit.getbaseunit().getUnitName());
+        }
+        // 'now break the HS
+        if (NewUnit.getTargetunit() != null) {
+            NewUnit.getTargetunit().setOrderStatus(Constantvalues.OrderStatus.Broken_DM);
+            NewUnit.getbaseunit().setOrderStatus(Constantvalues.OrderStatus.Broken_DM);
+            NewUnit.getbaseunit().setCX(false);
+            NewUnit.getbaseunit().setPinned(false);
+            NewUnit.getbaseunit().setCombatStatus(Constantvalues.CombatStatus.None);
+            NewUnit.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
+        }
+        // put old TargetUnit out of play
+        if (TargParent.getTargetunit() == null) {
+            CommonFunctionsC ComFunc = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
+            int FirerSan = ComFunc.GetEnemySan(TargParent.getbaseunit().getNationality());
+            UseObjectFactory = new PersCreation();
+            TargParent = UseObjectFactory.CreateTargetUnitandProperty(TargParent, FirerSan);
+        }
+        TargParent.getTargetunit().setOrderStatus(Constantvalues.OrderStatus.NotInPlay);
+        TargParent.getbaseunit().setCX(false);
+        TargParent.getbaseunit().setPinned(false);
+        TargParent.getbaseunit().setCombatStatus(Constantvalues.CombatStatus.None);
+        TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
+        TargParent.getbaseunit().setHexnum(0);
+        TargParent.getbaseunit().setLOCIndex(0);
+        TargParent.getbaseunit().sethexlocation(Constantvalues.Location.NA);
+        TargParent.getbaseunit().sethexPosition(Constantvalues.AltPos.None);
 
-            'remove old unit from moving list TOO EARLY - DO THIS LATER
-    If Not IsNothing(TargParent.MovingPersUnit) Then Scencolls.SelMoveUnits.Remove(TargParent)
-            'add new unit to Unitcol collection
-            Scencolls.Unitcol.Add(NewUnit)
-            'Store values to update FireGroup and TargetGroup (maybe add movement?)
-    If Not IsNothing(NewUnit.TargetPersUnit) Then myNewTargs.Add(NewUnit)
-    If Not IsNothing(NewUnit.FiringPersUnit) Then myNewFiring.Add(NewUnit)
+        //'remove old unit from moving list TOO EARLY - DO THIS LATER
+        if (TargParent.getMovingunit() != null) {Scencolls.SelMoveUnits.remove(TargParent);}
+        // add new unit to Unitcol collection
+        Scencolls.Unitcol.add(NewUnit);
+        //'Store values to update FireGroup and TargetGroup (maybe add movement?)
+        if (NewUnit.getTargetunit() !=null) {myNewTargs.add(NewUnit);}
+        if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
 
-            'update SW values
-    With NewUnit
-    Dim SWChange As ObjectChange.ASLXNA.ChangeSWOwnerc
-    If .BasePersUnit.FirstSWLink > 0 Then SWChange = New ObjectChange.ASLXNA.ChangeSWOwnerc(.BasePersUnit.FirstSWLink, .BasePersUnit.Unit_ID)
-    If .BasePersUnit.SecondSWlink > 0 Then SWChange = New ObjectChange.ASLXNA.ChangeSWOwnerc(.BasePersUnit.SecondSWlink, .BasePersUnit.Unit_ID)
-    End With
-            'HoB
-    If NewUnit.TargetPersUnit.HoBFlag Then 'rolled a 2
-    Dim HobChange As Integer = NewUnit.TargetPersUnit.HOBMC()
-    Dim RunStatusChange As ObjectChange.ASLXNA.StatusChangei
-    Dim GetStatusChange = New ObjectChange.ASLXNA.SelectStatusChangec
-            RunStatusChange = GetStatusChange.HoBStatusChange(HobChange, TargParent)
-    If Not IsNothing(RunStatusChange) Then
-                    RunStatusChange.Takeaction(TargParent)
-    Else
-            myPopUpList = GetStatusChange.PopUpItems
-    Return False
-    End If
-    NewUnit.BasePersUnit.OrderStatus = NewUnit.TargetPersUnit.OrderStatus
-                'update Target and Firing lists with new units
-    If Not IsNothing(RunStatusChange.GetNewTargs) Then myNewTargs = RunStatusChange.GetNewTargs
-    End If
-    Return True
-    End Function
+        //update SW values
+        ChangeSWOwnerc SWChange = null;
+        if(NewUnit.getbaseunit().getFirstSWLink() > 0) {SWChange = new ChangeSWOwnerc(NewUnit.getbaseunit().getFirstSWLink(), NewUnit.getbaseunit().getUnit_ID());}
+        if(NewUnit.getbaseunit().getSecondSWLink() > 0) {SWChange = new ChangeSWOwnerc(NewUnit.getbaseunit().getSecondSWLink(), NewUnit.getbaseunit().getUnit_ID());}
 
-    Public ReadOnly Property GetNewTargs As List(Of ObjectClassLibrary.ASLXNA.PersUniti) Implements StatusChangei.GetNewTargs
+        // HoB
+        if (NewUnit.getTargetunit().getHoBFlag()) {   // rolled a 2
+            Constantvalues.PersUnitResult HobChange = NewUnit.getTargetunit().HOBMC();
+            StatusChangei RunStatusChange;
+            SelectStatusChangec GetStatusChange = new SelectStatusChangec();
+            RunStatusChange = GetStatusChange.HoBStatusChange(HobChange, NewUnit);  //VS uses TargParent here?
+            if (RunStatusChange != null ) {
+                RunStatusChange.Takeaction(NewUnit);  //VS uses TargParent here?
+            } else {
+                //myPopUpList = GetStatusChange.PopUpItems; temporary while debugging UNDO
+                return false;
+            }
+            NewUnit.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
+            // update Target and Firing lists with new units
+            if (RunStatusChange.GetNewTargs != null) {myNewTargs = RunStatusChange.GetNewTargs;}
+        }
+        return true;
+    }
+    public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
+    public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+
+    /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get
-    Return myNewTargs
-    End Get
-    End Property
 
-    Public ReadOnly Property GetNewFirings As List(Of ObjectClassLibrary.ASLXNA.PersUniti) Implements StatusChangei.GetNewFirings
-            Get
-    Return myNewFiring
-    End Get
-    End Property
-
-    Public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
-            Get
-    Return myPopUpList
     End Get
     End Property*/
+
 }

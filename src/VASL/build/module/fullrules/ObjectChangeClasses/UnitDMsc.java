@@ -1,14 +1,21 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
-public class UnitDMsc {
-    /*Implements StatusChangei
-    Private myNewTargs As List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    Private myPopUpList As New List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface)
-    Public Sub New()
-    myNewTargs = New List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    End Sub
-    Public Function DMUnit(ByRef TargParent As ObjectClassLibrary.ASLXNA.PersUniti) As Boolean Implements StatusChangei.Takeaction
-            'Name:       TargetDMs()
+import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+
+import java.util.LinkedList;
+
+public class UnitDMsc implements StatusChangei {
+    private LinkedList<PersUniti> myNewTargs = new LinkedList<PersUniti>();
+
+    //Private myPopUpList As New List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface)
+    public UnitDMsc() {
+
+    }
+    public boolean Takeaction(PersUniti TargParent) {
+            /*'Name:       TargetDMs()
 
                     'Identifier UC 208
 
@@ -27,60 +34,50 @@ public class UnitDMsc {
 
                     '            Post conditions
                     '1.
+*/
+        if (TargParent.getTargetunit() == null) {
+            CommonFunctionsC ComFunc = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
+            int FirerSan = ComFunc.GetEnemySan(TargParent.getbaseunit().getNationality());
+            PersCreation UseObjectFactory = new PersCreation();
+            TargParent = UseObjectFactory.CreateTargetUnitandProperty(TargParent, FirerSan);
+        }
+        TargParent.getTargetunit().setOrderStatus(Constantvalues.OrderStatus.Broken_DM);
+        TargParent.getbaseunit().setOrderStatus(Constantvalues.OrderStatus.Broken_DM);
+        TargParent.getbaseunit().setCX(false);
+        TargParent.getbaseunit().setPinned(false);
+        TargParent.getbaseunit().setCombatStatus(Constantvalues.CombatStatus.None);
+        TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
+        TargParent.getTargetunit().UpdateTargetStatus(TargParent);
+        TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() +  " DMs");
 
-    If IsNothing(TargParent.TargetPersUnit) Then
-    Dim ComFunc = New UtilWObj.ASLXNA.CommonFunctions(TargParent.BasePersUnit.Scenario)
-    Dim FirerSan As Integer = ComFunc.GetEnemySan(TargParent.BasePersUnit.Nationality)
-    Dim UseObjectFactory = New ObjectFactoryClassLibrary.aslxna.PersCreation
-            TargParent = UseObjectFactory.CreateTargetUnitandProperty(TargParent, FirerSan)
-    End If
-    With TargParent
-                .TargetPersUnit.OrderStatus = ConstantClassLibrary.ASLXNA.OrderStatus.Broken_DM
-            .BasePersUnit.OrderStatus = ConstantClassLibrary.ASLXNA.OrderStatus.Broken_DM
-            .BasePersUnit.CX = False
-            .BasePersUnit.Pinned = False
-            .BasePersUnit.CombatStatus = ConstantClassLibrary.ASLXNA.CombatStatus.None
-            .BasePersUnit.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.NotMoving
-            .SetTexture()
-            .TargetPersUnit.UpdateTargetStatus(TargParent)
-            .TargetPersUnit.CombatResultString &= " DMs"
-    End With
-            'HoB
-    If TargParent.TargetPersUnit.HoBFlag Then 'rolled a 2
-    Dim HobChange As Integer = TargParent.TargetPersUnit.HOBMC()
-    Dim RunStatusChange As ObjectChange.ASLXNA.StatusChangei
-    Dim GetStatusChange = New ObjectChange.ASLXNA.SelectStatusChangec
-            RunStatusChange = GetStatusChange.HoBStatusChange(HobChange, TargParent)
-    If Not IsNothing(RunStatusChange) Then
-                    RunStatusChange.Takeaction(TargParent)
-    Else
-            myPopUpList = GetStatusChange.PopUpItems
-    Return False
-    End If
-    TargParent.BasePersUnit.OrderStatus = TargParent.TargetPersUnit.OrderStatus
-                'update Target and Firing lists with new units
-    If Not IsNothing(RunStatusChange.GetNewTargs) Then myNewTargs = RunStatusChange.GetNewTargs
-                'If myNewTargs.Count > 0 Then
-                        '    TargParent = myNewTargs.Item(0)
-                        '    myNewTargs.Clear()
-                        'End If
-    End If
-    Return True
-    End Function
+        // HoB
+        if (TargParent.getTargetunit().getHoBFlag()) { // rolled a 2
+            Constantvalues.PersUnitResult HobChange = TargParent.getTargetunit().HOBMC();
+            StatusChangei RunStatusChange;
+            SelectStatusChangec GetStatusChange = new SelectStatusChangec();
+            RunStatusChange = GetStatusChange.HoBStatusChange(HobChange, TargParent);
+            if (RunStatusChange != null ) {
+                RunStatusChange.Takeaction(TargParent);
+            } else {
+                //myPopUpList = GetStatusChange.PopUpItems; temporary while debugging UNDO
+                return false;
+            }
+            TargParent.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
+            // update Target and Firing lists with new units
+            if (RunStatusChange.GetNewTargs != null) {myNewTargs = RunStatusChange.GetNewTargs;}
+        }
+        return true;
+    }
 
-    Public ReadOnly Property GetNewTargs As List(Of ObjectClassLibrary.ASLXNA.PersUniti) Implements StatusChangei.GetNewTargs
-            Get
-    Return myNewTargs
-    End Get
-    End Property
+    public LinkedList<PersUniti> GetNewTargs () {
+        return myNewTargs;
+    }
+    public LinkedList<PersUniti> GetNewFirings () {
+        // no code required; no new unit
+        return null;
+    }
 
-    Public ReadOnly Property GetNewFirings As List(Of ObjectClassLibrary.ASLXNA.PersUniti) Implements StatusChangei.GetNewFirings
-            Get
-                'no code required; no new unit
-    End Get
-    End Property
-
-    Public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
+    /*Public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get
     Return myPopUpList
     End Get

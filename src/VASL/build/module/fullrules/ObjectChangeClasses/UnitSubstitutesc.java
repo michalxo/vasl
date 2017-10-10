@@ -1,16 +1,29 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
-public class UnitSubstitutesc {
-    /*Implements StatusChangei
-    Private Scencolls As ObjectClassLibrary.ASLXNA.ScenarioCollectionsc = ObjectClassLibrary.ASLXNA.ScenarioCollectionsc.GetInstance
-    Private myNewTargs As List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    Private myNewFiring As List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    Private myResultstring As String
-    Public Sub New()
-    myNewTargs = New List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    End Sub
-    Public Function SubstituteUnit(ByRef TargParent As ObjectClassLibrary.ASLXNA.PersUniti) As Boolean Implements StatusChangei.Takeaction
-            'Name:       TargetSubstitutes()
+import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
+import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import VASSAL.build.GameModule;
+
+import java.util.LinkedList;
+
+public class UnitSubstitutesc implements StatusChangei{
+    private LinkedList<PersUniti> myNewTargs = new LinkedList<PersUniti>();
+    private LinkedList<PersUniti> myNewFiring = new LinkedList<PersUniti>();
+    private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+    private String myResultstring;
+    //private myPopUpList As New List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface)
+
+
+    public UnitSubstitutesc() {
+
+    }
+
+    public boolean Takeaction (PersUniti TargParent) {
+            /*'Name:       TargetSubstitutes()
 
                     'Identifier UC 214
 
@@ -33,95 +46,90 @@ public class UnitSubstitutesc {
                     '            Post conditions
                     '1.
 
-                    'create the new units
-    For x = 1 To 2
-    Dim SubsTo As Integer = TargParent.TargetPersUnit.SubTo
-    Dim NewName As String = InputBox("Enter Name of New Unit: ", TargParent.BasePersUnit.UnitName & " substitutes: create two half-squads", )
-    Dim UseObjectFactory = New ObjectFactoryClassLibrary.aslxna.PersCreation
-    Dim NewUnit As ObjectClassLibrary.ASLXNA.PersUniti = UseObjectFactory.CreateNewInstance(SubsTo, NewName, TargParent)
-            'update new unit with values of previous unit - Do we need all of this
-    Dim UnitUpdateNewWithOld As New UnitUpdateNewOldc(NewUnit, TargParent)
-    If Not IsNothing(TargParent.TargetPersUnit) Then
-                    'NewUnit = UseObjectFactory.CreateTargetUnitandProperty(NewUnit)
-    With NewUnit.TargetPersUnit 'TargetPersUnit already created by UnitUpdateNewWithOldc
-            .CombatResultString = Trim(TargParent.BasePersUnit.UnitName) & ": " & TargParent.TargetPersUnit.CombatResultString & " is replaced by " & Trim(NewUnit.BasePersUnit.UnitName) & vbCrLf ' & myResultstring & vbCrLf
-    End With
-                    'update SW values
-    With NewUnit
-    If TargParent.BasePersUnit.FirstSWLink > 0 Then
-    Dim SWItem As Integer = TargParent.BasePersUnit.FirstSWLink
-    Dim SWtoChange As ObjectClassLibrary.ASLXNA.SuppWeapi = (From getsw As ObjectClassLibrary.ASLXNA.SuppWeapi In Scencolls.SWCol Where getsw.BaseSW.Unit_ID = SWItem Select getsw).First
-    Dim SWName As String = SWtoChange.BaseSW.UnitName
-    Dim Response As System.Windows.Forms.DialogResult = System.Windows.Forms.MessageBox.Show("Does " & NewUnit.BasePersUnit.UnitName & " take possession of " & SWName & "?", "Unit Substitution", Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question)
-    If (Response = System.Windows.Forms.DialogResult.Yes) Then
-    Dim ChangeSWPoss As StatusChangei = New UnitPossessesSWc(SWItem)
-                                ChangeSWPoss.Takeaction(NewUnit)
-    TargParent.BasePersUnit.FirstSWLink = 0
-    End If
-    End If
-    If TargParent.BasePersUnit.SecondSWlink > 0 Then
-    Dim SWItem As Integer = TargParent.BasePersUnit.SecondSWlink
-    Dim SWtoChange As ObjectClassLibrary.ASLXNA.SuppWeapi = (From getsw As ObjectClassLibrary.ASLXNA.SuppWeapi In Scencolls.SWCol Where getsw.BaseSW.Unit_ID = SWItem Select getsw).First
-    Dim SWName As String = SWtoChange.BaseSW.UnitName
-    Dim Response As System.Windows.Forms.DialogResult = System.Windows.Forms.MessageBox.Show("Does " & NewUnit.BasePersUnit.UnitName & " take possession of " & SWName & "?", "Unit Substitution", Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question)
-    If (Response = System.Windows.Forms.DialogResult.Yes) Then
-    Dim ChangeSWPoss As StatusChangei = New UnitPossessesSWc(SWItem)
-                                ChangeSWPoss.Takeaction(NewUnit)
-    TargParent.BasePersUnit.SecondSWlink = 0
-    End If
-    End If
-    End With
-    End If
+                    'create the new units*/
+        for (int x = 1; x < 3; x++) {
+            int SubsTo = TargParent.getTargetunit().getSubstitutesTo();
+            String NewName = "";
+            GameModule.getGameModule().getChatter().send("Enter Name of New Unit: " + TargParent.getbaseunit().getUnitName() + " substitutes: create two half-squads");
+            PersCreation UseObjectFactory = new PersCreation();
+            PersUniti NewUnit = UseObjectFactory.CreateNewInstance(SubsTo, NewName, TargParent);
+            // update new unit with values of previous unit - Do we need all of this
+            UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
+            if (TargParent.getTargetunit() != null) {
+                // NewUnit = UseObjectFactory.CreateTargetUnitandProperty(NewUnit)
+                NewUnit.getTargetunit().setCombatResultsString(TargParent.getbaseunit().getUnitName() + ": " + TargParent.getTargetunit().getCombatResultsString() + " is replaced by " + NewUnit.getbaseunit().getUnitName());
+                // TargetPersUnit already created by UnitUpdateNewWithOldc
+            }
 
-                'change values for former unit
-    If x = 2 Then 'do on second pass to ensure current values passed to both new units
-    If IsNothing(TargParent.TargetPersUnit) Then
-    Dim ComFunc = New UtilWObj.ASLXNA.CommonFunctions(TargParent.BasePersUnit.Scenario)
-    Dim FirerSan As Integer = ComFunc.GetEnemySan(TargParent.BasePersUnit.Nationality)
-    TargParent = UseObjectFactory.CreateTargetUnitandProperty(TargParent, FirerSan)
-    End If
-    With TargParent
-                        .TargetPersUnit.OrderStatus = ConstantClassLibrary.ASLXNA.OrderStatus.NotInPlay
-            .BasePersUnit.CX = False
-            .BasePersUnit.Pinned = False
-            .BasePersUnit.CombatStatus = ConstantClassLibrary.ASLXNA.CombatStatus.None
-            .BasePersUnit.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.NotMoving
-                        '.BasePersUnit.Hexnum = 0
-                                '.BasePersUnit.LOCIndex = 0
-                                '.BasePersUnit.hexlocation = 0
-                                '.BasePersUnit.hexPosition = 0
-                                '.BasePersUnit.FirstSWLink = 0
-                                '.BasePersUnit.SecondSWlink = 0
-                                .BasePersUnit.SW = 0
-            .SetTexture()
-                        .TargetPersUnit.UpdateTargetStatus(TargParent)
-            '.TargetPersUnit.CombatResultString &= "Reduces to " & Trim(NewUnit.BasePersUnit.UnitName)
-    End With
-    End If
-                'remove old unit from moving list TOO EARLY - DO THIS LATER
-    If Not IsNothing(TargParent.MovingPersUnit) Then Scencolls.SelMoveUnits.Remove(TargParent)
-            'add new unit to Unitcol collection
-            Scencolls.Unitcol.Add(NewUnit)
-            'Store values to update FireGroup and TargetGroup (maybe add movement?)
-    If Not IsNothing(NewUnit.TargetPersUnit) Then myNewTargs.Add(NewUnit)
-    If Not IsNothing(NewUnit.FiringPersUnit) Then myNewFiring.Add(NewUnit)
-    Next
-            'NO HoB as can't produce necessary conditions for ELR5 substitution on a 2 roll
-    End Function
+            // update SW values
+            if(TargParent.getbaseunit().getFirstSWLink() > 0) {
+                int SWItem = TargParent.getbaseunit().getFirstSWLink();
+                SuppWeapi SWtoChange = null;
+                for (SuppWeapi TestSW: Scencolls.SWCol){
+                    if (TestSW.getbaseSW().getUnit_ID() == SWItem) {
+                        SWtoChange = TestSW;
+                        break;
+                    }
+                }
+                String SWName = SWtoChange.getbaseSW().getUnitName();
+                GameModule.getGameModule().getChatter().send("Does " + NewUnit.getbaseunit().getUnitName() + " take possession of " + SWName + "?" + "Unit Substitution");
+                //If(Response = System.Windows.Forms.DialogResult.Yes) Then
+                StatusChangei ChangeSWPoss = new UnitPossessesSWc(SWItem);
+                ChangeSWPoss.Takeaction(NewUnit);
+                TargParent.getbaseunit().setFirstSWLink(0);
+            }
+            if(TargParent.getbaseunit().getSecondSWLink() > 0) {
+                int SWItem = TargParent.getbaseunit().getSecondSWLink();
+                SuppWeapi SWtoChange = null;
+                for (SuppWeapi TestSW: Scencolls.SWCol){
+                    if (TestSW.getbaseSW().getUnit_ID() == SWItem) {
+                        SWtoChange = TestSW;
+                        break;
+                    }
+                }
+                String SWName = SWtoChange.getbaseSW().getUnitName();
+                GameModule.getGameModule().getChatter().send("Does " + NewUnit.getbaseunit().getUnitName() + " take possession of " + SWName + "?" + "Unit Substitution");
+                //If(Response = System.Windows.Forms.DialogResult.Yes) Then
+                StatusChangei ChangeSWPoss = new UnitPossessesSWc(SWItem);
+                ChangeSWPoss.Takeaction(NewUnit);
+                TargParent.getbaseunit().setSecondSWLink(0);
+            }
 
-    Public ReadOnly Property GetNewTargs As List(Of ObjectClassLibrary.ASLXNA.PersUniti) Implements StatusChangei.GetNewTargs
-            Get
-    Return myNewTargs
-    End Get
-    End Property
+            // change values for former unit
+            if (x == 2) { // do on second pass to ensure current values passed to both new units
+                if (TargParent.getTargetunit() == null) {
+                    CommonFunctionsC ComFunc = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
+                    int FirerSan = ComFunc.GetEnemySan(TargParent.getbaseunit().getNationality());
+                    TargParent = UseObjectFactory.CreateTargetUnitandProperty(TargParent, FirerSan);
+                }
 
-    Public ReadOnly Property GetNewFirings As List(Of ObjectClassLibrary.ASLXNA.PersUniti) Implements StatusChangei.GetNewFirings
-            Get
-    Return myNewFiring
-    End Get
-    End Property
+                TargParent.getTargetunit().setOrderStatus(Constantvalues.OrderStatus.NotInPlay);
+                TargParent.getbaseunit().setCX(false);
+                TargParent.getbaseunit().setPinned(false);
+                TargParent.getbaseunit().setCombatStatus(Constantvalues.CombatStatus.None);
+                TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
+                TargParent.getbaseunit().setFirstSWLink(0);
+                TargParent.getbaseunit().setSecondSWLink(0);
+                TargParent.getbaseunit().setnumSW(0);
+                TargParent.getTargetunit().UpdateTargetStatus(TargParent);
+            }
 
-    Public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
+            // remove old unit from moving list TOO EARLY - DO THIS LATER
+            if (TargParent.getMovingunit() != null) {Scencolls.SelMoveUnits.remove(TargParent);}
+            // add new unit to Unitcol collection
+            Scencolls.Unitcol.add(NewUnit);
+            // Store values to update FireGroup and TargetGroup (maybe add movement?)
+            if (NewUnit.getTargetunit() != null) {myNewTargs.add(NewUnit);}
+            if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
+        }
+        // NO HoB as can' t produce necessary conditions for ELR5 substitution on a 2 roll
+        return true;
+    }
+
+        public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
+        public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+
+    /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get
 
     End Get

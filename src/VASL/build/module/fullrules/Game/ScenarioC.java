@@ -425,8 +425,8 @@ public class ScenarioC extends CampaignC {
 //        TerrainActions = new TerrainActionsC();
 //        TerrainActions.ShowTerrainCounters();
         UnitActions = new UnitActionsC(Linqdata, this);
-        VehicleActions = new VehicleActionsC(Linqdata, this);
-        SWActions = new SWActionsC(Linqdata, this);
+        //VehicleActions = new VehicleActionsC(Linqdata, this);
+        //SWActions = new SWActionsC(Linqdata, this);
 //        ConcealActions = new ConcealActionsC();
         return true;
     }

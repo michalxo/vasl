@@ -32,99 +32,136 @@ public class PersCreation {
 
         Constantvalues.Utype PassUtype = Constantvalues.Utype.None;
         Constantvalues.UClass PassClass = Constantvalues.UClass.NONE;
-        PersUniti NewLeader;   // used in SMC creation process
+        PersUniti NewLeader = null;   // used in SMC creation process
         int UseLOBLink;
         // set variables
         if (unititem != null) {   // item is infantry
             UseLOBLink = (int) (unititem.getLOBLink());
-            // test values
-            PassUtype = Constantvalues.Utype.Squad;  // (java.lang.Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.UNITTYPE, UseLOBLink)));
-            PassClass = Constantvalues.UClass.FIRSTLINE; //(java.lang.Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.UNITCLASS, UseLOBLink)));
         } else { // item is concealment
             UseLOBLink = 0; // conitem.getNationality() + 2000;
         }
         switch (UseLOBLink) {
             case 1:
             case 2:
-                return new German838c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(), unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
-                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel, (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(), 2, unititem.getCombatStatus(),
-                        unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(), unititem.getPinned(), (int) unititem.getSW(), PassClass, unititem.getCharacterStatus(), PassUtype, unititem.getRoleStatus());
+                return new German838c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        2, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(),
+                        unititem.getMovementStatus(), unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ENGINEER, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
 
-            /*case 4:
-            return new
-            ObjectClassLibrary.ASLXNA.German548c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 4, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))*/
+            case 4:
+                return new German548c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        4, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(),
+                        unititem.getMovementStatus(), unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 5:
-                return new German467c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(), unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
-                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel, (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(), 5, unititem.getCombatStatus(),
-                        unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(), unititem.getPinned(), (int) unititem.getSW(), PassClass, unititem.getCharacterStatus(), PassUtype, unititem.getRoleStatus());
+                return new German467c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        5, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
 
-            /*case 9
-            return new
-            ObjectClassLibrary.ASLXNA.German338c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 9, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
+            case 9:
+                return new German338c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                    unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                    9, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ENGINEER, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
             case 11:
-            return new
-            ObjectClassLibrary.ASLXNA.German238c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 11, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
+                return new German238c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        11, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
             case 12:
-            return new
-            ObjectClassLibrary.ASLXNA.German247c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 12, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
+                return new German247c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        12, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
+
             case 13:
-            return new
-            ObjectClassLibrary.ASLXNA.German237c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 13, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
+                return new German237c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        13, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.SECONDLINE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
+
             case 25:
-            return new
-            ObjectClassLibrary.ASLXNA.Russian628c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 25, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
+                return new Russian628c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        25, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ENGINEER, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 26:
-            return new
-            ObjectClassLibrary.ASLXNA.Russian458c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 26, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            */
-            case 27:             return new Russian447c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(), unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
-                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel, (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(), 27, unititem.getCombatStatus(),
-                    unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(), unititem.getPinned(), (int) unititem.getSW(), PassClass, unititem.getCharacterStatus(), PassUtype, unititem.getRoleStatus());
-/*case 28
-            return new
-            ObjectClassLibrary.ASLXNA.Russian527c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 28, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            case 29
-            return new
-            ObjectClassLibrary.ASLXNA.Russian426c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 29, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
+                return new Russian458c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        26, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
+
+            case 27:
+                return new Russian447c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        27, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
+
+            case 28:
+                return new Russian527c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        28, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
+            case 29:
+                return new Russian426c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                    unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                    29, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.CONSCRIPT, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 31:
-            return new
-            ObjectClassLibrary.ASLXNA.Russian248c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 31, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
+                return new Russian248c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                    unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                    31, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
             case 32:
-            return new
-            ObjectClassLibrary.ASLXNA.Russian237c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 32, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            case 33
-            return new
-            ObjectClassLibrary.ASLXNA.Russian227c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 33, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
+                return new Russian237c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                    unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                    32, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
+            case 33:
+                return new Russian227c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                    unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                    33, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
+
             case 34:
-            return new
-            ObjectClassLibrary.ASLXNA.Russian226c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 34, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            case 136:
+                return new Russian226c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                    unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                    34, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.CONSCRIPT, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
+            /*case 136:
             return new
             ObjectClassLibrary.ASLXNA.PrisonerSquadc(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
                     CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 136, CInt(unititem.CombatStatus),
@@ -149,65 +186,88 @@ public class PersCreation {
             ObjectClassLibrary.ASLXNA.GermanDummyc(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
                     CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 203, CInt(unititem.CombatStatus),
                     CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            'where case is above 1000, creating SMC and must differentiate again by Nationality - better structure?
+            */
+            // where case is above 1000, creating SMC and must differentiate again by Nationality - better structure?
             case 1004:
-            switch (unititem.Nationality) {
-                case ConstantClassLibrary.ASLXNA.Nationality.Germans
-                        NewLeader = new
-                ObjectClassLibrary.ASLXNA.German8_1c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                        CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 1004, CInt(unititem.CombatStatus),
-                        CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-                case ConstantClassLibrary.ASLXNA.Nationality.Russians
-                        NewLeader = new
-                ObjectClassLibrary.ASLXNA.Russian8_1c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                        CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 1004, CInt(unititem.CombatStatus),
-                        CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            }
-            If Not IsNothing(NewLeader) Then return NewLeader Else return Nothing
+                switch (unititem.getNationality()) {
+                    case Germans:
+                        NewLeader = new German8_1c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                                unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                                (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                                (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                                1004, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                                unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Leader, unititem.getRoleStatus());
+                        break;
+                    case Russians:
+                        NewLeader = new Russian8_1c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                                unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                                (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                                (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                                1004, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                                unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Leader, unititem.getRoleStatus());
+                        break;
+                }
+                if (NewLeader != null) {
+                    return NewLeader;
+                } else {
+                    return null;
+                }
             case 1101:
-            switch unititem.Nationality
-            case ConstantClassLibrary.ASLXNA.Nationality.Russians:
-            return new
-            ObjectClassLibrary.ASLXNA.Russian138c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 1101, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            End Select
+                switch (unititem.getNationality()) {
+                    case Russians:
+                        return new Russian138c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                                unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                                (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                                (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                                1101, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                                unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Hero, unititem.getRoleStatus());
+                }
             case 1102:
-            switch unititem.Nationality
-            case ConstantClassLibrary.ASLXNA.Nationality.Russians:
-            return new
-            ObjectClassLibrary.ASLXNA.Russian149c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 1102, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            End Select
+                switch (unititem.getNationality()) {
+                    case Russians:
+                        return new Russian149c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                                unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                                (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                                (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                                1102, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                                unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Hero, unititem.getRoleStatus());
+                }
             case 1124:
-            switch unititem.Nationality
-            case ConstantClassLibrary.ASLXNA.Nationality.Germans:
-                    NewLeader = new
-            ObjectClassLibrary.ASLXNA.German8_1c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 1004, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            case ConstantClassLibrary.ASLXNA.Nationality.Russians:
-                    NewLeader = new
-            ObjectClassLibrary.ASLXNA.Russian8_1c(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
-                    CInt(unititem.TurnArrives), CInt(unititem.Nationality), unititem.Con_ID, unititem.OBUnit_ID, ConstantClassLibrary.ASLXNA.Typetype.Personnel, CInt(unititem.FirstSWLink), CInt(unititem.SecondSWlink), CInt(unititem.HexEnteredSideCrossedLastMove), 0, unititem.OBName, 1004, CInt(unititem.CombatStatus),
-                    CInt(unititem.VisibilityStatus), CInt(unititem.FortitudeStatus), CInt(unititem.OrderStatus), CInt(unititem.MovementStatus), unititem.Pinned, CInt(unititem.SW), PassClass, CInt(unititem.CharacterStatus), PassUtype, CInt(unititem.RoleStatus))
-            End Select
-            If IsNothing (NewLeader) Then return Nothing
-            'now must decorate it
-            Dim DecNewLeader As ObjectClassLibrary.ASLXNA.PersunitDecoratori
-                    DecNewLeader = new ObjectClassLibrary.ASLXNA.PersunitHeroicldrc(NewLeader)
-            If Not IsNothing(NewLeader.BasePersUnit) Then DecNewLeader.BasePersUnit = new
-            ObjectClassLibrary.ASLXNA.BaseHeroicLdrc(NewLeader.BasePersUnit)
-            return DecNewLeader
-            case 4002:
+                switch (unititem.getNationality()) {
+                    case Germans:
+                        NewLeader = new German8_1c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                                unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                                (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                                (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                                1004, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                                unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Leader, unititem.getRoleStatus());
+                        break;
+                    case Russians:
+                        NewLeader = new Russian8_1c(unititem.getHexname(), unititem.getScenario(), (int) unititem.gethexnum(), unititem.gethexlocation(), unititem.getPosition(),
+                                unititem.getLevelinHex(), unititem.getLocIndex(), unititem.getCX(), (int) unititem.getELR(),
+                                (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                                (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                                1004, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                                unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Leader, unititem.getRoleStatus());
+                        break;
+                }
+                if (NewLeader == null) {return null;}
+                //now must decorate it
+                PersunitDecoratorac DecNewLeader;
+                DecNewLeader = new PersunitHeroicldrc(NewLeader);
+                /*if (NewLeader.getbaseunit() != null) {
+                    DecNewLeader.setbaseunit() = new BaseHeroicLdrc(NewLeader.getbaseunit());
+                    return DecNewLeader;
+                }*/
+            /*case 4002:
             return new
             ObjectClassLibrary.ASLXNA.RussianConc(conitem.Hexname, conitem.Scenario, conitem.hexnum, conitem.Hexlocation, conitem.Position, CSng(conitem.LevelinHex), conitem.LocIndex, CBool(conitem.CX), 0, 0, ConstantClassLibrary.ASLXNA.Nationality.Russians,
                     0, CInt(conitem.Con_ID), ConstantClassLibrary.ASLXNA.Typetype.Concealment, 0, 0, CInt(conitem.HexEnteredSideCrossedLastMove), 0, conitem.Concounter, ConstantClassLibrary.ASLXNA.Nationality.Russians + 2000, 0, ConstantClassLibrary.ASLXNA.VisibilityStatus.Concealed, conitem.FortitudeStatus, 0, CInt(conitem.MovementStatus), False, 0, PassClass, 0, 0, 0)
             case 4003:
             return new
             ObjectClassLibrary.ASLXNA.GermanConc(conitem.Hexname, conitem.Scenario, conitem.hexnum, conitem.Hexlocation, conitem.Position, CSng(conitem.LevelinHex), conitem.LocIndex, CBool(conitem.CX), 0, 0, ConstantClassLibrary.ASLXNA.Nationality.Germans,
-                    0, CInt(conitem.Con_ID), ConstantClassLibrary.ASLXNA.Typetype.Concealment, 0, 0, CInt(conitem.HexEnteredSideCrossedLastMove), 0, conitem.Concounter, ConstantClassLibrary.ASLXNA.Nationality.Germans + 2000, 0, ConstantClassLibrary.ASLXNA.VisibilityStatus.Concealed, conitem.FortitudeStatus, 0, CInt(conitem.MovementStatus), False, 0, PassClass, 0, 0, 0)*/
+                    0, CInt(conitem.Con_ID), ConstantClassLibrary.ASLXNA.Typetype.Concealment, 0, 0, CInt(conitem.HexEnteredSideCrossedLastMove), 0, conitem.Concounter, ConstantClassLibrary.ASLXNA.Nationality.Germans + 2000, 0, ConstantClassLibrary.ASLXNA.VisibilityStatus.Concealed, conitem.FortitudeStatus, 0, CInt(conitem.MovementStatus), False, 0, PassClass, 0, 0, 0)
+            */
         }
         return null;
     }

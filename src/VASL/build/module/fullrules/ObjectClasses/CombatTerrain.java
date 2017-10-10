@@ -261,7 +261,7 @@ public class CombatTerrain  extends BaseHex {
             // no scenario features currently exist in this scenario
             ScenFeatTEM = 0;
             FeatureName = "";
-            GameModule.getGameModule().getChatter().send("No Scenario Terrain currently exists in the game: CombatTerrain.GetScenFeatTEM");
+            //GameModule.getGameModule().getChatter().send("No Scenario Terrain currently exists in the game: CombatTerrain.GetScenFeatTEM");
         } else {
             for (ScenarioTerrain ScenFeat: Linqdata.getScenFeatcol()){
                 // need to check each ScenFeat as more than one can

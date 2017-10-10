@@ -1,56 +1,81 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
-public class UnitPossessesSWc {
-    /*Implements StatusChangei
-    Private mySWtoPossess As Integer
-    Private Linqdata As DataClassLibrary.ASLXNA.DataC = DataClassLibrary.ASLXNA.DataC.GetInstance
-    Public Sub New(ByVal SWToPossess As Integer)
-    mySWtoPossess = SWToPossess
-    End Sub
-    Public Function PossessSW(ByRef GettingUnit As ObjectClassLibrary.ASLXNA.PersUniti) As Boolean Implements StatusChangei.Takeaction
-            'called by SWChangePoss.MoveOK and others
-                    'possesses SW and update OB, OBSW, and Unpossessed
-    Dim Scencolls = ObjectClassLibrary.ASLXNA.ScenarioCollectionsc.GetInstance
-    Dim SWtoCheck As ObjectClassLibrary.ASLXNA.SuppWeapi : Dim SWChange As ObjectChange.ASLXNA.ChangeSWOwnerc
-    If mySWtoPossess = 0 Then Return False 'no SW found
-    SWtoCheck = (From getsw As ObjectClassLibrary.ASLXNA.SuppWeapi In Scencolls.SWCol Where getsw.BaseSW.Unit_ID = mySWtoPossess Select getsw).First
-    If IsNothing(SWtoCheck) Then Return False
-    If GettingUnit.BasePersUnit.SW = 2 Then Return False 'cannot possess an additional sw
-    Dim OBSWname As String = SWtoCheck.BaseSW.UnitName
-    GettingUnit.BasePersUnit.SW += CShort(1)
-    If GettingUnit.BasePersUnit.FirstSWLink = 0 Then
-    GettingUnit.BasePersUnit.FirstSWLink = mySWtoPossess
-            SWChange = New ObjectChange.ASLXNA.ChangeSWOwnerc(GettingUnit.BasePersUnit.FirstSWLink, GettingUnit.BasePersUnit.Unit_ID)
-    Else
-    GettingUnit.BasePersUnit.SecondSWlink = mySWtoPossess
-            SWChange = New ObjectChange.ASLXNA.ChangeSWOwnerc(GettingUnit.BasePersUnit.SecondSWlink, GettingUnit.BasePersUnit.Unit_ID)
-    End If
-    MsgBox(Trim(GettingUnit.BasePersUnit.UnitName) & " gains " & Trim(SWtoCheck.BaseSW.UnitName))
-    Dim SWHexloc = New CombatTerrainClassLibrary.ASLXNA.HexAndLocHolder(CInt(SWtoCheck.BaseSW.Hexnum), CInt(SWtoCheck.BaseSW.hexlocation))
-    Return True
-            'Delete Unpossessed
-    Try
-    Dim DelUnpossessed As DataClassLibrary.Unpossessed = (From GetUnposs As DataClassLibrary.Unpossessed In Scencolls.Unpossesseds Where GetUnposs.EquipmentID = mySWtoPossess Select GetUnposs).First
-                Scencolls.Unpossesseds.Remove(DelUnpossessed)
-    Catch
-                'do nothing, no unpossessed exists
-    End Try
+import VASL.build.module.fullrules.DataClasses.DataC;
+import VASL.build.module.fullrules.DataClasses.Unpossessed;
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
+import VASSAL.build.GameModule;
 
-    End Function
+import java.util.LinkedList;
 
-    Public ReadOnly Property GetNewTargs As List(Of ObjectClassLibrary.ASLXNA.PersUniti) Implements StatusChangei.GetNewTargs
-            Get
+public class UnitPossessesSWc implements StatusChangei {
 
-    End Get
-    End Property
+    private int mySWtoPossess;
+    private DataC Linqdata = DataC.GetInstance();
+    private LinkedList<PersUniti> myNewTargs = new LinkedList<PersUniti>();
+    //private myPopUpList As New List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface)
 
-    Public ReadOnly Property GetNewFirings As List(Of ObjectClassLibrary.ASLXNA.PersUniti) Implements StatusChangei.GetNewFirings
-            Get
+    public UnitPossessesSWc(int SWToPossess) {
+        mySWtoPossess = SWToPossess;
+    }
+    public boolean Takeaction(PersUniti GettingUnit) {
+        // called by SWChangePoss.MoveOK and others
+        // possesses SW and update OB, OBSW, and Unpossessed
+        ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+        SuppWeapi SWtoCheck = null;
+        ChangeSWOwnerc SWChange;
+        if (mySWtoPossess == 0) {
+            return false;
+        }  // no SW found
+        for (SuppWeapi TestSW: Scencolls.SWCol){
+            if (TestSW.getbaseSW().getUnit_ID() == mySWtoPossess) {
+                SWtoCheck = TestSW;
+                break;
+            }
+        }
+        if (SWtoCheck == null) {
+            return false;
+        }
+        if (GettingUnit.getbaseunit().getnumSW() == 2) {
+            return false;
+        } // cannot possess an additional sw
+        String OBSWname = SWtoCheck.getbaseSW().getUnitName();
+        GettingUnit.getbaseunit().setnumSW(GettingUnit.getbaseunit().getnumSW() + 1);
+        if (GettingUnit.getbaseunit().getFirstSWLink() == 0) {
+            GettingUnit.getbaseunit().setFirstSWLink(mySWtoPossess);
+            SWChange = new ChangeSWOwnerc(GettingUnit.getbaseunit().getFirstSWLink(), GettingUnit.getbaseunit().getUnit_ID());
+        } else {
+            GettingUnit.getbaseunit().setSecondSWLink(mySWtoPossess);
+            SWChange = new ChangeSWOwnerc(GettingUnit.getbaseunit().getSecondSWLink(), GettingUnit.getbaseunit().getUnit_ID());
+        }
+        GameModule.getGameModule().getChatter().send(GettingUnit.getbaseunit().getUnitName() + " gains " + SWtoCheck.getbaseSW().getUnitName());
+        //Dim SWHexloc = New CombatTerrainClassLibrary.ASLXNA.HexAndLocHolder(CInt(SWtoCheck.BaseSW.Hexnum), CInt(SWtoCheck.BaseSW.hexlocation))
 
-    End Get
-    End Property
+        // Delete Unpossessed
+        try {
+            Unpossessed DelUnpossessed = null;
+            for (Unpossessed TestUnpossessed: Scencolls.Unpossesseds) {
+                if (TestUnpossessed.getEquipmentID() == mySWtoPossess) {
+                    DelUnpossessed = TestUnpossessed;
+                    break;
+                }
+            }
+            Scencolls.Unpossesseds.remove(DelUnpossessed);
+        } catch (Exception e) {
+            // do nothing, no unpossessed exists
+        }
+        return true;
+    }
 
-    Public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
+    public LinkedList<PersUniti> GetNewTargs () {
+            return myNewTargs;
+    }
+    public LinkedList<PersUniti> GetNewFirings () {
+        // no code required; no new unit
+        return null;
+    }
+    /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get
 
     End Get

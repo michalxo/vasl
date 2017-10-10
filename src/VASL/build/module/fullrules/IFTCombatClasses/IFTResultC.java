@@ -119,6 +119,8 @@ public class IFTResultC implements IFTResulti {
                 }
             }
             FDR = DR.getColored() + DR.getWhite() + SameTarget.get(0).getTargetunit().getAttackedbydrm();
+            //test code
+            FDR=6;
             if (FDR > 15) {
                 IFTTableResult = Constantvalues.IFTResult.NR;
             } else {
@@ -148,13 +150,13 @@ public class IFTResultC implements IFTResulti {
         // test code
         for (PersUniti Targtest: TargGroup) {
             FDR = DR.getColored() + DR.getWhite() + Targtest.getTargetunit().getAttackedbydrm();
-            String MSG = "Attacked by " + Integer.toString(Targtest.getTargetunit().getAttackedbyFP()) + " FP with " + Integer.toString(Targtest.getTargetunit().getAttackedbydrm()) + " drm && a FDR of " + Integer.toString(FDR);
-            //MSG += "drm = " + Targtest.getTargetunit().getAttackedbydrm().ToString & vbCrLf
-            //MSG &= "FDR = " & FDR.ToString & vbCrLf & vbCrLf
+            // report combat result
+            FDR=6;
+            String MSG =  "FDR = " + Integer.toString(FDR) + ", ";
             CombatUtil CombatInfo = new CombatUtil();
-            MSG += "IFT result is " + CombatInfo.IFTResultstring(Targtest.getTargetunit().getIFTResult());
+            MSG += "result is " + CombatInfo.IFTResultstring(Targtest.getTargetunit().getIFTResult()) + ": ";
             Targtest.getTargetunit().setCombatResultsString(MSG);
-            GameModule.getGameModule().getChatter().send(MSG);
+            //GameModule.getGameModule().getChatter().send(MSG);
         }
 
         // ROF

@@ -1,15 +1,22 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
-public class UnitReducesReplacesc {
-    /*Implements StatusChangei
-    Private myNewTargs As List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    Private myNewFiring As List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    Private myResultstring As String
-    Public Sub New()
-    myNewTargs = New List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    End Sub
-    Public Function ReduceReplaceUnit(ByRef TargParent As ObjectClassLibrary.ASLXNA.PersUniti) As Boolean Implements StatusChangei.Takeaction
-            'Name:       TargetReduces()
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+
+import java.util.LinkedList;
+
+public class UnitReducesReplacesc implements StatusChangei {
+    private LinkedList<PersUniti> myNewTargs = new LinkedList<PersUniti>();
+    private LinkedList<PersUniti> myNewFiring = new LinkedList<PersUniti>();
+    private String myResultstring;
+    //private myPopUpList As New List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface)
+
+    public UnitReducesReplacesc() {
+
+    }
+
+    public boolean Takeaction (PersUniti TargParent) {
+            /*'Name:       TargetReduces()
 
                     'Identifier UC 203
 
@@ -52,34 +59,26 @@ public class UnitReducesReplacesc {
                     'Condition:
 
                     '            Post conditions
-                    '1.
-    Dim PassHoBCHeck As Boolean = False 'Hob test done by last unitchange
-    Dim RunFirstChange As ObjectChange.ASLXNA.StatusChangei = New ObjectChange.ASLXNA.UnitReplacesc(PassHoBCHeck)
-            RunFirstChange.Takeaction(TargParent)
-            'myNewTargs = RunFirstChange.GetNewTargs
-    TargParent = RunFirstChange.GetNewTargs.Item(0)
-    myResultstring = TargParent.TargetPersUnit.CombatResultString
-            PassHoBCHeck = True 'HOB test done by last unitchange
-    Dim RunnextChange As ObjectChange.ASLXNA.StatusChangei = New ObjectChange.ASLXNA.UnitReducesc(myResultstring, PassHoBCHeck)
-            RunnextChange.Takeaction(TargParent)
-    myNewFiring = RunnextChange.GetNewFirings
-            myNewTargs = RunnextChange.GetNewTargs
-            'No HoB - done by UnitReducesc
-    End Function
+                    '1.*/
+        boolean PassHoBCHeck = false; // Hob test done by last unitchange
+        StatusChangei RunFirstChange = new UnitReplacesc(PassHoBCHeck);
+        RunFirstChange.Takeaction(TargParent);
+        // myNewTargs = RunFirstChange.GetNewTargs
+        TargParent =RunFirstChange.GetNewTargs.get(0);
+        myResultstring = TargParent.getTargetunit().getCombatResultsString();
+        PassHoBCHeck = true; // HOB test done by last unitchange
+        StatusChangei RunnextChange = new UnitReducesc(myResultstring,PassHoBCHeck);
+        RunnextChange.Takeaction(TargParent);
+        myNewFiring = RunnextChange.GetNewFirings;
+        myNewTargs = RunnextChange.GetNewTargs;
+        // No HoB - done by UnitReducesc
+        return true;
+    }
 
-    Public ReadOnly Property GetNewTargs As List(Of ObjectClassLibrary.ASLXNA.PersUniti) Implements StatusChangei.GetNewTargs
-            Get
-    Return myNewTargs
-    End Get
-    End Property
+    public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
+    public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
 
-    Public ReadOnly Property GetNewFirings As List(Of ObjectClassLibrary.ASLXNA.PersUniti) Implements StatusChangei.GetNewFirings
-            Get
-    Return myNewFiring
-    End Get
-    End Property
-
-    Public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
+    /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get
 
     End Get

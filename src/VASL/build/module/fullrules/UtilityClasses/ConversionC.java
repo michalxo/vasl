@@ -1,5 +1,6 @@
 package VASL.build.module.fullrules.UtilityClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 
 public class ConversionC {
@@ -963,6 +964,687 @@ public class ConversionC {
         }
     }
 
+    public Constantvalues.Location getLocationtypefromVASLLocation(Location SeeLOSLoc){
+
+            if ((SeeLOSLoc.getTerrain().getName()).equals("Ocean")) {
+                return Constantvalues.Location.Ocean;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OpenGround;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.River;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Marsh;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Brush;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Streamshallow;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Ford;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PineWoods;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("Woods")) {
+                return Constantvalues.Location.Woods;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Crag;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Airfield;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Mudflats;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Orchard;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OrchardPavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OrchardUnpavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("Dirt Road")) {
+                return Constantvalues.Location.UnpavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.TrailWoods;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.TrailBrush;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.TrailPineWoods;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodsPavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodsUnpavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PineWoodsPavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PineWoodsUnpavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.GullyBrush;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.GullyWoods;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Graveyard;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SunkenPavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OrchardStreamshallow;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamWoodsshallow;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamPineWoodsshallow;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamBrushshallow;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SunkenUnpvRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StratLoc;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("Grain")) {
+                return Constantvalues.Location.Grainfield;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Gully;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodRubble;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StoneRubble;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodDebris;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StoneDebris;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Shellhole;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Jungle;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.DenseJungle;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Bamboo;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PalmTrees;
+            //} else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                //return Constantvalues.Location.Gully;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Kunai;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Swamp;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.RicePaddiesdrained;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.RicePaddiesIrrigated;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.RicePaddiesInSeason;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Panjis;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CaveComplex;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Beaches;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PalmTreesUnpavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.TrailJungle;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.TrailDenseJungle;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.JungleUnpavedRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.DenseJungleUnpaved;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.TrailBamboo;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Trail;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Trailpalmtrees;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.GullyShell;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PalmDebris;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PalmDebrisPalm;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.GullyUnpavedBridge;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PierNoLoc;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SunkenLane;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Passage;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PavedIntersectionManhole;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.ElevRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                //return Constantvalues.Location.StreamBrushshallow;
+            //} else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                //return Constantvalues.Location.SunkenUnpvRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pier;
+            //} else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                //return Constantvalues.Location.Grainfield;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Reef;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Tetrahedron;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Tetrawire;
+            //} else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                //return Constantvalues.Location.WoodDebris;
+            //} else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                //return Constantvalues.Location.StoneDebris;
+            //} else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                //return Constantvalues.Location.Shellhole;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Vineyard;
+            //} else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                //return Constantvalues.Location.SunkenUnpvRoad;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.IrrigDitch;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PartOrch;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.IrDPOrch;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.UnPavedIrDPO;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.UnPavedIrD;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.UnPavedPO;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PavedPO;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.GullyPO;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PavedIrD;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Forest;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CactusPatch;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OliveGrove;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Hillock;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SandDuneH;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SandDuneL;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Lumberyard;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.GullyOrchard;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.HillockSummit;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodRubbleFallen;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StoneRubbleFallen;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.GrdLRR;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.RailCar;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WreckedRC;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.GuttedRC;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CitySquare;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CitySquareShellhole;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CitySquareManShell;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Fountain;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.GrdLRRMan;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OrchardPvRoadMan;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StorageTanks;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Canal;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pond;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamDry;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamDeep;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamFlooded;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OrchardStreamdry;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OrchardStreamdeep;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OrchardStreamflooded;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamWoodsdry;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.streamwoodsdeep;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Streamwoodsflooded;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamPineWoodsdry;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.streamPinewoodsdeep;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamPinewoodsflooded;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamBrushdry;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.streambrushdeep;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Streambrushflooded;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Wadi ;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Hammada;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SandTrack;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.HammadaTrack;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Deir;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Track;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.HillockTrack;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.DeirTrack;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Scrub;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.ScrubTrack;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.HillockSummitTrack;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SandScrub;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SandScrubTrack;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SandDuneLTrack;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SandDuneHTrack;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Mausoleum;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Camp;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.DesertCluster;  //D12.43
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BrkCrag;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BrokenGround;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SteppeBrush;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SteppeWoods;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SteppeGrain;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.ExcavDitch;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BambooPath;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.JunglePath;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.DenseJunglePath;
+            //} else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                //return Constantvalues.Location.WoodDebris;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BeachSlightSoft;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BeachModerateSoft;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BeachSteepSoft;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Sandbar;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BeachSlightHard;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BeachModerateHard;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BeachSteepHard;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OceanShallow;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.ExposedReef;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SubmergedReef;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.JungleDebris; //SC2
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CordoroyRoads;  //SC4
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StreamShallowJungleDebris;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.RiverBrush;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BrushUnpavedRd;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BrushIrrD;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.IrrDVineyard;
+            //} else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                //return Constantvalues.Location.WoodRubble;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PineForest;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CulvertOG;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CulvertPvRD;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CulStrPvRd;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CommandBunker;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.IslComBunker;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.GunEmplacement;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BRTTower;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OneMarketStone;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OneMarketWood;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PBTower;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SingleSteeple;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OneSteeple;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.TwoSteeple;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PartCol1;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PartCol15;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Manhole;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.All;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.NA;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.NonStairBldg;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.HindranceHex;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.HindranceFeature;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Shellholetype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Creststatustype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Bypassable;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Smoketype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.RoadOGtype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Manholetype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Factorytype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Rooflesstype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Cellartype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SplitLeveltype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Buildingtype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pillboxtype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.IntBuildtype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Rubbletype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.FortBuildtype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.bridgetype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Marshtype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.ShallowStreamtype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.DeepStreamtype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WaterObstacletype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Blazetype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.towertype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Roadtype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OBAtype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.HardSurftype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.HasStairs;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Burnabletype;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Roof;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Building1stLevel;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Building2ndLevel;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Building3rdLevel;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Cellar;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.InCave;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BeneathBridge;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Sewer    ;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BeneathPier;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BuildingGroundlevel;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.BunkUnder;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Tunnel;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Huts;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.FortStoneGrd;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.FortSTone1st;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.FortStone2nd;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.FortSTone3rd;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.FortWoodGrd;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.FortWood1st;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.FortWood2nd;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.FortWood3rd;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1571;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1572;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1573;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1574;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1575;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1576;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1351;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1352;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1353;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1354;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1355;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1356;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2351;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2352;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2353;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2354;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2355;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2356;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2571;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2572;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2573;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2574;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2575;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2576;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3351;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3352;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3353;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3354;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3355;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3356;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3571;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3572;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3573;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3574;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3575;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill3576;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2461;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2462;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2463;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2464;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2465;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill2466;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1461;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1462;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1463;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1464;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1465;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Pill1466;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Bombprf;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Cave146;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CaveH46;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Cave146LM1;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CaveH46LM1;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Cave146L0;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CaveH46L0;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Cave146L1;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CaveH46L1;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Cave146L2;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CaveH46L2    ;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Cave146L3;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CaveH46L3;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.Cave146L4;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.CaveH46L4;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodsTB;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.MineTB;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StoneRubbleTB;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PineWTB;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.JungleTB;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.DenseJungleTB;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.DebrisTB;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodRubbleTB;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodRubbleFallTB;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StoneRubbleFallTB;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.OneFactRooflessMan;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StBr14;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StBr25;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.StBr36;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WdBr14;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WdBr25;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WdBr36;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SStBr14;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SStBr25;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SStBr36;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SWdBr14    ;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SWdBr25;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.SWdBr36;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PoBr14;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PoBr25;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.PoBr36;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.FoBr;
+            } else  {
+                return Constantvalues.Location.NA;
+            }
+            return Constantvalues.Location.NA;
+    }
     public Constantvalues.Hexside ConverttoHexsideType( int databasevalue){
         switch (databasevalue){
             case 7500:

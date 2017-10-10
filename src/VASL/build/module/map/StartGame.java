@@ -94,17 +94,28 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
         Hex ClickedHex = setHexFromMousePressedEvent(new Point(e.getPoint()));
         if (ClickedHex == null) {return;} // within map space but not within a hex - on certain boards due to edge features
         // determine which counters, if any, have been clicked
-        selectMovablePieces(e);
-        Component firingcomponent = e.getComponent();
-        LinkedList<GamePiece> SelectedCounters = getSelectedPieces();
-        if (SelectedCounters.size()==0) {
-            ItemFound = false;
+        if (selectMovablePieces(e)) {
+            Component firingcomponent = e.getComponent();
+            LinkedList<GamePiece> SelectedCounters = getSelectedPieces();
+            if (SelectedCounters.size() == 0) {
+                ItemFound = false;
+            } else {
+                ItemFound = true;
+            }
+            // now do click events
+            ProcessingClick(ItemFound, e, ClickedHex, SelectedCounters);
         } else {
-            ItemFound = true;
+            // have clicked outside a piece to trigger deselection
+            LinkedList<GamePiece> SelectedCounters = getSelectedPieces();
+            for (GamePiece clearpiece: SelectedCounters) {
+                clearpiece.setProperty(Properties.SELECTED,false);
+                // clear ITFC and Movement
+                ScenarioC scen = ScenarioC.getInstance();
+                if (scen.getIFT() != null) {
+                    scen.getIFT().ClearCurrentIFT();
+                }
+            }
         }
-        // now do click events
-        ProcessingClick(ItemFound, e, ClickedHex, SelectedCounters );
-
     }
     /**
      * Sets the Hex using a mouse-pressed event point
@@ -132,7 +143,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
      *
      * @return LinkedList of selected pieces
      */
-    private LinkedList<GamePiece> getSelectedPieces() {
+    public LinkedList<GamePiece> getSelectedPieces() {
 
         LinkedList<GamePiece> temp = new LinkedList<GamePiece>();
 
@@ -174,8 +185,9 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
                 p.getId() != null &&
                 !"".equals(p.getId());
     }
-    protected void selectMovablePieces(MouseEvent var1) {
+    protected boolean  selectMovablePieces(MouseEvent var1) {
         GamePiece var2 = this.map.findPiece(var1.getPoint(), this.dragTargetSelector);
+        if (var2 == null) {return false;}
         if(var2 instanceof Stack) {
             for (PieceIterator pi2 = new PieceIterator(((Stack) var2).getPiecesIterator()); pi2.hasMoreElements(); ) {
                 GamePiece piece2 = pi2.nextPiece();
@@ -197,8 +209,8 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
         } else {
             DragBuffer.getBuffer().clear();
         }*/
-
         this.map.repaint();
+        return true;
     }
     protected PieceFinder createDragTargetSelector() {
         return new PieceFinder.Movable() {

@@ -16,6 +16,7 @@ import VASL.build.module.fullrules.ObjectClasses.CombatTerrain;
 import VASL.build.module.fullrules.ObjectClasses.SmokeHolder;
 import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
+import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 
 
@@ -175,8 +176,9 @@ public class ThreadedLOSCheckCommonc {
         }
     }
     private Constantvalues.Location getLocationtypefromVASLLocation(Location SeeLOSLoc){
-
-        if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+        ConversionC DoConversion = new ConversionC();
+        return DoConversion.getLocationtypefromVASLLocation(SeeLOSLoc);
+        /*if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
             return Constantvalues.Location.OpenGround;
         } else if ((SeeLOSLoc.getTerrain().getName()).equals("Grain")) {
             return Constantvalues.Location.Grainfield;
@@ -184,7 +186,7 @@ public class ThreadedLOSCheckCommonc {
             return Constantvalues.Location.Woods;
         } else {
             return Constantvalues.Location.NA;
-        }
+        }*/
         // this routine turns the terrain type and base level of a VASL Location (VASL.LOS.Map.Location) into a Constantvalues.Location value - which can then be searched in the Locations collection
     }
             /*

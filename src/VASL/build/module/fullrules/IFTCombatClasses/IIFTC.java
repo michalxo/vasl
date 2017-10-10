@@ -41,5 +41,6 @@ public interface IIFTC {
     void FirePhasePreparation();
     void ClickedOnNewParticipants(Hex ClickedHex, LinkedList<GamePiece> SelectedUnits);
     void ProcessIFTCombat();
+    void ClearCurrentIFT();
 }
 

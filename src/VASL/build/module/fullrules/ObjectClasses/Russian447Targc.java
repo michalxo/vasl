@@ -214,6 +214,7 @@ public class Russian447Targc implements TargetPersUniti {
             return false;
         }
     }
+
     public boolean HasFT() {
          return false;
     }
@@ -323,7 +324,6 @@ public class Russian447Targc implements TargetPersUniti {
         } else {
             return false;
         }
-
     }
 
     public boolean NR() {

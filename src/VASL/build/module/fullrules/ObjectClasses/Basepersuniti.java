@@ -61,12 +61,12 @@ public interface Basepersuniti {
     void setPinned(boolean value);
     LinkedList<PersUniti> getGuarding();
 
-    BufferedImage getOBTexture();
-    void setOBTexture(BufferedImage value);  // holds value of current image for unit - DELETE AS WILL BE HELD IN VASL GAME PIECE
+    //BufferedImage getOBTexture();
+    //void setOBTexture(BufferedImage value);  // holds value of current image for unit - DELETE AS WILL BE HELD IN VASL GAME PIECE
 
-    int getLeftPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);   // holds value of x position in current hex
-    int getTopPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);    // holds value of y position in current hex
-    Point getDrawPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);
+    //int getLeftPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);   // holds value of x position in current hex
+    //int getTopPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);    // holds value of y position in current hex
+    //Point getDrawPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);
 
     int getnumSW();
     void setnumSW(int value);

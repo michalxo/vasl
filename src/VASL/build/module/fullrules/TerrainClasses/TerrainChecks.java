@@ -5,6 +5,7 @@ import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 import VASL.build.module.fullrules.MapDataClasses.LocationType;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
+import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 
 import java.util.LinkedList;
 
@@ -157,8 +158,9 @@ public class TerrainChecks {
         return null;
     }
     public Constantvalues.Location getLocationtypefromVASLLocation(Location SeeLOSLoc){
-
-        if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+        ConversionC DoConversion = new ConversionC();
+        return DoConversion.getLocationtypefromVASLLocation(SeeLOSLoc);
+        /*if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
             return Constantvalues.Location.OpenGround;
         } else if ((SeeLOSLoc.getTerrain().getName()).equals("Grain")) {
             return Constantvalues.Location.Grainfield;
@@ -166,7 +168,7 @@ public class TerrainChecks {
             return Constantvalues.Location.Woods;
         } else {
             return Constantvalues.Location.NA;
-        }
+        }*/
         // this routine turns the terrain type and base level of a VASL Location (VASL.LOS.Map.Location) into a Constantvalues.Location value - which can then be searched in the Locations collection
     }
     public Constantvalues.Location getVASLLocationtype(Location testLOCformatch) {
