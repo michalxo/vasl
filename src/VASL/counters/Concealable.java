@@ -145,6 +145,7 @@ public class Concealable extends Obscurable implements EditablePiece {
             if (!concealmentExists) {
                 GamePiece concealOuter = createConcealment();
                 Concealment conceal = (Concealment) Decorator.getDecorator(concealOuter, Concealment.class);
+
                 c.append
                         (getMap().getStackMetrics().merge
                                 (outer, concealOuter));
@@ -152,10 +153,14 @@ public class Concealable extends Obscurable implements EditablePiece {
                      i < j; ++i) {
                     c.append(conceal.setConcealed(getParent().getPieceAt(i), true));
                 }
+
+                // force a DB synch to set concealment counter visibility
+                c.append(DoubleBlindViewer.getDoubleBlindViewer().getDBUpdateCommand());
             }
         } else {
             c = super.myKeyEvent(stroke);
         }
+
         return c;
     }
 
@@ -239,7 +244,10 @@ public class Concealable extends Obscurable implements EditablePiece {
                 Configurable[] c = ComponentPathBuilder.getInstance().getPath(concealmentMarker);
                 if (c[c.length - 1] instanceof PieceSlot) {
                     p = PieceCloner.getInstance().clonePiece(((PieceSlot) c[c.length - 1]).getPiece());
+
+                    // default DB traits
                     p.setProperty(ASLProperties.OWNER, getGameModule().getPrefs().getValue("RealName"));
+                    p.setProperty(ASLProperties.SPOTTED, "false");
                 }
             } catch (ComponentPathBuilder.PathFormatException e) {
             }
@@ -266,7 +274,12 @@ public class Concealable extends Obscurable implements EditablePiece {
             p = new MarkMoved(MarkMoved.ID + (large ? "moved58" : "moved"), p);
             p = new Hideable("hide;H;HIP;255,255,255", p);
             p = new FreeRotator("rotate;6;88,130;90,130;CA cw;CA ccw;;;", p);
+
+            // DB traits
+            p = new DynamicProperty(ASLProperties.OWNER, p);
+            p = new DynamicProperty(ASLProperties.SPOTTED, p);
             p.setProperty(ASLProperties.OWNER, getGameModule().getPrefs().getValue("RealName"));
+            p.setProperty(ASLProperties.SPOTTED, "false");
 
         }
         return p;

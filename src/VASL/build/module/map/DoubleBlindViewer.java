@@ -240,13 +240,19 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
         // check my opponents' pieces
         else {
 
+            // opponents HIP pieces are not spotted
+            if (Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME))) {
+                debug("HIP piece " + piece.getName() + " was NOT spotted ");
+                setPieceUnspotted(piece);
+                return;
+            }
+
             // step through all my pieces and check LOS to piece
             for (GamePiece p : map.getAllPieces()) {
                 if (p instanceof Stack) {
                     for (PieceIterator pi = new PieceIterator(((Stack) p).getPiecesIterator()); pi.hasMoreElements(); ) {
                         GamePiece p2 = pi.nextPiece();
                         if (isMyPiece(p2) && VASLGameInterface.isDBUnitCounter(p2) && isInLOS(p2, piece)) {
-
                             // counter is newly spotted?
                             if(!isSpotted(piece)) {
                                 spottedCounters.add(VASLGameInterface.getLocation(piece).getHex());
@@ -542,6 +548,16 @@ public class DoubleBlindViewer extends AbstractConfigurable implements CommandEn
         }
 
         return null;
+    }
+
+    public Command getDBUpdateCommand(){
+        if(enabled){
+            updateView();
+            return new DoubleBlindUpdateCommand((String) GameModule.getGameModule().getPrefs().getValue(PLAYER_NAME_PROPERTY));
+        }
+        else {
+            return new NullCommand();
+        }
     }
 
     public HelpFile getHelpFile() {

@@ -26,7 +26,6 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.util.BitSet;
 
-import VASL.build.module.ASLMap;
 import VASL.counters.ASLProperties;
 import VASSAL.build.Buildable;
 import VASSAL.build.GameModule;
@@ -36,7 +35,6 @@ import VASSAL.configure.BooleanConfigurer;
 import VASSAL.counters.*;
 import VASSAL.i18n.Resources;
 import VASSAL.preferences.Prefs;
-import VASL.build.module.map.DoubleBlindViewer;
 
 public class ASLStackMetrics extends StackMetrics {
 
@@ -51,7 +49,7 @@ public class ASLStackMetrics extends StackMetrics {
                            int unexSx, int unexSy) {
         super(dis, exSx, exSy, unexSx, unexSy);
 
-        // include DB logic in stack fillters
+        // include DB logic in stack filters
         unselectedVisible = new PieceFilter() {
             public boolean accept(GamePiece piece) {
                 return !Boolean.TRUE.equals(piece.getProperty(Properties.INVISIBLE_TO_ME))
@@ -140,12 +138,7 @@ public class ASLStackMetrics extends StackMetrics {
             int index = stack.indexOf(next);
             int nextX = x + (int) (zoom * (positions[index].x - x));
             int nextY = y + (int) (zoom * (positions[index].y - y));
-//if (stack.isExpanded() || !e.hasMoreElements()) {
             next.draw(g, nextX, nextY, obs, zoom);
-//}
-//else {
-//    drawUnexpanded(next, g, nextX, nextY, obs, zoom);
-//}
         }
 
         for (PieceIterator e = new PieceIterator(stack.getPiecesIterator(), selectedVisible); e.hasMoreElements(); ) {
@@ -185,11 +178,7 @@ public class ASLStackMetrics extends StackMetrics {
                 int index = stack.indexOf(next);
                 Point pt = map.componentCoordinates(positions[index]);
                 if (bounds == null || isVisible(region, bounds[index])) {
-//if (stack.isExpanded() || !e.hasMoreElements()) {
                     next.draw(g, pt.x, pt.y, map.getView(), zoom);
-//} else {
-//    drawUnexpanded(next, g, pt.x, pt.y, map.getView(), zoom);
-//}
                 }
             }
 
