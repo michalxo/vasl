@@ -1,10 +1,13 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
+import VASL.build.module.fullrules.UtilityClasses.ConversionC;
+
 import java.util.LinkedList;
 
 public class German467Firec implements FiringPersUniti {
@@ -24,8 +27,8 @@ public class German467Firec implements FiringPersUniti {
     private Constantvalues.AltPos myhexposition;
     private Constantvalues.Utype myUseHeroOrLeader;
     private int myOBLink;
-    private GameLocation MyLoc;
-    private PersUniti myBaseUnit;
+    private Location MyLoc;
+    private PersUniti myUnit;
     private LinkedList<GameLocation> Mapcol = new LinkedList<GameLocation>();
     private GetALocationFromMap Getlocs;
     MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
@@ -47,15 +50,11 @@ public class German467Firec implements FiringPersUniti {
         this.myUsingInherentFP = PassUsingInherentFP;
         this.myUsingfirstMG = PassUsingfirstMG;
         this.myUsingsecondMG = PassUsingsecondMG;
-
-        MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
-        Mapcol = null; //MapData.getLocationCol();
-        Getlocs = new GetALocationFromMap(Mapcol);
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(PassUnit.getbaseunit().getLOCIndex());
+        MyLoc = PassUnit.getbaseunit().gethexlocation();
         myIsInCrestStatus = PassUnit.getbaseunit().IsInCrestStatus();
         myhexposition = PassUnit.getbaseunit().gethexPosition();
         myOBLink = PassUnit.getbaseunit().getUnit_ID();
-        myBaseUnit = PassUnit;
+        myUnit = PassUnit;
     }
 
     public int getSolID() {
@@ -170,7 +169,7 @@ public class German467Firec implements FiringPersUniti {
                 TempFP = TempFP * 2;
             } else if (range == 0 && LevelDifference == 0) {
                 // do pillbox check - LOS needs be within CA
-                int HexLocIndex = Getlocs.GetPillboxLocation(MyLoc.getHexnum());
+                int HexLocIndex = 0;  //Getlocs.GetPillboxLocation(MyLoc.getHexnum()); temp while debugging
                 GameLocation UsingHex;
                 if (HexLocIndex > 0) {
                     boolean PillboxLOS = false;
@@ -178,7 +177,7 @@ public class German467Firec implements FiringPersUniti {
                     UsingHex = Getlocs.RetrieveLocationfromMaptable(HexLocIndex);
                     // Now determine Pillbox covered arc
                     TerrainChecks TerrChk = new TerrainChecks();
-                    String Imagename = TerrChk.GetLocationData(Constantvalues.TerrFactor.Image, (UsingHex.getLocation()));
+                    //String Imagename = TerrChk.GetLocationData(Constantvalues.TerrFactor.Image, (UsingHex.getLocation()));
                     // temporary while debugging UNDO
                     /*Dim TestCA As DataClassLibrary.LookupCA = (From Qu In Linqdata.db.LookupCAs Where
                     Qu.Terraindesc = Imagename).First*/
@@ -267,21 +266,23 @@ public class German467Firec implements FiringPersUniti {
 
     }
 
-    public void AreaFireModification(int FGSize, GameLocation targloc) {
+    public void AreaFireModification(int FGSize, Location targloc) {
         // called by EnemyValuesConcreteC.CalcFPandDRM_thread and ifTC.CalcFPandDRM
         // reduces FP for each Area fire case
 
         // cellar
         if (FGSize >= 3) {
             boolean ReducedFP = false;
-            if (MyLoc.getLocation() == Constantvalues.Location.Cellar) {
+            ConversionC DoConversion = new ConversionC();
+            Constantvalues.Location myLoctype = DoConversion.getLocationtypefromVASLLocation(MyLoc);
+            if (myLoctype == Constantvalues.Location.StoneCellar || myLoctype == Constantvalues.Location.WoodCellar) {
                 ReducedFP = true;
-                if (targloc.getIsCellar()) {
+                if (targloc.getTerrain().isCellar()) {
                     ReducedFP = false;
                 } // must be part of building or LOS would not exist and would not be here; no need to check again
-                if (targloc.getHexnum() == MyLoc.getHexnum() && targloc.getLevelInHex() > MyLoc.getLevelInHex()) {
+                if (targloc.getHex().getName() == myUnit.getbaseunit().getHexName() && targloc.getBaseHeight() ==0) {
                     ReducedFP = false;
-                } // must be grounhd level or LOS would not exist and would not be here; no need to check again
+                } // must be ground level or LOS would not exist and would not be here; no need to check again
             }
             if (ReducedFP) {
                 myCombatFP = myCombatFP / 2;
@@ -308,7 +309,7 @@ public class German467Firec implements FiringPersUniti {
         boolean IsCrossingWHR = false;
         for (int nexthexside : hexsidescrossed) {
             switch (nexthexside) {
-                case 1:
+                /*case 1:
                     IsCrossingWHR = MyLoc.getSide1IsWHR();
                     break;
                 case 2:
@@ -325,7 +326,7 @@ public class German467Firec implements FiringPersUniti {
                     break;
                 case 6:
                     IsCrossingWHR = MyLoc.getSide6IsWHR();
-                    break;
+                    break;*/
                 default:
                     //MsgBox("Hexside failure")
                     IsCrossingWHR = false;

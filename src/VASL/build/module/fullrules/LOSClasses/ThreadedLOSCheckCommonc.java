@@ -9,7 +9,6 @@ import VASL.LOS.counters.Smoke;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.LocationType;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.ObjectClasses.AltHexGTerrain;
 import VASL.build.module.fullrules.ObjectClasses.CombatTerrain;
@@ -93,11 +92,11 @@ public class ThreadedLOSCheckCommonc {
             '    'if get this far then Terrain addeded
         '    return true
                 'End Function*/
-    public boolean AddtoCollectionThread(Location LOSLoc, Constantvalues.Hexrole Hexrole, String PassHexDesc, int TempsolID, LinkedList<SmokeHolder> PassSmokeList) {
+    public boolean AddtoCollectionThread(Location LOSLoc, Constantvalues.Hexrole Hexrole, int TempsolID, LinkedList<SmokeHolder> PassSmokeList) {
         //called by Me.DoSightcheck
         // adds a new CombatTerrain to a collection
         boolean UsingTarget = false;
-        // no hex found by RetrieveData - exit
+        // no hex found - exit
         if (LOSLoc.getHex().getName() == "") {return false;}
         //check if hex already present
         if (TempCombatTerrColCommon.size() != 0) {
@@ -117,35 +116,33 @@ public class ThreadedLOSCheckCommonc {
         int Passhextem = 0; boolean PassHexLOSHApplies = false;
         Constantvalues.Feature Passoba = null;
         Constantvalues.Location PasshexTerrtype = getLocationtypefromVASLLocation(LOSLoc);
-        LocationType LocType = terrchk.getLocationType(PasshexTerrtype);
-        Passhextem = (LocType.getTEM());
-        int PassHexHind  = LocType.getLOSHindDRM();
+        //Passhextem = (LOSLoc.getTerrain().getTEM());
+        int PassHexHind  = LOSLoc.getTerrain().getLOSHindDRM();
         if (PassHexHind >0) {PassHexLOSHApplies=true;}
-        PassHexDesc = LocType.getTerraindesc();
-        String PassHexname  = (LOSLoc.getHex().getName());
+        //String PassHexname  = (LOSLoc.getHex().getName());
 
-        int PassHexID = 0;  //= Maphex.getHexnum();
-        Constantvalues.Hexside PassHexside1  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(1).getTerrain()));
-        Constantvalues.Hexside PassHexside2  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(2).getTerrain()));
-        Constantvalues.Hexside PassHexside3  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(3).getTerrain()));
-        Constantvalues.Hexside PassHexside4  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(4).getTerrain()));
-        Constantvalues.Hexside PassHexside5  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(5).getTerrain()));
-        Constantvalues.Hexside PassHexside6  = ConverttoHexside((LOSLoc.getHex().getHexsideLocation(0).getTerrain()));
-        int PassBaseLevel = (LOSLoc.getBaseHeight());
-        boolean PassStaircase  = LOSLoc.getHex().hasStairway();
+        // int PassHexID = 0;  //= Maphex.getHexnum();
+        // may be able to delete all of the hexside stuff and just use VASL hexside info
+        ConversionC convert = new ConversionC();
+        Constantvalues.Hexside PassHexside1  = convert.ConverttoHexside((LOSLoc.getHex().getHexsideLocation(1).getTerrain()));
+        Constantvalues.Hexside PassHexside2  = convert.ConverttoHexside((LOSLoc.getHex().getHexsideLocation(2).getTerrain()));
+        Constantvalues.Hexside PassHexside3  = convert.ConverttoHexside((LOSLoc.getHex().getHexsideLocation(3).getTerrain()));
+        Constantvalues.Hexside PassHexside4  = convert.ConverttoHexside((LOSLoc.getHex().getHexsideLocation(4).getTerrain()));
+        Constantvalues.Hexside PassHexside5  = convert.ConverttoHexside((LOSLoc.getHex().getHexsideLocation(5).getTerrain()));
+        Constantvalues.Hexside PassHexside6  = convert.ConverttoHexside((LOSLoc.getHex().getHexsideLocation(0).getTerrain()));
+        //int PassBaseLevel = (LOSLoc.getBaseHeight());
+        //boolean PassStaircase  = LOSLoc.getHex().hasStairway();
         String Passcontrol  = "";  //Maphex.getControl)
         if (OBAPresentinHex(LOSLoc.getHex())) {
-            Passoba = Constantvalues.Feature.FFE1;  // this is wrong needs to be generalized OBA value
+            Passoba = Constantvalues.Feature.FFE1;  // this is wrong needs to be generalized OBA value - change OBAPresentinHex
         } else {
             Passoba = Constantvalues.Feature.None;
         }
-        Constantvalues.Hexrole Passhexrole  = Hexrole;
+        //Constantvalues.Hexrole Passhexrole  = Hexrole;
         int PassTargetID  = 0;  // Maphex.getLocIndex();   // this doesn' t feel right - CHECK IT OUT
-        CombatTerrain FireTerrain = new CombatTerrain(PassHexname,
-                PassHexID, PasshexTerrtype, PassHexside1, PassHexside2,
+        CombatTerrain FireTerrain = new CombatTerrain(PasshexTerrtype, PassHexside1, PassHexside2,
                 PassHexside3, PassHexside4, PassHexside5, PassHexside6,
-                Passhextem, PassHexHind, PassHexDesc, Passhexrole,
-                PassStaircase, PassBaseLevel, Passcontrol, PassTargetID, PassSmokeList, Passoba, TempsolID, LOSLoc, PassHexLOSHApplies);
+                Passhextem, PassHexHind, Hexrole, Passcontrol, PassTargetID, PassSmokeList, Passoba, TempsolID, LOSLoc, PassHexLOSHApplies);
         if (FireTerrain != null) {TempCombatTerrColCommon.add(FireTerrain);}
         // if get this far then Terrain addeded
         return true;
@@ -163,12 +160,11 @@ public class ThreadedLOSCheckCommonc {
     End Function
     */
     public boolean AddCombatTerrainHexThread(Location SeeLOSLoc, int UsingSol, Constantvalues.Hexrole Hexrole) {
+
         LinkedList<SmokeHolder> PassSmokelist; // = new LinkedList<SmokeHolder>();
         try {
-            Constantvalues.Location PassLocationtype = getLocationtypefromVASLLocation(SeeLOSLoc);
-            String Passroledesc = terrchk.GetLocationData(Constantvalues.TerrFactor.Desc, PassLocationtype);
-            PassSmokelist = SmokePresentinHex(SeeLOSLoc.getHex());
-            AddtoCollectionThread(SeeLOSLoc, Hexrole, Passroledesc, UsingSol, PassSmokelist);
+            PassSmokelist = terrchk.SmokePresentinHex(SeeLOSLoc.getHex());
+            AddtoCollectionThread(SeeLOSLoc, Hexrole, UsingSol, PassSmokelist);
             return true;
         } catch (Exception e) {
             // no hex found by RetrieveData - exit
@@ -177,17 +173,9 @@ public class ThreadedLOSCheckCommonc {
     }
     private Constantvalues.Location getLocationtypefromVASLLocation(Location SeeLOSLoc){
         ConversionC DoConversion = new ConversionC();
-        return DoConversion.getLocationtypefromVASLLocation(SeeLOSLoc);
-        /*if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
-            return Constantvalues.Location.OpenGround;
-        } else if ((SeeLOSLoc.getTerrain().getName()).equals("Grain")) {
-            return Constantvalues.Location.Grainfield;
-        } else if ((SeeLOSLoc.getTerrain().getName()).equals("Woods")) {
-            return Constantvalues.Location.Woods;
-        } else {
-            return Constantvalues.Location.NA;
-        }*/
-        // this routine turns the terrain type and base level of a VASL Location (VASL.LOS.Map.Location) into a Constantvalues.Location value - which can then be searched in the Locations collection
+         return DoConversion.getLocationtypefromVASLLocation(SeeLOSLoc);
+        // this routine turns a VASL Location (VASL.LOS.Map.Location) into a Constantvalues.Location value
+        // eventually can be eliminated as SharedBoardMetadata.xml is expanded
     }
             /*
         'Upslopecheck from Mapgeo
@@ -1084,7 +1072,8 @@ public class ThreadedLOSCheckCommonc {
                 return 0;
         }
     }
-    public LinkedList<SmokeHolder> SmokePresentinHex(Hex Hextocheck) {
+    // moved to TerrainChecks
+    /*public LinkedList<SmokeHolder> SmokePresentinHex(Hex Hextocheck) {
         // called by Me.DoSightCheck
         // returns list of smoke present in the hex - searches all locations in the hex
         LinkedList<SmokeHolder>  Smokelist = new LinkedList<SmokeHolder>();
@@ -1102,8 +1091,9 @@ public class ThreadedLOSCheckCommonc {
             Smokelist.add(NewSmoke);
         }
         return Smokelist;
-    }
+    }*/
     public boolean OBAPresentinHex(Hex Hextocheck) {
+        // need to change this to return specific OBA value (SR, FFE1, etc)
         ScenarioC scendet = ScenarioC.getInstance();
         VASLGameInterface vaslgameinterface = new VASLGameInterface(scendet.getASLMap(), scendet.getGameMap());
         HashSet<OBA> LookforOBA= vaslgameinterface.getOBA(Hextocheck);
@@ -1444,20 +1434,13 @@ public class ThreadedLOSCheckCommonc {
 
     End Function*/
 
-    private Constantvalues.VisHind ConverttoVisHind(String smoketype){
+    // moved to TerrainChecks
+    /*private Constantvalues.VisHind ConverttoVisHind(String smoketype){
         if (smoketype == "White +3 Smoke") {
             return Constantvalues.VisHind.GunSmoke;
         } else {
             return Constantvalues.VisHind.None;
         }
-    }
-    private Constantvalues.Hexside ConverttoHexside(Terrain Passterrain){
-        if (Passterrain.getName() == "Open Ground"){
-            return Constantvalues.Hexside.NoTerrain;
-        } else if (Passterrain.getName() == "Wall") {
-            return Constantvalues.Hexside.Wall;
-        } else {
-            return Constantvalues.Hexside.NoTerrain;
-        }
-    }
+    }*/
+
 }

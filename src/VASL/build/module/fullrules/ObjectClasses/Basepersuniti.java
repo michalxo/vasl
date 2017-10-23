@@ -1,8 +1,9 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.MapDataClasses.LocationType;
+//import VASL.build.module.fullrules.MapDataClasses.LocationType;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,16 +15,16 @@ public interface Basepersuniti {
     String getHexName();
     void setHexname(String value);
     int getScenario();
-    int getHexnum();
-    void setHexnum(int value);
-    Constantvalues.Location gethexlocation();
-    void sethexlocation(Constantvalues.Location value);
+    Hex getHex();
+    void setHex(Hex value);
+    Location gethexlocation();
+    void sethexlocation(Location value);
     Constantvalues.AltPos gethexPosition();
     void sethexPosition(Constantvalues.AltPos value);
     double getLevelinHex();
     void setLevelinHex(double value);
-    int getLOCIndex();
-    void setLOCIndex(int value);
+    //int getLOCIndex();
+    //void setLOCIndex(int value);
     boolean getCX();
     void setCX(boolean value);
     int getELR();
@@ -60,21 +61,12 @@ public interface Basepersuniti {
     boolean getPinned();
     void setPinned(boolean value);
     LinkedList<PersUniti> getGuarding();
-
-    //BufferedImage getOBTexture();
-    //void setOBTexture(BufferedImage value);  // holds value of current image for unit - DELETE AS WILL BE HELD IN VASL GAME PIECE
-
-    //int getLeftPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);   // holds value of x position in current hex
-    //int getTopPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);    // holds value of y position in current hex
-    //Point getDrawPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);
-
     int getnumSW();
     void setnumSW(int value);
     Constantvalues.UClass getUnitClass();
     void setUnitClass(Constantvalues.UClass value);
     Constantvalues.CharacterStatus getCharacterStatus();
     void setCharacterStatus(Constantvalues.CharacterStatus value);
-
     boolean IsUnitALeader();
     boolean IsUnitASMC();
     boolean IsInCrestStatus();
@@ -89,6 +81,6 @@ public interface Basepersuniti {
     boolean AddPrisoner(PersUniti PassUnit);
     boolean DeletePrisoner(PersUniti PassUnit);
     public boolean IsLocationAMatch(Location testLOCformatch);
-    public LocationType getLocationType(Constantvalues.Location phexlocation);
+    //public LocationType getLocationType(Constantvalues.Location phexlocation);
 
 }

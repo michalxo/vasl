@@ -1,6 +1,7 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 
@@ -42,7 +43,7 @@ public  interface FiringPersUniti{
         void FirstFireModification();
         void SprayFireModification(boolean UsingSprayFire);
         void AssaultFireModification(Constantvalues.Phase phase);
-        void AreaFireModification(int FGSize, GameLocation targloc);
+        void AreaFireModification(int FGSize, Location targloc);
         void MGModification();
         void CrestStatusModification(int Targethexnum);
         void ResetCombatFP();

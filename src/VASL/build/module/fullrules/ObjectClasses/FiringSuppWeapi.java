@@ -1,9 +1,8 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 public interface FiringSuppWeapi {
     Constantvalues.CombatStatus getCombatStatus();
@@ -36,7 +35,7 @@ public interface FiringSuppWeapi {
     void FirstFireModification();
     void SprayFireModification(boolean UsingSprayFire);
     void AssaultFireModification(Constantvalues.Phase CurrentPhase);
-    void AreaFireModification(int FGSize, GameLocation targloc);
+    void AreaFireModification(int FGSize, Location targloc);
         //'Sub MGModification()
     void CrestStatusModification(int Targethexnum);
     void ResetCombatFP();

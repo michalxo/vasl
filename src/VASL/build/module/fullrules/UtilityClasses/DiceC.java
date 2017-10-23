@@ -44,6 +44,8 @@ public class DiceC {
         //Thread.Sleep(1500)
         pWhite = Dieroll();
 
+            // test dode
+            //pWhite=pColored;
         return pColored + pWhite;
     }
     public boolean MultiDiceroll(int Howmany) {

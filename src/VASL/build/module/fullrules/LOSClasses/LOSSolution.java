@@ -20,8 +20,8 @@ public class LOSSolution extends BaseSolution {
     public LOSSolution(Hex PassSeehex, double PassSeelevelinhex, double PassTotalSeeLevel, int PassSeeLOSindex, Constantvalues.AltPos PassSeePositionInHex, Hex PassSeenhex,
                        double PassSeenlevelinhex, double PassTotalSeenLevel, int PassSeenLOSIndex, Constantvalues.AltPos PassSeenPositionInHex, boolean PassSolWorks,
                        Constantvalues.LOS PassLOSFollows, int PassID, VASL.LOS.Map.Map PassScenMap) {
-        super(PassSeehex, PassSeelevelinhex, PassSeeLOSindex, PassSeePositionInHex, PassSeenhex, PassSeenlevelinhex,
-                PassSeenLOSIndex, PassSeenPositionInHex, PassSolWorks, PassScenMap);
+        super(PassSeehex, PassSeelevelinhex, PassSeePositionInHex, PassSeenhex, PassSeenlevelinhex,
+                PassSeenPositionInHex, PassSolWorks, PassScenMap);
         prSolIDvalue = PassID;
         setTotalSeeLevel(PassTotalSeeLevel);
         setTotalSeenLevel(PassTotalSeenLevel);

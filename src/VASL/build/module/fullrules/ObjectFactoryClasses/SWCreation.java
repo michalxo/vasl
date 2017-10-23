@@ -6,7 +6,6 @@ import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.DataClasses.SupportWeapon;
 import VASL.build.module.fullrules.ObjectClasses.*;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 public class SWCreation {
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();

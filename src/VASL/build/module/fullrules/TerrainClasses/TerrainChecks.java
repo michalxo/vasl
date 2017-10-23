@@ -1,12 +1,19 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
+import VASL.LOS.VASLGameInterface;
+import VASL.LOS.counters.Smoke;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.LocationType;
+//import VASL.build.module.fullrules.MapDataClasses.LocationType;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
+import VASL.build.module.fullrules.ObjectClasses.SmokeHolder;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class TerrainChecks {
@@ -139,24 +146,14 @@ public class TerrainChecks {
         If Firstlocation = hexTerrainType
         And Secondlocation = Terrhex.OtherTerraininLocation
         Then return True
-        If Secondlocation = hexTerrainType
+         If Secondlocation = hexTerrainType
         And Firstlocation = Terrhex.OtherTerraininLocation
         Then return True
         return False 'all other cases involve separate locations.
         End Select*/
         return true;
     }
-    public LocationType getLocationType(Constantvalues.Location getLocation){
-        // takes a Constantvalues enum parameter and uses it to search the LocationType collection and return a specific LocationType object
-        MapDataC MapData = MapDataC.GetInstance("", 0);
-        LinkedList<LocationType> LocationTypeCol = MapData.getLocationTypeCol();
-        for(LocationType testlocation: LocationTypeCol){
-            if ((testlocation.getLocationvalue()).equals(getLocation)){
-                return testlocation;
-            }
-        }
-        return null;
-    }
+
     public Constantvalues.Location getLocationtypefromVASLLocation(Location SeeLOSLoc){
         ConversionC DoConversion = new ConversionC();
         return DoConversion.getLocationtypefromVASLLocation(SeeLOSLoc);
@@ -171,19 +168,8 @@ public class TerrainChecks {
         }*/
         // this routine turns the terrain type and base level of a VASL Location (VASL.LOS.Map.Location) into a Constantvalues.Location value - which can then be searched in the Locations collection
     }
-    public Constantvalues.Location getVASLLocationtype(Location testLOCformatch) {
-        // takes a VASL Location object and returns the matching value from the Constantvalues.Location enum
-        if (testLOCformatch.getTerrain().getName() == "Open Ground" ) {
-            return Constantvalues.Location.OpenGround;
-        } else if (testLOCformatch.getTerrain().getName() == "Grain" ) {
-            return Constantvalues.Location.Grainfield;
-        } else if (testLOCformatch.getTerrain().getName() == "Woods" ) {
-            return Constantvalues.Location.Woods;
-        } else {
-            return Constantvalues.Location.NA;
-        }
-    }
-    public String GetLocationData(Constantvalues.TerrFactor Territem, Constantvalues.Location TerrID) {
+
+    /*public String GetLocationData(Constantvalues.TerrFactor Territem, Constantvalues.Location TerrID) {
         // called by Linqdata.addtocollection - is meant to retrieve specific item from Location type table
         // TerrID is type of terrain - which record to look at
         // Territem is which terrain element to return
@@ -199,7 +185,7 @@ public class TerrainChecks {
                 }
         }
         return "";
-    /*Case ConstantClassLibrary.
+    *//*Case ConstantClassLibrary.
     ASLXNA.TerrFactor.Desc
             TerrInfo = (From
     QU In
@@ -236,8 +222,8 @@ public class TerrainChecks {
                             '                     Select QU.ObstHeight).First.ToString
     End Select
         String TerrInfo = "";
-        return TerrInfo;*/
-    }
+        return TerrInfo;*//*
+    }*/
 
     public boolean IsLocationCounterRemoveable(int Territem, int TerrID) {
     /*
@@ -291,7 +277,8 @@ public class TerrainChecks {
         End Select*/
         return TerrInfo;
     }
-    public boolean IsLocationOGforFFMO(Constantvalues.Location TestHexlocation, int TestLocIndex, Constantvalues.AltPos TestHexPosition) {
+    public boolean IsLocationOGforFFMO(Location TestHexlocation, Constantvalues.AltPos TestHexPosition) {
+
         /*Dim LoctoUse = (From QU As MapDataClassLibrary.GameLocation In MapData Where QU.LocIndex = TestLocIndex).First
         If TestHexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Then
         If LoctoUse.IsInherent And CInt(LoctoUse.TEM) > 0 Then return False Else return True
@@ -328,5 +315,31 @@ public class TerrainChecks {
         End If
         IsLocationPresent = locationPresent*/
         return false;
+    }
+    public LinkedList<SmokeHolder> SmokePresentinHex(Hex Hextocheck) {
+        // called by Me.DoSightCheck
+        // returns list of smoke present in the hex - searches all locations in the hex
+        LinkedList<SmokeHolder>  Smokelist = new LinkedList<SmokeHolder>();
+        Smoke nextSmoke=null;
+        ScenarioC scendet = ScenarioC.getInstance();
+        VASLGameInterface vaslgameinterface = new VASLGameInterface(scendet.getASLMap(), scendet.getGameMap());
+        HashSet<Smoke> LookforSmoke= vaslgameinterface.getSmoke(Hextocheck);
+        // test for smoke, if found then set values and return
+        Iterator<Smoke> itr=LookforSmoke.iterator();
+        while(itr.hasNext()){
+            nextSmoke = itr.next();
+            Constantvalues.VisHind  Passvishind = ConverttoVisHind(nextSmoke.getName());
+            int Passsmokebaselevel = nextSmoke.getLocation().getBaseHeight();
+            SmokeHolder NewSmoke = new SmokeHolder(Passvishind, Passsmokebaselevel);
+            Smokelist.add(NewSmoke);
+        }
+        return Smokelist;
+    }
+    private Constantvalues.VisHind ConverttoVisHind(String smoketype){
+        if (smoketype == "White +3 Smoke") {
+            return Constantvalues.VisHind.GunSmoke;
+        } else {
+            return Constantvalues.VisHind.None;
+        }
     }
 }

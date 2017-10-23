@@ -1,12 +1,13 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASSAL.build.GameModule;
 
 public class BaseSuppWeapc {
     private int myScenario;
     private int myHexnum;
-    private Constantvalues.Location myhexlocation;
+    private Location myhexlocation;
     private Constantvalues.AltPos myhexPosition;
     private double myLevelinHex;
     private int myLOCIndex;
@@ -33,10 +34,10 @@ public class BaseSuppWeapc {
     private boolean myCaptured;
     private int myOwner;
 
-    public BaseSuppWeapc(int PassScenario, int PassHexnum, Constantvalues.Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
-        int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassPP, int PassRepair, int PassDisPP,
-        int PassHexEntSideCrossed, int PassSolID, String PassUnitName, int PassLOBLink, Constantvalues.CombatStatus PassCombatStatus, Constantvalues.VisibilityStatus PassVisibilityStatus, Constantvalues.FortitudeStatus PassFortitudeStatus,
-        Constantvalues.SWStatus PassSWStatus, Constantvalues.MovementStatus PassMovementStatus, boolean PassPinned, int PassSW, Constantvalues.CharacterStatus PassCharacterStatus, boolean PassCaptured, int PassOwner) {
+    public BaseSuppWeapc(int PassScenario, int PassHexnum, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
+                         int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassPP, int PassRepair, int PassDisPP,
+                         int PassHexEntSideCrossed, int PassSolID, String PassUnitName, int PassLOBLink, Constantvalues.CombatStatus PassCombatStatus, Constantvalues.VisibilityStatus PassVisibilityStatus, Constantvalues.FortitudeStatus PassFortitudeStatus,
+                         Constantvalues.SWStatus PassSWStatus, Constantvalues.MovementStatus PassMovementStatus, boolean PassPinned, int PassSW, Constantvalues.CharacterStatus PassCharacterStatus, boolean PassCaptured, int PassOwner) {
 
 
         myScenario = PassScenario;
@@ -73,8 +74,8 @@ public class BaseSuppWeapc {
     public int getScenario() {return myScenario;}
     public int getHexnum() {return myHexnum;}
     public void setHexnum(int value) {myHexnum = value;}
-    public Constantvalues.Location gethexlocation() {return myhexlocation;}
-    public void sethexlocation(Constantvalues.Location value) {myhexlocation = value;}
+    public Location gethexlocation() {return myhexlocation;}
+    public void sethexlocation(Location value) {myhexlocation = value;}
     public Constantvalues.AltPos gethexPosition() {return myhexPosition;}
     public void sethexposition(Constantvalues.AltPos value) {myhexPosition = value;}
     public double getLevelinHex() {return myLevelinHex;}

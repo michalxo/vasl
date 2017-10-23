@@ -1,17 +1,17 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
+import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.util.LinkedList;
 
 public class IsTerrain {
     // This class handles various methods to return value of boolean test accesssing one or more columns from the Map Table for specified location(s)
-    private LinkedList<GameLocation> MapData = new LinkedList<GameLocation>();
+    private Terrain pTerrain;
 
-    public IsTerrain(LinkedList<GameLocation> LocationCol) {
-        MapData = LocationCol;
+    public IsTerrain(Terrain PassTerrain) {
+        pTerrain = PassTerrain;
     }
 
     public boolean IsTerrainInherent(int LocationToTest) {
@@ -366,7 +366,7 @@ public class IsTerrain {
     }
 
     // 'overload uses LOCIndex
-    public boolean IsLocationTerrainA(int LocIndex, Constantvalues.Location TypetoSearch) {
+    public boolean IsLocationTerrainA(Constantvalues.Location Loctype, Constantvalues.Location TypetoSearch) {
         /*'called by Map.IsSameHexLOSClear, Map.DoesObstacleBlockLOS, IFT.Combatdrm and  Movement MVC
         'CombatTerrain.GetScenFeatTEMLosh
         'determines if a parameter location is of a parameter type or contains scenario feature of parameter type

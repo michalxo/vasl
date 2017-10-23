@@ -1,8 +1,9 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.MapDataClasses.LocationType;
+//import VASL.build.module.fullrules.MapDataClasses.LocationType;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,16 +19,14 @@ public abstract class Basepersunitdecoratorac implements Basepersuniti {
     public String getHexName() {return decoratedbasePersUnit.getHexName();}
     public void setHexname(String value) {decoratedbasePersUnit.setHexname(value);}
     public int getScenario(){return decoratedbasePersUnit.getScenario();}
-    public int getHexnum(){return decoratedbasePersUnit.getHexnum();}
-    public void setHexnum(int value){decoratedbasePersUnit.setHexnum(value);}
-    public Constantvalues.Location gethexlocation(){return decoratedbasePersUnit.gethexlocation();}
-    public void sethexlocation(Constantvalues.Location value){decoratedbasePersUnit.sethexlocation(value);}
+    public Hex getHex(){return decoratedbasePersUnit.getHex();}
+    public void setHex(Hex value){decoratedbasePersUnit.setHex(value);}
+    public Location gethexlocation(){return decoratedbasePersUnit.gethexlocation();}
+    public void sethexlocation(Location value){decoratedbasePersUnit.sethexlocation(value);}
     public Constantvalues.AltPos gethexPosition(){return decoratedbasePersUnit.gethexPosition();}
     public void sethexPosition(Constantvalues.AltPos value){decoratedbasePersUnit.sethexPosition(value);}
     public double getLevelinHex(){return decoratedbasePersUnit.getLevelinHex();}
     public void setLevelinHex(double value){decoratedbasePersUnit.setLevelinHex(value);}
-    public int getLOCIndex(){return decoratedbasePersUnit.getLOCIndex();}
-    public void setLOCIndex(int value){decoratedbasePersUnit.setLOCIndex(value);}
     public boolean getCX(){return decoratedbasePersUnit.getCX();}
     public void setCX(boolean value){decoratedbasePersUnit.setCX(value);}
     public int getELR(){return decoratedbasePersUnit.getELR();}
@@ -64,21 +63,12 @@ public abstract class Basepersunitdecoratorac implements Basepersuniti {
     public boolean getPinned(){return decoratedbasePersUnit.getPinned();}
     public  void setPinned(boolean value){decoratedbasePersUnit.setPinned(value);}
     public LinkedList<PersUniti> getGuarding(){return decoratedbasePersUnit.getGuarding();}
-
-    //public BufferedImage getOBTexture();
-    //public void setOBTexture(BufferedImage value);  // holds value of current image for unit - DELETE AS WILL BE HELD IN VASL GAME PIECE
-
-    //public int getLeftPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);   // holds value of x position in current hex
-    //public int getTopPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);    // holds value of y position in current hex
-    //public Point getDrawPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows);
-
     public int getnumSW(){return decoratedbasePersUnit.getnumSW();}
     public void setnumSW(int value){decoratedbasePersUnit.setnumSW(value);}
     public Constantvalues.UClass getUnitClass(){return decoratedbasePersUnit.getUnitClass();}
     public void setUnitClass(Constantvalues.UClass value){decoratedbasePersUnit.setUnitClass(value);}
     public Constantvalues.CharacterStatus getCharacterStatus(){return decoratedbasePersUnit.getCharacterStatus();}
     public void setCharacterStatus(Constantvalues.CharacterStatus value){decoratedbasePersUnit.setCharacterStatus(value);}
-
     public boolean IsUnitALeader(){return decoratedbasePersUnit.IsUnitALeader();}
     public boolean IsUnitASMC(){return decoratedbasePersUnit.IsUnitASMC();}
     public boolean IsInCrestStatus(){return decoratedbasePersUnit.IsInCrestStatus();}
@@ -93,5 +83,5 @@ public abstract class Basepersunitdecoratorac implements Basepersuniti {
     public boolean AddPrisoner(PersUniti PassUnit){return decoratedbasePersUnit.AddPrisoner(PassUnit);}
     public boolean DeletePrisoner(PersUniti PassUnit){return decoratedbasePersUnit.DeletePrisoner(PassUnit);}
     public boolean IsLocationAMatch(Location testLOCformatch){return decoratedbasePersUnit.IsLocationAMatch(testLOCformatch);}
-    public LocationType getLocationType(Constantvalues.Location phexlocation){return decoratedbasePersUnit.getLocationType(phexlocation);}
+
 }

@@ -44,7 +44,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
 
     public void Initialize(boolean getgoing) {
 
-        this.map.pushMouseListener(this);
+        this.map.addLocalMouseListener(this);      //pushMouseListener(this);
         this.dragTargetSelector = this.createDragTargetSelector();
         this.selectionProcessor = this.createSelectionProcessor();
         initializeMap();
@@ -146,6 +146,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
     public LinkedList<GamePiece> getSelectedPieces() {
 
         LinkedList<GamePiece> temp = new LinkedList<GamePiece>();
+
 
         final PieceIterator pi = new PieceIterator(GameModule.getGameModule().getGameState().getAllPieces().iterator());
 

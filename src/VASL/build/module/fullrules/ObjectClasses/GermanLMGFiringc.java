@@ -1,11 +1,13 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
+import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASSAL.build.GameModule;
 
 import java.util.LinkedList;
@@ -16,7 +18,7 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
     private Constantvalues.CombatStatus myCombatStatus;
     private double myCombatFP;
     private LinkedList<GameLocation> MapCol;
-    private GameLocation myLoc;
+    private Location myLoc;
     private SuppWeapi myBaseUnit;
 
     public GermanLMGFiringc(SuppWeapi PassSW) {
@@ -30,6 +32,8 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
         GetALocationFromMap Getlocs = new GetALocationFromMap(MapCol);
         myLoc = Getlocs.RetrieveLocationfromMaptable(PassSW.getbaseSW().getLOCIndex());
         myBaseUnit = PassSW;*/
+
+        this.myLoc = PassSW.getbaseSW().gethexlocation();
     }
 
     public void AdvancingFireModification(Constantvalues.Phase phase) {
@@ -43,19 +47,21 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
         }
     }
 
-    public void AreaFireModification(int FGSize, GameLocation targloc) {
+    public void AreaFireModification(int FGSize, Location targloc) {
         // called by EnemyValuesConcreteC.CalcFPandDRM_thread and IFTC.CalcFPandDRM
         // reduces FP for each Area fire case
 
         // cellar
         if (FGSize == 3) {  //Constantvalues.Utype.Squad) {
             boolean ReducedFP = false;
-            if (myLoc.getLocation() == Constantvalues.Location.Cellar) {
+            ConversionC DoConversion = new ConversionC();
+            Constantvalues.Location myLoctype = DoConversion.getLocationtypefromVASLLocation(myLoc);
+            if (myLoctype == Constantvalues.Location.StoneCellar || myLoctype == Constantvalues.Location.WoodCellar) {
                 ReducedFP = true;
-                if (targloc.getIsCellar()) {
+                if (targloc.getTerrain().isCellar()) {
                     ReducedFP = false;   // must be part of building or LOS would not exist and would not be here; no need to check again
                 }
-                if (targloc.getHexnum() == myLoc.getHexnum() && targloc.getLevelInHex() > myLoc.getLevelInHex()) {
+                if (targloc.getHex().getName() == myLoc.getHex().getName() && targloc.getBaseHeight() == 0) {
                     ReducedFP = false;  // must be grounhd level or LOS would not exist and would not be here; no need to check again
                 }
             }
@@ -94,7 +100,7 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
             boolean IsCrossingWHR = false;
             for (int nexthexside: hexsidescrossed) {
                 switch (nexthexside) {
-                    case 1:
+                    /*case 1:
                         IsCrossingWHR = myLoc.getSide1IsWHR();
                     case 2:
                         IsCrossingWHR = myLoc.getSide2IsWHR();
@@ -105,9 +111,9 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
                     case 5:
                         IsCrossingWHR = myLoc.getSide5IsWHR();
                     case 6:
-                        IsCrossingWHR = myLoc.getSide6IsWHR();
+                        IsCrossingWHR = myLoc.getSide6IsWHR();*/
                     default:
-                        GameModule.getGameModule().getChatter().send("Hexside failure");
+                        //GameModule.getGameModule().getChatter().send("Hexside failure");
                         IsCrossingWHR = false;
                 }
                 if (IsCrossingWHR) {

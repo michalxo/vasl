@@ -13,8 +13,6 @@ import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.CombatUtil;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 import VASL.build.module.fullrules.UtilityClasses.RandomSelection;
-import VASSAL.build.GameModule;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -68,7 +66,7 @@ public class IFTResultC implements IFTResulti {
         if (DR.getWhite() == DR.getColored()) {
             if (FireGroupCowers(FireGroup, DoubleDrop)) {
                 for (PersUniti TargetUnit : TargGroup) {
-                    int newAttackedbyFP = ApplyCowering(TargetUnit.getTargetunit().getAttackedbydrm(), DoubleDrop);
+                    int newAttackedbyFP = ApplyCowering(TargetUnit.getTargetunit().getAttackedbyFP(), DoubleDrop);
                     TargetUnit.getTargetunit().setAttackedbyFP(newAttackedbyFP);
                 }
             }
@@ -120,7 +118,7 @@ public class IFTResultC implements IFTResulti {
             }
             FDR = DR.getColored() + DR.getWhite() + SameTarget.get(0).getTargetunit().getAttackedbydrm();
             //test code
-            FDR=6;
+            FDR=9;
             if (FDR > 15) {
                 IFTTableResult = Constantvalues.IFTResult.NR;
             } else {
@@ -151,7 +149,7 @@ public class IFTResultC implements IFTResulti {
         for (PersUniti Targtest: TargGroup) {
             FDR = DR.getColored() + DR.getWhite() + Targtest.getTargetunit().getAttackedbydrm();
             // report combat result
-            FDR=6;
+            FDR=9;
             String MSG =  "FDR = " + Integer.toString(FDR) + ", ";
             CombatUtil CombatInfo = new CombatUtil();
             MSG += "result is " + CombatInfo.IFTResultstring(Targtest.getTargetunit().getIFTResult()) + ": ";

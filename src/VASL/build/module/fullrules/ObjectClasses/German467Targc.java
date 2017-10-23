@@ -405,6 +405,8 @@ public class German467Targc implements TargetPersUniti {
         if (myOrderStatus == Constantvalues.OrderStatus.GoodOrder) {  //  only GoodOrder units can take IFT PTCs
             DiceC Dieclass = new DiceC();
             int ODR = Dieclass.Diceroll();
+            // test code
+            ODR=8;
             myCombatResultsString += myName + " rolls a " + java.lang.Integer.toString(ODR);
             // sniper
             SANCheck(ODR);

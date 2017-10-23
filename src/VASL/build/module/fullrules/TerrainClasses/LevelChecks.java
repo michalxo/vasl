@@ -1,6 +1,9 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
+import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 
 import java.util.LinkedList;
@@ -9,19 +12,19 @@ import java.util.LinkedList;
  * Created by dougr_000 on 7/18/2017.
  */
 public class LevelChecks {
-    private LinkedList<GameLocation> MapData;    // As IQueryable(Of MapDataClassLibrary.GameLocation)
+    private Location pLocation;
 
-    public LevelChecks(LinkedList<GameLocation> LocationCol) {
-        MapData = LocationCol;
+    public LevelChecks(Location PassLocation) {
+        pLocation = PassLocation;
     }
 
     // Methods
 
-    public double GetLevelofLocation(int LocIndextoTest) {
+    public double GetLevelofLocation() {
         // called by MovementWithinLegalc.IsMovementLegal
         // returns the level-in-hex of a specified location
 
-        return 0; // temporary while debugging UNDO
+        return pLocation.getBaseHeight();
         // Return CSng((From QU As MapDataClassLibrary.GameLocation In MapData Where QU.LocIndex=LocIndextoTest Select QU.LevelInHex).First)
     }
 
@@ -48,13 +51,23 @@ public class LevelChecks {
             'End Function
     */
 
-    public GameLocation GetLocationatLevelInHex(int Hexnumber, double Levelnumber) {
+    public Location GetLocationatLevelInHex(String Hexname, double Levelnumber) {
+        ScenarioC scen = ScenarioC.getInstance();
+        Location testloc = scen.getGameMap().getHex(Hexname).getCenterLocation();
+        while (testloc.getBaseHeight() != Levelnumber ){
+            if (testloc.getBaseHeight() < Levelnumber) {
+                testloc = testloc.getUpLocation();
+            } else if (testloc.getBaseHeight() > Levelnumber) {
+                testloc = testloc.getDownLocation();
+            }
+        }
+
         // called by MapActions.IsSameHexLOSClear
         // returns the location of a non-zero level in a hex
         // is the query correct; can there be more than one locations at level-not-0?
         // If Levelnumber = 0 Then Return Nothing ' only checks non - zero levels
 
-        return null; //(From QU As MapDataClassLibrary.GameLocation In MapData Where QU.Hexnum = Hexnumber And QU.LevelInHex = Levelnumber).First
+        return testloc; //(From QU As MapDataClassLibrary.GameLocation In MapData Where QU.Hexnum = Hexnumber And QU.LevelInHex = Levelnumber).First
     }
 
     // overloaded

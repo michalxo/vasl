@@ -1,6 +1,7 @@
 package VASL.build.module.fullrules.UtilityClasses;
 
 import VASL.LOS.Map.Location;
+import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
 
 public class ConversionC {
@@ -740,13 +741,13 @@ public class ConversionC {
             case 6701:
                 return Constantvalues.Location.Roof;
             case 6702:
-                return Constantvalues.Location.Building1stLevel;
+                return Constantvalues.Location.StoneBuilding1stLevel;
             case 6703:
-                return Constantvalues.Location.Building2ndLevel;
+                return Constantvalues.Location.StoneBuilding2ndLevel;
             case 6704:
-                return Constantvalues.Location.Building3rdLevel;
+                return Constantvalues.Location.StoneBuilding3rdLevel;
             case 6705:
-                return Constantvalues.Location.Cellar;
+                return Constantvalues.Location.StoneCellar;
             case 6706:
                 return Constantvalues.Location.InCave;
             case 6707:
@@ -756,7 +757,7 @@ public class ConversionC {
             case 6711:
                 return Constantvalues.Location.BeneathPier;
             case 6712:
-                return Constantvalues.Location.BuildingGroundlevel;
+                return Constantvalues.Location.StoneBuildingGroundlevel;
             case 6713:
                 return Constantvalues.Location.BunkUnder;
             case 6714:
@@ -968,7 +969,7 @@ public class ConversionC {
 
             if ((SeeLOSLoc.getTerrain().getName()).equals("Ocean")) {
                 return Constantvalues.Location.Ocean;
-            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("Open Ground")) {
                 return Constantvalues.Location.OpenGround;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
                 return Constantvalues.Location.River;
@@ -1421,13 +1422,25 @@ public class ConversionC {
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
                 return Constantvalues.Location.Roof;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
-                return Constantvalues.Location.Building1stLevel;
+                return Constantvalues.Location.StoneBuildingGroundlevel;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
-                return Constantvalues.Location.Building2ndLevel;
+                return Constantvalues.Location.StoneBuilding1stLevel;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("Stone Building, 2 Level")) {
+                return Constantvalues.Location.StoneBuilding2ndLevel;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
-                return Constantvalues.Location.Building3rdLevel;
+                return Constantvalues.Location.StoneBuilding3rdLevel;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
-                return Constantvalues.Location.Cellar;
+                return Constantvalues.Location.StoneCellar;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodBuildingGroundlevel;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodBuilding1stLevel;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodBuilding2ndLevel;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodBuilding3rdLevel;
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+                return Constantvalues.Location.WoodCellar;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
                 return Constantvalues.Location.InCave;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
@@ -1436,8 +1449,8 @@ public class ConversionC {
                 return Constantvalues.Location.Sewer    ;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
                 return Constantvalues.Location.BeneathPier;
-            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
-                return Constantvalues.Location.BuildingGroundlevel;
+            //} else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+            //    return Constantvalues.Location.BuildingGroundlevel;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
                 return Constantvalues.Location.BunkUnder;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
@@ -1645,15 +1658,907 @@ public class ConversionC {
             }
             return Constantvalues.Location.NA;
     }
-    public Constantvalues.Hexside ConverttoHexsideType( int databasevalue){
-        switch (databasevalue){
+    public Constantvalues.Hexside ConverttoHexsideType( int databasevalue) {
+        switch (databasevalue) {
+            case 7401:
+                return Constantvalues.Hexside.GullyUp;
+            case 7402:
+                return Constantvalues.Hexside.GullyDown;
+            case 7403:
+                return Constantvalues.Hexside.GullyUpSlope;
+            case 7404:
+                return Constantvalues.Hexside.GullyDownSlope;
+            case 7405:
+                return Constantvalues.Hexside.GullyUpWire;
+            case 7406:
+                return Constantvalues.Hexside.GullyDownWire;
+            case 7407:
+                return Constantvalues.Hexside.AttWoodsGullyUp;
+            case 7408:
+                return Constantvalues.Hexside.AttWoodsGullyDown;
+            case 7409:
+                return Constantvalues.Hexside.AttPWdsGullyUp;
+            case 7410:
+                return Constantvalues.Hexside.AttPWdsGullyDn;
+            case 7411:
+                return Constantvalues.Hexside.GullyUpHedge;
+            case 7412:
+                return Constantvalues.Hexside.GullyDownHedge;
+            case 7413:
+                return Constantvalues.Hexside.GullyUpWall;
+            case 7414:
+                return Constantvalues.Hexside.GullyDownWall;
+            case 7415:
+                return Constantvalues.Hexside.GullyUpTrail;
+            case 7416:
+                return Constantvalues.Hexside.GullyDownTrail;
+            case 7417:
+                return Constantvalues.Hexside.AttPwdsCrestUpGully;
+            case 7418:
+                return Constantvalues.Hexside.AttPWdsCrestDnGully;
+            case 7419:
+                return Constantvalues.Hexside.CrestUpGullyDown;
+            case 7420:
+                return Constantvalues.Hexside.CrestDownGullyUp;
+            case 7421:
+                return Constantvalues.Hexside.AttPWdsCrestUpGullyDn;
+            case 7422:
+                return Constantvalues.Hexside.AttPWdsCrestDnGullyUp;
+            case 7423:
+                return Constantvalues.Hexside.GullyUpSlopeWire;
+            case 7424:
+                return Constantvalues.Hexside.GullyDownSlopeWire;
+            case 7425:
+                return Constantvalues.Hexside.GullyUpUnPvRd;
+            case 7426:
+                return Constantvalues.Hexside.GullyDnUnPvRd;
+            case 7427:
+                return Constantvalues.Hexside.GullyUpSlopeHedge;
+            case 7428:
+                return Constantvalues.Hexside.GullyDnSlopeHedge;
+            case 7429:
+                return Constantvalues.Hexside.GullyUpGullyDown;
+            case 7430:
+                return Constantvalues.Hexside.GullyUpGullyDownHedge;
+            case 7431:
+                return Constantvalues.Hexside.CrestUpGullyHedge;
+            case 7432:
+                return Constantvalues.Hexside.CrestDnGullyHedge;
+            case 7433:
+                return Constantvalues.Hexside.GullyDnCLUpHedge;
+            case 7434:
+                return Constantvalues.Hexside.GullyUpCLDnHedge;
+            case 7435:
+                return Constantvalues.Hexside.CLUpGullySlopehedge;
+            case 7436:
+                return Constantvalues.Hexside.CLDnGullySlopeHedge;
+            case 7437:
+                return Constantvalues.Hexside.AttWdsCrestUpGullyDn;
+            case 7438:
+                return Constantvalues.Hexside.AttWdsCrestDnGullyUp;
+            case 7439:
+                return Constantvalues.Hexside. CrestUpGullyWire;
+            case 7440:
+                return Constantvalues.Hexside.CrestDnGullyWire;
+            case 7441:
+                return Constantvalues.Hexside.AttWoodsCrestUpGully;
+            case 7442:
+                return Constantvalues.Hexside.AttWoodsCrestDnGully;
+            case 7443:
+                return Constantvalues.Hexside.SlopeUpTrail;
+            case 7444:
+                return Constantvalues.Hexside.SlopeDnTrail;
+            case 7445:
+                return Constantvalues.Hexside.CulvertUp;
+            case 7446:
+                return Constantvalues.Hexside.CulvertDn;
+            case 7447:
+                return Constantvalues.Hexside.CLUpWire;
+            case 7448:
+                return Constantvalues.Hexside.CLDownWire;
+            case 7449:
+                return Constantvalues.Hexside.CLUpWireSlope;
+            case 7450:
+                return Constantvalues.Hexside.CLDnWireSlope;
+            case 7451:
+                return Constantvalues.Hexside.AttachedWoods;
+            case 7452:
+                return Constantvalues.Hexside.AttachedPineWoods;
+            case 7453:
+                return Constantvalues.Hexside.AttPineWCrestUp;
+            case 7454:
+                return Constantvalues.Hexside.AttPineWCrestDown;
+            case 7455:
+                return Constantvalues.Hexside.AttWoodsCrestUp;
+            case 7456:
+                return Constantvalues.Hexside.AttWoodsCrestDown;
+            case 7457:
+                return Constantvalues.Hexside.SlopeUpPWUnpavR;
+            case 7458:
+                return Constantvalues.Hexside.SlopeDownPWUnpavR;
+            case 7459:
+                return Constantvalues.Hexside.CrestUpStream;
+            case 7460:
+                return Constantvalues.Hexside.CrestDownStream;
+            case 7461:
+                return Constantvalues.Hexside.CrestUpTrailPWoods;
+            case 7462:
+                return Constantvalues.Hexside.CrestDownTrailPWoods;
+            case 7463:
+                return Constantvalues.Hexside.CrestUpSlopeWire;
+            case 7464:
+                return Constantvalues.Hexside.CrestDownSlopeWire;
+            case 7465:
+                return Constantvalues.Hexside.AttWoodsCrestUpDbl;
+            case 7466:
+                return Constantvalues.Hexside.AttWoodsCrestDownDbl;
+            case 7467:
+                return Constantvalues.Hexside.SlopeUpTrailPWoods;
+            case 7468:
+                return Constantvalues.Hexside.SlopeDownTrailPWoods;
+            case 7469:
+                return Constantvalues.Hexside.CLUpNarrowPaved;
+            case 7470:
+                return Constantvalues.Hexside.CLDownNarrowPaved;
+            case 7471:
+                return Constantvalues.Hexside.WoodsStream;
+            case 7472:
+                return Constantvalues.Hexside.CLupdblhedge;
+            case 7473:
+                return Constantvalues.Hexside.CLDowndblHedge;
+            case 7474:
+                return Constantvalues.Hexside.CliffDownHedge;
+            case 7475:
+                return Constantvalues.Hexside.CliffUpHedge;
+            case 7476:
+                return Constantvalues.Hexside.CliffDoubleUPHedge;
+            case 7477:
+                return Constantvalues.Hexside.CliffDoubleDownHedge;
+            case 7478:
+                return Constantvalues.Hexside.CrestDownSlopeUpPvRd;
+            case 7479:
+                return Constantvalues.Hexside.CrestUpSlopeDwnPvRd;
+            case 7480:
+                return Constantvalues.Hexside.CrestUpTrail;
+            case 7481:
+                return Constantvalues.Hexside.CrestDownTrail;
+            case 7482:
+                return Constantvalues.Hexside.Cave;
+            case 7483:
+                return Constantvalues.Hexside.TrailBreak;
+            case 75881:
+                return Constantvalues.Hexside.Roadblock1;
+            case 75882:
+                return Constantvalues.Hexside.Roadblock2;
+            case 75883:
+                return Constantvalues.Hexside.Roadblock3;
+            case 75884:
+                return Constantvalues.Hexside.Roadblock4;
+            case 75885:
+                return Constantvalues.Hexside.Roadblock5;
+            case 75886:
+                return Constantvalues.Hexside.Roadblock6;
+            case 7485:
+                return Constantvalues.Hexside.CrestNarrowPaved;
+            case 7486:
+                return Constantvalues.Hexside.CrestUpNarrowPaved;
+            case 7487:
+                return Constantvalues.Hexside.CrestDownNarrowPaved;
+            case 7488:
+                return Constantvalues.Hexside.AttPineWCrestUpDbl;
+            case 7489:
+                return Constantvalues.Hexside.AttPineWCrestDnDbl;
+            case 7490:
+                return Constantvalues.Hexside.crestdndblslopehedge;
+            case 7491:
+                return Constantvalues.Hexside.crestupdblslopehedge;
+            case 7492:
+                return Constantvalues.Hexside.CLDownDblslopehedge;
+            case 7493:
+                return Constantvalues.Hexside.CLUpDblSlopehedge;
+            case 7494:
+                return Constantvalues.Hexside.crestdowndblwire;
+            case 7495:
+                return Constantvalues.Hexside.crestupdblwire;
+            case 7496:
+                return Constantvalues.Hexside.AttWdsCrestDnStream;
+            case 7497:
+                return Constantvalues.Hexside.AttWdsCrestUpStream;
+            case 7498:
+                return Constantvalues.Hexside.PineWStream;
+            case 7499:
+                return Constantvalues.Hexside.RiceBank;
             case 7500:
                 return Constantvalues.Hexside.NoTerrain;
-
+            case 7501:
+                return Constantvalues.Hexside.Bocage;
+            case 7502:
+                return Constantvalues.Hexside.Hedge;
+            case 7503:
+                return Constantvalues.Hexside.Wall;
+            case 7504:
+                return Constantvalues.Hexside.Wire;
+            case 7505:
+                return Constantvalues.Hexside.SlopeDown;
+            case 7506:
+                return Constantvalues.Hexside.SlopeUp;
+            case 7507:
+                return Constantvalues.Hexside.CrestUp;
+            case 7508:
+                return Constantvalues.Hexside.CrestDown;
+            case 7509:
+                return Constantvalues.Hexside.PineWoodsPavedRoad;
+            case 7510:
+                return Constantvalues.Hexside.PineWoodsUnpavedRoad;
+            case 7511:
+                return Constantvalues.Hexside. River;
+            case 7512:
+                return Constantvalues.Hexside.Stream;
+            case 7513:
+                return Constantvalues.Hexside.WoodsPavedRoad;
+            case 7514:
+                return Constantvalues.Hexside.WoodsUnpavedRoad;
+            case 7515:
+                return Constantvalues.Hexside.PavedRoad;
+            case 7516:
+                return Constantvalues.Hexside.UnpavedRoad;
+            case 7517:
+                return Constantvalues.Hexside.TrailWoods;
+            case 7518:
+                return Constantvalues.Hexside.TrailBrush;
+            case 7519:
+                return Constantvalues.Hexside.TrailPineWoods;
+            case 7520:
+                return Constantvalues.Hexside.CrestDownPavedRoad;
+            case 7521:
+                return Constantvalues.Hexside.CrestDownUnpavedRoad;
+            case 7522:
+                return Constantvalues.Hexside.CrestUpPavedRoad;
+            case 7523:
+                return Constantvalues.Hexside.CrestUpUnpavedRoad;
+            case 7524:
+                return Constantvalues.Hexside.CrestDownHedge;
+            case 7525:
+                return Constantvalues.Hexside.CrestUpHedge;
+            case 7526:
+                return Constantvalues.Hexside.CrestDownWall;
+            case 7527:
+                return Constantvalues.Hexside.CrestUpWall;
+            case 7528:
+                return Constantvalues.Hexside.CrestDownSlope;
+            case 7529:
+                return Constantvalues.Hexside.CrestUpSlope;
+            case 7530:
+                return Constantvalues.Hexside.CrestDownSlopeHedge;
+            case 7531:
+                return Constantvalues.Hexside.CrestUpSlopeHedge;
+            case 7532:
+                return Constantvalues.Hexside.CrestDownWire;
+            case 7533:
+                return Constantvalues.Hexside.CrestUpWire;
+            case 7534:
+                return Constantvalues.Hexside.SlopeDownHedge;
+            case 7535:
+                return Constantvalues.Hexside.SlopeUpHedge;
+            case 7536:
+                return Constantvalues.Hexside.SlopeDownWall;
+            case 7537:
+                return Constantvalues.Hexside.SlopeUpWall;
+            case 7538:
+                return Constantvalues.Hexside.SlopeDownWire;
+            case 7539:
+                return Constantvalues.Hexside.SlopeUpWire;
+            case 7540:
+                return Constantvalues.Hexside.SlopeDownPavedRoad;
+            case 7541:
+                return Constantvalues.Hexside.SlopeUpPavedRoad;
+            case 7542:
+                return Constantvalues.Hexside.SlopeDownUnpavedRoad;
+            case 7543:
+                return Constantvalues.Hexside.SlopeUpUnpavedRoad;
+            case 7544:
+                return Constantvalues.Hexside.SunkenNonroad;
+            case 7545:
+                return Constantvalues.Hexside.SunkenNonroadWire;
+            case 7546:
+                return Constantvalues.Hexside.SunkenNonroadHedge;
+            case 7547:
+                return Constantvalues.Hexside.NarrowPavedRoad;
+            case 7548:
+                return Constantvalues.Hexside.NarrowUnpavedRoad;
+            case 7549:
+                return Constantvalues.Hexside.Cliff;
+            case 7550:
+                return Constantvalues.Hexside.CactusHedge;
+            case 7551:
+                return Constantvalues.Hexside.RailwayEmb;
+            case 7552:
+                return Constantvalues.Hexside.Seawall;
+            case 7553:
+                return Constantvalues.Hexside.CrestDownSlopeWall;
+            case 7554:
+                return Constantvalues.Hexside.CrestUpSlopeWall;
+            case 7555:
+                return Constantvalues.Hexside.CrestDownWoodsPavedRoad;
+            case 7556:
+                return Constantvalues.Hexside.CrestUpWoodsPavedRoad;
+            case 7557:
+                return Constantvalues.Hexside.CrestDownWoodsUnpavedRoad;
+            case 7558:
+                return Constantvalues.Hexside.CrestUpWoodsUnpavedRoad;
+            case 7559:
+                return Constantvalues.Hexside.CrestUpTrailWoods;
+            case 7560:
+                return Constantvalues.Hexside.CrestDownTrailWoods;
+            case 7562:
+                return Constantvalues.Hexside.HedgeUnpavedRoad;
+            case 7563:
+                return Constantvalues.Hexside.WallUnpavedRoad;
+            case 7564:
+                return Constantvalues.Hexside.CLUpWall;
+            case 7565:
+                return Constantvalues.Hexside.CLDownWall;
+            case 7566:
+                return Constantvalues.Hexside.CLUpHedge;
+            case 7567:
+                return Constantvalues.Hexside.CLDownHedge;
+            case 7568:
+                return Constantvalues.Hexside.CLUpWPO;
+            case 7569:
+                return Constantvalues.Hexside.CLDnWPO;
+            case 7570:
+                return Constantvalues.Hexside.Gully;
+            case 7571:
+                return Constantvalues.Hexside.CLUpWallSlope;
+            case 7572:
+                return Constantvalues.Hexside.CLDnWallSlope;
+            case 7573:
+                return Constantvalues.Hexside.CLUpWallSlopePO;
+            case 7574:
+                return Constantvalues.Hexside.CLDnWallSlopePO;
+            case 7575:
+                return Constantvalues.Hexside.PartOrch;
+            case 7576:
+                return Constantvalues.Hexside.Jetty;
+            case 7577:
+                return Constantvalues.Hexside.CLUpHedgeSlope;
+            case 7578:
+                return Constantvalues.Hexside.CLDnHedgeSlope;
+            case 7579:
+                return Constantvalues.Hexside.CrestUpPO;
+            case 7580:
+                return Constantvalues.Hexside.CrestDownPO;
+            case 7581:
+                return Constantvalues.Hexside.WirePO;
+            case 7582:
+                return Constantvalues.Hexside.CrestUpDouble;
+            case 7583:
+                return Constantvalues.Hexside.CrestDnDouble;
+            case 7584:
+                return Constantvalues.Hexside.SlopeUpPO;
+            case 7585:
+                return Constantvalues.Hexside.SlopeDnPO;
+            case 7586:
+                return Constantvalues.Hexside.CrestUpGully;
+            case 7587:
+                return Constantvalues.Hexside.CrestDnGully;
+            case 7588:
+                return Constantvalues.Hexside.Roadblock;
+            case 7589:
+                return Constantvalues.Hexside.WallPO;
+            case 7590:
+                return Constantvalues.Hexside.HedgePO;
+            case 7598:
+                return Constantvalues.Hexside.Trail;
+            case 7599:
+                return Constantvalues.Hexside.ByPassNA;
+            case 7591:
+                return Constantvalues.Hexside.RailCar;
+            case 7592:
+                return Constantvalues.Hexside.AttachedTerrain;
+            case 7593:
+                return Constantvalues.Hexside.PierLanding;
+            case 7594:
+                return Constantvalues.Hexside.AttachedBldg;
+            case 7595:
+                return Constantvalues.Hexside.IntFactside;
+            case 7596:
+                return Constantvalues.Hexside.IntBldgWall;
+            case 7597:
+                return Constantvalues.Hexside.Rowhouseside;
+            case 7601:
+                return Constantvalues.Hexside.CliffDownGullyDown;
+            case 7602:
+                return Constantvalues.Hexside.CliffUpGullyUp;
+            case 7603:
+                return Constantvalues.Hexside.CliffUp;
+            case 7604:
+                return Constantvalues.Hexside.CliffDown;
+            case 7605:
+                return Constantvalues.Hexside.crestupGullydnHdge;
+            case 7606:
+                return Constantvalues.Hexside.CrestDnGullyUpHdge;
+            case 7607:
+                return Constantvalues.Hexside.GullyUpSlopeDown;
+            case 7608:
+                return Constantvalues.Hexside.GullyDnSlopeUp;
+            case 7609:
+                return Constantvalues.Hexside.CLupGullydnHdge;
+            case 7610:
+                return Constantvalues.Hexside.CLDnGullyUpHdge;
+            case 7611:
+                return Constantvalues.Hexside.CrestUpGullySide;
+            case 7612:
+                return Constantvalues.Hexside.CrestDownGullySide;
+            case 7613:
+                return Constantvalues.Hexside.AttWoodsGullySide;
+            case 7614:
+                return Constantvalues.Hexside.Trench;
+            case 7615:
+                return Constantvalues.Hexside.TrenchCrestUp;
+            case 7616:
+                return Constantvalues.Hexside.TrenchCrestDown;
+            case 7617:
+                return Constantvalues.Hexside.TrenchHedge;
+            case 7618:
+                return Constantvalues.Hexside.TrenchWall;
             default:
                 return Constantvalues.Hexside.NoTerrain;
         }
     }
+    public Constantvalues.Hexside ConverttoHexside(Terrain Passterrain){
+        if (Passterrain.getName().equals("Open Ground")){
+            return Constantvalues.Hexside.NoTerrain;
+        } else if (Passterrain.getName().equals("Wall")) {
+            return Constantvalues.Hexside.Wall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpSlope;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDownSlope;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDownWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWoodsGullyUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWoodsGullyDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttPWdsGullyUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttPWdsGullyDn;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDownHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDownWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpTrail;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDownTrail;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttPwdsCrestUpGully;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttPWdsCrestDnGully;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpGullyDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownGullyUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttPWdsCrestUpGullyDn;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttPWdsCrestDnGullyUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpSlopeWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDownSlopeWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpUnPvRd;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDnUnPvRd;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpSlopeHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDnSlopeHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpGullyDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpGullyDownHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpGullyHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDnGullyHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDnCLUpHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpCLDnHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpGullySlopehedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDnGullySlopeHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWdsCrestUpGullyDn;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWdsCrestDnGullyUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside. CrestUpGullyWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDnGullyWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWoodsCrestUpGully;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWoodsCrestDnGully;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeUpTrail;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeDnTrail;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CulvertUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CulvertDn;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDownWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpWireSlope;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDnWireSlope;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttachedWoods;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttachedPineWoods;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttPineWCrestUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttPineWCrestDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWoodsCrestUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWoodsCrestDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeUpPWUnpavR;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeDownPWUnpavR;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpStream;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownStream;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpTrailPWoods;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownTrailPWoods;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpSlopeWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownSlopeWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWoodsCrestUpDbl;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWoodsCrestDownDbl;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeUpTrailPWoods;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeDownTrailPWoods;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpNarrowPaved;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDownNarrowPaved;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.WoodsStream;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLupdblhedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDowndblHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CliffDownHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CliffUpHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CliffDoubleUPHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CliffDoubleDownHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownSlopeUpPvRd;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpSlopeDwnPvRd;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpTrail;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownTrail;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Cave;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.TrailBreak;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Roadblock1;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Roadblock2;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Roadblock3;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Roadblock4;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Roadblock5;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Roadblock6;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestNarrowPaved;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpNarrowPaved;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownNarrowPaved;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttPineWCrestUpDbl;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttPineWCrestDnDbl;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.crestdndblslopehedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.crestupdblslopehedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDownDblslopehedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpDblSlopehedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.crestdowndblwire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.crestupdblwire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWdsCrestDnStream;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWdsCrestUpStream;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.PineWStream;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.RiceBank;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.NoTerrain;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Bocage;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Hedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Wall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Wire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.PineWoodsPavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.PineWoodsUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside. River;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Stream;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.WoodsPavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.WoodsUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.PavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.UnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.TrailWoods;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.TrailBrush;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.TrailPineWoods;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownPavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpPavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownSlope;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpSlope;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownSlopeHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpSlopeHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeDownHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeUpHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeDownWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeUpWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeDownWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeUpWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeDownPavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeUpPavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeDownUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeUpUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SunkenNonroad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SunkenNonroadWire;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SunkenNonroadHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.NarrowPavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.NarrowUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Cliff;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CactusHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.RailwayEmb;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Seawall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownSlopeWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpSlopeWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownWoodsPavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpWoodsPavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownWoodsUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpWoodsUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpTrailWoods;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownTrailWoods;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.HedgeUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.WallUnpavedRoad;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDownWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDownHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpWPO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDnWPO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Gully;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpWallSlope;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDnWallSlope;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpWallSlopePO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDnWallSlopePO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.PartOrch;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Jetty;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLUpHedgeSlope;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDnHedgeSlope;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpPO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownPO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.WirePO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpDouble;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDnDouble;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeUpPO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.SlopeDnPO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpGully;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDnGully;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Roadblock;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.WallPO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.HedgePO;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Trail;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.ByPassNA;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.RailCar;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttachedTerrain;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.PierLanding;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttachedBldg;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.IntFactside;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.IntBldgWall;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Rowhouseside;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CliffDownGullyDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CliffUpGullyUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CliffUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CliffDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.crestupGullydnHdge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDnGullyUpHdge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyUpSlopeDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.GullyDnSlopeUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLupGullydnHdge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CLDnGullyUpHdge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestUpGullySide;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.CrestDownGullySide;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.AttWoodsGullySide;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.Trench;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.TrenchCrestUp;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.TrenchCrestDown;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.TrenchHedge;
+        } else if (Passterrain.getName().equals("Wall")) {
+                return Constantvalues.Hexside.TrenchWall;
+        } else {
+            return Constantvalues.Hexside.NoTerrain;
+        }
+
+    }
+
     public Constantvalues.IFTResult ConverttoIFTResult( int databasevalue){
         switch (databasevalue){
             case 8601:

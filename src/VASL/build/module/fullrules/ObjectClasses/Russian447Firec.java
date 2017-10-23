@@ -1,10 +1,13 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
+import VASL.build.module.fullrules.UtilityClasses.ConversionC;
+
 import java.util.LinkedList;
 
 public class Russian447Firec implements FiringPersUniti {
@@ -24,7 +27,7 @@ public class Russian447Firec implements FiringPersUniti {
     private Constantvalues.AltPos myhexposition;
     private Constantvalues.Utype myUseHeroOrLeader;
     private int myOBLink;
-    private Constantvalues.Location myLoc;
+    private Location myLoc;
     private PersUniti myUnit;
 //    private LinkedList<GameLocation> Mapcol = new LinkedList<GameLocation>();
 //    private GetALocationFromMap Getlocs;
@@ -264,19 +267,21 @@ public class Russian447Firec implements FiringPersUniti {
 
 
     }
-    public void AreaFireModification(int FGSize, GameLocation targloc) {
+    public void AreaFireModification(int FGSize, Location targloc) {
         // called by EnemyValuesConcreteC.CalcFPandDRM_thread and ifTC.CalcFPandDRM
         // reduces FP for each Area fire case
 
         // cellar
         if (FGSize >= 3) {
             boolean ReducedFP = false;
-            if (myLoc == Constantvalues.Location.Cellar) {
+            ConversionC DoConversion = new ConversionC();
+            Constantvalues.Location myLoctype = DoConversion.getLocationtypefromVASLLocation(myLoc);
+            if (myLoctype == Constantvalues.Location.StoneCellar || myLoctype == Constantvalues.Location.WoodCellar) {
                 ReducedFP = true;
-                if (targloc.getIsCellar()) {
+                if (targloc.getTerrain().isCellar()) {
                     ReducedFP = false;
                 } // must be part of building or LOS would not exist and would not be here; no need to check again
-                if (targloc.getHexnum() == myUnit.getbaseunit().getHexnum() && targloc.getLevelInHex() ==0) {
+                if (targloc.getHex().getName() == myUnit.getbaseunit().getHexName() && targloc.getBaseHeight() ==0) {
                     ReducedFP = false;
                 } // must be ground level or LOS would not exist and would not be here; no need to check again
             }

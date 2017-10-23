@@ -506,8 +506,8 @@ public class DataC {
         Newunit.setFirstSWLink(0);
         Newunit.setFortitudeStatus(Constantvalues.FortitudeStatus.Normal);
         Newunit.setHexEnteredSideCrossedLastMove(0);
-        Newunit.sethexlocation(Constantvalues.Location.Woods);
-        Newunit.setHexname("L1");
+        Newunit.sethexlocation(Constantvalues.Location.StoneBuilding2ndLevel);
+        Newunit.setHexname("N2");
         Newunit.sethexnum(0);
         Newunit.setLevelinHex(0);
         Newunit.setLOBLink(5);

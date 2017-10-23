@@ -1,5 +1,6 @@
 package VASL.build.module.fullrules.DataClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
@@ -14,7 +15,7 @@ public class ScenarioTerrain {
     private int pScenario;
     private int pScenter_id;
     private int pHexnumber;
-    private int phexlocation;
+    private Location phexlocation;
     private Constantvalues.AltPos phexposition;
     private Constantvalues.VisibilityStatus pVisibilityStatus;
     private int pLocIndex;
@@ -37,8 +38,8 @@ public class ScenarioTerrain {
 	public void setScenter_id(int value){pScenter_id = value;}
 	public int getHexnumber() {return pHexnumber;}
 	public void setHexnumber(int value){pHexnumber = value;}
-	public int gethexlocation() {return phexlocation;}
-	public void sethexlocation(int value){phexlocation = value;}
+	public Location gethexlocation() {return phexlocation;}
+	public void sethexlocation(Location value){phexlocation = value;}
 	public Constantvalues.AltPos gethexposition() {return phexposition;}
 	public void sethexposition(Constantvalues.AltPos value) {phexposition = value;}
 	public Constantvalues.VisibilityStatus getVisibilityStatus() {return pVisibilityStatus;}

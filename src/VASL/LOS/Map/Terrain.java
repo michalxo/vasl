@@ -21,7 +21,9 @@ public class Terrain {
 
     private Color mapColor			    = new Color(0, 0, 0);
 
-    private LOSCategories LOSCategory = LOSCategories.OPEN;
+    private LOSCategories LOSCategory   = LOSCategories.OPEN;
+    private int     TEM                 = 0;
+    private int     LOSHind             = 0;
 
     /**
      * The LOS categories
@@ -365,4 +367,11 @@ public class Terrain {
     public boolean isFactoryTerrain() {
         return LOSCategory == LOSCategories.FACTORY;
     }
+
+    // new properties to support fullrules
+
+    public int getTEM() { return TEM;}
+    public void setTEM(int value) {TEM = value;}
+    public int getLOSHindDRM() {return LOSHind;}
+    public void setLOSHind(int value) {LOSHind = value;}
 }

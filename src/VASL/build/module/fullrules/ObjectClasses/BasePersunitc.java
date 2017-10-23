@@ -1,9 +1,9 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
-import VASL.build.module.fullrules.MapDataClasses.LocationType;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
 
@@ -16,8 +16,8 @@ public class BasePersunitc implements Basepersuniti {
     // all concrete class of persuniti will create this class; can be decorated
     private String pHexname;
     private int pScenario;
-    private int pHexnum;
-    private Constantvalues.Location phexlocation;
+    private Hex pHex;
+    private Location phexlocation;
     private Constantvalues.AltPos phexPosition;
     private double pLevelinHex;
     private int pLOCIndex;
@@ -49,7 +49,7 @@ public class BasePersunitc implements Basepersuniti {
     private LinkedList<PersUniti> pGuarding;
 
     // constructor
-    public BasePersunitc(String PassHexname, int PassScenario, int PassHexnum, Constantvalues.Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
+    public BasePersunitc(String PassHexname, int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
                          int PassELR, int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassFirstSWLink, int PassSecondSWlink,
                          int PassHexEntSideCrossed, int PassSolID, String PassUnitName, int PassLOBLink, Constantvalues.CombatStatus PassCombatStatus, Constantvalues.VisibilityStatus PassVisibilityStatus,
                          Constantvalues.FortitudeStatus PassFortitudeStatus, Constantvalues.OrderStatus PassOrderStatus, Constantvalues.MovementStatus PassMovementStatus, boolean PassPinned, int PassSW,
@@ -57,7 +57,7 @@ public class BasePersunitc implements Basepersuniti {
 
         pHexname = PassHexname;
         pScenario = PassScenario;
-        pHexnum = PassHexnum;
+        pHex = PassHex;
         phexlocation = Passhexlocation;
         phexPosition = PasshexPosition;
         pLevelinHex = PassLevelinHex;
@@ -104,19 +104,19 @@ public class BasePersunitc implements Basepersuniti {
         return pScenario;
     }
 
-    public int getHexnum() {
-        return pHexnum;
+    public Hex getHex() {
+        return pHex;
     }
 
-    public void setHexnum(int value) {
-        pHexnum = value;
+    public void setHex(Hex value) {
+        pHex = value;
     }
 
-    public Constantvalues.Location gethexlocation() {
+    public Location gethexlocation() {
         return phexlocation;
     }
 
-    public void sethexlocation(Constantvalues.Location value) {
+    public void sethexlocation(Location value) {
         phexlocation = value;
     }
 
@@ -534,8 +534,4 @@ public class BasePersunitc implements Basepersuniti {
         }
     }
 
-    public LocationType getLocationType(Constantvalues.Location phexlocation) {
-        TerrainChecks Terrchk = new TerrainChecks();
-        return Terrchk.getLocationType(phexlocation);
-    }
 }

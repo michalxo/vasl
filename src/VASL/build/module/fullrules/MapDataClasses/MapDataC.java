@@ -33,7 +33,7 @@ public class MapDataC {
     private int ScenarioID = 0;
     private String ScenarioName;
     private Connection aslmapdatacon;
-    private LinkedList<LocationType> LocationTypeCol = new LinkedList<LocationType>();
+    //private LinkedList<LocationType> LocationTypeCol = new LinkedList<LocationType>();
     private LinkedList<HexsideType> HexsideTypeCol = new LinkedList<HexsideType>();
     //Public db As MapDataClassesDataContext  temporary while debugging undo
 
@@ -75,7 +75,7 @@ public class MapDataC {
         } finally {
 
         }
-        CreateLocationTypeCollection();
+        //CreateLocationTypeCollection();
         CreateHexsideTypeCollection();
         try {
             aslmapdatacon.close();
@@ -83,8 +83,8 @@ public class MapDataC {
 
         }
     }
-
-    public void CreateLocationTypeCollection(){
+    // LocationType replaced by expanded SharedBoardMetadata.xml elements Oct 17
+    /*public void CreateLocationTypeCollection(){
 
         Constantvalues.Location PassLocationvalue=null;
         int PassTEM=0;
@@ -142,7 +142,7 @@ public class MapDataC {
             if (rs != null) try { rs.close(); } catch(Exception e) {}
             if (stmt != null) try { stmt.close(); } catch(Exception e) {}
         }
-    }
+    }*/
     public void CreateHexsideTypeCollection(){
 
         Constantvalues.Hexside PassHexsidevalue = null;
@@ -207,7 +207,7 @@ public class MapDataC {
         return DoConversion.ConverttoHexsideType(databasevalue);
 
     }
-    public LinkedList<LocationType> getLocationTypeCol() {return LocationTypeCol;}
+    //public LinkedList<LocationType> getLocationTypeCol() {return LocationTypeCol;}
 
     public LinkedList<HexsideType> getHexsideTypeCol() {return HexsideTypeCol;}
 

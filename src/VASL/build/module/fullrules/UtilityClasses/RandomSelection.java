@@ -1,7 +1,6 @@
 package VASL.build.module.fullrules.UtilityClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 public class RandomSelection {
     // called by FireResolve.Resolve

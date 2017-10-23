@@ -1,5 +1,7 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
+import VASL.LOS.Map.Location;
+import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
@@ -7,11 +9,11 @@ import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import java.util.LinkedList;
 
 public class IsSide {
-    // This class handles various methods to return value of boolean test accesssing one or more hexside columns from the Map Table for specified location(s)
-    private LinkedList<GameLocation> MapData;
+    // This class handles various methods to return value of boolean test accesssing one or more hexsides for specified location(s)
+    Location pLocation;
 
-    public IsSide(LinkedList<GameLocation> LocationCol) {
-        MapData = LocationCol;
+    public IsSide(Location PassLocation) {
+        pLocation = PassLocation;
     }
 
     public boolean IsARoad(int hexsidetouse, int LOCIndextouse) {
@@ -290,7 +292,7 @@ public class IsSide {
     }
         //'overloaded
           //      'first uses hexside and hexnum; second uses hexside of Gamelocation
-    private int Gethexsidetype(int hexside, int hexnumber) {
+    public int Gethexsidetype(int hexside, int hexnumber) {
         //'called by IsSide.IsWAAllowed
         //'returns hexside value of specificied side of specified hex
         /*Dim Levelchk As New TerrainClassLibrary.ASLXNA.LevelChecks(MapData)
@@ -317,28 +319,26 @@ public class IsSide {
         End With*/
         return 0;
     }
-    public Constantvalues.Hexside Gethexsidetype(GameLocation MapHex, int hexside) {
+    public Terrain GethexsideTerrain(int hexside) {
         // called by IsSide.IsWAAllowed, movement.determinemenuforhexmove
         // returns hexside value of specificied side of specified hex
-
-        switch (hexside) {
-            case 1:
-                return MapHex.getHexside1();
-            case 2:
-                return MapHex.getHexside2();
-            case 3:
-                return MapHex.getHexside3();
-            case 4:
-                return MapHex.getHexside4();
-            case 5:
-                return MapHex.getHexside5();
-            case 6:
-                return MapHex.getHexside6();
+        return pLocation.getHex().getHexsideTerrain(hexside);
+    }
+    public int GethexsideTEM (Constantvalues.Hexside hexsidetype){
+        switch (hexsidetype){
+            case NoTerrain:
+                return 0;
+            case Wall:
+            case WallPO:
+            case WallUnpavedRoad:
+                return 2;
+            case Hedge:
+            case HedgePO:
+            case HedgeUnpavedRoad:
+                return 1;
             default:
-                //MsgBox("Hexside failure");
-                return null;
+                return 0;
         }
-
     }
     public String GetSideData(Constantvalues.TerrFactor Sideitem, Constantvalues.Hexside SideID) {
         // called by

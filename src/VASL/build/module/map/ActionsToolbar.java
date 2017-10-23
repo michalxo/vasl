@@ -40,7 +40,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import VASSAL.configure.StringConfigurer;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;

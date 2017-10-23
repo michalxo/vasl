@@ -1,5 +1,6 @@
 package VASL.build.module.fullrules.DataClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 
 public class IFTMods {
@@ -9,16 +10,16 @@ public class IFTMods {
     // private pDRMName As String
     private int pTargetItem;
     private Constantvalues.Typetype pTargetType;
-    private double pTargetLOCindex;
-    private double pDRMLOCindex;
+    private Location pTargetLocation;
+    private Location pDRMLocation;
 
-    public IFTMods(int PassDRM, Constantvalues.IFTdrm PassDRMType, int PassTargetItem, Constantvalues.Typetype PassTargettype, double PassTargetLocIndex, double PassDRMLOCIndex) {
+    public IFTMods(int PassDRM, Constantvalues.IFTdrm PassDRMType, int PassTargetItem, Constantvalues.Typetype PassTargettype, Location PassTargetLocation, Location PassDRMLocation) {
         pDRM = PassDRM;
         pDRMType = PassDRMType;
         pTargetItem = PassTargetItem;
         pTargetType = PassTargettype;
-        pTargetLOCindex = PassTargetLocIndex;
-        pDRMLOCindex = PassDRMLOCIndex;
+        pTargetLocation = PassTargetLocation;
+        pDRMLocation = PassDRMLocation;
     }
     public int getDRM() {return pDRM;}
     public void setDRM(int value) {pDRM = value;}
@@ -28,9 +29,9 @@ public class IFTMods {
     public void setTargetItem(int value) {pTargetItem = value;}
     public Constantvalues.Typetype getTargetType() {return pTargetType;}
     public void setTargetType(Constantvalues.Typetype value) {pTargetType = value;}
-    public double getTargetLocIndex () {return pTargetLOCindex;}
-    public void setTargetLocIndex(double value){ pTargetLOCindex = value;}
-    public double getDRMLocIndex() {return pDRMLOCindex;}
-    public void setDRMLocIndex(double value){pDRMLOCindex = value;}
+    public Location getTargetLocation () {return pTargetLocation;}
+    public void setTargetLocation(Location value){ pTargetLocation = value;}
+    public Location getDRMLocation() {return pDRMLocation;}
+    public void setDRMLocation(Location value){pDRMLocation = value;}
 
 }

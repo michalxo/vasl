@@ -2,7 +2,7 @@ package VASL.build.module.fullrules.MapDataClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
 
-public class LocationType {
+/*public class LocationType {
     private Constantvalues.Location pLocationvalue;
     private int pTEM;
     private int pLOSHindDRM;
@@ -35,7 +35,7 @@ public class LocationType {
         pPillbox = PassPillbox;
         pRemoveWhenUnoccupied = PassRemoveWhenUnoccupied;
     }
-    /*public LocationType(ResultSet rs){
+    *//*public LocationType(ResultSet rs){
         try {
             PassLocationvalue = ConverttoLocationType(rs.getInt(1));
             PassTEM = rs.getInt(2);
@@ -54,7 +54,7 @@ public class LocationType {
         } catch (Exception e) {
 
         }
-    }*/
+    }*//*
 
     public Constantvalues.Location getLocationvalue() {return pLocationvalue;}
     public int getTEM() {return pTEM;}
@@ -72,4 +72,4 @@ public class LocationType {
     public boolean isRemoveWhenUnoccupied() {return pRemoveWhenUnoccupied;}
 
 
-}
+}*/

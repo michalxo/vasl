@@ -260,7 +260,14 @@ public class LOSResult {
         return hexesInLOS;
     }
     public void addHextohexesInLOS(Hex addHex){
-        hexesInLOS.add(addHex);
+    	if (hexesInLOS.size() !=0) {
+			for (Hex checkformatch : hexesInLOS) {
+				if(checkformatch.equals(addHex)){
+					return;
+				}
+			}
+		}
+		hexesInLOS.add(addHex);
     }
     public void ClearhexesInLOS()  {
         hexesInLOS.clear();
