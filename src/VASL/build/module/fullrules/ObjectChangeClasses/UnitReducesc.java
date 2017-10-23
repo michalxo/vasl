@@ -72,9 +72,8 @@ public class UnitReducesc implements StatusChangei {
         TargParent.getbaseunit().setPinned(false);
         TargParent.getbaseunit().setCombatStatus(Constantvalues.CombatStatus.None);
         TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
-        TargParent.getbaseunit().setHexnum(0);
-        TargParent.getbaseunit().setLOCIndex(0);
-        TargParent.getbaseunit().sethexlocation(Constantvalues.Location.NA);
+        TargParent.getbaseunit().setHex(null);
+        TargParent.getbaseunit().sethexlocation(null);
         TargParent.getbaseunit().sethexPosition(Constantvalues.AltPos.None);
 
         //'remove old unit from moving list TOO EARLY - DO THIS LATER

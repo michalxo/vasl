@@ -1097,7 +1097,7 @@ public class CombatTerrain  extends BaseHex {
                     } else {
                         // using LOSH in alternate hex
                         if (GetAltLOSH > 0) {
-                            LOSHName = TerrChk.GetLocationData(Constantvalues.TerrFactor.Desc, hexterrtype);
+                            LOSHName = NextTempComTer.gethexdesc();
                         } else {
                             LOSHName = ""; // ' if(GetAltLOSH > 0, Linqdata.GetTerrainData(EnumCon.TerrFactor.Desc, hexterrtype), "")
                         }

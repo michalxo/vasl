@@ -79,11 +79,10 @@ public class UnitSurrendersc implements StatusChangei {
             // if enemy can' t guard, unarmed unit still moves to the hex and is then 'freed'
         }
         // now move prisoner - this is quick and dirty - DEVELOP GLIDE APPROACH AUG 14 - see MoveItemsGraphics.MoveGraphics.Moveitem
-        NewUnit.getbaseunit().setHexnum(myGuardUnit.getbaseunit().getHexnum());
+        NewUnit.getbaseunit().setHex(myGuardUnit.getbaseunit().getHex());
         NewUnit.getbaseunit().setHexname(myGuardUnit.getbaseunit().getHexName());
         NewUnit.getbaseunit().sethexlocation(myGuardUnit.getbaseunit().gethexlocation());
         NewUnit.getbaseunit().sethexPosition(myGuardUnit.getbaseunit().gethexPosition());
-        NewUnit.getbaseunit().setLOCIndex(myGuardUnit.getbaseunit().getLOCIndex());
         NewUnit.getbaseunit().setLevelinHex(myGuardUnit.getbaseunit().getLevelinHex());
         // .hexPosition = OldUnit.BasePersUnit.hexPosition
         NewUnit.getbaseunit().setHexEntSideCrossed(0);

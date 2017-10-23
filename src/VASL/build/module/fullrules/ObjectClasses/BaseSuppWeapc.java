@@ -1,12 +1,13 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASSAL.build.GameModule;
 
 public class BaseSuppWeapc {
     private int myScenario;
-    private int myHexnum;
+    private Hex myHex;
     private Location myhexlocation;
     private Constantvalues.AltPos myhexPosition;
     private double myLevelinHex;
@@ -34,14 +35,14 @@ public class BaseSuppWeapc {
     private boolean myCaptured;
     private int myOwner;
 
-    public BaseSuppWeapc(int PassScenario, int PassHexnum, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
+    public BaseSuppWeapc(int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
                          int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassPP, int PassRepair, int PassDisPP,
                          int PassHexEntSideCrossed, int PassSolID, String PassUnitName, int PassLOBLink, Constantvalues.CombatStatus PassCombatStatus, Constantvalues.VisibilityStatus PassVisibilityStatus, Constantvalues.FortitudeStatus PassFortitudeStatus,
                          Constantvalues.SWStatus PassSWStatus, Constantvalues.MovementStatus PassMovementStatus, boolean PassPinned, int PassSW, Constantvalues.CharacterStatus PassCharacterStatus, boolean PassCaptured, int PassOwner) {
 
 
         myScenario = PassScenario;
-        myHexnum = PassHexnum;
+        myHex = PassHex;
         myhexlocation = Passhexlocation;
         myhexPosition = PasshexPosition;
         myLevelinHex = PassLevelinHex;
@@ -72,8 +73,8 @@ public class BaseSuppWeapc {
 
     public String getUnitName() {return myUnitName;}
     public int getScenario() {return myScenario;}
-    public int getHexnum() {return myHexnum;}
-    public void setHexnum(int value) {myHexnum = value;}
+    public Hex getHex() {return myHex;}
+    public void setHex(Hex value) {myHex = value;}
     public Location gethexlocation() {return myhexlocation;}
     public void sethexlocation(Location value) {myhexlocation = value;}
     public Constantvalues.AltPos gethexPosition() {return myhexPosition;}

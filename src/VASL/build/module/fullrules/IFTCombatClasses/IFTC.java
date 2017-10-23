@@ -45,8 +45,8 @@ public class IFTC implements IIFTC {
     protected LinkedList<IFTMods> FinalDRMLIst = new LinkedList<IFTMods>();  // holds info about drm for current combat
     private Hex pTargethex;  // first selected target hex - used to determine if other hexes eligible
     private Hex pFirerhex;   // first selected Firer hex - used to determine if other hexes eligible
-    private int pTargetloc;  // first selected target loc - used to determine if other hexes eligible
-    private int pFirerloc; // first selected Firer loc - used to determine if other hexes eligible
+    private Location pTargetloc;  // first selected target loc - used to determine if other hexes eligible
+    private Location pFirerloc; // first selected Firer loc - used to determine if other hexes eligible
     private Constantvalues.AltPos pFirerpos; // first selected Firer pos - used to determine if other hexes eligible
     public LOSThreadManagerC ThreadManager = new LOSThreadManagerC();  // class with combat management methods
     public ThreadedLOSCheckC LOSTest = new ThreadedLOSCheckC();   // loscheckclass
@@ -75,8 +75,8 @@ public class IFTC implements IIFTC {
         pTargetSan = 0;
         pFirerhex = null;
         pTargethex = null;
-        pFirerloc = 0;
-        pTargetloc = 0;
+        pFirerloc = null;
+        pTargetloc = null;
         pFirerpos = Constantvalues.AltPos.None;
         myNeedToResumeResolution = false;
         pScenID = PassScenID;
@@ -116,19 +116,19 @@ public class IFTC implements IIFTC {
         pFirerhex = value;
     }
 
-    public int getTargetloc() {
+    public Location getTargetloc() {
         return pTargetloc;
     }
 
-    public void setTargetloc(int value) {
+    public void setTargetloc(Location value) {
         pTargetloc = value;
     }
 
-    public int getFirerloc() {
+    public Location getFirerloc() {
         return pFirerloc;
     }
 
-    public void setFirerloc(int value) {
+    public void setFirerloc(Location value) {
         pFirerloc = value;
     }
 
@@ -196,7 +196,7 @@ public class IFTC implements IIFTC {
 
         boolean ValidMatch = false;
         for (LOSSolution ValidSol: ValidSolutions){
-            if (Tempsolitem.getSeeLOSIndex() == ValidSol.getSeeLOSIndex() && Tempsolitem.getSeenLOSIndex() == ValidSol.getSeenLOSIndex() &&
+            if (Tempsolitem.getSeeHex().getName() == ValidSol.getSeeHex().getName() && Tempsolitem.getSeenHex().getName() == ValidSol.getSeenHex().getName() &&
                     ValidSol.getSolworks() == true) {
                 // if match the LOS is good; no further check needed
                 BringBackid = ValidSol.getID();
@@ -337,13 +337,13 @@ public class IFTC implements IIFTC {
                 // hex, need more than a ldr to be part of FG
                 for (PersUniti FiringUnit : FireGroup) {
                     if ((FiringUnit.getbaseunit().getUnittype() == Constantvalues.Utype.Leader &&
-                            TempCombathex.getHexID() == FiringUnit.getbaseunit().getHexnum()) ||
+                            TempCombathex.getHexName() == FiringUnit.getbaseunit().getHexName()) ||
                             (FiringUnit.getbaseunit().getUnittype() == Constantvalues.Utype.LdrHero &&
                                     FiringUnit.getFiringunit().getUseHeroOrLeader() == Constantvalues.Utype.Leader &&
-                                    TempCombathex.getHexID() == FiringUnit.getbaseunit().getHexnum())) {
+                                    TempCombathex.getHexName() == FiringUnit.getbaseunit().getHexName())) {
                         ldrpresent = true;
                     } else {
-                        if (TempCombathex.getHexID() == FiringUnit.getbaseunit().getHexnum()) {
+                        if (TempCombathex.getHexName() == FiringUnit.getbaseunit().getHexName()) {
                             Unitpresent = true;
                         }
                     }
@@ -369,7 +369,7 @@ public class IFTC implements IIFTC {
         boolean GroupAddOk = false;  // toggle to signal if unit can be part of Target group
         if (getTargethex() == null) { // first target in group, set target hex and add to TempTarget
             setTargethex(scen.getGameMap().getHex(Selunit.getbaseunit().getHexName()));
-            setTargetloc(Selunit.getbaseunit().getLOCIndex());
+            setTargetloc(Selunit.getbaseunit().gethexlocation());
             if (AddtoTempTarget(Selunit)) { // 'true if add ok; false if add fails
                 return true;
             } else {
@@ -491,7 +491,7 @@ public class IFTC implements IIFTC {
         if (getFirerhex() == null) {
             // first firer in group, set fire hex and add to TempFG
             setFirerhex(scen.getGameMap().getHex(Unititem.getbaseunit().getHexName()));
-            setFirerloc(Unititem.getbaseunit().getLOCIndex());
+            setFirerloc(Unititem.getbaseunit().gethexlocation());
             return AddtoTempFG(Unititem, Selectionmade) ? true : false;
         } else {
             // determine if eligible to join existing selection
@@ -578,7 +578,6 @@ public class IFTC implements IIFTC {
             // put LOS-related info into variables to use in creating TempSolution
             PassFirerhex = scen.getGameMap().getHex(TempFiringUnit.getbaseunit().getHexName());
             PassFirerlevelinhex = TempFiringUnit.getbaseunit().getLevelinHex();
-            PassFirerLosIndex = TempFiringUnit.getbaseunit().getLOCIndex();
             PassFirerPositionInHex = TempFiringUnit.getbaseunit().gethexPosition();
 
             // check if a target has been selected, if only firers selected, do nothing, already added to Group
@@ -589,10 +588,9 @@ public class IFTC implements IIFTC {
                     for (PersUniti MovingUnit : Scencolls.SelMoveUnits) {
                         for (PersUniti TempTarg : TempTarget) {
                             if (TempTarg.getbaseunit().getUnit_ID() == MovingUnit.getbaseunit().getUnit_ID()) {
-                                TempTarg.getbaseunit().setHexnum(MovingUnit.getbaseunit().getHexnum());
+                                TempTarg.getbaseunit().setHex(MovingUnit.getbaseunit().getHex());
                                 TempTarg.getbaseunit().sethexlocation(MovingUnit.getbaseunit().gethexlocation());
                                 TempTarg.getbaseunit().sethexPosition(MovingUnit.getbaseunit().gethexPosition());
-                                TempTarg.getbaseunit().setLOCIndex(MovingUnit.getbaseunit().getLOCIndex());
                                 TempTarg.getbaseunit().setLevelinHex(MovingUnit.getbaseunit().getLevelinHex());
                             }
                         }
@@ -602,13 +600,12 @@ public class IFTC implements IIFTC {
                     // put LOS-related info into variables for use in creating TempSolution
                     Hex PassTargethex = scen.getGameMap().getHex(TempTargU.getbaseunit().getHexName());
                     double PassTargetlevelinhex = TempTargU.getbaseunit().getLevelinHex();
-                    int PassTargetLOSIndex = TempTargU.getbaseunit().getLOCIndex();
                     Constantvalues.AltPos PassTargetPositionInHex = TempTargU.getbaseunit().gethexPosition();
                     // check and see if same TEmpSol already exists
                     AddYes = true;
                     if (TempSolutions.size() > 0) {
                         for (TempSolution TempSolitem : TempSolutions) {
-                            if (PassTargetLOSIndex == TempSolitem.getSeenLOSIndex()) {
+                            if (TempTargU.getbaseunit().getHexName() == TempSolitem.getSeenHex().getName()) {
                                 // same TempSolution already exists no need to create new one
                                 for (PersUniti TempFirUnit : TempFireGroup) {
                                     TempFirUnit.getbaseunit().setSolID(TempSolitem.getID());
@@ -622,8 +619,8 @@ public class IFTC implements IIFTC {
                         if (AddYes) {
                             // add new TempSol to the TempSolutions collection
                             if (AddtoTempSol(PassFirerhex, PassFirerlevelinhex,
-                                    PassFirerLosIndex, PassFirerPositionInHex, PassTargethex, PassTargetlevelinhex,
-                                    PassTargetLOSIndex, PassTargetPositionInHex, PassSolworks, TempSolutions.size(), scen.getGameMap())) {
+                                    PassFirerPositionInHex, PassTargethex, PassTargetlevelinhex,
+                                    PassTargetPositionInHex, PassSolworks, TempSolutions.size(), scen.getGameMap())) {
 
                                 TempSolution TempSol = TempSolutions.get(TempSolutions.size() - 1);
                                 // update TempFirer and TempTarget to include new TempSolution id
@@ -642,8 +639,8 @@ public class IFTC implements IIFTC {
                     if (AddYes) {
                         // add new TempSol to the TempSolutions collection
                         if (AddtoTempSol(PassFirerhex, PassFirerlevelinhex,
-                                PassFirerLosIndex, PassFirerPositionInHex, PassTargethex, PassTargetlevelinhex,
-                                PassTargetLOSIndex, PassTargetPositionInHex, PassSolworks, ValidSolutions.size(), scen.getGameMap())) {
+                                PassFirerPositionInHex, PassTargethex, PassTargetlevelinhex,
+                                PassTargetPositionInHex, PassSolworks, ValidSolutions.size(), scen.getGameMap())) {
                             TempSolution TempSol = TempSolutions.get(TempSolutions.size() - 1);
                             // update TempFirer and TempTarget to include new TempSolution id
                             for (PersUniti TempFirUnit : TempFireGroup) {
@@ -662,14 +659,14 @@ public class IFTC implements IIFTC {
                 // if no target selected but Solution exists then add to FireGroup; if no solution exists then create temp solution
                 AddYes = true;
                 for (LOSSolution ValidSol : ValidSolutions) {
-                    if (PassFirerLosIndex == ValidSol.getSeeLOSIndex()) {
+                    if (TempFiringUnit.getbaseunit().getHexName() == ValidSol.getSeeHex().getName()) {
                         // if Firer location already part of valid solution, no need to check LOS again
                         AddYes = false;
                         GameModule.getGameModule().getChatter().send("No need to add this to temp sol since already validated BUT must add units");
                         // will return to calling routine, having added to FireGroup but not new Sol
                         // should not cause crash
                         for (PersUniti TempFirUnit : TempFireGroup) {
-                            if (TempFirUnit.getbaseunit().getLOCIndex() == ValidSol.getSeeLOSIndex()) {
+                            if (TempFirUnit.getbaseunit().getHexName() == ValidSol.getSeeHex().getName()) {
                                 TempFirUnit.getbaseunit().setSolID(ValidSol.getID());
                             }
                         }
@@ -682,11 +679,10 @@ public class IFTC implements IIFTC {
                     LOSSolution ValidSol = ValidSolutions.getFirst();
                     Hex PassTargethex = ValidSol.getSeenHex();
                     double PassTargetlevelinhex = ValidSol.getSeenLevelInHex();
-                    int PassTargetLOSIndex = ValidSol.getSeenLOSIndex();
                     Constantvalues.AltPos PassTargetPositionInHex = ValidSol.getSeenPositionInHex();
                     if (AddtoTempSol(PassFirerhex, PassFirerlevelinhex,
-                            PassFirerLosIndex, PassFirerPositionInHex, PassTargethex, PassTargetlevelinhex,
-                            PassTargetLOSIndex, PassTargetPositionInHex, PassSolworks, ValidSolutions.size(), scen.getGameMap())) {
+                            PassFirerPositionInHex, PassTargethex, PassTargetlevelinhex,
+                            PassTargetPositionInHex, PassSolworks, ValidSolutions.size(), scen.getGameMap())) {
                         TempSolution TempSol = TempSolutions.get(TempSolutions.size() - 1);
                         for (PersUniti TempFirUnit : TempFireGroup) {
                             TempFirUnit.getbaseunit().setSolID(TempSol.getID());
@@ -709,7 +705,6 @@ public class IFTC implements IIFTC {
                 // put data in variabales to pass to other methods
                 Hex PassTargethex = scen.getGameMap().getHex(TempTargUnit.getbaseunit().getHexName());
                 double PassTargetlevelinhex = TempTargUnit.getbaseunit().getLevelinHex();
-                int PassTargetLOSIndex = TempTargUnit.getbaseunit().getLOCIndex();
                 Constantvalues.AltPos PassTargetPositioninhex = TempTargUnit.getbaseunit().gethexPosition();
                 PassSolworks = false;
                 // if TempFirers then create a TempSol
@@ -718,7 +713,6 @@ public class IFTC implements IIFTC {
                         // put firer data into variables for passing
                         PassFirerhex = scen.getGameMap().getHex(TempFiringUnit.getbaseunit().getHexName());
                         PassFirerlevelinhex = TempFiringUnit.getbaseunit().getLevelinHex();
-                        PassFirerLosIndex = TempFiringUnit.getbaseunit().getLOCIndex();
                         PassFirerPositionInHex = TempFiringUnit.getbaseunit().gethexPosition();
                         if (TempSolutions.size() == 0) {
                             // if no TempSol then create a new one
@@ -726,7 +720,7 @@ public class IFTC implements IIFTC {
                         } else {
                             for (TempSolution TempSolitem : TempSolutions) {
                                 // check against existing tempsol; if match then don' t create new one
-                                if (PassFirerLosIndex == TempSolitem.getSeeLOSIndex() && PassTargetLOSIndex == TempSolitem.getSeenLOSIndex()) {
+                                if (TempFiringUnit.getbaseunit().getHexName() == TempSolitem.getSeeHex().getName() && TempTargUnit.getbaseunit().getHexName() == TempSolitem.getSeenHex().getName()) {
                                     SolToTest = true;
                                     AddYes = false;
                                     break;
@@ -738,8 +732,8 @@ public class IFTC implements IIFTC {
                         if (AddYes) {
                             // if no match then create new TempSol
                             if (AddtoTempSol(PassFirerhex, PassFirerlevelinhex,
-                                    PassFirerLosIndex, PassFirerPositionInHex, PassTargethex, PassTargetlevelinhex,
-                                    PassTargetLOSIndex, PassTargetPositioninhex, PassSolworks, TempSolutions.size() - 1, scen.getGameMap())) {
+                                    PassFirerPositionInHex, PassTargethex, PassTargetlevelinhex,
+                                    PassTargetPositioninhex, PassSolworks, TempSolutions.size() - 1, scen.getGameMap())) {
                                 TempSolution TempSol = TempSolutions.getLast();
                                 TempFiringUnit.getbaseunit().setSolID(TempSol.getID());
                                 TempTargUnit.getbaseunit().setSolID(TempSol.getID());
@@ -754,7 +748,7 @@ public class IFTC implements IIFTC {
                         // check if LOS already validated
                         AddYes = true;
                         for (LOSSolution ValidSol : ValidSolutions) {
-                            if (PassTargetLOSIndex == ValidSol.getSeenLOSIndex()) {
+                            if (TempTargUnit.getbaseunit().getHexName() == ValidSol.getSeenHex().getName()) {
                                 // if Target location already part of valid solution, no need to check LOS again
                                 AddYes = false;
                                 GameModule.getGameModule().getChatter().send("No need to add this to temp sol since already validated BUT must add units");
@@ -770,11 +764,10 @@ public class IFTC implements IIFTC {
                             for (LOSSolution ValidSol : ValidSolutions) {
                                 PassFirerhex = ValidSol.getSeeHex();
                                 PassFirerlevelinhex = ValidSol.getSeeLevelInHex();
-                                PassFirerLosIndex = ValidSol.getSeeLOSIndex();
                                 PassFirerPositionInHex = ValidSol.getSeePositionInHex();
                                 if (AddtoTempSol(PassFirerhex, PassFirerlevelinhex,
-                                        PassFirerLosIndex, PassFirerPositionInHex, PassTargethex, PassTargetlevelinhex,
-                                        PassTargetLOSIndex, PassTargetPositioninhex, PassSolworks, TempSolutions.size() - 1, scen.getGameMap())) {
+                                        PassFirerPositionInHex, PassTargethex, PassTargetlevelinhex,
+                                        PassTargetPositioninhex, PassSolworks, TempSolutions.size() - 1, scen.getGameMap())) {
                                     TempSolution TempSol = TempSolutions.getLast();
                                     TempTargUnit.getbaseunit().setSolID(TempSol.getID());
                                     SolToTest = true;
@@ -966,15 +959,15 @@ public class IFTC implements IIFTC {
         }
     }
 
-    protected boolean AddtoTempSol(Hex PassFirerhex, double PassFirerlevelinhex, int PassFirerLOSindex, Constantvalues.AltPos PassFirerPositioninHex,
-        Hex PassTargethex, double PassTargetlevelinhex, int PassTargetLOSIndex, Constantvalues.AltPos PassTargetPositionInHex,
+    protected boolean AddtoTempSol(Hex PassFirerhex, double PassFirerlevelinhex, Constantvalues.AltPos PassFirerPositioninHex,
+        Hex PassTargethex, double PassTargetlevelinhex, Constantvalues.AltPos PassTargetPositionInHex,
         boolean PassSolWorks, int PassTempSolID, VASL.LOS.Map.Map PassScenMap){
         // called by ifT.IsThereASolutionToTest
         // adds a new temporary LOS to be validated
         try {
             TempSolutions.add(new TempSolution(PassFirerhex, PassFirerlevelinhex,
-                    PassFirerLOSindex, PassFirerPositioninHex, PassTargethex, PassTargetlevelinhex,
-                    PassTargetLOSIndex, PassTargetPositionInHex, PassSolWorks, PassTempSolID, PassScenMap));
+                    PassFirerPositioninHex, PassTargethex, PassTargetlevelinhex,
+                    PassTargetPositionInHex, PassSolWorks, PassTempSolID, PassScenMap));
             return true;
         }catch(Exception ex){
             GameModule.getGameModule().getChatter().send("Error adding Fire Solution to TempSolutions: ifT.AddtoTempSol");
@@ -993,8 +986,8 @@ public class IFTC implements IIFTC {
                 PassID = TempSolitem.getID();
             }
             try {
-                ValidSolutions.add(new LOSSolution(TempSolitem.getSeeHex(), TempSolitem.getSeeLevelInHex(), TempSolitem.getTotalSeeLevel(), TempSolitem.getSeeLOSIndex(),
-                        TempSolitem.getSeePositionInHex(), TempSolitem.getSeenHex(), TempSolitem.getSeenLevelInHex(), TempSolitem.getTotalSeenLevel(), TempSolitem.getSeenLOSIndex(),
+                ValidSolutions.add(new LOSSolution(TempSolitem.getSeeHex(), TempSolitem.getSeeLevelInHex(), TempSolitem.getTotalSeeLevel(),
+                        TempSolitem.getSeePositionInHex(), TempSolitem.getSeenHex(), TempSolitem.getSeenLevelInHex(), TempSolitem.getTotalSeenLevel(),
                         TempSolitem.getSeenPositionInHex(), TempSolitem.getSolworks(), TempSolitem.getLOSFollows(), PassID, TempSolitem.getScenMap()));
                 return true;
             } catch (Exception e) {
@@ -1240,7 +1233,7 @@ public class IFTC implements IIFTC {
         if (TargGroup.size() > 0) {
             for (PersUniti FirstItem : TargGroup) {
                 if (FirstItem.getbaseunit().getSolID() != Hextoclear) {
-                    Hextoclear = FirstItem.getbaseunit().getHexnum();
+                    //Hextoclear = FirstItem.getbaseunit().getHexnum();
                     // create as function - deselcting VASL counters
                     /*Dim OH As VisibleOccupiedhexes
                     OH = CType(Game.Scenario.HexesWithCounter(Hextoclear), VisibleOccupiedhexes)
@@ -1257,7 +1250,7 @@ public class IFTC implements IIFTC {
         if (FireGroup.size() > 0) {
             for (PersUniti FirstItem : FireGroup) {
                 if (FirstItem.getbaseunit().getSolID() != Hextoclear) {
-                    Hextoclear = FirstItem.getbaseunit().getHexnum();
+                    //Hextoclear = FirstItem.getbaseunit().getHexnum();
                     // create as function - deselcting VASL counters
                     /*Dim OH As VisibleOccupiedhexes
                     OH = CType(Game.Scenario.HexesWithCounter(Hextoclear), VisibleOccupiedhexes)
@@ -1272,8 +1265,8 @@ public class IFTC implements IIFTC {
         ValidSolutions.clear();
         FinalDRMLIst.clear();
         ClearTempCombat();
-        setFirerhex(null); setFirerloc(0); setFirerpos(Constantvalues.AltPos.None);
-        setTargethex(null); setTargetloc(0);
+        setFirerhex(null); setFirerloc(null); setFirerpos(Constantvalues.AltPos.None);
+        setTargethex(null); setTargetloc(null);
         // ThreadManager.AltHexLOSGroup.clear();
         // ThreadManager.TempAlthexcol.clear();
         LOSTest.TempCombatTerrCol.clear();

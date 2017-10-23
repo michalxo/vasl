@@ -39,7 +39,7 @@ public class UnitDropsSecondSWc implements StatusChangei {
 //        CombatTerrainClassLibrary.ASLXNA.HexAndLocHolder(CInt(SWtoCheck.BaseSW.Hexnum), CInt(SWtoCheck.BaseSW.hexlocation))
         if (!SWtoCheck.getbaseSW().WeaponIsLost()) {
             CreateUnpossessedSW UnpossSWcreate = new CreateUnpossessedSW();
-            UnpossSWcreate.CreateNewUnpossessed(SWtoCheck, (ActiveUnit.getbaseunit().getHexnum()));
+            UnpossSWcreate.CreateNewUnpossessed(SWtoCheck, (ActiveUnit.getbaseunit().getHex()));
             SWtoCheck.getbaseSW().setOwner(0);
         } else {
             SWtoCheck.getbaseSW().setOwner(0);

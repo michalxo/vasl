@@ -1,6 +1,7 @@
 package VASL.build.module.fullrules.IFTCombatClasses;
 
 import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.EnemyHexLOSHFPdrm;
@@ -238,9 +239,9 @@ class DFFEnemyValuesConcreteC {
         // this is the moving stack
         MovingList = MovingUnits;
         // now get the list of enemy units
-        int Movinghexclicked = MovingList[0].getbaseunit().getHexnum();
+        Hex Movinghexclicked = MovingList[0].getbaseunit().getHex();
         Hex MovingHex = scen.getGameMap().getHex(MovingList[0].getbaseunit().getHexName());
-        Constantvalues.Location Movinglocation = MovingList[0].getbaseunit().gethexlocation();
+        Location Movinglocation = MovingList[0].getbaseunit().gethexlocation();
         Constantvalues.AltPos MovingPosition = MovingList[0].getbaseunit().gethexPosition();
         boolean SeenUsingCrestStatus = false;
 
@@ -249,14 +250,9 @@ class DFFEnemyValuesConcreteC {
         }
 
         // instantiate various classes used during calculations
-        MapDataC Maptables  = scen.Maptables;
-        LinkedList<GameLocation> LocationCol = null;  //Maptables.getLocationCol();
-        GetALocationFromMap GetLocs = new GetALocationFromMap(LocationCol);
-        LevelChecks LevelChk = new LevelChecks(LocationCol);
+       LevelChecks LevelChk = new LevelChecks(Movinglocation);
         // set some data variables
-        GameLocation LoCtouse = GetLocs.RetrieveLocationfromMaptable(Movinghexclicked, Movinglocation);
-        double Movinglevel = LevelChk.GetLocationPositionLevel(Movinghexclicked, Movinglocation, MovingPosition);
-        int MovingLOSIndex =  LoCtouse.getLocIndex();
+        double Movinglevel = LevelChk.GetLocationPositionLevel(Movinglocation, MovingPosition);
         PersUniti MovingItem = MovingList[0];
         scennum = MovingItem.getbaseunit().getScenario();
         ScenarioC scen  = ScenarioC.getInstance();
@@ -268,7 +264,7 @@ class DFFEnemyValuesConcreteC {
         SetEnemy(MovingNationality, scennum);
 
         // store the values for moving hex
-        EnemyHexNewValues = new EnemyHexLOSHFPdrm(Constantvalues.LosStatus.Target, 0, 0, GetLocs.GetnamefromdatatableMap(Movinghexclicked), Movinghexclicked, MovingLOSIndex);
+        EnemyHexNewValues = new EnemyHexLOSHFPdrm(Constantvalues.LosStatus.Target, 0, 0, MovingItem.getbaseunit().getHexName());
         EnemyHexList.add(EnemyHexNewValues);
         // get all enemy units
         PersUniti[] EnemyToCheck = new PersUniti[1];   /* temporary while debugging undo =(From getunit As
@@ -288,7 +284,7 @@ class DFFEnemyValuesConcreteC {
             PersUniti EnemyUnit=EnemyToCheck[x];
             EnemyHexLOSHFPdrm AlreadyAddedTest;
             boolean AlreadyAdded = false;
-            DFFLOSIndex = EnemyUnit.getbaseunit().getLOCIndex();
+            //DFFLOSIndex = EnemyUnit.getbaseunit().getLOCIndex();
             try {
                 AlreadyAddedTest = null; /* temporary while debugging undo (From Qu As DataClassLibrary.ASLXNA.EnemyHexLOSHFPdrm In EnemyHexList Where
                 Qu.LOCIndex = DFFLOSIndex Select Qu).First;*/
@@ -310,7 +306,7 @@ class DFFEnemyValuesConcreteC {
                 DFFPositioninHex = EnemyUnit.getbaseunit().gethexPosition();
                 SeeUsingCrestStatus = EnemyUnit.getbaseunit().IsInCrestStatus();
                 // create TempSolution
-                TempSol = new TempSolution(DFFHex, DFFlevel, DFFLOSIndex, DFFPositioninHex, MovingHex, Movinglevel, MovingLOSIndex, MovingPosition, PassSolWorks, TempSolList.size(), MapInUse);
+                TempSol = new TempSolution(DFFHex, DFFlevel, DFFPositioninHex, MovingHex, Movinglevel, MovingPosition, PassSolWorks, TempSolList.size(), MapInUse);
 
                 if (TempSol != null) {
                     // add to list of temp
@@ -325,7 +321,7 @@ class DFFEnemyValuesConcreteC {
                     EnemyUnit.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.Prisoner &&
                     EnemyUnit.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.Unarmed) {
                         // PassLOStatus, PassFP, Passdrm passed as None, 0, 0 at this point
-                        EnemyHexNewValues = new EnemyHexLOSHFPdrm(PassLOSStatus, PassFP, Passdrm, PassHexname, DFFHexnum, DFFLOSIndex);
+                        EnemyHexNewValues = new EnemyHexLOSHFPdrm(PassLOSStatus, PassFP, Passdrm, PassHexname);
                         EnemyHexList.add(EnemyHexNewValues);
                         EnemyHexNewValues.setSolID(TempSol.getID());
                         AlreadyAddedTest = null;
@@ -345,7 +341,7 @@ class DFFEnemyValuesConcreteC {
                 AddtoFireGroupandTargetGroupMVC(Tempsol.getID());
             }
             for (EnemyHexLOSHFPdrm EnemyHex: EnemyHexList){
-                if (EnemyHex.getLOCIndex() == Tempsol.getSeeLOSIndex() && EnemyHex.getSolID() == Tempsol.getID()) {
+                if (EnemyHex.getHexname() == Tempsol.getSeeHex().getName() && EnemyHex.getSolID() == Tempsol.getID()) {
                     // if LOS exists use range test to refine LOS value
                     if (EnemyHex.getLOSStatus() == Constantvalues.LosStatus.None){
                         LinkedList<PersUniti> TempLOSTestFireGroup = new LinkedList<PersUniti>();
@@ -472,7 +468,6 @@ class DFFEnemyValuesConcreteC {
         String AddingThing;
 
         // get units in the Tempsol Targ hex- stored as Targethex due to DFF loop
-        double FirerLoc = Tempsol.getSeeLOSIndex();
         LinkedList<PersUniti> UnitList = new LinkedList<PersUniti>();
         //temporary while debugging undo
         /*Dim UnitList As List (Of ObjectClassLibrary.ASLXNA.PersUniti) =(From selunit As

@@ -1,12 +1,13 @@
 package VASL.build.module.fullrules.DataClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 
 public class Unpossessed {
     
     private int pEquipmentID;
-    private int phexnum;
+    private Hex phex;
     private Constantvalues.Typetype pEquipmenttype;
     private GameLocation phexlocation;
     private Constantvalues.AltPos pPosition;
@@ -17,8 +18,8 @@ public class Unpossessed {
 
 	public int getEquipmentID() {return pEquipmentID;}
 	public void setEquipmentID(int value) {pEquipmentID = value;}
-	public int gethexnum() {return phexnum;}
-	public void sethexnum(int value) {phexnum = value;}
+	public Hex gethex() {return phex;}
+	public void sethex(Hex value) {phex = value;}
 	public Constantvalues.Typetype getEquipmenttype() {return pEquipmenttype;}
 	public void setEquipmenttype(Constantvalues.Typetype value) {pEquipmenttype = value;}
 	public GameLocation gethexlocation() {return phexlocation;}

@@ -2,6 +2,7 @@ package VASL.build.module.fullrules.IFTCombatClasses;
 
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.LOSResult;
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.IFTMods;
@@ -23,14 +24,14 @@ public interface IIFTC {
     int getTargetSan();
     Hex getFirerhex();
     void setFirerhex(Hex value);
-    int getFirerloc();
-    void setFirerloc(int value);
+    Location getFirerloc();
+    void setFirerloc(Location value);
     Constantvalues.AltPos getFirerpos();
     void setFirerpos(Constantvalues.AltPos value);
     Hex getTargethex();
     void setTargethex(Hex value);
-    int getTargetloc();
-    void setTargetloc(int value);
+    Location getTargetloc();
+    void setTargetloc(Location value);
     boolean getNeedtoResumeResolution();
     LOSResult getLOSResult();
 

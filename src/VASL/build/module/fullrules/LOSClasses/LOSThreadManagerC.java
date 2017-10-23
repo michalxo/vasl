@@ -50,7 +50,7 @@ public class LOSThreadManagerC {
             }
             // store the values for hex being checked
             for (EnemyHexLOSHFPdrm EnemyHex : ParallelEnemyHexList) {
-                if ((EnemyHex.getLOCIndex() == TempSol.getSeenLOSIndex() || EnemyHex.getLOCIndex() == TempSol.getSeeLOSIndex()) && EnemyHex.getSolID() == TempSol.getID()) {
+                if ((EnemyHex.getHexname() == TempSol.getSeenHex().getName() || EnemyHex.getHexname() == TempSol.getSeeHex().getName()) && EnemyHex.getSolID() == TempSol.getID()) {
                     EnemyHex.setLOSStatus(PassLOSStatus);
                 }
             }
@@ -85,12 +85,12 @@ public class LOSThreadManagerC {
             ValidSolutions_Thread.add(new LOSSolution(TempSolitem.getSeeHex(),
                     TempSolitem.getSeeLevelInHex(),
                     TempSolitem.getTotalSeeLevel(),
-                    TempSolitem.getSeeLOSIndex(),
+                    TempSolitem.getSeeHex(),
                     TempSolitem.getSeePositionInHex(),
                     TempSolitem.getSeenHex(),
                     TempSolitem.getSeenLevelInHex(),
                     TempSolitem.getTotalSeenLevel(),
-                    TempSolitem.getSeenLOSIndex(),
+                    TempSolitem.getSeenHex(),
                     TempSolitem.getSeenPositionInHex(),
                     TempSolitem.getSolworks(),
                     TempSolitem.getLOSFollows(),

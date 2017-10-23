@@ -104,7 +104,7 @@ public class LevelChecks {
         return 0;
     }
 
-    public double GetLocationPositionLevel(int hexnumber, Constantvalues.Location Locationtoget, Constantvalues.AltPos Positiontoget) {
+    public double GetLocationPositionLevel(Location Locationtoget, Constantvalues.AltPos Positiontoget) {
         // called by IsSameHexLocationADJACENT, Linqdata.UpdateAfterMove, MoveWithinLegal.IsMovementLegal plus many other methods
         // gets level within hex of specific location and position
 

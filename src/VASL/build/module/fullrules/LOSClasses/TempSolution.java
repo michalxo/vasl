@@ -10,9 +10,9 @@ public class TempSolution extends BaseSolution {
     private int TempSolIDvalue;
 
     // constructor
-    public TempSolution(Hex PassSeehex, double PassSeelevelinhex, int PassSeeLOSindex, Constantvalues.AltPos PassSeePosition, Hex PassSeenhex,
-                        double PassSeenlevelinhex, int PassSeenLOSIndex, Constantvalues.AltPos PassSeenPosition, boolean PassSolWorks, int PassTempSolID, VASL.LOS.Map.Map PassScenMap) {
-        super(PassSeehex,PassSeelevelinhex,PassSeeLOSindex,PassSeePosition,PassSeenhex,PassSeenlevelinhex,PassSeenLOSIndex,PassSeenPosition,PassSolWorks,PassScenMap);
+    public TempSolution(Hex PassSeehex, double PassSeelevelinhex, Constantvalues.AltPos PassSeePosition, Hex PassSeenhex,
+                        double PassSeenlevelinhex, Constantvalues.AltPos PassSeenPosition, boolean PassSolWorks, int PassTempSolID, VASL.LOS.Map.Map PassScenMap) {
+        super(PassSeehex,PassSeelevelinhex,PassSeePosition,PassSeenhex,PassSeenlevelinhex,PassSeenPosition,PassSolWorks,PassScenMap);
         TempSolIDvalue =PassTempSolID +1;
     }
 
