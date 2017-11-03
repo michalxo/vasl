@@ -3,6 +3,7 @@ package VASL.build.module.fullrules.UtilityClasses;
 import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 public class ConversionC {
 
@@ -71,9 +72,50 @@ public class ConversionC {
                 return Constantvalues.Nationality.Hungarians;
             case 2016:
                 return Constantvalues.Nationality.Poles;
-
+            case 2017:
+                return Constantvalues.Nationality.None;
             default:
                 return Constantvalues.Nationality.None;
+        }
+    }
+    public int ConvertNationalitytoInt(Constantvalues.Nationality nationalityvalue) {
+        switch(nationalityvalue) {
+            case Yanks:
+                return 2001;
+            case Russians:
+                return 2002;
+            case Germans:
+                return 2003;
+            case British:
+                return 2004;
+            case French:
+                return 2005;
+            case Japanese:
+                return 2006;
+            case Italians:
+                return 2007;
+            case Finns:
+                return 2008;
+            case Partisans:
+                return 2009;
+            case Gurkhas:
+                return 2010;
+            case Commonwealth:
+                return 2011;
+            case Axisminor:
+                return 2012;
+            case Alliedminor:
+                return 2013;
+            case Chinese:
+                return 2014;
+            case Hungarians:
+                return 2015;
+            case Poles:
+                return 2016;
+            case None:
+                return 2017;
+            default:
+                return 2017;
         }
     }
     public Constantvalues.Phase ConverttoPhase(int databasevalue) {
@@ -2559,6 +2601,139 @@ public class ConversionC {
 
     }
 
+    public Constantvalues.AltPos ConverttoAltPosType( int databasevalue) {
+        switch (databasevalue) {
+            case 6901:
+                return Constantvalues.AltPos.AboveWire;
+            case 6902:
+                return Constantvalues.AltPos.WallAdv;
+            case 6903:
+                return Constantvalues.AltPos.InFoxhole;
+            case 6904:
+                return Constantvalues.AltPos.InTrench;
+            case 6905:
+                return Constantvalues.AltPos.OtherTerrainInHex;
+            case 6906:
+                return Constantvalues.AltPos.InSanger;
+            case 6908:
+                return Constantvalues.AltPos.AbovePanji;
+            case 6909:
+                return Constantvalues.AltPos.OnRoad;
+            case 6911:
+                return Constantvalues.AltPos.CrestStatus1;
+            case 6912:
+                return Constantvalues.AltPos.CrestStatus2;
+            case 6913:
+                return Constantvalues.AltPos.CrestStatus3;
+            case 6914:
+                return Constantvalues.AltPos.CrestStatus4;
+            case 6915:
+                return Constantvalues.AltPos.CrestStatus5;
+            case 6916:
+                return Constantvalues.AltPos.CrestStatus6;
+            case 6917:
+                return Constantvalues.AltPos.ExitedEntrench;
+            case 6921:
+                return Constantvalues.AltPos.ExitedCrest1;
+            case 6922:
+                return Constantvalues.AltPos.ExitedCrest2;
+            case 6923:
+                return Constantvalues.AltPos.ExitedCrest3;
+            case 6924:
+                return Constantvalues.AltPos.ExitedCrest4;
+            case 6925:
+                return Constantvalues.AltPos.ExitedCrest5;
+            case 6926:
+                return Constantvalues.AltPos.ExitedCrest6;
+            case 6927:
+                return Constantvalues.AltPos.Rider;
+            case 6928:
+                return Constantvalues.AltPos.Passenger;
+            case 6931:
+                return Constantvalues.AltPos.WACrestStatus1;
+            case 6932:
+                return Constantvalues.AltPos.WACrestStatus2;
+            case 6933:
+                return Constantvalues.AltPos.WACrestStatus3;
+            case 6934:
+                return Constantvalues.AltPos.WACrestStatus4;
+            case 6935:
+                return Constantvalues.AltPos.WACrestStatus5;
+            case 6936:
+                return Constantvalues.AltPos.WACrestStatus6;
+            case 6937:
+                return Constantvalues.AltPos.None;
+            default:
+                return Constantvalues.AltPos.None;
+        }
+    }
+    public int ConvertAltPosTypetoInt( Constantvalues.AltPos altposvalue) {
+        switch (altposvalue) {
+            case AboveWire:
+                return 6901;
+            case WallAdv:
+                return 6902;
+            case InFoxhole:
+                return 6903;
+            case InTrench:
+                return 6904;
+            case OtherTerrainInHex:
+                return 6905;
+            case InSanger:
+                return 6906;
+            case AbovePanji:
+                return 6908;
+            case OnRoad:
+                return 6909;
+            case CrestStatus1:
+                return 6911;
+            case CrestStatus2:
+                return 6912;
+            case CrestStatus3:
+                return 6913;
+            case CrestStatus4:
+                return 6914;
+            case CrestStatus5:
+                return 6915;
+            case CrestStatus6:
+                return 6916;
+            case ExitedEntrench:
+                return 6917;
+            case ExitedCrest1:
+                return 6921;
+            case ExitedCrest2:
+                return 6922;
+            case ExitedCrest3:
+                return 6923;
+            case ExitedCrest4:
+                return 6924;
+            case ExitedCrest5:
+                return 6925;
+            case ExitedCrest6:
+                return 6926;
+            case Rider:
+                return 6927;
+            case Passenger:
+                return 6928;
+            case WACrestStatus1:
+                return 6931;
+            case WACrestStatus2:
+                return 6932;
+            case WACrestStatus3:
+                return 6933;
+            case WACrestStatus4:
+                return 6934;
+            case WACrestStatus5:
+                return 6935;
+            case WACrestStatus6:
+                return 6936;
+            case None:
+                return 6937;
+            default:
+                return 6937;
+        }
+    }
+
     public Constantvalues.IFTResult ConverttoIFTResult( int databasevalue){
         switch (databasevalue){
             case 8601:
@@ -2605,6 +2780,420 @@ public class ConversionC {
                 return Constantvalues.IFTResult.KIA;
             default:
                 return Constantvalues.IFTResult.NR;
+        }
+    }
+    public int ConvertIFTResulttoInt( Constantvalues.IFTResult iftResultvalue){
+        switch (iftResultvalue){
+            case KIA7:
+                return 8601;
+            case KIA6:
+                return 8602;
+            case KIA5:
+                return 8603;
+            case KIA4:
+                return 8604;
+            case KIA3:
+                return 8605;
+            case KIA2:
+                return 8606;
+            case KIA1:
+                return 8607;
+            case K4:
+                return 8608;
+            case K3:
+                return 8609;
+            case K2:
+                return 8610;
+            case K1:
+                return 8611;
+            case MC4:
+                return 8612;
+            case MC3:
+                return 8613;
+            case MC2:
+                return 8614;
+            case MC1:
+                return 8615;
+            case NMC:
+                return 8616;
+            case PTC:
+                return 8617;
+            case NR:
+                return 8618;
+            case Broken:
+                return 8620;
+            case CR:
+                return 8621;
+            case KIA:
+                return 8622;
+            default:
+                return 8616;
+        }
+    }
+    public boolean ConverttoBoolean(String Passstring) {
+        if (Passstring.equals("true")) {
+            return true;
+        } else if (Passstring.equals("false")) {
+            return false;
+        } else {
+            return false;
+        }
+    }
+    public String ConvertBooleantoString(boolean Passboolean) {
+        if (Passboolean) {
+            return "true";
+        } else {
+            return "false";
+        }
+    }
+    public Constantvalues.VisibilityStatus ConverttoVisibilityStatus(int visibilityvalue){
+        switch (visibilityvalue){
+            case 7071:
+                return Constantvalues.VisibilityStatus.Hidden;
+            case 7072:
+                return Constantvalues.VisibilityStatus.Concealed;
+            case 7073:
+                return Constantvalues.VisibilityStatus.Revealed;
+            case 7074:
+                return Constantvalues.VisibilityStatus.Visible;
+            case 7075:
+                return Constantvalues.VisibilityStatus.None;
+            default:
+                return Constantvalues.VisibilityStatus.None;
+        }
+    }
+    public int ConvertVisibilityStatustoInt(Constantvalues.VisibilityStatus visibilitystatusvalue){
+        switch (visibilitystatusvalue){
+            case Hidden:
+                return 7071;
+            case Concealed:
+                return 7072;
+            case Revealed:
+                return 7073;
+            case Visible:
+                return 7074;
+            case None:
+                return 7075;
+            default:
+                return 7075;
+        }
+    }
+    public Constantvalues.CharacterStatus ConverttoCharacterStatus(int charactervalue){
+        switch (charactervalue){
+            case 7171:
+                return Constantvalues.CharacterStatus.STEALTHY;
+            case 7172:
+                return Constantvalues.CharacterStatus.LAX;
+            case 7173:
+                return Constantvalues.CharacterStatus.NONE;
+            default:
+                return Constantvalues.CharacterStatus.NONE;
+
+        }
+    }
+    public int ConvertCharacterStatustoInt(Constantvalues.CharacterStatus characterstatusvalue){
+        switch (characterstatusvalue){
+            case STEALTHY:
+                return 7171;
+            case LAX:
+                return 7172;
+            case NONE:
+                return 7173;
+            default:
+                return 7173;
+
+        }
+    }
+    public Constantvalues.CombatStatus ConverttoCombatStatus(int combatvalue){
+        switch (combatvalue){
+            case 7001:
+                return Constantvalues.CombatStatus.Firing;
+            case 7002:
+                return Constantvalues.CombatStatus.PrepFirer;
+            case 7003:
+                return Constantvalues.CombatStatus.OppFirer;
+            case 7004:
+                return Constantvalues.CombatStatus.FirstFirer;
+            case 7005:
+                return Constantvalues.CombatStatus.FinalFirer;
+            case 7009:
+                return Constantvalues.CombatStatus.AdvFirer;
+            case 7006:
+                return Constantvalues.CombatStatus.SubsequentFirstFiring;
+            case 7007:
+                return Constantvalues.CombatStatus.Melee;
+            case 7010:
+                return Constantvalues.CombatStatus.None;
+            default:
+                return Constantvalues.CombatStatus.None;
+        }
+    }
+    public int ConvertCombatStatustoInt(Constantvalues.CombatStatus combatstatusvalue){
+        switch (combatstatusvalue){
+            case Firing:
+                return 7001;
+            case PrepFirer:
+                return 7002;
+            case OppFirer:
+                return 7003;
+            case FirstFirer:
+                return 7004;
+            case FinalFirer:
+                return 7005;
+            case AdvFirer:
+                return 7009;
+            case SubsequentFirstFiring:
+                return 7006;
+            case Melee:
+                return 7007;
+            case None:
+                return 7010;
+            default:
+                return 7010;
+        }
+    }
+    public Constantvalues.FortitudeStatus ConverttoFortitudeStatus(int fortitudevalue){
+        switch (fortitudevalue){
+            case 7091:
+                return Constantvalues.FortitudeStatus.Normal;
+            case 7092:
+                return Constantvalues.FortitudeStatus.Fanatic;
+            case 7093:
+                return Constantvalues.FortitudeStatus.Encircled;
+            case 7094:
+                return Constantvalues.FortitudeStatus.Wounded;
+            case 7095:
+                return Constantvalues.FortitudeStatus.Fan_Enc;
+            case 7096:
+                return Constantvalues.FortitudeStatus.Fan_Wnd;
+            case 7097:
+                return Constantvalues.FortitudeStatus.Fan_Wnd_Enc;
+            case 7098:
+                return Constantvalues.FortitudeStatus.Enc_Wnd;
+            case 7099:
+                return Constantvalues.FortitudeStatus.Heroic;
+            case 7100:
+                return Constantvalues.FortitudeStatus.HeroicFanatic;
+            case 7101:
+                return Constantvalues.FortitudeStatus.HeroicEncircled;
+            case 7102:
+                return Constantvalues.FortitudeStatus.HeroicWounded;
+            case 7103:
+                return Constantvalues.FortitudeStatus.HeroicFan_Enc;
+            case 7104:
+                return Constantvalues.FortitudeStatus.HeroicFan_Wnd;
+            case 7105:
+                return Constantvalues.FortitudeStatus.HeroicFan_Wnd_Enc;
+            case 7106:
+                return Constantvalues.FortitudeStatus.HeroicEnc_Wnd;
+            case 7107:
+                return Constantvalues.FortitudeStatus.None;
+            default:
+                return Constantvalues.FortitudeStatus.None;
+        }
+    }
+
+    public int ConvertFortitudeStatustoInt(Constantvalues.FortitudeStatus fortitudestatusvalue){
+        switch (fortitudestatusvalue){
+            case Normal:
+                return 7091;
+            case Fanatic:
+                return 7092;
+            case Encircled:
+                return 7093;
+            case Wounded:
+                return 7094;
+            case Fan_Enc:
+                return 7095;
+            case Fan_Wnd:
+                return 7096;
+            case Fan_Wnd_Enc:
+                return 7097;
+            case Enc_Wnd:
+                return 7098;
+            case Heroic:
+                return 7099;
+            case HeroicFanatic:
+                return 7100;
+            case HeroicEncircled:
+                return 7101;
+            case HeroicWounded:
+                return 7102;
+            case HeroicFan_Enc:
+                return 7103;
+            case HeroicFan_Wnd:
+                return 7105;
+            case HeroicFan_Wnd_Enc:
+                return 7105;
+            case HeroicEnc_Wnd:
+                return 7106;
+            case None:
+                return 7107;
+            default:
+                return 7107;
+        }
+    }
+    public Constantvalues.MovementStatus ConverttoMovementStatus(int movementvalue){
+        switch (movementvalue){
+            case 7021:
+                return Constantvalues.MovementStatus.Moved;
+            case 7022:
+                return Constantvalues.MovementStatus.TI;
+            case 7023:
+                return Constantvalues.MovementStatus.Waded;
+            case 7024:
+                return Constantvalues.MovementStatus.HumanWave;
+            case 7025:
+                return Constantvalues.MovementStatus.BanzaiCharge;
+            case 7026:
+                return Constantvalues.MovementStatus.AssaultMoving;
+            case 7027:
+                return Constantvalues.MovementStatus.Moving;
+            case 7028:
+                return Constantvalues.MovementStatus.FirstDash;
+            case 7029:
+                return Constantvalues.MovementStatus.SecondDash;
+            case 7030:
+                return Constantvalues.MovementStatus.Dashed;
+            case 7031:
+                return Constantvalues.MovementStatus.Labour1;
+            case 7032:
+                return Constantvalues.MovementStatus.Labour2;
+            case 7033:
+                return Constantvalues.MovementStatus.Advanced;
+            case 7034:
+                return Constantvalues.MovementStatus.Connecting;
+            case 7035:
+                return Constantvalues.MovementStatus.Wading;
+            case 7036:
+                return Constantvalues.MovementStatus.AssaultMoved;
+            case 7037:
+                return Constantvalues.MovementStatus.NotMoving;
+            default:
+                return Constantvalues.MovementStatus.NotMoving;
+        }
+    }
+    public int ConvertMovementStatustoInt(Constantvalues.MovementStatus movementstatusvalue){
+        switch (movementstatusvalue){
+            case Moved:
+                return 7021;
+            case TI:
+                return 7022;
+            case Waded:
+                return 7023;
+            case HumanWave:
+                return 7024;
+            case BanzaiCharge:
+                return 7025;
+            case AssaultMoving:
+                return 7026;
+            case Moving:
+                return 7027;
+            case FirstDash:
+                return 7028;
+            case SecondDash:
+                return 7028;
+            case Dashed:
+                return 7030;
+            case Labour1:
+                return 7031;
+            case Labour2:
+                return 7032;
+            case Advanced:
+                return 7033;
+            case Connecting:
+                return 7034;
+            case Wading:
+                return 7035;
+            case AssaultMoved:
+                return 7036;
+            case NotMoving:
+                return 7037;
+            default:
+                return 7037;
+        }
+    }
+    public Constantvalues.OrderStatus ConverttoOrderStatus(int ordervalue){
+        switch (ordervalue){
+            case 7051:
+                return Constantvalues.OrderStatus.GoodOrder;
+            case 7052:
+                return Constantvalues.OrderStatus.Berserk;
+            case 7053:
+                return Constantvalues.OrderStatus.Prisoner;
+            case 7054:
+                return Constantvalues.OrderStatus.Unarmed;
+            case 7055:
+                return Constantvalues.OrderStatus.Broken;
+            case 7056:
+                return Constantvalues.OrderStatus.Broken_DM;
+            case 7057:
+                return Constantvalues.OrderStatus.Disrupted;
+            case 7058:
+                return Constantvalues.OrderStatus.DisruptedDM;
+            case 7059:
+                return Constantvalues.OrderStatus.KIAInf;
+            case 7060:
+                return Constantvalues.OrderStatus.NotInPlay;
+            default:
+                return Constantvalues.OrderStatus.NotInPlay;
+        }
+    }
+    public int ConvertOrderStatustoInt (Constantvalues.OrderStatus orderstatusvalue){
+        switch (orderstatusvalue){
+            case GoodOrder:
+                return 7051;
+            case Berserk:
+                return 7052;
+            case Prisoner:
+                return 7053;
+            case Unarmed:
+                return 7054;
+            case Broken:
+                return 7055;
+            case Broken_DM:
+                return 7056;
+            case Disrupted:
+                return 7057;
+            case DisruptedDM:
+                return 7058;
+            case KIAInf:
+                return 7059;
+            case NotInPlay:
+                return 7060;
+            default:
+                return 7060;
+        }
+    }
+    public Constantvalues.RoleStatus ConverttoRoleStatus(int rolevalue){
+        switch (rolevalue){
+            case 7111:
+                return Constantvalues.RoleStatus.GuardUnit;
+            case 7112:
+                return Constantvalues.RoleStatus.Passenger;
+            case 7113:
+                return Constantvalues.RoleStatus.Rider;
+            case 7114:
+                return Constantvalues.RoleStatus.None;
+            default:
+                return Constantvalues.RoleStatus.None;
+
+        }
+    }
+
+    public int ConvertRoleStatustoInt(Constantvalues.RoleStatus rolestatusvalue){
+        switch (rolestatusvalue){
+            case GuardUnit:
+                return 7111;
+            case Passenger:
+                return 7112;
+            case Rider:
+                return 7113;
+            case None:
+                return 7114;
+            default:
+                return 7114;
+
         }
     }
 }

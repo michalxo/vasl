@@ -1,6 +1,8 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
@@ -14,8 +16,7 @@ import java.util.LinkedList;
 
 public class UnitPinsc implements StatusChangei {
     private LinkedList<PersUniti> myNewTargs = new LinkedList<PersUniti>();
-    public final static String DB_COUNTER_TYPE_MARKER_KEY = "DBCounterType";
-    public final static String DB_UNIT_TYPE = "unit";
+
     //private myPopUpList As New List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface)
     public UnitPinsc() {
 
@@ -51,44 +52,18 @@ public class UnitPinsc implements StatusChangei {
                         '.BasePersUnit.CX = False
                         .BasePersUnit.Pinned = True
                 '.BasePersUnit.CombatStatus = ConstantClassLibrary.ASLXNA.CombatStatus.None*/
+        TargParent.getTargetunit().setPinned(true);
+        TargParent.getbaseunit().setPinned(true);
         TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
         TargParent.getTargetunit().UpdateTargetStatus(TargParent);
         TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " Pins");
 
-        GamePiece ToPin = null;
-        try {
-
-            final PieceIterator pi = new PieceIterator(GameModule.getGameModule().getGameState().getAllPieces().iterator());
-
-            while (pi.hasMoreElements()) {
-                final GamePiece piece = pi.nextPiece();
-                if (piece instanceof Stack) {
-                    for (PieceIterator pi2 = new PieceIterator(((Stack) piece).getPiecesIterator()); pi2.hasMoreElements(); ) {
-                        GamePiece p2 = pi2.nextPiece();
-                        if (isDBUnitCounter(p2) && p2.getProperty("TextLabel").toString() != null) {
-                            int ObjIDlink = Integer.parseInt(p2.getProperty("TextLabel").toString());
-                            if (ObjIDlink == TargParent.getbaseunit().getUnit_ID()) {
-                                //GameModule.getGameModule().getChatter().send("Have found Gamepiece to DM: " + TargParent.getbaseunit().getUnitName());
-                                ToPin = p2;
-                                //p2.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
-                            }
-                        }
-                    }
-                } else {
-                    /*if (isDBUnitCounter(piece) && piece.getProperty("TextLabel").toString() != null) {
-                        int ObjIDlink = Integer.parseInt(piece.getProperty("TextLabel").toString());
-                        if (ObjIDlink == TargParent.getbaseunit().getUnit_ID()) {
-                            GameModule.getGameModule().getChatter().send("Have found Gamepiece to DM: " + TargParent.getbaseunit().getUnitName());
-                        }
-                    }*/
-                }
-
-            }
-
-        } catch (Exception e) {
-            GameModule.getGameModule().getChatter().send("Error finding Gamepiece to Pin: " + TargParent.getbaseunit().getUnitName());
-        }
+        // add counter
+        ScenarioC scen = ScenarioC.getInstance();
+        CommonFunctionsC ToDO = new CommonFunctionsC(scen.getScenID());
+        GamePiece ToPin = ToDO.GetGamePieceFromID(TargParent.getbaseunit().getUnit_ID());
         if (ToPin != null) {ToPin.keyEvent(KeyStroke.getKeyStroke('P', java.awt.event.InputEvent.CTRL_MASK));}
+
         // HoB
         if (TargParent.getTargetunit().getHoBFlag()) {   // rolled a 2
             Constantvalues.PersUnitResult HobChange = TargParent.getTargetunit().HOBMC();
@@ -121,12 +96,5 @@ public class UnitPinsc implements StatusChangei {
 
     End Get
     End Property*/
-    public boolean isDBUnitCounter(GamePiece piece) {
 
-        return isPropertySet(piece, DB_COUNTER_TYPE_MARKER_KEY, DB_UNIT_TYPE);
-    }
-    public boolean isPropertySet(GamePiece piece, String key, String value) {
-
-        return piece.getProperty(key) != null && piece.getProperty(key).equals(value);
-    }
 }

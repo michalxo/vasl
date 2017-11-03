@@ -11,7 +11,6 @@ public class BaseSuppWeapc {
     private Location myhexlocation;
     private Constantvalues.AltPos myhexPosition;
     private double myLevelinHex;
-    private int myLOCIndex;
     private boolean myCX;
     private int myTurnArrives;
     private Constantvalues.Nationality myNationality;
@@ -35,7 +34,7 @@ public class BaseSuppWeapc {
     private boolean myCaptured;
     private int myOwner;
 
-    public BaseSuppWeapc(int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
+    public BaseSuppWeapc(int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, boolean PassCX,
                          int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassPP, int PassRepair, int PassDisPP,
                          int PassHexEntSideCrossed, int PassSolID, String PassUnitName, int PassLOBLink, Constantvalues.CombatStatus PassCombatStatus, Constantvalues.VisibilityStatus PassVisibilityStatus, Constantvalues.FortitudeStatus PassFortitudeStatus,
                          Constantvalues.SWStatus PassSWStatus, Constantvalues.MovementStatus PassMovementStatus, boolean PassPinned, int PassSW, Constantvalues.CharacterStatus PassCharacterStatus, boolean PassCaptured, int PassOwner) {
@@ -46,7 +45,6 @@ public class BaseSuppWeapc {
         myhexlocation = Passhexlocation;
         myhexPosition = PasshexPosition;
         myLevelinHex = PassLevelinHex;
-        myLOCIndex = PassLOCIndex;
         myCX = PassCX;
         myTurnArrives = PassTurnArrives;
         myNationality = PassNationality;
@@ -81,8 +79,6 @@ public class BaseSuppWeapc {
     public void sethexposition(Constantvalues.AltPos value) {myhexPosition = value;}
     public double getLevelinHex() {return myLevelinHex;}
     public void setLevelinHex(double value) {myLevelinHex = value;}
-    public int getLOCIndex() {return myLOCIndex;}
-    public void setLOCIndex(int value) {myLOCIndex = value;}
     public boolean getCX() {return myCX;}
     public void setCX(boolean value) {myCX = value;}
     public int getTurnArrives() {return myTurnArrives;}

@@ -13,13 +13,13 @@ public class Russian149c implements PersUniti{
     private FiringPersUniti myFiringPU;
     private TargetPersUniti myTargetPU;
 
-    public Russian149c (String PassHexname, int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
+    public Russian149c (String PassHexname, int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, boolean PassCX,
                         int PassELR , int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassFirstSWLink, int PassSecondSWlink,
                         int PassHexEntSideCrossed, int PassSolID, String PassUnitName, int PassLOBLink, Constantvalues.CombatStatus PassCombatStatus, Constantvalues.VisibilityStatus PassVisibilityStatus,
                         Constantvalues.FortitudeStatus PassFortitudeStatus, Constantvalues.OrderStatus PassOrderStatus, Constantvalues.MovementStatus PassMovementStatus, boolean PassPinned, int PassSW,
                         Constantvalues.UClass PassUnitClass, Constantvalues.CharacterStatus PassCharacterStatus, Constantvalues.Utype PassUtype, Constantvalues.RoleStatus PassRoleStatus) {
         // myBasePU must be created by constructor - it has to exist, so readonly to prevent disposal
-        myBasePU = new BasePersunitc(PassHexname, PassScenario, PassHex, Passhexlocation, PasshexPosition, PassLevelinHex, PassLOCIndex, PassCX, PassELR, PassTurnArrives, PassNationality,
+        myBasePU = new BasePersunitc(PassHexname, PassScenario, PassHex, Passhexlocation, PasshexPosition, PassLevelinHex,  PassCX, PassELR, PassTurnArrives, PassNationality,
                 PassCon_ID, PassUnit_ID, PassTypeType_ID, PassFirstSWLink, PassSecondSWlink, PassHexEntSideCrossed, PassSolID, PassUnitName, PassLOBLink, PassCombatStatus,
                 PassVisibilityStatus, PassFortitudeStatus, PassOrderStatus, PassMovementStatus, PassPinned, PassSW, PassUnitClass, PassCharacterStatus, PassUtype, PassRoleStatus);
         DataC Linqdata = DataC.GetInstance();  // use empty variables when know that instance already exist

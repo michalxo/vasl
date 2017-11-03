@@ -1,5 +1,7 @@
 package VASL.build.module.fullrules.ObjectFactoryClasses;
 
+import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
@@ -18,10 +20,9 @@ public class SWCreation {
         SupportWeapon LOBSW = Linqdata.GetLOBSWRecord(unititem.getWeaponType());
 
         int PassScenario = unititem.getScenario();
-        int PassHexnum = unititem.getHexnumber();
-        Constantvalues.Location Passhexlocation = unititem.getHexlocation();
+        Hex PassHex = unititem.getHex();
+        Location Passhexlocation = unititem.getHexlocation();
         Constantvalues.AltPos PasshexPosition = unititem.getPosition();
-        int PassLOCIndex = unititem.getLocIndex();
         double PassLevelinHex;
         boolean PassCX;
         int PassTurnArrives;
@@ -95,7 +96,7 @@ public class SWCreation {
         }
         switch (unititem.getWeaponType()) {
             case 5017:
-                return new GermanLMGc(PassScenario, PassHexnum, Passhexlocation, PasshexPosition, PassLevelinHex, PassLOCIndex, PassCX, PassTurnArrives, PassNationality, PassCon_ID, PassUnit_ID, PassTypeType_ID, PassPP, PassRepair, PassDisPP,
+                return new GermanLMGc(PassScenario, PassHex, Passhexlocation, PasshexPosition, PassLevelinHex, PassCX, PassTurnArrives, PassNationality, PassCon_ID, PassUnit_ID, PassTypeType_ID, PassPP, PassRepair, PassDisPP,
                     PassHexEntSideCrossed, PassSolID, PassUnitName, PassLOBLink, PassCombatStatus, PassVisibilityStatus, PassFortitudeStatus, PassSWStatus, PassMovementStatus, PassPinned, PassSW, PassCharacterStatus, PassCaptured, PassOwner);
             /*case 5018:
                 return new GermanMMGc(PassScenario, PassHexnum, Passhexlocation, PasshexPosition, PassLevelinHex, PassLOCIndex, PassCX, PassTurnArrives, PassNationality, PassCon_ID, PassUnit_ID, PassTypeType_ID, PassPP, PassRepair, PassDisPP,

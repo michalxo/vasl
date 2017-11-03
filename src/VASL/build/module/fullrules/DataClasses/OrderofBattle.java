@@ -1,27 +1,28 @@
 package VASL.build.module.fullrules.DataClasses;
 
+import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 
-public class OrderofBattle {
+public class  OrderofBattle {
     private String pOBName;
     private String pHexname;
-    private double phexnum;
-    private int pLocIndex;
+    private Hex phex;
     private int pScenario;
-    private Constantvalues.Location phexlocation;
+    private Location phexlocation;
     private Constantvalues.AltPos pPosition;
-    private double pLevelinHex;
-    private double pLOBLink;
+    private int pLevelinHex;
+    private int pLOBLink;
     private boolean pPinned;
     private boolean pCX;
-    private double pELR;
-    private double pSW;
-    private double pTurnArrives;
+    private int pELR;
+    private int pSW;
+    private int pTurnArrives;
     private Constantvalues.Nationality pNationality;
     private int pCon_ID;
     private int pOBUnit_ID;
-    private double pFirstSWLink;
-    private double pSecondSWlink;
+    private int pFirstSWLink;
+    private int pSecondSWlink;
     private Constantvalues.VisibilityStatus pVisibilityStatus;
     private Constantvalues.CombatStatus pCombatStatus;
     private Constantvalues.MovementStatus pMovementStatus;
@@ -40,40 +41,38 @@ public class OrderofBattle {
     public void setOBName(String value) {pOBName = value;}
 	public String  getHexname() {return pHexname;}
     public void setHexname(String value){pHexname = value;}
-    public double  gethexnum() {return phexnum;}
-    public void sethexnum(double value){phexnum = value;}
-    public int   getLocIndex() {return pLocIndex;}
-    public void setLocIndex(int value) {pLocIndex = value;}
+    public Hex  gethex() {return phex;}
+    public void sethex(Hex value){phex = value;}
     public int  getScenario() {return pScenario;}
     public void setScenario(int value) {pScenario = value;}
-	public Constantvalues.Location   gethexlocation() {return  phexlocation;}
-    public void sethexlocation(Constantvalues.Location value) {phexlocation = value;}
+	public Location   gethexlocation() {return  phexlocation;}
+    public void sethexlocation(Location value) {phexlocation = value;}
 	public Constantvalues.AltPos  getPosition() {return  pPosition;}
     public void setPosition(Constantvalues.AltPos value) {pPosition = value;}
-	public double  getLevelinHex() {return  pLevelinHex;}
-    public void setLevelinHex(double value) {pLevelinHex = value;}
-	public double  getLOBLink() {return  pLOBLink;}
-    public void setLOBLink(double value) {pLOBLink = value;}
+	public int  getLevelinHex() {return  pLevelinHex;}
+    public void setLevelinHex(int value) {pLevelinHex = value;}
+	public int  getLOBLink() {return  pLOBLink;}
+    public void setLOBLink(int value) {pLOBLink = value;}
 	public boolean  getPinned() {return  pPinned;}
     public void setPinned(boolean value)  {pPinned = value;}
 	public boolean getCX() {return pCX;}
     public void setCX(boolean value) {pCX = value;}
-	public double getELR() {return  pELR;}
-    public void setELR(double value) {pELR = value;}
-	public double getSW() {return  pSW;}
-    public void setSW(double value) {pSW = value;}
-	public double getTurnArrives() {return  pTurnArrives;}
-    public void setTurnArrives(double value){pTurnArrives = value;}
+	public int getELR() {return  pELR;}
+    public void setELR(int value) {pELR = value;}
+	public int getSW() {return  pSW;}
+    public void setSW(int value) {pSW = value;}
+	public int getTurnArrives() {return  pTurnArrives;}
+    public void setTurnArrives(int value){pTurnArrives = value;}
 	public Constantvalues.Nationality getNationality() {return  pNationality;}
     public void setNationality(Constantvalues.Nationality value) {pNationality = value;}
 	public int getCon_ID() {return  pCon_ID;}
     public void setCon_ID(int  value)  {pCon_ID = value;}
 	public int getOBUnit_ID() {return  pOBUnit_ID;}
     public void setOBUnit_ID(int value){pOBUnit_ID = value;}
-	public double getFirstSWLink() {return  pFirstSWLink;}
-    public void setFirstSWLink(double value) {pFirstSWLink = value;}
-	public double getSecondSWlink() {return  pSecondSWlink;}
-    public void setSecondSWlink(double value){pSecondSWlink = value;}
+	public int getFirstSWLink() {return  pFirstSWLink;}
+    public void setFirstSWLink(int value) {pFirstSWLink = value;}
+	public int getSecondSWlink() {return  pSecondSWlink;}
+    public void setSecondSWlink(int value){pSecondSWlink = value;}
 	public Constantvalues.VisibilityStatus  getVisibilityStatus() {return  pVisibilityStatus;}
     public void setVisibilityStatus(Constantvalues.VisibilityStatus value) {pVisibilityStatus = value;}
 	public Constantvalues.CombatStatus  getCombatStatus() {return  pCombatStatus;}

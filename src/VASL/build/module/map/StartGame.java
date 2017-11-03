@@ -36,6 +36,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
     protected Map map;
     private Clicki ProcessClick;
     private ASLMap pmap;
+    private boolean startsavetoggle = false;
 
     protected PieceFinder dragTargetSelector;
     protected PieceVisitorDispatcher selectionProcessor;
@@ -44,16 +45,25 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
 
     public void Initialize(boolean getgoing) {
 
-        this.map.addLocalMouseListener(this);      //pushMouseListener(this);
-        this.dragTargetSelector = this.createDragTargetSelector();
-        this.selectionProcessor = this.createSelectionProcessor();
-        initializeMap();
-        // create classes required at start
-        scen = ScenarioC.getInstance();
-        Linqdata = DataC.GetInstance();
-        Linqdata.InitializeData();
-        String PassScenID = "Fullrules"; // need to link this to VASL scenario name
-        if (scen.OpenScenario(PassScenID, pmap)) {Linqdata.closeconnection();}
+        startsavetoggle = !startsavetoggle;
+
+        if (startsavetoggle) {
+
+            this.map.addLocalMouseListener(this);      //pushMouseListener(this);
+            this.dragTargetSelector = this.createDragTargetSelector();
+            this.selectionProcessor = this.createSelectionProcessor();
+            initializeMap();
+            // create classes required at start
+            scen = ScenarioC.getInstance();
+            Linqdata = DataC.GetInstance();
+            Linqdata.InitializeData();
+            String PassScenID = "Fullrules"; // need to link this to VASL scenario name
+            if (scen.OpenScenario(PassScenID, pmap)) {
+                Linqdata.closeconnection();
+            }
+        } else {
+            scen.SaveScenario();
+        }
 
     }
     private void initializeMap() {
@@ -106,15 +116,15 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
             ProcessingClick(ItemFound, e, ClickedHex, SelectedCounters);
         } else {
             // have clicked outside a piece to trigger deselection
-            LinkedList<GamePiece> SelectedCounters = getSelectedPieces();
-            for (GamePiece clearpiece: SelectedCounters) {
-                clearpiece.setProperty(Properties.SELECTED,false);
+            //LinkedList<GamePiece> SelectedCounters = getSelectedPieces();
+            //for (GamePiece clearpiece: SelectedCounters) {
+            //    clearpiece.setProperty(Properties.SELECTED,false);
                 // clear ITFC and Movement
                 ScenarioC scen = ScenarioC.getInstance();
                 if (scen.getIFT() != null) {
                     scen.getIFT().ClearCurrentIFT();
                 }
-            }
+            //}
         }
     }
     /**

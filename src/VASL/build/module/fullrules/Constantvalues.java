@@ -10,9 +10,9 @@ public class Constantvalues {
         CrestStatus2, CrestStatus3, CrestStatus4, CrestStatus5, CrestStatus6, ExitedEntrench, ExitedCrest1, ExitedCrest2, ExitedCrest3,
         ExitedCrest4, ExitedCrest5, ExitedCrest6, Rider, Passenger, WACrestStatus1, WACrestStatus2, WACrestStatus3, WACrestStatus4,
         WACrestStatus5, WACrestStatus6, None}
-    public static enum VisibilityStatus {Hidden, Concealed, Revealed, Visible}
+    public static enum VisibilityStatus {Hidden, Concealed, Revealed, Visible, None}
     public static enum CombatStatus {Firing, PrepFirer, OppFirer, FirstFirer, FinalFirer, AdvFirer, SubsequentFirstFiring, Melee, None}
-    public static enum MovementStatus {Moved, TI, Waded, AssaultMoving, Moving, Wading, AssaultMoved, FirstDash, SecondDash, Dashed, Labour1, Labour2, Advanced, Connecting, NotMoving}
+    public static enum MovementStatus {Moved, TI, Waded, HumanWave, BanzaiCharge, AssaultMoving, Moving, Wading, AssaultMoved, FirstDash, SecondDash, Dashed, Labour1, Labour2, Advanced, Connecting, NotMoving}
     public static enum OrderStatus {GoodOrder, Berserk, Prisoner, Unarmed, Broken, Broken_DM, Disrupted, DisruptedDM, KIAInf, NotInPlay}
     public enum FortitudeStatus {Normal, Fanatic, Encircled, Wounded, Fan_Enc, Fan_Wnd, Fan_Wnd_Enc, Enc_Wnd, Heroic, HeroicFanatic, HeroicEncircled, HeroicWounded, HeroicFan_Enc,
         HeroicFan_Wnd, HeroicFan_Wnd_Enc, HeroicEnc_Wnd, None}

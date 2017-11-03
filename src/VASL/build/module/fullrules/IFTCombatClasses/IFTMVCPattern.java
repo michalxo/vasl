@@ -184,7 +184,7 @@ class IFTViewConcreteC implements IFTObserverInterface {
         // tells observers that new set of EnemyValues is available, gets them and processes changes to the display
         boolean AlreadyAdded = false;
         // get the new EnemyValues
-        LinkedList<EnemyHexLOSHFPdrm> EnemyHexValues = ViewModel.GetLOSFPdrmValues();
+        /*LinkedList<EnemyHexLOSHFPdrm> EnemyHexValues = ViewModel.GetLOSFPdrmValues();
         String FPdrmstring;
         String drmSign;
         // create list of ShadeHexes which are drawn by Game.Draw
@@ -236,7 +236,7 @@ class IFTViewConcreteC implements IFTObserverInterface {
         // sets shader again - could drop one
         // DROP THIS AS THIS SET SHOULD BE DONE ONLY IN VIEWMODEL CLASS (IFTFireConcretec)
         ViewModel.setShadertoShow(Constantvalues.ShadeShow.IFTShade);
-
+*/
     }
 }
 

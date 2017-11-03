@@ -1152,7 +1152,7 @@ public class Map  {
             sourceHex.setCombatHexrole(Constantvalues.Hexrole.Firer);
             result.addHextohexesInLOS(sourceHex);
             targetHex.setCombatHexrole(Constantvalues.Hexrole.Target);
-            result.addHextohexesInLOS(targetHex);
+            //result.addHextohexesInLOS(targetHex);
 
             range = range(sourceHex, targetHex, source.getHex().getMap().getMapConfiguration());
 
@@ -1678,6 +1678,9 @@ public class Map  {
             // stuff added to Hex to support IFT combat
             if (status.currentHex != status.sourceHex && status.currentHex != status.targetHex ) {
                 status.currentHex.setCombatHexrole(Constantvalues.Hexrole.Intervening);
+                result.addHextohexesInLOS(status.currentHex);
+            } else if(status.currentHex.equals(status.targetHex)) {
+                status.currentHex.setCombatHexrole(Constantvalues.Hexrole.Target);
                 result.addHextohexesInLOS(status.currentHex);
             }
 

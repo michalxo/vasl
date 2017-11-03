@@ -4,10 +4,13 @@ package VASL.build.module.fullrules.DataClasses;
  * Created by dougr_000 on 7/18/2017.
  */
 
+import VASL.LOS.Map.Hex;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASSAL.build.GameModule;
+import VASL.LOS.Map.Location;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -496,6 +499,8 @@ public class DataC {
         LinkedList<OrderofBattle> Testunits = new LinkedList<OrderofBattle>();
 
         // test unit: German 467
+        ScenarioC scen = ScenarioC.getInstance();
+        Hex testHex = scen.getGameMap().getHex("N2");
         OrderofBattle Newunit = new OrderofBattle();
         Newunit.setOBUnit_ID(5678);
         Newunit.setCharacterStatus(Constantvalues.CharacterStatus.NONE);
@@ -506,12 +511,11 @@ public class DataC {
         Newunit.setFirstSWLink(0);
         Newunit.setFortitudeStatus(Constantvalues.FortitudeStatus.Normal);
         Newunit.setHexEnteredSideCrossedLastMove(0);
-        Newunit.sethexlocation(Constantvalues.Location.StoneBuilding2ndLevel);
+        Newunit.sethexlocation(testHex.getCenterLocation());
         Newunit.setHexname("N2");
-        Newunit.sethexnum(0);
+        Newunit.sethex(testHex);
         Newunit.setLevelinHex(0);
         Newunit.setLOBLink(5);
-        Newunit.setLocIndex(0);
         Newunit.setMovementStatus(Constantvalues.MovementStatus.NotMoving);
         Newunit.setNationality(Constantvalues.Nationality.Germans);
         Newunit.setOBName("467B");
@@ -526,7 +530,9 @@ public class DataC {
         Newunit.setVisibilityStatus(Constantvalues.VisibilityStatus.Visible);
 
         Testunits.add(Newunit);
+
         // test unit Russian 447
+        testHex = scen.getGameMap().getHex("L3");
         Newunit = new OrderofBattle();
         Newunit.setOBUnit_ID(789);
         Newunit.setCharacterStatus(Constantvalues.CharacterStatus.NONE);
@@ -537,12 +543,11 @@ public class DataC {
         Newunit.setFirstSWLink(0);
         Newunit.setFortitudeStatus(Constantvalues.FortitudeStatus.Normal);
         Newunit.setHexEnteredSideCrossedLastMove(0);
-        Newunit.sethexlocation(Constantvalues.Location.OpenGround);
+        Newunit.sethexlocation(testHex.getCenterLocation());
         Newunit.setHexname("L3");
-        Newunit.sethexnum(0);
+        Newunit.sethex(testHex);
         Newunit.setLevelinHex(0);
         Newunit.setLOBLink(27);
-        Newunit.setLocIndex(0);
         Newunit.setMovementStatus(Constantvalues.MovementStatus.NotMoving);
         Newunit.setNationality(Constantvalues.Nationality.Russians);
         Newunit.setOBName("447Z");
@@ -558,6 +563,7 @@ public class DataC {
 
         Testunits.add(Newunit);
         // testunit Russian 447
+
         Newunit = new OrderofBattle();
         Newunit.setOBUnit_ID(456);
         Newunit.setCharacterStatus(Constantvalues.CharacterStatus.NONE);
@@ -568,12 +574,11 @@ public class DataC {
         Newunit.setFirstSWLink(0);
         Newunit.setFortitudeStatus(Constantvalues.FortitudeStatus.Normal);
         Newunit.setHexEnteredSideCrossedLastMove(0);
-        Newunit.sethexlocation(Constantvalues.Location.OpenGround);
+        Newunit.sethexlocation(testHex.getCenterLocation());
         Newunit.setHexname("L3");
-        Newunit.sethexnum(0);
+        Newunit.sethex(testHex);
         Newunit.setLevelinHex(0);
         Newunit.setLOBLink(27);
-        Newunit.setLocIndex(0);
         Newunit.setMovementStatus(Constantvalues.MovementStatus.NotMoving);
         Newunit.setNationality(Constantvalues.Nationality.Russians);
         Newunit.setOBName("447Y");
@@ -589,6 +594,7 @@ public class DataC {
 
         Testunits.add(Newunit);
         // testunit German 467
+        testHex=scen.getGameMap().getHex("H2");
         Newunit = new OrderofBattle();
         Newunit.setOBUnit_ID(1234);
         Newunit.setCharacterStatus(Constantvalues.CharacterStatus.NONE);
@@ -599,12 +605,11 @@ public class DataC {
         Newunit.setFirstSWLink(0);
         Newunit.setFortitudeStatus(Constantvalues.FortitudeStatus.Normal);
         Newunit.setHexEnteredSideCrossedLastMove(0);
-        Newunit.sethexlocation(Constantvalues.Location.OpenGround);
+        Newunit.sethexlocation(testHex.getCenterLocation());
         Newunit.setHexname("H2");
-        Newunit.sethexnum(0);
+        Newunit.sethex(testHex);
         Newunit.setLevelinHex(0);
         Newunit.setLOBLink(5);
-        Newunit.setLocIndex(0);
         Newunit.setMovementStatus(Constantvalues.MovementStatus.NotMoving);
         Newunit.setNationality(Constantvalues.Nationality.Germans);
         Newunit.setOBName("467A");

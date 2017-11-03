@@ -29,9 +29,8 @@ public class CombatCalcC implements CombatCalci {
     private LinkedList<IFTMods> pFinalDRMList = new LinkedList<IFTMods>();
     private LinkedList<IFTMods> HoldTerrainDRMList = new LinkedList<IFTMods>();
     private LinkedList<GameLocation> Mapcol = new LinkedList<GameLocation>();
-    //private NewDb As MapDataClassLibrary.MapDataClassesDataContext = new MapDataClassLibrary.MapDataClassesDataContext
 
-    private GetALocationFromMap Getlocs;
+    //private GetALocationFromMap Getlocs;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private LinkedList<LOSSolution> ValidSolutions = new LinkedList<LOSSolution>();
     private Scenario Scendet;
@@ -44,13 +43,6 @@ public class CombatCalcC implements CombatCalci {
 
     public CombatCalcC(LinkedList<LOSSolution> PassValidSolutions) {
     
-        try {
-            MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
-            Mapcol = null; //MapData.getLocationCol();
-        } catch (Exception ex) {
-
-        }
-        Getlocs =new GetALocationFromMap(Mapcol);
         ValidSolutions = PassValidSolutions;
         Linqdata = DataC.GetInstance();     // use null values when sure instance already exists
     }
@@ -58,140 +50,77 @@ public class CombatCalcC implements CombatCalci {
     
     public int CalcCombatFPandDRM(LinkedList<PersUniti> PassFireGroupToUse, LinkedList<PersUniti> PassTargetGroupToUse, Scenario PassScendet, int Usingsol) {
         // Called by IFT.ManageCombatSolutionDetermination
-        // determines the FP and drm applicable to a ValidSolution
+        // determines the FP and drm applicable to each target in a ValidSolution
+        // all other methods are called by this one
 
         Scendet = PassScendet;
         FireGroupToUse = PassFireGroupToUse;
         TargetGroupToUse = PassTargetGroupToUse;
-    
+
+        // set up required variables
         int range = 0;
         double TotalFP=0;
         boolean UsingSprayFire = false; // holds value of variable used to track multihex targets
-        String CXName = ""; // holds name of unit caused CX drm to apply
-        String CXHex = ""; // holds name of hex in which CX firer is found
-        String EncName = ""; // holds name of unit caused Enc drm to apply
-        String EncHex = ""; // holds name of hex in which Enc firer is found
         int FDRM  = 0; // holds value of all firer-based drm
-        boolean SmokePresent = false; int HeroDRM= 0; String HeroName = "";
+        boolean SmokePresent = false; //int HeroDRM= 0; String HeroName = "";
         Constantvalues.Utype UnitSize = Constantvalues.Utype.None;
-        int LdrMod = 0; int TestLdrMod= 0; String LdrName = "";
-        boolean CXTest = false;
-        boolean EncircTest = false; // flag for Encirc DRM
-        int response;
+        //int LdrMod = 0; int TestLdrMod= 0; String LdrName = "";
+        //boolean CXTest = false;
+        //boolean EncircTest = false; // flag for Encirc DRM
+        //int response;
         boolean alreadymoved = false;
         double Levelcheck  = 0; double TotalTargetLevel = 0;
         boolean SprayFireRequired = false; // hold values of variable used to track multihex targets
         //LevelChecks LevelChk = new LevelChecks(Mapcol);
         LinkedList<IFTMods> UsingTerrainDRM = new LinkedList<IFTMods>();
         pFinalDRMList.clear();
+        // check various combat parameters are correctly set
         for (PersUniti TargetUnit: TargetGroupToUse) {
             // check for already moved - used if Def fire- still needs to be ADDED
             if (TargetUnit.getbaseunit().getMovementStatus() == Constantvalues.MovementStatus.Moved) {alreadymoved = true;}
         }
         UsingSprayFire = SprayFireTest(TargetGroupToUse, SprayFireRequired);
         if (!UsingSprayFire && SprayFireRequired) {return -99;} // fire solution no longer valid
-            // clear out old reporting text before recalculating
-            // CombatReport.ShowClearCombat()
 
-        // Firer-based impacts
-        int FGSize = 0; int mgrange=0;
-        for (PersUniti FiringUnit: FireGroupToUse) {
-            // CombatReport.AddFirer(GetFirerName(FiringUnit))
-            // CX applies to all units in FG so if found once no need to check again  - if then below does not cover all possibilities
-            if (!CXTest) {
-                if (FiringUnit.getFiringunit().getIsCX()) {
-                    CXTest = true;
-                    CXHex = FiringUnit.getbaseunit().getHexName();
-                    CXName = FiringUnit.getbaseunit().getUnitName();
-                }
-            }
-            // Encirclement
-            // if then below does not cover all possibilities
-            // Encirclement applies to all units in FG so if found once no need to check again
-            if (!EncircTest) {
-                if (FiringUnit.getFiringunit().getIsEncirc()) {
-                    EncircTest = true;
-                    EncHex = FiringUnit.getbaseunit().getHexName();
-                    EncName = FiringUnit.getbaseunit().getUnitName();
-                }
-            }
-            UnitSize = FiringUnit.getbaseunit().getUnittype();
-            if (UnitSize == Constantvalues.Utype.Hero ||
-                    (UnitSize == Constantvalues.Utype.LdrHero && FiringUnit.getFiringunit().getUseHeroOrLeader() != Constantvalues.Utype.Leader)) {
-                // Heroes are cumulative; always add if in range, unless using ldr drm instead
-                // get combat range
-                range = DetermineMaxCombatRange(FiringUnit, TargetGroupToUse, UsingSprayFire);
-                // determine hero range (base range or SW range)
-                boolean UsingMGRange= false; SuppWeapi MGRange; // = 0;
-                if (FiringUnit.getFiringunit().getUsingfirstMG()) { // use MG range if using
-                    mgrange = FiringUnit.getFiringunit().FiringMGs.getFirst().getFiringSW().getBaseRange();
-                    UsingMGRange = true;
-                    break;
-                }
-                if (FiringUnit.getFiringunit().getUsingsecondMG()) { // use MG range if using
-                    mgrange = FiringUnit.getFiringunit().FiringMGs.getLast().getFiringSW().getBaseRange();
-                    UsingMGRange = true;
-                    break;
-                }
-                if (UsingMGRange) { // use MG base range
-                    if (mgrange >= range) {
-                        HeroDRM -= 1;
-                        HeroName = HeroName + " " + FiringUnit.getbaseunit().getUnitName();
-                    }
-                } else {//  use hero base range
-                    if (FiringUnit.getFiringunit().getBaseRange() >= range) {
-                        HeroDRM -= 1;
-                        HeroName = HeroName + " " + FiringUnit.getbaseunit().getUnitName();
-                    }
-                }
-            }
-            if (UnitSize != Constantvalues.Utype.Leader && !(UnitSize == Constantvalues.Utype.LdrHero && FiringUnit.getFiringunit().getUseHeroOrLeader() == Constantvalues.Utype.Leader)) {
-                if (UnitSize == Constantvalues.Utype.Squad) {
-                    FGSize += 3;
-                } else if (UnitSize == Constantvalues.Utype.HalfSquad || UnitSize == Constantvalues.Utype.Crew) {
-                    FGSize += 2;
-                } else {
-                    FGSize += 1;
-                }
-            }
-        }
         // Now doing Firer-based IFT DRMs which apply to all Firers and
         // Targets so only calculate once - using input from FiringUnit loop above
         // Unit based DRM - CX and Encric, leaders and heroes
-        // Determine Leader impact - this needs to be done for the
-        // FG as a whole; therefore needs IFT-class routine
-        boolean Ldrpresent = false;
-        LdrMod = CombatLdrDRM(FireGroupToUse, Ldrpresent, LdrName, Usingsol);
-        if (LdrMod != 0) {FDRM = FDRM + LdrMod;}
+        FiringDRMs firingdrms = CalcFiringDRMs(UsingSprayFire, Usingsol);
+        // Leader if present
+        if (firingdrms.getLeaderdrm() != 0) {FDRM = FDRM + firingdrms.getLeaderdrm();}
         // Hero if present
-        if (HeroDRM != 0) {FDRM = FDRM + HeroDRM;}
+        if (firingdrms.getHeroicdrm() != 0) {FDRM = FDRM + firingdrms.getHeroicdrm();}
         // Adding CX +1
-        if (CXTest) {FDRM += 1;}
+        if (firingdrms.getCXapplies()) {FDRM += 1;}
         // Adding Encirc +1
-        if (EncircTest) {FDRM += 1;}
+        if (firingdrms.getEncircapplies()) {FDRM += 1;}
+
         // Iterate through TargetGroup and Firegroup adding Firepower
-        // and determining FP adjustments - calc FP and drm for ( TargetUnit
+        // and determining FP adjustments - calc FP and drm for all TargetUnit
+
+
         boolean AddDRM = true; IFTMods NewDRM;
         for (PersUniti TargetUnit: TargetGroupToUse) {
+            // create list of all drms that apply
             // add drm that apply to all Targets - need to add to DRMList to support info display on Display form
-            if (LdrMod != 0) {
+            if (firingdrms.getLeaderdrm() != 0) {
                 for (IFTMods DRMTest : pFinalDRMList) {
                     if (DRMTest.getDRMType() == Constantvalues.IFTdrm.Leader) {
-                        if (LdrMod < DRMTest.getDRM()) {
-                            DRMTest.setDRM(LdrMod);
+                        if (firingdrms.getLeaderdrm() < DRMTest.getDRM()) {
+                            DRMTest.setDRM(firingdrms.getLeaderdrm());
                             AddDRM = false;
                             break;
                         }
                     }
                 }
                 if (AddDRM) {
-                    NewDRM = new IFTMods(LdrMod, Constantvalues.IFTdrm.Leader, 0, Constantvalues.Typetype.Personnel, null, null); // the nulls help confirm that this is a firer-based drm that applies to all targets - used in display form
+                    NewDRM = new IFTMods(firingdrms.getLeaderdrm(), Constantvalues.IFTdrm.Leader, 0, Constantvalues.Typetype.Personnel, null, null); // the nulls help confirm that this is a firer-based drm that applies to all targets - used in display form
                     pFinalDRMList.add(NewDRM);
                 }
             }
             // Hero if present
             AddDRM = true;
-            if (HeroDRM != 0) {
+            if (firingdrms.getHeroicdrm() != 0) {
                 for (IFTMods DRMTest : pFinalDRMList) {
                     if (DRMTest.getDRMType() == Constantvalues.IFTdrm.Hero) {
                         AddDRM = false;
@@ -199,13 +128,13 @@ public class CombatCalcC implements CombatCalci {
                     }
                 }
                 if (AddDRM) {
-                    NewDRM = new IFTMods(HeroDRM, Constantvalues.IFTdrm.Hero, 0, Constantvalues.Typetype.Personnel, null, null);  // the null help confirm that this is a firer-based drm that applies to all targets - used in display form
+                    NewDRM = new IFTMods(firingdrms.getHeroicdrm(), Constantvalues.IFTdrm.Hero, 0, Constantvalues.Typetype.Personnel, null, null);  // the null help confirm that this is a firer-based drm that applies to all targets - used in display form
                     pFinalDRMList.add(NewDRM);
                 }
             }
             // Adding CX +1
             AddDRM = true;
-            if (CXTest) {
+            if (firingdrms.getCXapplies()) {
                 for (IFTMods DRMTest : pFinalDRMList) {
                     if (DRMTest.getDRMType() == Constantvalues.IFTdrm.FirerCX) {
                         AddDRM = false;
@@ -219,7 +148,7 @@ public class CombatCalcC implements CombatCalci {
             }
             // Adding Encirc +1
             AddDRM = true;
-            if (EncircTest) {
+            if (firingdrms.getEncircapplies()) {
                 for (IFTMods DRMTest : pFinalDRMList) {
                     if (DRMTest.getDRMType() == Constantvalues.IFTdrm.FirerEnc) {
                         AddDRM = false;
@@ -232,26 +161,28 @@ public class CombatCalcC implements CombatCalci {
                 }
             }
             // end of Firer-based mods
-            // Now do FP
 
+            // Now do FP
             int i = 0;  // used to determine which line in lbfp to use
             if (Usingsol == -1) {  // using all validsols
                 for (LOSSolution Validsol : ValidSolutions) {
-                    TotalFP += DoFPCalc(TargetUnit, Validsol.getID(), FireGroupToUse, UsingSprayFire, FGSize);
+                    TotalFP += DoFPCalc(TargetUnit, Validsol.getID(), FireGroupToUse, UsingSprayFire, firingdrms.getFGSize());
                 }
             } else {
-                TotalFP = DoFPCalc(TargetUnit, Usingsol, FireGroupToUse, UsingSprayFire, FGSize);
+                TotalFP = DoFPCalc(TargetUnit, Usingsol, FireGroupToUse, UsingSprayFire, firingdrms.getFGSize());
             }
             CombatUtil CombatMeth = new CombatUtil();
             TotalFP = CombatMeth.FPRoundingDown(TotalFP);
             TargetUnit.getTargetunit().setAttackedbyFP((int) (TotalFP));
-            // Combatdrm does not need to be called if Target in same location - add in this test
+
+            // Combatdrm does not need to be called if Target in same location - ADD IN THIS TEST
+            // now add Target-based DRM
             int Soldrm = 0;
             int totaldrm = 0;
             if (Usingsol == -1) {
                 boolean FirstLoop = true;
                 for (LOSSolution Validsol : ValidSolutions) {
-                    Soldrm = CombatDRM(alreadymoved, range, TargetUnit, Scendet, Validsol.getID());
+                    Soldrm = CombatDRM(alreadymoved, range, TargetUnit, Validsol.getID());
                     if (FirstLoop) {
                         totaldrm = Soldrm;
                         for (IFTMods AddTheDRM : HoldTerrainDRMList) {
@@ -270,7 +201,7 @@ public class CombatCalcC implements CombatCalci {
                     }
                 }
             } else {
-                totaldrm = CombatDRM(alreadymoved, range, TargetUnit, Scendet, Usingsol);
+                totaldrm = CombatDRM(alreadymoved, range, TargetUnit, Usingsol);
                 for (IFTMods AddTheDRM : HoldTerrainDRMList) {
                     UsingTerrainDRM.add(AddTheDRM);
                 }
@@ -309,7 +240,7 @@ public class CombatCalcC implements CombatCalci {
             return scen.getGameMap().range(FiringHex, TargetHex, scen.getGameMap().getMapConfiguration());
         }
     }
-    private int CombatLdrDRM(LinkedList<PersUniti> FireGroup, boolean Ldrpresent, String ldrname, int UsingSol) {
+    private int CombatLdrDRM(LinkedList<PersUniti> FireGroup, boolean Ldrpresent, int UsingSol, FiringDRMs firingdrms) {
         // called by IFT.CalcCombatFPandDRM
         // calculates overall Leader drm and if leader present to avoid cowering
         // in multi-location FG leader must be present in every hex to direct
@@ -372,7 +303,7 @@ public class CombatCalcC implements CombatCalci {
                         }
                         if (Ldrpresent == false) {
                             // no leader in hex; leader cannot direct FG
-                            ldrname = "";
+                            //ldrname = "";
                             //MsgBox("No leader present in every hex. No Leader Direction")
                             return 0;
                         }
@@ -396,7 +327,7 @@ public class CombatCalcC implements CombatCalci {
                                 Testldrmod = FiringUnit.getFiringunit().getLdrDRM();
                                 if (Testldrmod < BestInHex) {
                                     BestInHex = Testldrmod;
-                                    ldrname = FiringUnit.getbaseunit().getUnitName();
+                                    firingdrms.setLeaderName(firingdrms.getLeaderName() + FiringUnit.getbaseunit().getUnitName());
                                 }
                             }
                         }
@@ -411,10 +342,11 @@ public class CombatCalcC implements CombatCalci {
          // sets value of function and parameters to be returned
         int LdrDRM= (BestinEach == -5 ? 0: BestinEach);
         if (HexesInFG > 1) {
-            ldrname = "Ldr in each FG loc";
+            firingdrms.setLeaderName("Ldr in each FG loc");
             GameModule.getGameModule().getChatter().send("Leaders present in all  hexes. DRM is:" + (java.lang.Integer.toString((BestinEach))));
         }
         Ldrpresent = true;
+        firingdrms.setLeaderdrm(LdrDRM);
         return LdrDRM;
     }
 
@@ -636,12 +568,14 @@ public class CombatCalcC implements CombatCalci {
         }
     }
 
-    private int CombatDRM(boolean alreadymoved, int range, PersUniti TargetUnit, Scenario Scendet, int UsingSol) {
+    private int CombatDRM(boolean alreadymoved, int range, PersUniti TargetUnit, int UsingSol) {
         // called by IFT.CalcCombatFPandDRM
-        // for ( hex in the chain, choose hex role and process accordingly
+        // for each hex in the chain, choose hex role and process accordingly
         // Get terrain modifiers, then hexside modifiers, then scenario feature modifiers
         // Decide which ones take precedence (in part depends on role)
         // add to display and overall calculation
+
+        // create required variables
         int FinalCombatDRM=0;
         boolean Terraintest; boolean HexSideTest;
         int Featuredrm = 0; // holds value of applicable drm based on scenario feature
@@ -666,20 +600,21 @@ public class CombatCalcC implements CombatCalci {
         boolean  MistIsLOSH = false;  // determines is mist/dust applies as LOSH rather than LV
         int  DustLOSH = 0 ;       // holds part of Mistdrm which applies as LOSH
         int TotalLocationLOSHdrm  = 0; int TotalLOSLOSHdrm = 0;    // cumulative LOSH; if =>6, LOS is blocked
-        int  TargetLOSH = 0 ;  //  holds value of LOSH in target hex which need to be part of TotalLOSHdrm calculation
-        String TargLOSHName = ""; String VisLOSHName = ""; // holds name of LOSH in target hex and intervening hex
+        //int  TargetLOSH = 0 ;  //  holds value of LOSH in target hex which need to be part of TotalLOSHdrm calculation
+        //String TargLOSHName = "";
+        //String VisLOSHName = ""; // holds name of LOSH in target hex and intervening hex
         double TargetTotalLevel = 0;
         boolean  OBAAlreadyFound = false;
         int  FinalLOSHDrm  = 0; int FinalFeatureDRM = 0; int FinalVisLOSH = 0;
-        String FinalVisLOSHName = ""; int VisLOSH = 0; String FinalLOSHName = "";
+        //String FinalVisLOSHName = "";
+        int VisLOSH = 0; String FinalLOSHName = "";
         CombatTerrain UsingComTer;
         LinkedList<IFTMods> DRMList = new LinkedList<IFTMods>();
         int  TestDRM  = 0;
         LinkedList<IFTMods> Removelist = new LinkedList<IFTMods>();
         int  HexSpineDRM = 0; // holds value of drm of hexspine when LOS follows that hexspine and it connects to a target hex vertex
-        //IsTerrain IsTerrChk = new IsTerrain(Mapcol);
         IFTMods NEWDrm;
-        MapDataC MapTableInstance = MapDataC.GetInstance("", 0);  // use null values when sure instance exists
+
 
         // Terrain-based DRM
         // Adding Mist
@@ -694,10 +629,11 @@ public class CombatCalcC implements CombatCalci {
             // 'FDRM += Mistdrm
         } else if (Mistdrm == -1) {
             GameModule.getGameModule().getChatter().send("Firing Units cannot see target: Visibility Blocked by Mist");
-            Mistdrm = 6;
+            //Mistdrm = 6;
             return 99;  // LOS blocked
         }
         if (MistIsLOSH) {TotalLocationLOSHdrm = (DustLOSH > 0 ? DustLOSH: Mistdrm);}
+
         for (LOSSolution ValidSol: ValidSolutions) {
             FinalCombatDRM = 0; TotalLOSLOSHdrm = 0;
             if ((UsingSol == -1 || UsingSol == ValidSol.getID()) && TargetUnit.getbaseunit().getHex().getName() == ValidSol.getSeenHex().getName()) {   // -1 forces use of all valid solutions - needed in actual fire resolution for multi-hex fire group; if not -1 then checking hex by hex as in DFFMVCPattern
@@ -745,6 +681,7 @@ public class CombatCalcC implements CombatCalci {
                         TerrainName = ComTer.gethexdesc();
                     }
                     lasthex = ComTer.getLocation().getHex();
+
                     // Hexside modifiers
                     Hexsidedrm=0;
                     if (targetvar.getHexSideTest()) {
@@ -756,22 +693,20 @@ public class CombatCalcC implements CombatCalci {
                             SideTerrainName = "";
                         }
                     }
-                    // Featurename is passed ByRef so starts as "" but returns as actual string
+                    // Featurename is passed ByRef so starts as "" but returns as actual string - NEED TO TEST THIS IN JAVA
                     Featuredrm = ComTer.GetScenFeatTEM(FeatureName);
                     // Now decide which drms to use
-                    // use of highest drm is not automatic and players will
-                    // have made choices to use Wall Adv (for example) or not;
+                    // use of highest drm is not automatic and players will have made choices to use Wall Adv (for example) or not;
                     // need to access these choices in further development
-                    // plus some Scenario features are cumulative (smoke) and
-                    // some are not (pillbox or foxhole); this needs to be added
+                    // plus some Scenario features are cumulative (smoke) and some are not (pillbox or foxhole); this needs to be added
                     // check hexrole separately as both can apply
-                    // Firer
 
+                    // Firer
                     // put these out as methods
                     if (ComTer.IsFirer()) {
                         // need to check for visibility drm (SMOKE, OBA)
                         TerrainName = "";
-                        VisLOSH = ValidSol.CalcVisLOSH(VisLOSHName, OBAAlreadyFound, ComTer);
+                        VisLOSH = ValidSol.CalcVisLOSH(OBAAlreadyFound, ComTer);
                         // now add visibility losh
                         if (VisLOSH > 0) {
                             if (ComTer.NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.VisLoSH)) {
@@ -779,38 +714,32 @@ public class CombatCalcC implements CombatCalci {
                                 DRMList.add(NEWDrm);
                             } else {
                                 VisLOSH = 0;
-                                GameModule.getGameModule().getChatter().send(VisLOSHName + " in " + ComTer.getHexName() + " already added to DRM");
+                                GameModule.getGameModule().getChatter().send(ComTer.getVisLOSHName() + " in " + ComTer.getHexName() + " already added to DRM");
                             }
                         }
                         TotalLocationLOSHdrm = VisLOSH;
                         TotalLOSLOSHdrm += TotalLocationLOSHdrm;
-                        if (TotalLOSLOSHdrm >= 6) {
-                            GameModule.getGameModule().getChatter().send("LOS is Blocked by LOSH in " + ComTer.getHexName());
-                            return 99;
-                        }
                     }
                     // Intervening
                     if (ComTer.IsIntervening()) {
                         // now add visibility losh
-                        VisLOSH = ValidSol.CalcVisLOSH(VisLOSHName, OBAAlreadyFound, ComTer);
+                        VisLOSH = ValidSol.CalcVisLOSH(OBAAlreadyFound, ComTer);
+                        // now add terrain losh
                         TotalLocationLOSHdrm = ComTer.InterveningDRM(VisLOSH, FinalLOSHDrm, targetvar.getLOSHdrm(), ValidSol.getScenMap(), LOSHName, TerrainName, Featuredrm, FeatureName, FinalLOSHName, LOSAlongHexside,
-                                FirerBaseLevel, FirerInHexLevel, FinalVisLOSHName, VisLOSHName, FinalVisLOSH, HexSpineDRM, FireGroupToUse, DRMList, TargetUnit,
+                                FirerBaseLevel, FirerInHexLevel, FinalVisLOSH, HexSpineDRM, FireGroupToUse, DRMList, TargetUnit,
                                 TotalLOSLOSHdrm, TargetTotalLevel, Lasthexloshdrm, lasthex, targetvar.getUseAltName(), ValidSol.getAltHexesInLOS(), ValidSol.getID(),
                                 ValidSol.getHexesInLOS(), ValidSol.getSeeHex(), ValidSol.getSeenHex());
-                        if (TotalLOSLOSHdrm >= 6) {
-                            GameModule.getGameModule().getChatter().send("LOSH is Blocked in " + ComTer.getHexName());
-                            return 99;
-                        }
                     }
                     if (ComTer.IsTarget() && ComTer.getHexName() == TargetUnit.getbaseunit().getHex().getName()) {
-                        TargetLOSH = ValidSol.CalcVisLOSH(TargLOSHName, OBAAlreadyFound, ComTer);
-                        ComTer.TargetHexdrm(targetvar.getTEMdrm(), TotalLocationLOSHdrm, Hexsidedrm, Featuredrm, DRMList, TargetUnit, HexSpineDRM, TerrainName, SideTerrainName, FeatureName,
-                                TotalLOSLOSHdrm, alreadymoved, targetvar.getTerraintest(), targetvar.getHexSideTest(), FirerBaseLevel, FirerInHexLevel, TargLOSHName, TargetLOSH, FireGroupToUse);
-
-                        if (TotalLOSLOSHdrm >= 6) {
-                            GameModule.getGameModule().getChatter().send("LOSH is Blocked in " + ComTer.getHexName());
-                            return 99;
-                        }
+                        // now add visibility losh
+                        targetvar.setLOSHdrm(ValidSol.CalcVisLOSH(OBAAlreadyFound, ComTer));
+                        // now add Terrain drm and/or other conditions in target hex
+                        ComTer.TargetHexdrm(targetvar, TotalLocationLOSHdrm, Hexsidedrm, Featuredrm, DRMList, TargetUnit, HexSpineDRM, TerrainName, SideTerrainName, FeatureName,
+                                TotalLOSLOSHdrm, alreadymoved, FirerBaseLevel, FirerInHexLevel, FireGroupToUse);
+                    }
+                    if (TotalLOSLOSHdrm >= 6) {
+                        GameModule.getGameModule().getChatter().send("LOSH is Blocked in " + ComTer.getHexName());
+                        return 99;
                     }
     /*
                             'if Not (Featuredrm = 0 And TargetLOSH > 0) Then
@@ -821,7 +750,7 @@ public class CombatCalcC implements CombatCalci {
                                     'to Terrain or hexside TEM; already checked if total LOSH blocks LOS
                                     'now determine and paste results to results box*/
                     TotalhexDRM = targetvar.getTEMdrm() + TotalLocationLOSHdrm + Hexsidedrm + Featuredrm;  // need to add others
-                    hexdrmstring = TerrainName + LOSHName + FeatureName + SideTerrainName + TargLOSHName;
+                    hexdrmstring = TerrainName + LOSHName + FeatureName + SideTerrainName + targetvar.getLOSHName();
                     if (TotalhexDRM != 0) {
                         ReportName = (targetvar.getUseAltName() == "" ? ComTer.getHexName(): targetvar.getUseAltName());
                         //        ''GameForm.GridAddRows(GameForm.grdDRMMOd, ReportName,  "Total: " & hexdrmstring, "", CStr(TotalhexDRM))
@@ -926,6 +855,76 @@ public class CombatCalcC implements CombatCalci {
         return TotalFP;
     }
 
+    private FiringDRMs CalcFiringDRMs(boolean UsingSprayFire, int Usingsol) {
+        FiringDRMs firingdrms = new FiringDRMs();
+        int FGSize = 0; int mgrange=0; int range = 0;
+        boolean CXTest = false; boolean EncircTest = false;
+        Constantvalues.Utype UnitSize = Constantvalues.Utype.None;
+        for (PersUniti FiringUnit: FireGroupToUse) {
+            // CX applies to all units in FG so if found once no need to check again  - if then below does not cover all possibilities
+            if (!CXTest) {
+                if (FiringUnit.getFiringunit().getIsCX()) {
+                    CXTest = true;
+                    firingdrms.setCXapplies(true);
+                    firingdrms.setCXHex(FiringUnit.getbaseunit().getHexName());
+                    firingdrms.setCXName(FiringUnit.getbaseunit().getUnitName());
+                }
+            }
+            // Encirclement
+            // if then below does not cover all possibilities
+            // Encirclement applies to all units in FG so if found once no need to check again
+            if (!EncircTest) {
+                if (FiringUnit.getFiringunit().getIsEncirc()) {
+                    EncircTest = true;
+                    firingdrms.setEncircapplies(true);
+                    firingdrms.setEncircHex(FiringUnit.getbaseunit().getHexName());
+                    firingdrms.setEncircName(FiringUnit.getbaseunit().getUnitName());
+                }
+            }
+            // Hero impact
+            UnitSize = FiringUnit.getbaseunit().getUnittype();
+            if (UnitSize == Constantvalues.Utype.Hero ||
+                    (UnitSize == Constantvalues.Utype.LdrHero && FiringUnit.getFiringunit().getUseHeroOrLeader() != Constantvalues.Utype.Leader)) {
+                // Heroes are cumulative; always add if in range, unless using ldr drm instead
+                // get combat range
+                range = DetermineMaxCombatRange(FiringUnit, TargetGroupToUse, UsingSprayFire);
+                // determine hero range (base range or SW range)
+                boolean UsingMGRange= false; SuppWeapi MGRange; // = 0;
+                if (FiringUnit.getFiringunit().getUsingfirstMG()) { // use MG range if using
+                    mgrange = FiringUnit.getFiringunit().FiringMGs.getFirst().getFiringSW().getBaseRange();
+                    UsingMGRange = true;
+                }
+                if (FiringUnit.getFiringunit().getUsingsecondMG()) { // use MG range if using
+                    mgrange = FiringUnit.getFiringunit().FiringMGs.getLast().getFiringSW().getBaseRange();
+                    UsingMGRange = true;
+                }
+                if (UsingMGRange) { // use MG base range
+                    if (mgrange >= range) {
+                        firingdrms.setHeroicdrm(firingdrms.getHeroicdrm() + -1);
+                        firingdrms.setHeroName(firingdrms.getHeroName() + " " + FiringUnit.getbaseunit().getUnitName());
+                    }
+                } else {//  use hero base range
+                    if (FiringUnit.getFiringunit().getBaseRange() >= range) {
+                        firingdrms.setHeroicdrm(firingdrms.getHeroicdrm() + -1);
+                        firingdrms.setHeroName(firingdrms.getHeroName() + " " + FiringUnit.getbaseunit().getUnitName());
+                    }
+                }
+            }
+            if (UnitSize != Constantvalues.Utype.Leader && !(UnitSize == Constantvalues.Utype.LdrHero && FiringUnit.getFiringunit().getUseHeroOrLeader() == Constantvalues.Utype.Leader)) {
+                if (UnitSize == Constantvalues.Utype.Squad) {
+                    firingdrms.setFGSize(firingdrms.getFGSize() +3);
+                } else if (UnitSize == Constantvalues.Utype.HalfSquad || UnitSize == Constantvalues.Utype.Crew) {
+                    firingdrms.setFGSize(firingdrms.getFGSize() +2);
+                } else {
+                    firingdrms.setFGSize(firingdrms.getFGSize() +1);
+                }
+            }
+            // now add Leader impact
+            boolean Ldrpresent = false;
+             int LdrMod = CombatLdrDRM(FireGroupToUse, Ldrpresent, Usingsol, firingdrms);
+        }
+        return firingdrms;
+    }
     private int VehicleTEMCheck(LinkedList<IFTMods> DRMList, PersUniti TargetUnit, CombatTerrain ComTer ){
         boolean PositiveDRM = false;
         for (IFTMods IFTdrmTest: DRMList) {
@@ -974,7 +973,7 @@ public class CombatCalcC implements CombatCalci {
         return true;
     }
 
-    public boolean RangeIsEqual(int Currenthex, int lasthex, int Starthex) {
+    private boolean RangeIsEqual(int Currenthex, int lasthex, int Starthex) {
         /*Dim MapGeo as mapgeovalues.mapgeoc = MapGeovalues.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) // can use null values if sure instance already exists
         Dim Firstrange As Integer = MapGeo.CalcRange(Starthex, Currenthex, true)
         Dim Secondrange As Integer = MapGeo.CalcRange(lasthex, Currenthex, true)
@@ -996,9 +995,9 @@ public class CombatCalcC implements CombatCalci {
         private String pTerrainName = "";
         private int pTotalLocationLOSHdrm = 0;
         private String pLOSHName = ""; // need to reset it here because not reset later
-        private TargetVariables(){
 
-        }
+
+        private TargetVariables(){ }
         public boolean getHexSideTest() {return pHexSideTest;}
         public void setHexSideTest(boolean value) {pHexSideTest=value;}
         public boolean getTerraintest() {return pTerraintest;}
@@ -1026,4 +1025,41 @@ public class CombatCalcC implements CombatCalci {
         public String getLOSHName() {return pLOSHName;}
         public void setLOSHName(String value){pLOSHName=value;}
     }
+    private class FiringDRMs{
+        private boolean pCXApplies = false;
+        private boolean pEncircApplies = false;
+        private int pHeroicdrm =0;
+        private int pLeaderdrm = 0;
+        private String pCXHex = "";
+        private String pCXName ="";
+        private String pEncircHex="";
+        private String pEncircName="";
+        private String pHeroName="";
+        private int pFGSize=0;
+        private String pLeaderName="";
+
+        public boolean getCXapplies() {return pCXApplies;}
+        public void setCXapplies(boolean value) {pCXApplies = value;}
+        public boolean getEncircapplies() {return pEncircApplies;}
+        public void setEncircapplies(boolean value) {pEncircApplies = value;}
+        public int getHeroicdrm() {return pHeroicdrm;}
+        public void setHeroicdrm(int value){pHeroicdrm=value;}
+        public int getLeaderdrm() {return pLeaderdrm;}
+        public void setLeaderdrm(int value){pLeaderdrm=value;}
+        public String getCXHex(){return pCXHex;}
+        public void setCXHex(String value){pCXHex = value;}
+        public String getCXName(){return pCXName;}
+        public void setCXName(String value){pCXName = value;}
+        public String getEncircHex (){return pEncircHex;}
+        public void setEncircHex(String value){pEncircHex=value;}
+        public String getEncircName(){return pEncircName;}
+        public void setEncircName(String value){pEncircName = value;}
+        public String getHeroName(){return pHeroName;}
+        public void setHeroName(String value){pHeroName=value;}
+        public int getFGSize(){return pFGSize;}
+        public void setFGSize(int value){pFGSize = value;}
+        public String getLeaderName(){return pLeaderName;}
+        public void setLeaderName(String value){pLeaderName = value;}
+    }
+
 }

@@ -20,7 +20,6 @@ public class BasePersunitc implements Basepersuniti {
     private Location phexlocation;
     private Constantvalues.AltPos phexPosition;
     private double pLevelinHex;
-    private int pLOCIndex;
     private boolean pCX;
     private int pELR;
     private int pTurnArrives;
@@ -49,7 +48,7 @@ public class BasePersunitc implements Basepersuniti {
     private LinkedList<PersUniti> pGuarding;
 
     // constructor
-    public BasePersunitc(String PassHexname, int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, int PassLOCIndex, boolean PassCX,
+    public BasePersunitc(String PassHexname, int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, boolean PassCX,
                          int PassELR, int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassFirstSWLink, int PassSecondSWlink,
                          int PassHexEntSideCrossed, int PassSolID, String PassUnitName, int PassLOBLink, Constantvalues.CombatStatus PassCombatStatus, Constantvalues.VisibilityStatus PassVisibilityStatus,
                          Constantvalues.FortitudeStatus PassFortitudeStatus, Constantvalues.OrderStatus PassOrderStatus, Constantvalues.MovementStatus PassMovementStatus, boolean PassPinned, int PassSW,
@@ -61,7 +60,6 @@ public class BasePersunitc implements Basepersuniti {
         phexlocation = Passhexlocation;
         phexPosition = PasshexPosition;
         pLevelinHex = PassLevelinHex;
-        pLOCIndex = PassLOCIndex;
         pCX = PassCX;
         pELR = PassELR;
         pTurnArrives = PassTurnArrives;
@@ -134,14 +132,6 @@ public class BasePersunitc implements Basepersuniti {
 
     public void setLevelinHex(double value) {
         pLevelinHex = value;
-    }
-
-    public int getLOCIndex() {
-        return pLOCIndex;
-    }
-
-    public void setLOCIndex(int value) {
-        pLOCIndex = value;
     }
 
     public boolean getCX() {
@@ -256,9 +246,7 @@ public class BasePersunitc implements Basepersuniti {
         return pCombatStatus;
     }
 
-    public void setCombatStatus(Constantvalues.CombatStatus value) {
-        pCombatStatus = value;
-    }
+    public void setCombatStatus(Constantvalues.CombatStatus value) {pCombatStatus = value;}
 
     public Constantvalues.VisibilityStatus getVisibilityStatus() {
         return pVisibilityStatus;
@@ -290,30 +278,6 @@ public class BasePersunitc implements Basepersuniti {
 
     public void setOBTexture(BufferedImage value) {
         pOBTexture = value;
-    }
-
-    public int getLeftPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows) {
-        // temporary while debugging undo
-        /*Dim MapGeoTemp = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-        return (int) (MapGeoTemp.GetCX(CInt(this.pHexnum)) - 23);*/
-        return 0;
-    }
-
-    public int getTopPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows) {
-        // temporary while debugging undo
-        /*Dim MapGeoTemp = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-        return (int) (MapGeoTemp.GetCY(CInt(CInt(this.pHexnum))) - 23);*/
-        return 0;
-    }
-
-    public Point getDrawPos(int MapBtype, double MapXOffset, double MapYOffset, int MapMaxcols, int MapMaxrows) {
-        // temporary while debugging undo
-        /*Dim MapGeoTemp = MapGeoClassLibrary.ASLXNA.MapGeoC.GetInstance(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-        Point DrawPos = new Point(0, 0);
-        DrawPos.x = (int) (MapGeoTemp.GetCX(CInt(this.pexnum)) - 23);
-        DrawPos.y = (int) (MapGeoTemp.GetCY(CInt(this.pHexnum)) - 23);
-        return DrawPos;*/
-        return null;
     }
 
     public int getnumSW() {
@@ -526,7 +490,7 @@ public class BasePersunitc implements Basepersuniti {
     }
     public boolean IsLocationAMatch(Location testLOCformatch){
         TerrainChecks Terrchk = new TerrainChecks();
-        if ((this.gethexlocation()).equals(Terrchk.getLocationtypefromVASLLocation(testLOCformatch)) &&
+        if ((this.gethexlocation()).equals(testLOCformatch) &&  //Terrchk.getLocationtypefromVASLLocation(testLOCformatch)) &&
                 this.getLevelinHex() == testLOCformatch.getBaseHeight()) {
             return true;
         } else {

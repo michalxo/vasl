@@ -5,10 +5,16 @@ import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
+import VASSAL.build.GameModule;
+import VASSAL.counters.GamePiece;
+import VASSAL.counters.PieceIterator;
+import VASSAL.counters.Stack;
 
 public class CommonFunctionsC {
     private int myscenid;
     private DataC Linqdata = DataC.GetInstance();
+    public final static String DB_COUNTER_TYPE_MARKER_KEY = "DBCounterType";
+    public final static String DB_UNIT_TYPE = "unit";
     public CommonFunctionsC (int PassScenid) {
         myscenid = PassScenid;
     }
@@ -71,5 +77,48 @@ public class CommonFunctionsC {
         End With*/
         return null;
     }
+    public GamePiece GetGamePieceFromID (int IDtoMatch){
+        GamePiece ToUse = null;
+        try {
 
+            final PieceIterator pi = new PieceIterator(GameModule.getGameModule().getGameState().getAllPieces().iterator());
+
+            while (pi.hasMoreElements()) {
+                final GamePiece piece = pi.nextPiece();
+                if (piece instanceof Stack) {
+                    for (PieceIterator pi2 = new PieceIterator(((Stack) piece).getPiecesIterator()); pi2.hasMoreElements(); ) {
+                        GamePiece p2 = pi2.nextPiece();
+                        if (isDBUnitCounter(p2) && p2.getProperty("TextLabel").toString() != null) {
+                            int ObjIDlink = Integer.parseInt(p2.getProperty("TextLabel").toString());
+                            if (ObjIDlink == IDtoMatch) {
+                                //GameModule.getGameModule().getChatter().send("Have found Gamepiece to DM: " + TargParent.getbaseunit().getUnitName());
+                                ToUse = p2;
+                                //p2.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+                            }
+                        }
+                    }
+                } else {
+                    /*if (isDBUnitCounter(piece) && piece.getProperty("TextLabel").toString() != null) {
+                        int ObjIDlink = Integer.parseInt(piece.getProperty("TextLabel").toString());
+                        if (ObjIDlink == TargParent.getbaseunit().getUnit_ID()) {
+                            GameModule.getGameModule().getChatter().send("Have found Gamepiece to DM: " + TargParent.getbaseunit().getUnitName());
+                        }
+                    }*/
+                }
+
+            }
+            return ToUse;
+        } catch (Exception e) {
+            GameModule.getGameModule().getChatter().send("Error finding Gamepiece " );
+            return null;
+        }
+    }
+    public boolean isDBUnitCounter(GamePiece piece) {
+
+        return isPropertySet(piece, DB_COUNTER_TYPE_MARKER_KEY, DB_UNIT_TYPE);
+    }
+    public boolean isPropertySet(GamePiece piece, String key, String value) {
+
+        return piece.getProperty(key) != null && piece.getProperty(key).equals(value);
+    }
 }

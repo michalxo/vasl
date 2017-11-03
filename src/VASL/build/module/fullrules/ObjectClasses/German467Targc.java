@@ -3,6 +3,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 import VASL.build.module.fullrules.UtilityClasses.HOBCheckC;
 import java.util.List;
@@ -276,8 +277,7 @@ public class German467Targc implements TargetPersUniti {
         }
         DiceC Dieclass = new DiceC();
         int ODR = Dieclass.Diceroll();
-        // test code
-        ODR=8;
+
         myCombatResultsString += myName + " rolls an original " + java.lang.Integer.toString(ODR);
         // sniper
         SANCheck(ODR);
@@ -405,8 +405,7 @@ public class German467Targc implements TargetPersUniti {
         if (myOrderStatus == Constantvalues.OrderStatus.GoodOrder) {  //  only GoodOrder units can take IFT PTCs
             DiceC Dieclass = new DiceC();
             int ODR = Dieclass.Diceroll();
-            // test code
-            ODR=8;
+
             myCombatResultsString += myName + " rolls a " + java.lang.Integer.toString(ODR);
             // sniper
             SANCheck(ODR);
@@ -434,7 +433,7 @@ public class German467Targc implements TargetPersUniti {
 
                                 Basic Course
                     1.	Use case begins when Randon Selection on a #KIA result produces a break result for a unit
-                    2.	Breaks and is DM’d (UC205-TargetBreaks and UC208-TargetDMs) unless broken then Reduces [Alternate Course of Action: UC203-TargetReduces] or broken and HS/Crew then Dies [Alternate Course of Action: UC201-TargetDies].
+                    2.	Breaks and is DMï¿½d (UC205-TargetBreaks and UC208-TargetDMs) unless broken then Reduces [Alternate Course of Action: UC203-TargetReduces] or broken and HS/Crew then Dies [Alternate Course of Action: UC201-TargetDies].
 
                     Alternate Course A: UC203-TargetReduces
                     Condition: Target is broken
@@ -456,19 +455,28 @@ public class German467Targc implements TargetPersUniti {
     }
 
     public boolean UpdateTargetStatus(PersUniti PassTarget) {
-        DataC Linqdata = DataC.GetInstance();
-        OrderofBattle UpdateUnit = Linqdata.GetUnitfromCol(PassTarget.getbaseunit().getUnit_ID());
-        UpdateUnit.setOrderStatus(getOrderStatus());
-        PassTarget.getbaseunit().setOrderStatus(getOrderStatus());
-        UpdateUnit.setCX(PassTarget.getbaseunit().getCX());
-        UpdateUnit.setPinned(PassTarget.getbaseunit().getPinned());
-        UpdateUnit.setCombatStatus(PassTarget.getbaseunit().getCombatStatus());
-        UpdateUnit.setMovementStatus(PassTarget.getbaseunit().getMovementStatus());
-        UpdateUnit.setFirstSWLink(PassTarget.getbaseunit().getFirstSWLink());
-        UpdateUnit.setSecondSWlink(PassTarget.getbaseunit().getSecondSWLink());
-        UpdateUnit.setSW(PassTarget.getbaseunit().getnumSW());
-        //Linqdata.QuickUpdate();
-        return true;
+        // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL TARGET CLASSES
+        ScenarioC scen = ScenarioC.getInstance();
+        OrderofBattle UpdateUnit = null;
+        for(OrderofBattle testOBunit: scen.getOBUnitcol() ) {
+            if (testOBunit.getOBUnit_ID() == PassTarget.getbaseunit().getUnit_ID()) {
+                UpdateUnit = testOBunit;
+                break;
+            }
+        }
+        if (UpdateUnit != null) {
+            UpdateUnit.setOrderStatus(getOrderStatus());
+            PassTarget.getbaseunit().setOrderStatus(getOrderStatus());
+            UpdateUnit.setCX(PassTarget.getbaseunit().getCX());
+            UpdateUnit.setPinned(PassTarget.getbaseunit().getPinned());
+            UpdateUnit.setCombatStatus(PassTarget.getbaseunit().getCombatStatus());
+            UpdateUnit.setMovementStatus(PassTarget.getbaseunit().getMovementStatus());
+            UpdateUnit.setFirstSWLink(PassTarget.getbaseunit().getFirstSWLink());
+            UpdateUnit.setSecondSWlink(PassTarget.getbaseunit().getSecondSWLink());
+            UpdateUnit.setSW(PassTarget.getbaseunit().getnumSW());
+            return true;
+        }
+        return false;
     }
 
     public int getLdrDRM () {return 0;}

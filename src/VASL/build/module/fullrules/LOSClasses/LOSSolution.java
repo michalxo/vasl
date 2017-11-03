@@ -2,6 +2,7 @@ package VASL.build.module.fullrules.LOSClasses;
 
 import VASL.LOS.Map.Hex;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.IFTCombatClasses.CombatCalcC;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.ObjectClasses.AltHexGTerrain;
 import VASL.build.module.fullrules.ObjectClasses.CombatTerrain;
@@ -9,6 +10,7 @@ import VASL.build.module.fullrules.ObjectClasses.SmokeHolder;
 import VASL.build.module.fullrules.TerrainClasses.ManageScenarioTerrain;
 
 
+import java.lang.annotation.Target;
 import java.util.LinkedList;
 
 public class LOSSolution extends BaseSolution {
@@ -98,21 +100,18 @@ public class LOSSolution extends BaseSolution {
     Trim(FeatureName)
     if FeatdrmAdj > 0 Then DoesScenLOSHApplytothisLOS = true
     End Function*/
-    public int CalcVisLOSH(String VisLOSHName, boolean OBAAlreadyFound, CombatTerrain ComTer) {
+    public int CalcVisLOSH(boolean OBAAlreadyFound, CombatTerrain ComTer) {
         // called by IFTC.Combatdrm
         // determines if any visibility-LOSH exists in hex (only from OBA and/or Smoke coded so far ) - NEED TO ADD MIST AND DUST
         // NEED TO ADD CODE TO HANDLE DIFFERENT LEVEL TESTS
         // BOTH ABOVE AND BELOW PLUS ONE UP AND ONE DOWN (USE BLIND HEX CHECK TO RESOLVE)
         Constantvalues.VisHind Smoketype = Constantvalues.VisHind.None;
         double SmokeBaselevel = 0; // used when checking presence of smoke elsewhere in hex
-        int pCalcVisLOSH =0; VisLOSHName ="";
+        int pCalcVisLOSH =0;
         boolean AddSmoke = false;
         boolean SmokeLosCheck = false;
+        String VisLOSHName = "";
         // check for Smoke
-        MapDataC Maptables  = MapDataC.GetInstance("", 0);    // use null values for parameters when sure instance exists
-            /*'Dim LocationCol As IQueryable(Of MapDataClassLibrary.GameLocation) = Maptables.LocationCol
-                    'Dim Getlocs = New Terrainvalues.GetALocationFromMapTable(LocationCol)
-                    'Dim LocToUse As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromMaptable(ComTer.LocIndex)*/
         double FirerLevel = getSeeLevelInHex() + ComTer.getHexBaseLevel();
         double Targetlevel = getSeeLevelInHex() + ComTer.getHexBaseLevel();
         ManageScenarioTerrain GetSmoke = new ManageScenarioTerrain();
@@ -241,6 +240,7 @@ public class LOSSolution extends BaseSolution {
                 OBAAlreadyFound = true;
             }
         }
+        ComTer.setVisLOSHName(VisLOSHName);
         return pCalcVisLOSH;
     }
 }

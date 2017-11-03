@@ -2,12 +2,21 @@ package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.DataClasses.OrderofBattle;
+import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
+import VASSAL.build.GameModule;
+import VASSAL.counters.GamePiece;
+import VASSAL.counters.PieceIterator;
+import VASSAL.counters.Stack;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 public class Russian447Firec implements FiringPersUniti {
@@ -32,6 +41,7 @@ public class Russian447Firec implements FiringPersUniti {
 //    private LinkedList<GameLocation> Mapcol = new LinkedList<GameLocation>();
 //    private GetALocationFromMap Getlocs;
 //    MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
+
 
     public Russian447Firec (boolean PassIsCX, boolean PassIsPinned, boolean PassHasMG, boolean PassUsingInherentFP, boolean PassUsingfirstMG, boolean PassUsingsecondMG, PersUniti PassUnit) {
 
@@ -388,39 +398,51 @@ public class Russian447Firec implements FiringPersUniti {
     }
 
     public void UpdateCombatStatus(Constantvalues.CombatStatus NewCombatStatus, int ROFdr){
-
+        // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL FIRING CLASSES
         myCombatStatus =NewCombatStatus;
-        SuppWeapi FiringMG;
-    /*Dim Linqdata
-    As Datavalues.DataC =Datavalues.DataC.GetInstance()
-    Dim UpdateUnit
-    As DataClassLibrary.OrderofBattle =Linqdata.GetUnitfromCol(myOBLink)
-    UpdateUnit.CombatStatus =Me.CombatStatus
-    myBaseUnit.BasePersUnit.CombatStatus =Me.CombatStatus
-    if
-    Me.UsingfirstMG Then
-    FiringMG =(
-    From getMG
-    As Objectvalues.
-    SuppWeapi In
-    Me.FiringMGs Where
-    getMG.BaseSW.Unit_ID =myBaseUnit.BasePersUnit.FirstSWLink).First
-                FiringMG.FiringSW.UpdateCombatStatus(NewCombatStatus,ROFdr)
-    End if
-            if
-    Me.UsingsecondMG Then
-    FiringMG =(
-    From getMG
-    As Objectvalues.
-    SuppWeapi In
-    Me.FiringMGs Where
-    getMG.BaseSW.Unit_ID =myBaseUnit.BasePersUnit.SecondSWlink).First
-                FiringMG.FiringSW.UpdateCombatStatus(NewCombatStatus,ROFdr)
-    End if
-            Linqdata.QuickUpdate()*/
+        myUnit.getbaseunit().setCombatStatus(NewCombatStatus);
+
+        // add counter
+        ScenarioC scen = ScenarioC.getInstance();
+        ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+        CommonFunctionsC ToDO = new CommonFunctionsC(scen.getScenID());
+        GamePiece ToPrep = ToDO.GetGamePieceFromID(myUnit.getbaseunit().getUnit_ID());
+        if (ToPrep != null) {ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));}
+
+        SuppWeapi FiringMG = null;
+        OrderofBattle UpdateUnit = null;
+        for(OrderofBattle testOBunit: scen.getOBUnitcol() ) {
+            if (testOBunit.getOBUnit_ID() == myUnit.getbaseunit().getUnit_ID()) {
+                UpdateUnit = testOBunit;
+                break;
+            }
+        }
+        if (UpdateUnit != null) {
+            UpdateUnit.setCombatStatus(myCombatStatus);
+            if (this.getUsingfirstMG()) {
+                for(SuppWeapi testOBSWunit: Scencolls.SWCol ) {
+                    if (testOBSWunit.getbaseSW().getUnit_ID() == myUnit.getbaseunit().getFirstSWLink()) {
+                        FiringMG = testOBSWunit;
+                        break;
+                    }
+                }
+                FiringMG.getFiringSW().UpdateCombatStatus(NewCombatStatus,ROFdr);
+            }
+            if (this.getUsingsecondMG()) {
+                for(SuppWeapi testOBSWunit: Scencolls.SWCol ) {
+                    if (testOBSWunit.getbaseSW().getUnit_ID() == myUnit.getbaseunit().getSecondSWLink()) {
+                        FiringMG = testOBSWunit;
+                        break;
+                    }
+                }
+                FiringMG.getFiringSW().UpdateCombatStatus(NewCombatStatus,ROFdr);
+            }
+        }
+
     }
 
         /*'public Function CanStillUseInherentFP(ByVal MGCount As Integer) As Boolean Implements FiringPersUniti.CanStillUseInherentFP
                 '    if MGCount = 2 Then return false Else return true
                 'End Function*/
+
 }

@@ -37,7 +37,7 @@ public class BaseHex {
         prhexside6value = PassHexside6;
         prStaircasevalue = PassLocation.getHex().hasStairway();
         prControlvalue = Passcontrol;
-        prHexBaseLevelValue = PassLocation.getBaseHeight();
+        prHexBaseLevelValue = PassLocation.getHex().getBaseHeight();
         MapDataC Maptables = MapDataC.GetInstance("", 0);  // use null values for parameters when sure instance exists
         //Dim LocationCol As IQueryable (Of MapDataClassLibrary.GameLocation) =Maptables.LocationCol
         //GetALocationFromMap Getlocs = new GetALocationFromMap(LocationCol);

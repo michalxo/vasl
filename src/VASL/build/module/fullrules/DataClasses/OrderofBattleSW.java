@@ -1,6 +1,8 @@
 package VASL.build.module.fullrules.DataClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.LOS.Map.Location;
 
 public class OrderofBattleSW {
     private String pOBWeapon;
@@ -11,9 +13,8 @@ public class OrderofBattleSW {
     private int pOwner;
     private int pScenario;
     private Constantvalues.SWStatus pStatus;
-    private Constantvalues.Location pHexlocation;
-    private int pHexnumber;
-    private int pLocIndex;
+    private Location pHexlocation;
+    private Hex pHex;
     private Constantvalues.AltPos pPosition;
     private Constantvalues.CombatStatus pCombatStatus;
     private Constantvalues.VisibilityStatus pVisibilityStatus;
@@ -37,19 +38,17 @@ public class OrderofBattleSW {
 	public void setScenario(int value) {pScenario = value;}
 	public Constantvalues.SWStatus getStatus() {return pStatus;}
 	public void setStatus(Constantvalues.SWStatus value) {pStatus = value;}
-	public Constantvalues.Location getHexlocation() {return pHexlocation;}
-	public void setHexlocation(Constantvalues.Location value) {pHexlocation= value;}
-	public int getHexnumber() {return pHexnumber;}
-	public void setHexnumber(int value) {pHexnumber = value;}
-	public int getLocIndex() {return pLocIndex;}
-	public void setLocIndex(int value){pLocIndex = value;}
+	public Location getHexlocation() {return pHexlocation;}
+	public void setHexlocation(Location value) {pHexlocation= value;}
+	public Hex getHex() {return pHex;}
+	public void setHex(Hex value) {pHex = value;}
 	public Constantvalues.AltPos getPosition() {return pPosition;}
 	public void setPosition (Constantvalues.AltPos value ) {pPosition= value;}
 	public Constantvalues.CombatStatus getCombatStatus() {return pCombatStatus;}
 	public void setCombatStatus(Constantvalues.CombatStatus value) {pCombatStatus = value;}
 	public Constantvalues.VisibilityStatus getVisibilityStatus() {return pVisibilityStatus;}
 	public void setVisibilityStatus(Constantvalues.VisibilityStatus value) {pVisibilityStatus = value;}
-    public int getOwnerhex() {
+    /*public int getOwnerhex() {
         DataC Linqdata = DataC.GetInstance();
         if (this.getOwner() != 0) {
             OrderofBattle Tempowner = Linqdata.GetUnitfromCol(this.getOwner());
@@ -60,7 +59,7 @@ public class OrderofBattleSW {
             }
             return Linqdata.GetUnpossessedHex(this.getOBSW_ID(), this.getWeaponType());
         }
-    }
+    }*/
 
     public boolean ISATypeOf(Constantvalues.SWtype TypeTocheck) {
         switch (TypeTocheck) {

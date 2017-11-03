@@ -48,7 +48,7 @@ public class UnitReplacesc implements StatusChangei{
 
         // create the new unit
         int ReplacesTo = TargParent.getTargetunit().getSubstitutesTo();
-        String NewName = null;
+        String NewName = "111a";  //null;  TEST CODE - need to add dialogue box
         GameModule.getGameModule().getChatter().send("Enter Name of New Unit: " + TargParent.getbaseunit().getUnitName() + " replaces");
         PersCreation UseObjectFactory = new PersCreation();
         PersUniti NewUnit = UseObjectFactory.CreateNewInstance(ReplacesTo, NewName, TargParent);

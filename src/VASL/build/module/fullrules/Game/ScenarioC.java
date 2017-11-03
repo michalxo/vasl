@@ -2,6 +2,8 @@ package VASL.build.module.fullrules.Game;
 
 import VASL.build.module.ASLMap;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.DataClasses.OrderofBattle;
+import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTC;
 import VASL.build.module.fullrules.IFTCombatClasses.IIFTC;
@@ -9,9 +11,11 @@ import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.MovementClasses.MakeMoveC;
 import VASL.build.module.fullrules.ObjectClasses.Scenlisttype;
+import VASL.build.module.fullrules.OpenSaveGame;
 import VASL.build.module.fullrules.PhaseClasses.PhaseMVCPattern;
 import VASSAL.build.GameModule;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +28,7 @@ public class ScenarioC extends CampaignC {
     private static ScenarioC Sceninstance;
     //public Hashtable HexesWithCounter = new Hashtable();
     public MapDataC Maptables = MapDataC.GetInstance(ScenName, ScenIDValue);
-    public LinkedList<GameLocation> LocationCol;
+    //public LinkedList<GameLocation> LocationCol;
     private Constantvalues.WhoCanDo PlayerTurnvalue;
     private int CurrentTurnvalue;
     public MakeMoveC DoMove;  // temporary while debugging undo
@@ -33,6 +37,9 @@ public class ScenarioC extends CampaignC {
     private VASL.LOS.Map.Map pgamemap;
     private ASLMap pmap;
     private Scenario pScenario;
+    private LinkedList<OrderofBattle> pOBUnitcol;
+    private LinkedList<OrderofBattleSW> pOBSWcol;
+    private OpenSaveGame GameinPlay;
 
     // constructors
     private ScenarioC(String test) {
@@ -66,7 +73,8 @@ public class ScenarioC extends CampaignC {
         return CurrentTurnvalue;
     }
     public IIFTC getIFT() {return IFT;}
-
+    public LinkedList<OrderofBattle> getOBUnitcol() {return pOBUnitcol;}
+    public LinkedList<OrderofBattleSW> getOBSWcol() {return pOBSWcol;}
     public boolean StartASLScenario(int PassASLScenID) {
         // start new ASL scenario from preset ASLScenario
 
@@ -151,12 +159,24 @@ public class ScenarioC extends CampaignC {
         // use scenario data to set property values
         PhaseValue = pScenario.getPhase();
         PlayerTurnvalue = pScenario.getPTURN();
-        String ASLMapLink = "Scen" + getScenID();
+        //String ASLMapLink = "Scen" + getScenID();
         // need to pass string value to create terrain collection
-        MapDataC Maptables = MapDataC.GetInstance(ASLMapLink, getScenID());
-        LocationCol = Maptables.CreateMapCollection();
+        //MapDataC Maptables = MapDataC.GetInstance(ASLMapLink, getScenID());
+        // LocationCol = Maptables.CreateMapCollection();
+        GameinPlay = new OpenSaveGame();
+        try {
+            GameinPlay.OpenGame("Fullrules");
+            pOBUnitcol = GameinPlay.unitsinplay();
+            pOBSWcol = GameinPlay.swinplay();
+            //testgame.SaveGame("Fullrules");
+        } catch (IOException e) {
+
+        }
 
         ContinueScenarioStart(pScenario);
+
+
+
         return StartScenario;
 
     }
@@ -212,12 +232,13 @@ public class ScenarioC extends CampaignC {
     }
 
 
-    public void SaveScenario(boolean NewScen) {
+    public void SaveScenario() { //boolean NewScen) {
         // NEEDS TO BE REDONE DUE TO CHANGES TO NEW SCENARIO METHODS JULY 15 - SEE StartASLScenario
         // called by Me.PhaseChangeNext, Me.PhaseChangePrevious
         // save current scenario
+        GameinPlay.SaveGame("Fullrules");
 
-        if (NewScen) {
+        /*if (NewScen) {
             // 'sets new scenario number
             String NewScenNum = "";
             //    'CStr(Linqdata.GetNewScennum)
@@ -275,7 +296,7 @@ public class ScenarioC extends CampaignC {
 
             // write new values back to database
             Linqdata.WriteScenarioData(pScenario);
-        }
+        }*/
     }
 
     public void PhaseChangeNext() {
@@ -287,7 +308,7 @@ public class ScenarioC extends CampaignC {
             CasUpdate();
             if (EndofScenarioCheck()) {
                 UpdateScenarioValues();
-                SaveScenario(false); // save existing scenario
+                SaveScenario(); // save existing scenario
                 return; // check for campaign and go to refit
             }
         }
@@ -295,12 +316,12 @@ public class ScenarioC extends CampaignC {
         // exit current phase forward
         PhasePattern.TakeAction(Constantvalues.ScenarioAction.ExitfromPhaseForward);
         UpdateScenarioValues();
-        SaveScenario(false);
+        SaveScenario();
         // 'go to new phase forward
         NextPhase();
         CreatePhaseMVC(Constantvalues.ScenarioAction.EnterIntoNewPhase);
         UpdateScenarioValues();
-        SaveScenario(false);  // save existing scenario
+        SaveScenario();  // save existing scenario
     }
 
     public void PhaseChangePrevious() {
@@ -320,12 +341,12 @@ public class ScenarioC extends CampaignC {
         // exit current phase backward
         PhasePattern.TakeAction(Constantvalues.ScenarioAction.ExitfromPhaseBack);
         UpdateScenarioValues();
-        SaveScenario(false);
+        SaveScenario();
         // go to new phase Backward
         PreviousPhase();
         CreatePhaseMVC(Constantvalues.ScenarioAction.JoinPhase);
         UpdateScenarioValues();
-        SaveScenario(false);  // save existing scenario
+        SaveScenario();  // save existing scenario
     }
 
     private void NextPhase() {
@@ -424,7 +445,7 @@ public class ScenarioC extends CampaignC {
         // temporary while debugging undo
 //        TerrainActions = new TerrainActionsC();
 //        TerrainActions.ShowTerrainCounters();
-        UnitActions = new UnitActionsC(Linqdata, this);
+        UnitActions = new UnitActionsC(getOBUnitcol());
         //VehicleActions = new VehicleActionsC(Linqdata, this);
         //SWActions = new SWActionsC(Linqdata, this);
 //        ConcealActions = new ConcealActionsC();

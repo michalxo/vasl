@@ -41,6 +41,7 @@ public class CombatTerrain  extends BaseHex {
     private Location prLocation;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private Hex prHex;
+    private String prVisLOSHName="";
     // Constructors
 
     public CombatTerrain(Constantvalues.Location PasshexTerrtype, Constantvalues.Hexside PassHexside1, Constantvalues.Hexside PassHexside2, Constantvalues.Hexside PassHexside3,
@@ -151,6 +152,9 @@ public class CombatTerrain  extends BaseHex {
     public void setSolID(int value) {
         prSolutionID = value;
     }
+
+    public String getVisLOSHName(){return prVisLOSHName; }
+    public void setVisLOSHName(String value){prVisLOSHName = value;}
 
     public Location getLocation() {return prLocation;}
     public void setLocation(Location value){prLocation=value;}
@@ -327,11 +331,12 @@ public class CombatTerrain  extends BaseHex {
         return ScenFeatTEM;
     }
 
-    public void TargetHexdrm(int TEMdrm, int TotalLocationLOSHdrm, int Hexsidedrm, int Featuredrm, LinkedList<IFTMods> DRMList,PersUniti TargetUnit,int hexspinedrm, String Terrainname,
-            String SideTerrainname, String Featurename, int TotalLOSLOSHdrm, boolean alreadymoved, boolean terraintest, boolean hexsidetest, double FirerBaseLevel, double Firerinhexlevel,
-            String TargLOSHName, int TargetLOSH, LinkedList<PersUniti> FireGroup_Thread) {
-        
-        
+    public void TargetHexdrm(CombatCalcC.TargetVariables targetvar, int TotalLocationLOSHdrm, int Hexsidedrm, int Featuredrm, LinkedList<IFTMods> DRMList, PersUniti TargetUnit, int hexspinedrm, String Terrainname,
+                             String SideTerrainname, String Featurename, int TotalLOSLOSHdrm, boolean alreadymoved, double FirerBaseLevel, double Firerinhexlevel,
+                             LinkedList<PersUniti> FireGroup_Thread) {
+
+        boolean terraintest = targetvar.getTerraintest();
+        boolean hexsidetest = targetvar.getHexSideTest();
         TerrainChecks TerrChk = new TerrainChecks();
         IFTMods NewDRM;
         boolean PositiveDRM = false;
@@ -342,7 +347,7 @@ public class CombatTerrain  extends BaseHex {
         // determine if LOS blocked by LOSH
 
         // MOVE THESE NEXT TWO LINES BACK TO COMBATCALC.COMBATDRM? AUG 14
-        TotalLocationLOSHdrm += TargetLOSH;
+        TotalLocationLOSHdrm += targetvar.getLOSHdrm();
         TotalLOSLOSHdrm += TotalLocationLOSHdrm;
         // determine any TEM
         if (hexspinedrm > Hexsidedrm) {
@@ -351,20 +356,20 @@ public class CombatTerrain  extends BaseHex {
         }
         if (terraintest && hexsidetest && ScenFeatureTest) {
             // hex is not open ground, hexside obstacle, scenario feature present
-            if (TEMdrm >= Hexsidedrm && TEMdrm >= Featuredrm) {
+            if (targetvar.getTEMdrm() >= Hexsidedrm && targetvar.getTEMdrm() >= Featuredrm) {
                 // use hex TEM
                 Featurename = "";
                 Featuredrm = 0;
                 SideTerrainname = "";
                 Hexsidedrm = 0;
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Terrain)) {
-                    NewDRM = new IFTMods(TEMdrm, Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
+                    NewDRM = new IFTMods(targetvar.getTEMdrm(), Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                     DRMList.add(NewDRM);
                 } else {
-                    TEMdrm = 0;
+                    targetvar.setTEMdrm(0);
                     //'MessageBox.Show(TerrainName & " in " & this.HexName & " already added to DRM")
                 }
-            } else if (Hexsidedrm > TEMdrm && Hexsidedrm >= Featuredrm) {
+            } else if (Hexsidedrm > targetvar.getTEMdrm() && Hexsidedrm >= Featuredrm) {
                 // use hexside
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Hexside)) {
                     NewDRM = new IFTMods(Hexsidedrm, Constantvalues.IFTdrm.Hexside, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
@@ -374,12 +379,12 @@ public class CombatTerrain  extends BaseHex {
                     //'MessageBox.Show(SideTerrainName & " in " & this.HexName & " already added to DRM")
                 }
                 // check for Runway/Boulevard/City Square -1
-                if (TEMdrm == -1) {
+                if (targetvar.getTEMdrm() == -1) {
                     if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Terrain)) {
-                        NewDRM = new IFTMods(TEMdrm, Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
+                        NewDRM = new IFTMods(targetvar.getTEMdrm(), Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                         DRMList.add(NewDRM);
                     } else {
-                        TEMdrm = 0;
+                        targetvar.setTEMdrm(0);
                         //'MessageBox.Show(TerrainName & " in " & this.HexName & " already added to DRM")
                     }
                 }
@@ -387,11 +392,11 @@ public class CombatTerrain  extends BaseHex {
                 Featurename = "";
                 Featuredrm = 0;
                 Terrainname = "";
-                TEMdrm = 0;
-            } else if (Featuredrm > TEMdrm && Featuredrm > Hexsidedrm) {
+                targetvar.setTEMdrm(0);
+            } else if (Featuredrm > targetvar.getTEMdrm() && Featuredrm > Hexsidedrm) {
                 // use feature
                 Terrainname = "";
-                TEMdrm = 0;
+                targetvar.setTEMdrm(0);
                 SideTerrainname = "";
                 Hexsidedrm = 0;
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Feature)) {
@@ -402,12 +407,12 @@ public class CombatTerrain  extends BaseHex {
                     //'MessageBox.Show(FeatureName & " in " & this.HexName & " already added to DRM")
                 }
                 // check for Runway/Boulevard/City Square -1
-                if (TEMdrm == -1) {
+                if (targetvar.getTEMdrm() == -1) {
                     if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Terrain)) {
-                        NewDRM = new IFTMods(TEMdrm, Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
+                        NewDRM = new IFTMods(targetvar.getTEMdrm(), Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                         DRMList.add(NewDRM);
                     } else {
-                        TEMdrm = 0;
+                        targetvar.setTEMdrm(0);
                         //'MessageBox.Show(TerrainName & " in " & this.HexName & " already added to DRM")
                     }
                 }
@@ -416,22 +421,22 @@ public class CombatTerrain  extends BaseHex {
             }
         } else if (terraintest && hexsidetest  && !ScenFeatureTest) {
             // hex is not open ground, hexside obstacle, no scenario feature
-            if (TEMdrm >= Hexsidedrm) {
+            if (targetvar.getTEMdrm() >= Hexsidedrm) {
                 // use hex TEM
                 SideTerrainname = "";
                 Hexsidedrm = 0;
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Terrain)) {
-                    NewDRM = new IFTMods(TEMdrm, Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
+                    NewDRM = new IFTMods(targetvar.getTEMdrm(), Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                     DRMList.add(NewDRM);
                 } else {
-                    TEMdrm = 0;
+                    targetvar.setTEMdrm(0);
                     //'MessageBox.Show(TerrainName & " in " & this.HexName & " already added to DRM")
                 }
             } else {
                 // use hexside
                 //'MsgBox("Using Wall Advantage", , "Calculating Terrain DRM")
                 Terrainname = "";
-                TEMdrm = 0;
+                targetvar.setTEMdrm(0);
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Hexside)) {
                     NewDRM = new IFTMods(Hexsidedrm, Constantvalues.IFTdrm.Hexside, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                     DRMList.add(NewDRM);
@@ -440,12 +445,12 @@ public class CombatTerrain  extends BaseHex {
                     //'MessageBox.Show(SideTerrainName & " in " & this.HexName & " already added to DRM")
                 }
                 // check for Runway/Boulevard/City Square -1
-                if (TEMdrm == -1) {
+                if (targetvar.getTEMdrm() == -1) {
                     if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Terrain)) {
-                        NewDRM = new IFTMods(TEMdrm, Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
+                        NewDRM = new IFTMods(targetvar.getTEMdrm(), Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                         DRMList.add(NewDRM);
                     } else {
-                        TEMdrm = 0;
+                        targetvar.setTEMdrm(0);
                         //'MessageBox.Show(TerrainName & " in " & this.HexName & " already added to DRM")
                     }
                 }
@@ -453,21 +458,21 @@ public class CombatTerrain  extends BaseHex {
             Featurename = ""; Featuredrm = 0;
         } else if (terraintest && !hexsidetest && ScenFeatureTest) {
             // hex is not open ground, scenario feature present, hexside clear
-            if (TEMdrm >= Featuredrm) {
+            if (targetvar.getTEMdrm() >= Featuredrm) {
                 // use hex TEM
                 Featurename = "";
                 Featuredrm = 0;
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Terrain)) {
-                    NewDRM = new IFTMods(TEMdrm, Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
+                    NewDRM = new IFTMods(targetvar.getTEMdrm(), Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                     DRMList.add(NewDRM);
                 } else {
-                    TEMdrm = 0;
+                    targetvar.setTEMdrm(0);
                     //'MessageBox.Show(TerrainName & " in " & this.HexName & " already added to DRM")
                 }
             } else {
                 // use FeatureTEM
                 Terrainname = "";
-                TEMdrm = 0;
+                targetvar.setTEMdrm(0);
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Feature)) {
                     NewDRM = new IFTMods(Featuredrm, Constantvalues.IFTdrm.Feature, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                     DRMList.add(NewDRM);
@@ -476,12 +481,12 @@ public class CombatTerrain  extends BaseHex {
                     //'MessageBox.Show(FeatureName & " in " & this.HexName & " already added to DRM")
                 }
                 // check for Runway/Boulevard/City Square -1
-                if (TEMdrm == -1) {
+                if (targetvar.getTEMdrm() == -1) {
                     if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Terrain)) {
-                        NewDRM = new IFTMods(TEMdrm, Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
+                        NewDRM = new IFTMods(targetvar.getTEMdrm(), Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                         DRMList.add(NewDRM);
                     } else {
-                        TEMdrm = 0;
+                        targetvar.setTEMdrm(0);
                         //'MessageBox.Show(TerrainName & " in " & this.HexName & " already added to DRM")
                     }
                 }
@@ -514,7 +519,7 @@ public class CombatTerrain  extends BaseHex {
                     //'MessageBox.Show(FeatureName & " in " & this.HexName & " already added to DRM")
                 }
             }
-            TEMdrm = 0;
+            targetvar.setTEMdrm(0);
             Terrainname = "";
         } else if (terraintest && !hexsidetest && !ScenFeatureTest) {
             // hex is not open ground and hexside is clear, no scenario feature
@@ -524,15 +529,15 @@ public class CombatTerrain  extends BaseHex {
             Featuredrm = 0;
             Featurename = "";
             if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.Terrain)) {
-                NewDRM = new IFTMods(TEMdrm, Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
+                NewDRM = new IFTMods(targetvar.getTEMdrm(), Constantvalues.IFTdrm.Terrain, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                 DRMList.add(NewDRM);
             } else {
-                TEMdrm = 0;
+                targetvar.setTEMdrm(0);
                 // MessageBox.Show(TerrainName & " in " & this.HexName & " already added to DRM")
             }
         } else if (!terraintest && hexsidetest && !ScenFeatureTest) {
             // hexside obstacle and open ground hex, no scenario feature
-            TEMdrm = 0;
+            targetvar.setTEMdrm(0);
             Terrainname = "";
             Featuredrm = 0;
             Featurename = "";  // use hexside
@@ -545,7 +550,7 @@ public class CombatTerrain  extends BaseHex {
             }
         } else if (!terraintest && !hexsidetest && ScenFeatureTest) {
             // scenario feature and hexside clear, hex is open ground
-            TEMdrm = 0;
+            targetvar.setTEMdrm(0);
             Terrainname = "";
             Hexsidedrm = 0;
             SideTerrainname = "";  // use feature
@@ -558,7 +563,7 @@ public class CombatTerrain  extends BaseHex {
             }
         } else if (!terraintest && !hexsidetest && !ScenFeatureTest) {
             // hex is open ground, hexside clear, no scenario feature
-            TEMdrm = 0;
+            targetvar.setTEMdrm(0);
             Terrainname = "";
             Hexsidedrm = 0;
             SideTerrainname = "";
@@ -578,13 +583,13 @@ public class CombatTerrain  extends BaseHex {
             double TotalFirerlevel = FirerBaseLevel + Firerinhexlevel;
             if (TotalFirerlevel < (Targbaselevel + TargetUnit.getbaseunit().getLevelinHex())) {
                 // HA applies when Target above Firer and no other TEM
-                TEMdrm = 1;
+                targetvar.setTEMdrm(1);
                 Terrainname = "Height Advantage";
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.HA)) {
                     NewDRM = new IFTMods(1, Constantvalues.IFTdrm.HA, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                     DRMList.add(NewDRM);
                 } else {
-                    TEMdrm = 0;
+                    targetvar.setTEMdrm(0);
                     //'MessageBox.Show("HA in " & this.HexName & " already added to DRM")
                 }
             }
@@ -592,7 +597,7 @@ public class CombatTerrain  extends BaseHex {
             //'MsgBox("How in heck did we end up here?", , "Calculating which Terrain drm to use")
         }
         // Vehicle TEM
-        TEMdrm += VehicleTEMCheck(DRMList, TargetUnit);
+        targetvar.setTEMdrm(targetvar.getTEMdrm() + VehicleTEMCheck(DRMList, TargetUnit));
         // FFMO check
         for (IFTMods IFTdrmTest: DRMList) {
             if (IFTdrmTest.getDRM() > 0) {
@@ -607,12 +612,12 @@ public class CombatTerrain  extends BaseHex {
                             alreadymoved == false)) {
             if (TerrChk.IsLocationOGforFFMO(TargetUnit.getbaseunit().gethexlocation(), TargetUnit.getbaseunit().gethexPosition())) {
                 // all FFMO conditions exist
-                TEMdrm += -1;
+                targetvar.setTEMdrm(targetvar.getTEMdrm() + -1);
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.FFMO)) {
                     NewDRM = new IFTMods(-1, Constantvalues.IFTdrm.FFMO, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                     DRMList.add(NewDRM);
                 } else {
-                    TEMdrm += 1;
+                    targetvar.setTEMdrm(targetvar.getTEMdrm() + 1);
                     //'MessageBox.Show("FFMO in " & ComTer.HexName & " already added to DRM")
                 }
             }
@@ -622,33 +627,33 @@ public class CombatTerrain  extends BaseHex {
                 TargetUnit.getbaseunit().getMovementStatus() == Constantvalues.MovementStatus.Wading || 
                 TargetUnit.getbaseunit().getMovementStatus() == Constantvalues.MovementStatus.TI) &&
                 alreadymoved == false){
-            TEMdrm += -1;
+            targetvar.setTEMdrm(targetvar.getTEMdrm() + -1);
             if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.FFNAM)) {
                 NewDRM = new IFTMods(-1, Constantvalues.IFTdrm.FFNAM, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                 DRMList.add(NewDRM);
             } else {
-                TEMdrm += 1;
+                targetvar.setTEMdrm(targetvar.getTEMdrm() + 1);
                 //'MessageBox.Show("FFNAM in " & this.HexName & " already added to DRM")
             }
         }
         // Now do Target has a FT
         if (TargetUnit.getTargetunit().HasFT()) {
-            TEMdrm -= 1;
+            targetvar.setTEMdrm(targetvar.getTEMdrm() + -1);
             if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.TargHasFT)) {
                 NewDRM = new IFTMods(-1, Constantvalues.IFTdrm.TargHasFT, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                 DRMList.add(NewDRM);
             } else {
-                TEMdrm += 1;
+                targetvar.setTEMdrm(targetvar.getTEMdrm() + 1);
                 //'MessageBox.Show("FT in " & this.HexName & " already added to DRM")
             }
         }
         // Now do LOSH in target hex
-        if (TargetLOSH > 0) {
+        if (targetvar.getLOSHdrm() > 0) {
             if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.TargLOSH)) {
-                NewDRM = new IFTMods(TargetLOSH, Constantvalues.IFTdrm.TargLOSH, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
+                NewDRM = new IFTMods(targetvar.getLOSHdrm(), Constantvalues.IFTdrm.TargLOSH, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), getLocation());
                 DRMList.add(NewDRM);
             } else {
-                TargetLOSH = 0;
+                targetvar.setLOSHdrm(0);
                 //'MessageBox.Show(TargLOSHName & " in " & this.HexName & " already added to DRM")
             }
         }
@@ -918,7 +923,7 @@ public class CombatTerrain  extends BaseHex {
 
     }
     public int InterveningDRM(int VisLOSH, int FinalLOSHDRM, int LOSHdrm, VASL.LOS.Map.Map Map, String LOSHName, String TerrainName, int Featuredrm, String Featurename,
-            String FinalLOSHName, boolean LOSAlongHexside , double FirerBaseLevel, double Firerinhexlevel, String FinalVisLOSHName, String VisLOSHname, int FinalVisLOSH,
+            String FinalLOSHName, boolean LOSAlongHexside , double FirerBaseLevel, double Firerinhexlevel, int FinalVisLOSH,
             int hexspinedrm, LinkedList<PersUniti> FireGroupThread, LinkedList<IFTMods> DRMList, PersUniti TargetUnit,  int TotalLOSLOSHdrm,
             double TargetTotalLevel, int Lasthexloshdrm, Hex lasthex, String UseAltName, LinkedList<AltHexGTerrain> AltHexesInLoSLIst, int SolID,
             LinkedList<CombatTerrain> CombatTerrCol, Hex SeeHex, Hex SeenHex) {
@@ -1092,7 +1097,7 @@ public class CombatTerrain  extends BaseHex {
                         LOSHdrm = this.getHexHind();
                         FinalLOSHDRM = currenthexdrm;
                         FinalVisLOSH = VisLOSH;
-                        FinalVisLOSHName = VisLOSHname;
+                        //FinalVisLOSHName = VisLOSHname;
                         Testname = this.getHexName(); // for test purposes only
                     } else {
                         // using LOSH in alternate hex
@@ -1108,14 +1113,14 @@ public class CombatTerrain  extends BaseHex {
                             Featuredrm = 0;
                         }
                         if (AltVisLOSH > 0) {
-                            VisLOSHname = AltVisName;
+                            setVisLOSHName(AltVisName);
                             FinalVisLOSH = AltVisLOSH;
                         } else {
                             FinalVisLOSH = 0;
-                            VisLOSHname = "";
+                            setVisLOSHName("");
                         }
                         FinalLOSHDRM = alternatehexdrm;
-                        FinalLOSHName = (LOSHName + " " + Featurename + " " + VisLOSHname);
+                        FinalLOSHName = (LOSHName + " " + Featurename + " " + getVisLOSHName());
                         //'Featuredrm = 0
                         UseAltName = AltHextoCheck;
                         UsingComTer = NextTempComTer;

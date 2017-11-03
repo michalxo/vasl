@@ -6,6 +6,7 @@ import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
+import VASL.build.module.fullrules.OpenSaveGame;
 import VASSAL.build.GameModule;
 
 import java.util.LinkedList;
@@ -15,29 +16,29 @@ public class UnitActionsC {
     // creates the Scencoll collection of units in the scenario
 
     // constructor
-    public UnitActionsC(DataC Linqdata, ScenarioC Scendet) {
+    public UnitActionsC(LinkedList<OrderofBattle> PassOBUnitcol) {
         // get all units involved in a scenario
-            LinkedList<OrderofBattle> OBUnitcol = Linqdata.RetrieveScenarioUnits(Scendet.getScenID());
-            if (OBUnitcol.size() == 0) {
-                GameModule.getGameModule().getChatter().send("No scenario units found. Exiting");
-                return;
-            }
+
+        if (PassOBUnitcol.size() == 0) {
+            GameModule.getGameModule().getChatter().send("No scenario units found. Exiting");
+            return;
+        }
 
             // use Object Factory to create the units
-            PersCreation UseObjectFactory = new PersCreation();
-            ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
-            PersUniti AddNewUnit;
-            Constantvalues.UClass PassClass = Constantvalues.UClass.NONE;
-            for (OrderofBattle unititem : OBUnitcol) {
-                PassClass = Constantvalues.UClass.NONE; //  CInt(Game.Linqdata.GetLOBData(Constantvalues.LOBItem.UnitClass, CInt(unititem.LOBLink)))
-                if (unititem.getOrderStatus() == Constantvalues.OrderStatus.KIAInf ||
-                        unititem.getOrderStatus() == Constantvalues.OrderStatus.NotInPlay) {
-                    continue;
-                }
-                AddNewUnit = UseObjectFactory.CreateExistingInstance(unititem);
-                if (AddNewUnit == null) {
-                    continue;
-                }
+        PersCreation UseObjectFactory = new PersCreation();
+        ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+        PersUniti AddNewUnit;
+        Constantvalues.UClass PassClass = Constantvalues.UClass.NONE;
+        for (OrderofBattle unititem : PassOBUnitcol) {
+            PassClass = Constantvalues.UClass.NONE; //  CInt(Game.Linqdata.GetLOBData(Constantvalues.LOBItem.UnitClass, CInt(unititem.LOBLink)))
+            if (unititem.getOrderStatus() == Constantvalues.OrderStatus.KIAInf ||
+                unititem.getOrderStatus() == Constantvalues.OrderStatus.NotInPlay) {
+                continue;
+            }
+            AddNewUnit = UseObjectFactory.CreateExistingInstance(unititem);
+            if (AddNewUnit == null) {
+                continue;
+            }
                 // temporary while debugging UNDO
             /*if (UseObjectFactory.IsHeroic(AddNewUnit.getbaseunit().getFortitudeStatus())) {
                 // need to decorate leader
@@ -49,7 +50,7 @@ public class UnitActionsC {
                 AddNewUnit = DecNewLeader;
             }*/
                 // add new unit to Unitcol collection
-                Scencolls.Unitcol.add(AddNewUnit);
+            Scencolls.Unitcol.add(AddNewUnit);
 
 
             // none of the below is needed as VASL handles the graphics DELETE

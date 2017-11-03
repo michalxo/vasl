@@ -336,14 +336,13 @@ public class IFTC implements IIFTC {
                 // check each hex in Combat terrain collection; if a firer
                 // hex, need more than a ldr to be part of FG
                 for (PersUniti FiringUnit : FireGroup) {
-                    if ((FiringUnit.getbaseunit().getUnittype() == Constantvalues.Utype.Leader &&
-                            TempCombathex.getHexName() == FiringUnit.getbaseunit().getHexName()) ||
+                    if ((FiringUnit.getbaseunit().getUnittype() == Constantvalues.Utype.Leader && TempCombathex.getHexName().equals(FiringUnit.getbaseunit().getHexName())) ||
                             (FiringUnit.getbaseunit().getUnittype() == Constantvalues.Utype.LdrHero &&
-                                    FiringUnit.getFiringunit().getUseHeroOrLeader() == Constantvalues.Utype.Leader &&
-                                    TempCombathex.getHexName() == FiringUnit.getbaseunit().getHexName())) {
+                            FiringUnit.getFiringunit().getUseHeroOrLeader() == Constantvalues.Utype.Leader &&
+                            TempCombathex.getHexName() == FiringUnit.getbaseunit().getHexName())) {
                         ldrpresent = true;
                     } else {
-                        if (TempCombathex.getHexName() == FiringUnit.getbaseunit().getHexName()) {
+                        if (TempCombathex.getHexName().equals(FiringUnit.getbaseunit().getHexName())) {
                             Unitpresent = true;
                         }
                     }
@@ -442,11 +441,16 @@ public class IFTC implements IIFTC {
                     return false;
                 }
             }
+            String CheckFire = CheckFireEligibility(Unititem);
+            if (CheckFire != null) {
+                GameModule.getGameModule().getChatter().send("Failure to Add Firer Unit: " + Unititem.getbaseunit().getUnitName() + CheckFire);
+                return false;
+            }
             result = ProcessAddFirer(Unititem, Selectionmade);
         } else {
             result = false;
         }
-        if (result = false) {
+        if (result ==  false) {
             GameModule.getGameModule().getChatter().send("Failure to Add Firer Unit: " + Unititem.getbaseunit().getUnitName() + ": ClickedOnNewParticipants: Add New Firer");
             return false;
         } else {
@@ -537,6 +541,19 @@ public class IFTC implements IIFTC {
 
     }
 
+    private String CheckFireEligibility(PersUniti CheckFireUnit){
+
+        switch (CheckFireUnit.getbaseunit().getCombatStatus()) {
+            case PrepFirer:
+                return " has Prep Fired. Can't fire again.";
+            case AdvFirer:
+                return " has Advance Fired. Can't fire again.";
+            case FinalFirer:
+                return " has Final Fired. Can't fire again.";
+            default:
+                return null;
+        }
+    }
     protected boolean AddtoTempTerrain(LOSResult result, TempSolution Tempsolitem) {
         MapDataC MapData = scen.Maptables;
         LinkedList<GameLocation> LocationCol = null;  //MapData.getLocationCol();

@@ -118,7 +118,7 @@ public class IFTResultC implements IFTResulti {
             }
             FDR = DR.getColored() + DR.getWhite() + SameTarget.get(0).getTargetunit().getAttackedbydrm();
             //test code
-            FDR=9;
+            //FDR=9;
             if (FDR > 15) {
                 IFTTableResult = Constantvalues.IFTResult.NR;
             } else {
@@ -149,7 +149,7 @@ public class IFTResultC implements IFTResulti {
         for (PersUniti Targtest: TargGroup) {
             FDR = DR.getColored() + DR.getWhite() + Targtest.getTargetunit().getAttackedbydrm();
             // report combat result
-            FDR=9;
+            //FDR=9;
             String MSG =  "FDR = " + Integer.toString(FDR) + ", ";
             CombatUtil CombatInfo = new CombatUtil();
             MSG += "result is " + CombatInfo.IFTResultstring(Targtest.getTargetunit().getIFTResult()) + ": ";
@@ -173,7 +173,7 @@ public class IFTResultC implements IFTResulti {
         boolean NotAllFan = false;
         Constantvalues.UClass Classcheck;
         pCowers = false;
-        OrderofBattle SelUnit;
+        //OrderofBattle SelUnit;
         boolean NotAllBerserk = false; boolean NotAllFinns = false; boolean NotAllBritishElite = false;
 
         for (PersUniti FiringUnit: FireGroup) {
@@ -181,26 +181,24 @@ public class IFTResultC implements IFTResulti {
                 int selSWOwner  = 0; // temporary while debugging UNDO (From GetSW As Objectvalues.SuppWeapi In Scencolls.SWCol Where
                 //GetSW.BaseSW.Unit_ID = FiringUnit.BasePersUnit.Unit_ID Select GetSW.BaseSW.Owner).First
                         //'Dim Selswowner As String = Linqdata.GetOBSWData(Constantvalues.OBSWitem.Owner, FiringUnit.BasePersUnit.Unit_ID)
-                        SelUnit = Linqdata.GetUnitfromCol(selSWOwner);
-            } else {
-                SelUnit = Linqdata.GetUnitfromCol(FiringUnit.getbaseunit().getUnit_ID());
+                        //SelUnit = Linqdata.GetUnitfromCol(selSWOwner);
             }
-            if (SelUnit.IsUnitALeader()) {
+            if (FiringUnit.getbaseunit().IsUnitALeader()) {
                 return false;
             }  // leader prevents cowering
-            if (SelUnit.getFortitudeStatus() != Constantvalues.FortitudeStatus.None && SelUnit.getFortitudeStatus() != Constantvalues.FortitudeStatus.Encircled) {
+            if (FiringUnit.getbaseunit().getFortitudeStatus() != Constantvalues.FortitudeStatus.None && FiringUnit.getbaseunit().getFortitudeStatus() != Constantvalues.FortitudeStatus.Encircled) {
                 //'unit is fanatic  - THIS IS NOT RIGHT && NEEDS TO BE RECODED
             } else {
                 NotAllFan = true;
             }
-            if (SelUnit.getOrderStatus() != Constantvalues.OrderStatus.Berserk) {
+            if (FiringUnit.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.Berserk) {
                 NotAllBerserk = true;
             }
             Classcheck =Constantvalues.UClass.NONE; // temporary while debugging UNDO Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.UNITCLASS, (int) SelUnit.getLOBLink()));
-            if (SelUnit.getNationality() != Constantvalues.Nationality.British) {
+            if (FiringUnit.getbaseunit().getNationality() != Constantvalues.Nationality.British) {
                 NotAllBritishElite = true;
             }
-            if (SelUnit.getNationality() != Constantvalues.Nationality.Finns) {
+            if (FiringUnit.getbaseunit().getNationality() != Constantvalues.Nationality.Finns) {
                 NotAllFinns = true;
             }
             if (Classcheck != Constantvalues.UClass.ELITE && Classcheck != Constantvalues.UClass.FIRSTLINE && Classcheck != Constantvalues.UClass.ENGINEER &&
