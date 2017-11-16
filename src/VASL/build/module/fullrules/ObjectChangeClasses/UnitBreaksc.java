@@ -61,9 +61,8 @@ public class UnitBreaksc implements StatusChangei {
         TargParent.getTargetunit().UpdateTargetStatus(TargParent);
         TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " breaks; is DM");
 
-        // add counter
-        ScenarioC scen = ScenarioC.getInstance();
-        CommonFunctionsC ToDO = new CommonFunctionsC(scen.getScenID());
+        // flip counter and add DM
+        CommonFunctionsC ToDO = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
         GamePiece ToBreak = ToDO.GetGamePieceFromID(TargParent.getbaseunit().getUnit_ID());
         if (ToBreak != null) {ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));}
 

@@ -2,20 +2,19 @@ package VASL.build.module.fullrules.Game;
 
 import VASL.build.module.ASLMap;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.OrderofBattle;
-import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
-import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.DataClasses.*;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTC;
+import VASL.build.module.fullrules.IFTCombatClasses.IFTTableResult;
 import VASL.build.module.fullrules.IFTCombatClasses.IIFTC;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.MovementClasses.MakeMoveC;
+import VASL.build.module.fullrules.ObjectClasses.Leader;
 import VASL.build.module.fullrules.ObjectClasses.Scenlisttype;
 import VASL.build.module.fullrules.OpenSaveGame;
 import VASL.build.module.fullrules.PhaseClasses.PhaseMVCPattern;
 import VASSAL.build.GameModule;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,9 +25,6 @@ public class ScenarioC extends CampaignC {
     private String ScenName;
     private Constantvalues.Phase PhaseValue;
     private static ScenarioC Sceninstance;
-    //public Hashtable HexesWithCounter = new Hashtable();
-    public MapDataC Maptables = MapDataC.GetInstance(ScenName, ScenIDValue);
-    //public LinkedList<GameLocation> LocationCol;
     private Constantvalues.WhoCanDo PlayerTurnvalue;
     private int CurrentTurnvalue;
     public MakeMoveC DoMove;  // temporary while debugging undo
@@ -40,7 +36,10 @@ public class ScenarioC extends CampaignC {
     private LinkedList<OrderofBattle> pOBUnitcol;
     private LinkedList<OrderofBattleSW> pOBSWcol;
     private OpenSaveGame GameinPlay;
-
+    private HashMap<String, IFTTableResult> pIFTTableLookUp;
+    private HashMap<String, LineofBattle> pLOBTableLookUp;
+    private HashMap<String, Leader> pLeaderTableLookUp;
+    private HashMap<String, SupportWeapon> pSupportWeaponTableLookUp;
     // constructors
     private ScenarioC(String test) {
         // called by ScenarioC.Getinstance as part of singleton pattern
@@ -75,6 +74,15 @@ public class ScenarioC extends CampaignC {
     public IIFTC getIFT() {return IFT;}
     public LinkedList<OrderofBattle> getOBUnitcol() {return pOBUnitcol;}
     public LinkedList<OrderofBattleSW> getOBSWcol() {return pOBSWcol;}
+    public HashMap<String, IFTTableResult> getIFTTableLookUp(){return pIFTTableLookUp;}
+    public void setIFTTableLookUp(HashMap<String, IFTTableResult> value){pIFTTableLookUp = value;}
+    public void setLOBTableLookUp(HashMap<String, LineofBattle> value){pLOBTableLookUp = value;}
+    public HashMap<String, LineofBattle> getLOBTableLookUp() {return pLOBTableLookUp;}
+    public HashMap<String, Leader> getLeaderTableLookUp(){return pLeaderTableLookUp;}
+    public void setLeaderTableLookUp(HashMap<String, Leader> value){pLeaderTableLookUp = value;}
+    public HashMap<String, SupportWeapon> getSupportWeaponTableLookUp(){return pSupportWeaponTableLookUp;}
+    public void setSupportWeaponTableLookUp(HashMap<String, SupportWeapon> value){pSupportWeaponTableLookUp = value;}
+
     public boolean StartASLScenario(int PassASLScenID) {
         // start new ASL scenario from preset ASLScenario
 
@@ -153,25 +161,22 @@ public class ScenarioC extends CampaignC {
         } else {
             pgamemap = pmap.getVASLMap();
         }
-        // retrieve scenario data
-        pScenario = Linqdata.GetScenarioData(ScenName);
-        ScenIDValue=pScenario.getScenNum();
-        // use scenario data to set property values
-        PhaseValue = pScenario.getPhase();
-        PlayerTurnvalue = pScenario.getPTURN();
-        //String ASLMapLink = "Scen" + getScenID();
-        // need to pass string value to create terrain collection
-        //MapDataC Maptables = MapDataC.GetInstance(ASLMapLink, getScenID());
-        // LocationCol = Maptables.CreateMapCollection();
+
         GameinPlay = new OpenSaveGame();
         try {
             GameinPlay.OpenGame("Fullrules");
+            // retrieve scenario data
+            pScenario = GameinPlay.getScenario();
             pOBUnitcol = GameinPlay.unitsinplay();
             pOBSWcol = GameinPlay.swinplay();
             //testgame.SaveGame("Fullrules");
         } catch (IOException e) {
 
         }
+        // use scenario data to set property values
+        ScenIDValue=pScenario.getScenNum();
+        PhaseValue = pScenario.getPhase();
+        PlayerTurnvalue = pScenario.getPTURN();
 
         ContinueScenarioStart(pScenario);
 
@@ -452,7 +457,7 @@ public class ScenarioC extends CampaignC {
         return true;
     }
 
-    private List<Scenlisttype> GetScenList() {
+    /*private List<Scenlisttype> GetScenList() {
         return ListofScenarios;
     }
 
@@ -475,7 +480,7 @@ public class ScenarioC extends CampaignC {
             }
         }
         return ListofScenarios;
-    }
+    }*/
 
     public int GetBoardtype() {
         // called by lots of Mapactions routines
@@ -518,7 +523,7 @@ public class ScenarioC extends CampaignC {
 
         // Game.Window.Title = "ASL Scenario: " + Scendet.getFULLNAME();
         Constantvalues.Nationality PhaseSide = WhoseTurnIsIt();
-        String PhaseSideString = Linqdata.GetNatInfo(PhaseSide, 1);
+        //String PhaseSideString = Linqdata.GetNatInfo(PhaseSide, 1);
         // Game.Toolbox.Label1.Text = CurrentTurn.ToString + ": " + PhaseSideString + Space(2) + Linqdata.GetPhasename(PhaseValue);
         switch (PhaseValue) {
             case PrepFire:

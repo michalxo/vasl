@@ -19,7 +19,7 @@ public class SupportWeapon {
     private int pDismantledPP;
     private Constantvalues.Nationality pNationality;
 
-    public SupportWeapon(int PassID, String PassWeaponName, Constantvalues.SWtype PassWeaponType, int PassFIREPOWER, int PassRANGE, int PassPORTAGECOST, int  PassMALFUNCTION, int PassREPAIR,
+    /*public SupportWeapon(int PassID, String PassWeaponName, Constantvalues.SWtype PassWeaponType, int PassFIREPOWER, int PassRANGE, int PassPORTAGECOST, int  PassMALFUNCTION, int PassREPAIR,
         int PassROF, int PassBREAKDOWN, boolean PassASSAULTFIRE, boolean PassSPRAYINGFIRE, int PassDismantledPP, Constantvalues.Nationality PassNationality) {
 
         pID = PassID;
@@ -36,10 +36,12 @@ public class SupportWeapon {
         pSPRAYINGFIRE = PassSPRAYINGFIRE;
         pDismantledPP = PassDismantledPP;
         pNationality = PassNationality;
-    }
+    }*/
 
-    public int getID() {return pID;}
-    public void setID(int value) {pID = value;}
+    public SupportWeapon(){}
+
+    public int getOBLink() {return pID;}
+    public void setOBLink(int value) {pID = value;}
     public String getWeaponName() {return pWeaponName;}
     public void setWeaponName(String value) {pWeaponName = value;}
     public Constantvalues.SWtype getWeaponType() {return pWeaponType;}

@@ -3,18 +3,10 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
-import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.Game.ScenarioC;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
-import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
-import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
-import VASSAL.build.GameModule;
 import VASSAL.counters.GamePiece;
-import VASSAL.counters.PieceIterator;
-import VASSAL.counters.Stack;
 
 import javax.swing.*;
 import java.util.LinkedList;
@@ -184,7 +176,7 @@ public class Russian447Firec implements FiringPersUniti {
             } else if (range == 0 && LevelDifference == 0) {
                 // do pillbox check - LOS needs be within CA
                 int HexLocIndex = 0; //Getlocs.GetPillboxLocation(MyLoc.getHexnum());   temporary while debugging
-                GameLocation UsingHex;
+                //GameLocation UsingHex;
                 if (HexLocIndex > 0) {
                     /*boolean PillboxLOS = false;
                     // get Pillbox location

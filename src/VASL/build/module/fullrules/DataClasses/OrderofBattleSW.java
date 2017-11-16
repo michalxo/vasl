@@ -15,6 +15,7 @@ public class OrderofBattleSW {
     private Constantvalues.SWStatus pStatus;
     private Location pHexlocation;
     private Hex pHex;
+    private String pHexname;
     private Constantvalues.AltPos pPosition;
     private Constantvalues.CombatStatus pCombatStatus;
     private Constantvalues.VisibilityStatus pVisibilityStatus;
@@ -42,6 +43,8 @@ public class OrderofBattleSW {
 	public void setHexlocation(Location value) {pHexlocation= value;}
 	public Hex getHex() {return pHex;}
 	public void setHex(Hex value) {pHex = value;}
+	public String getHexname (){return pHexname;}
+	public void setHexname(String value){pHexname = value;}
 	public Constantvalues.AltPos getPosition() {return pPosition;}
 	public void setPosition (Constantvalues.AltPos value ) {pPosition= value;}
 	public Constantvalues.CombatStatus getCombatStatus() {return pCombatStatus;}
@@ -61,7 +64,7 @@ public class OrderofBattleSW {
         }
     }*/
 
-    public boolean ISATypeOf(Constantvalues.SWtype TypeTocheck) {
+    /*public boolean ISATypeOf(Constantvalues.SWtype TypeTocheck) {
         switch (TypeTocheck) {
             case AnyMG:
                 switch (this.getWeaponType()) {
@@ -81,17 +84,17 @@ public class OrderofBattleSW {
                 }
             case DemoC:
                 switch (this.getWeaponType()) {
-                    /*case 5008,5021, 5032, 5048
+                    *//*case 5008,5021, 5032, 5048
                         'the weapon is a DCH
                         return true;
                     case else:
-                    return false;*/
+                    return false;*//*
                 }
-            /*case else:
-                return false;*/
+            *//*case else:
+                return false;*//*
         }
         return false;
-    }
+    }*/
     public boolean IsInCrestStatus() {
         // determine if SW in crest
         /*if(this.getPosition() == Constantvalues.AltPos.CrestStatus1 And Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6)

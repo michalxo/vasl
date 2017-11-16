@@ -7,7 +7,11 @@ import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.DataClasses.SupportWeapon;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectClasses.*;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+
+import java.util.LinkedList;
 
 public class SWCreation {
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
@@ -17,7 +21,8 @@ public class SWCreation {
         // called by ASLXNA.Actions.SWActionsC which creates new suppweapi objects at startup
 
         // takes information from database objects OrderofBattleSW and SupportWeapon and creates object of type suppweapi which is returned to calling method
-        SupportWeapon LOBSW = Linqdata.GetLOBSWRecord(unititem.getWeaponType());
+        CommonFunctionsC comfun = new CommonFunctionsC(unititem.getScenario());
+        SupportWeapon LOBSW = comfun.GetSupportWeapon(Integer.toString(unititem.getWeaponType()));
 
         int PassScenario = unititem.getScenario();
         Hex PassHex = unititem.getHex();
@@ -168,11 +173,16 @@ public class SWCreation {
     // MAY NOT NEED THIS FUNCTION; KEEP IT FOR A WHILE AND THEN DELETE IF NOT USED
     public SuppWeapi CreatefiringSwandProperty (SuppWeapi SWitem) {
         // called by
-
+        ScenarioC scen = ScenarioC.getInstance();
         // adds firing property to selected SuppWeapi and returns updated object
         if (Constantvalues.Typetype.SW == SWitem.getbaseSW().getType_ID() ) { // item is sw
-            OrderofBattleSW PassSW = Linqdata.GetOBSWRecord(SWitem.getbaseSW().getUnit_ID());
-            SWitem.setFiringSW(createfiringswproperty(SWitem));
+            LinkedList<OrderofBattleSW> TempSWCol = scen.getOBSWcol();
+            for (OrderofBattleSW testOBSW : TempSWCol) {
+                if (testOBSW.getOBSW_ID() == SWitem.getbaseSW().getUnit_ID()) {
+                    //OrderofBattleSW PassSW = Linqdata.GetOBSWRecord(SWitem.getbaseSW().getUnit_ID());
+                    SWitem.setFiringSW(createfiringswproperty(SWitem));
+                }
+            }
         }
         return SWitem;
     }

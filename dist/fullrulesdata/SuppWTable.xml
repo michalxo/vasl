@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!--
+	This file contains additional information about LOB unit types.
+-->
+<SuppWTable>
+
+    <!-- metadata for each SuppWtype (personnel unit types) in the game system
+    Attributes:
+        SWname = base name of SW with nationality prefix ie geLMG
+        Nationality = unit type nationality
+        OBLink = index value; used to link to OBUnit instances
+        Firepower = base FP value of sw type
+        Range = base Range value of sw type
+        AssaultFire = Assault fire capability (yes/no)
+        SprayingFire = Spraying fire capability (yes/no)
+        PortageCost = Portage Cost of assembled weapon
+        Weapontype = Weapontype value of weapon
+        Malfunction = Malfunction number of weapon
+        Repair = repair value of weapon type
+        Breakdown = Breakdown value of weapon type when trying to repair
+        ROF = rate of fire
+        DismantledPP = Portage cost of dismantled weapon
+
+    -->
+
+    <SuppWtype SWname="brLMG" Nationality="2004" OBLink="1" Firepower="2" Range="7"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5001" Malfunction="12" Repair="1" Breakdown="6" ROF="1" DismantledPP="0" />
+    <SuppWtype SWname="brMMG" Nationality="2004" OBLink="2" Firepower="4" Range="12"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="4" Weapontype="5002" Malfunction="12" Repair="2" Breakdown="6" ROF="2" DismantledPP="2" />
+    <SuppWtype SWname="brMMGa" Nationality="2003" OBLink="3" Firepower="4" Range="10"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="3" Weapontype="5002" Malfunction="12" Repair="2" Breakdown="6" ROF="2" DismantledPP="2" />
+    <SuppWtype SWname="brHMG" Nationality="2004" OBLink="4" Firepower="6" Range="14"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5003" Malfunction="12" Repair="3" Breakdown="6" ROF="3" DismantledPP="3" />
+    <SuppWtype SWname="brHMGa" Nationality="2004" OBLink="5" Firepower="6" Range="12"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5003" Malfunction="12" Repair="3" Breakdown="6" ROF="3" DismantledPP="3" />
+    <SuppWtype SWname="brHMG50" Nationality="2004" OBLink="6" Firepower="8" Range="16"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5004" Malfunction="12" Repair="2" Breakdown="6" ROF="3" DismantledPP="3" />
+    <SuppWtype SWname="brFT" Nationality="2004" OBLink="7" Firepower="24" Range="1"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5008" Malfunction="10" Repair="0" Breakdown="10" ROF="0" DismantledPP="0" />
+    <SuppWtype SWname="brDCH" Nationality="2004" OBLink="8" Firepower="30" Range="1"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5009" Malfunction="12" Repair="0" Breakdown="12" ROF="0" DismantledPP="0" />
+    <SuppWtype SWname="brRAD" Nationality="2004" OBLink="9" Firepower="0" Range="0"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5006" Malfunction="12" Repair="1" Breakdown="6" ROF="0" DismantledPP="0" />
+    <SuppWtype SWname="brPHONE" Nationality="2004" OBLink="10" Firepower="0" Range="0"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="0" Weapontype="5007" Malfunction="12" Repair="0" Breakdown="12" ROF="0" DismantledPP="0" />
+    <SuppWtype SWname="brATR" Nationality="2004" OBLink="11" Firepower="1" Range="12"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5012" Malfunction="12" Repair="1" Breakdown="6" ROF="0" DismantledPP="0" />
+    <SuppWtype SWname="brBAZ44" Nationality="2004" OBLink="12" Firepower="8" Range="4"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5010" Malfunction="11" Repair="0" Breakdown="11" ROF="0" DismantledPP="0" />
+    <SuppWtype SWname="brMTR51" Nationality="2004" OBLink="13" Firepower="51" Range="11"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="4" Weapontype="5011" Malfunction="12" Repair="1" Breakdown="6" ROF="2" DismantledPP="2"/>
+    <SuppWtype SWname="brMTR51AIR" Nationality="2004" OBLink="14" Firepower="51" Range="8"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="3" Weapontype="5011" Malfunction="11" Repair="1" Breakdown="6" ROF="1" DismantledPP="2" />
+    <SuppWtype SWname="brMTR60" Nationality="2004" OBLink="15" Firepower="60" Range="45"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5011" Malfunction="12" Repair="1" Breakdown="6" ROF="3" DismantledPP="3" />
+    <SuppWtype SWname="brPIAT" Nationality="2004" OBLink="16" Firepower="8" Range="8"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5013" Malfunction="10" Repair="2" Breakdown="6" ROF="0" DismantledPP="0"/>
+
+    <SuppWtype SWname="geLMG" Nationality="2003" OBLink="17" Firepower="3" Range="8"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5001" Malfunction="12" Repair="1" Breakdown="6" ROF="1" DismantledPP="0"/>
+    <SuppWtype SWname="geMMG" Nationality="2003" OBLink="18" Firepower="5" Range="12"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="3" Weapontype="5002" Malfunction="12" Repair="2" Breakdown="6" ROF="2" DismantledPP="2"/>
+    <SuppWtype SWname="geHMG" Nationality="2003" OBLink="19" Firepower="7" Range="16"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="4" Weapontype="5003" Malfunction="12" Repair="3" Breakdown="6" ROF="3" DismantledPP="2"/>
+    <SuppWtype SWname="geFT" Nationality="2003" OBLink="20" Firepower="24" Range="31"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5008" Malfunction="10" Repair="0" Breakdown="10" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="geDCH" Nationality="2003" OBLink="21" Firepower="30" Range="1"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5009" Malfunction="12" Repair="0" Breakdown="12" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="geRAD" Nationality="2003" OBLink="22" Firepower="0" Range="0"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5006" Malfunction="12" Repair="1" Breakdown="6" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="gePHONE" Nationality="2003" OBLink="23" Firepower="0" Range="0"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="0" Weapontype="5007" Malfunction="12" Repair="0" Breakdown="12" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="geATR" Nationality="2003" OBLink="24" Firepower="1" Range="12"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5012" Malfunction="12" Repair="1" Breakdown="6" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="gePSK" Nationality="2003" OBLink="25" Firepower="12" Range="4"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5014" Malfunction="10" Repair="0" Breakdown="10" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="geMTR50" Nationality="2003" OBLink="26" Firepower="50" Range="13"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5011" Malfunction="12" Repair="1" Breakdown="6" ROF="3" DismantledPP="3"/>
+    <SuppWtype SWname="geLAHTI" Nationality="2003" OBLink="27" Firepower="0" Range="12"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="4" Weapontype="5015" Malfunction="12" Repair="1" Breakdown="6" ROF="1" DismantledPP="0"/>
+    <SuppWtype SWname="amMMG" Nationality="2001" OBLink="28" Firepower="4" Range="12"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="3" Weapontype="5002" Malfunction="12" Repair="2" Breakdown="6" ROF="2" DismantledPP="2"/>
+    <SuppWtype SWname="amHMG" Nationality="2001" OBLink="29" Firepower="6" Range="12"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5003" Malfunction="12" Repair="3" Breakdown="6" ROF="3" DismantledPP="3"/>
+    <SuppWtype SWname="amHMG50" Nationality="2001" OBLink="30" Firepower="8" Range="16"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5004" Malfunction="12" Repair="2" Breakdown="6" ROF="3" DismantledPP="3"/>
+    <SuppWtype SWname="amFT" Nationality="2001" OBLink="31" Firepower="24" Range="1"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5008" Malfunction="10" Repair="0" Breakdown="10" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="amDCH" Nationality="2001" OBLink="32" Firepower="30" Range="1"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5009" Malfunction="12" Repair="0" Breakdown="12" ROF="0" DismantledPP="0"/>
+
+    <SuppWtype SWname="amRAD" Nationality="2001" OBLink="33" Firepower="0" Range="0"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5006" Malfunction="12" Repair="1" Breakdown="6" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="amPHONE" Nationality="2001" OBLink="34" Firepower="0" Range="0"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="0" Weapontype="5007" Malfunction="12" Repair="0" Breakdown="12" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="amRCL57" Nationality="2001" OBLink="35" Firepower="57" Range="999"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="3" Weapontype="5016" Malfunction="11" Repair="1" Breakdown="6" ROF="1" DismantledPP="0"/>
+    <SuppWtype SWname="amRCL75" Nationality="2001" OBLink="36" Firepower="75" Range="999"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5016" Malfunction="12" Repair="1" Breakdown="6" ROF="1" DismantledPP="0"/>
+    <SuppWtype SWname="amBAZ43" Nationality="2001" OBLink="37" Firepower="8" Range="4"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5010" Malfunction="10" Repair="0" Breakdown="10" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="amBAZ44" Nationality="2001" OBLink="38" Firepower="8" Range="4"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5010" Malfunction="11" Repair="0" Breakdown="11" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="amBAZ45" Nationality="2001" OBLink="39" Firepower="8" Range="5"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5010" Malfunction="11" Repair="0" Breakdown="11" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="amMTRM2" Nationality="2001" OBLink="40" Firepower="60" Range="45"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5011" Malfunction="12" Repair="1" Breakdown="6" ROF="1" DismantledPP="3"/>
+    <SuppWtype SWname="amMTRM19" Nationality="2001" OBLink="41" Firepower="60" Range="18"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="4" Weapontype="5011" Malfunction="11" Repair="1" Breakdown="6" ROF="1" DismantledPP="2"/>
+    <SuppWtype SWname="amINF" Nationality="2001" OBLink="42" Firepower="37" Range="999"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5017" Malfunction="11" Repair="1" Breakdown="6" ROF="1" DismantledPP="3"/>
+    <SuppWtype SWname="ruLMG" Nationality="2002" OBLink="43" Firepower="2" Range="6"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5001" Malfunction="11" Repair="1" Breakdown="6" ROF="1" DismantledPP="0"/>
+    <SuppWtype SWname="ruMMG" Nationality="2002" OBLink="44" Firepower="4" Range="10"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5002" Malfunction="11" Repair="2" Breakdown="6" ROF="2" DismantledPP="0"/>
+    <SuppWtype SWname="ruHMG" Nationality="2002" OBLink="45" Firepower="6" Range="12"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5003" Malfunction="12" Repair="3" Breakdown="6" ROF="3" DismantledPP="0"/>
+    <SuppWtype SWname="ruHMG50" Nationality="2002" OBLink="46" Firepower="8" Range="16"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5004" Malfunction="12" Repair="2" Breakdown="6" ROF="3" DismantledPP="3"/>
+    <SuppWtype SWname="ruATR" Nationality="2002" OBLink="47" Firepower="1" Range="12"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5012" Malfunction="12" Repair="1" Breakdown="6" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="ruDCH" Nationality="2002" OBLink="48" Firepower="30" Range="1"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5009" Malfunction="12" Repair="0" Breakdown="12" ROF="0" DismantledPP="0"/>2
+    <SuppWtype SWname="ruFT" Nationality="2002" OBLink="49" Firepower="24" Range="1"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5008" Malfunction="10" Repair="0" Breakdown="10" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="ruMOLP" Nationality="2002" OBLink="50" Firepower="4" Range="4"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="2" Weapontype="5018" Malfunction="11" Repair="1" Breakdown="12" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="ruMTR50" Nationality="2002" OBLink="51" Firepower="50" Range="20"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="4" Weapontype="5011" Malfunction="12" Repair="1" Breakdown="6" ROF="3" DismantledPP="2"/>
+    <SuppWtype SWname="ruRAD" Nationality="2002" OBLink="52" Firepower="0" Range="0"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="1" Weapontype="5006" Malfunction="12" Repair="1" Breakdown="6" ROF="" DismantledPP="0"/>
+    <SuppWtype SWname="ruPHONE" Nationality="2002" OBLink="53" Firepower="0" Range="0"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="0" Weapontype="5007" Malfunction="12" Repair="0" Breakdown="12" ROF="0" DismantledPP="0"/>
+    <SuppWtype SWname="alLMG" Nationality="2013" OBLink="55" Firepower="2" Range="7"  AssaultFire="FALSE" SprayingFire="TRUE" PortageCost="1" Weapontype="5001" Malfunction="12" Repair="1" Breakdown="6" ROF="1" DismantledPP="0"/>
+    <SuppWtype SWname="alMMG" Nationality="2013" OBLink="56" Firepower="4" Range="12"  AssaultFire="FALSE" SprayingFire="TRUE" PortageCost="4" Weapontype="5002" Malfunction="12" Repair="2" Breakdown="6" ROF="2" DismantledPP="2"/>
+    <SuppWtype SWname="alHMG" Nationality="2013" OBLink="57" Firepower="6" Range="14"  AssaultFire="FALSE" SprayingFire="TRUE" PortageCost="5" Weapontype="5003" Malfunction="12" Repair="3" Breakdown="6" ROF="3" DismantledPP="3"/>
+    <SuppWtype SWname="jaLMG" Nationality="2006" OBLink="58" Firepower="2" Range="6"  AssaultFire="FALSE" SprayingFire="TRUE" PortageCost="1" Weapontype="5001" Malfunction="11" Repair="1" Breakdown="6" ROF="1" DismantledPP="0"/>
+    <SuppWtype SWname="jaMMG" Nationality="2006" OBLink="59" Firepower="4" Range="11"  AssaultFire="FALSE" SprayingFire="TRUE" PortageCost="3" Weapontype="5002" Malfunction="11" Repair="1" Breakdown="6" ROF="2" DismantledPP="2"/>
+    <SuppWtype SWname="jamHMG" Nationality="2006" OBLink="60" Firepower="6" Range="14"  AssaultFire="FALSE" SprayingFire="TRUE" PortageCost="4" Weapontype="5003" Malfunction="11" Repair="1" Breakdown="6" ROF="3" DismantledPP="2"/>
+    <SuppWtype SWname="jaMTR50" Nationality="2006" OBLink="61" Firepower="50" Range="16"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="4" Weapontype="5011" Malfunction="12" Repair="1" Breakdown="6" ROF="2" DismantledPP="2"/>
+    <SuppWtype SWname="chLMG" Nationality="2014" OBLink="62" Firepower="2" Range="7"  AssaultFire="FALSE" SprayingFire="TRUE" PortageCost="1" Weapontype="5001" Malfunction="11" Repair="1" Breakdown="6" ROF="1" DismantledPP="0"/>
+    <SuppWtype SWname="chMMG" Nationality="2014" OBLink="63" Firepower="4" Range="10"  AssaultFire="FALSE" SprayingFire="TRUE" PortageCost="4" Weapontype="5002" Malfunction="11" Repair="1" Breakdown="6" ROF="2" DismantledPP="2"/>
+    <SuppWtype SWname="chMTR" Nationality="2014" OBLink="64" Firepower="50" Range="13"  AssaultFire="FALSE" SprayingFire="FALSE" PortageCost="5" Weapontype="5011" Malfunction="11" Repair="1" Breakdown="6" ROF="3" DismantledPP="3"/>
+
+
+</SuppWTable>

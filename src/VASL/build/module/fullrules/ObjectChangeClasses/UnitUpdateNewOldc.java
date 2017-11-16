@@ -14,11 +14,9 @@ public class UnitUpdateNewOldc {
         // called by various object changes, such as replaces, reduces, hardens
 
         PersCreation UseObjectFactory = new PersCreation();
-        //NewUnit.getbaseunit().setHexnum(OldUnit.getbaseunit().getHexnum());
         NewUnit.getbaseunit().setHexname(OldUnit.getbaseunit().getHexName());
         NewUnit.getbaseunit().sethexlocation(OldUnit.getbaseunit().gethexlocation());
         NewUnit.getbaseunit().sethexPosition(OldUnit.getbaseunit().gethexPosition());
-        //NewUnit.getbaseunit().setLOCIndex(OldUnit.getbaseunit().getLOCIndex());
         NewUnit.getbaseunit().setLevelinHex(OldUnit.getbaseunit().getLevelinHex());
         NewUnit.getbaseunit().setHexEntSideCrossed(OldUnit.getbaseunit().getHexEntSideCrossed());
         NewUnit.getbaseunit().setCX(OldUnit.getbaseunit().getCX());

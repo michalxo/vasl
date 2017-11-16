@@ -4,7 +4,6 @@ import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.LOSResult;
 import VASL.LOS.Map.Location;
 import VASL.LOS.VASLGameInterface;
-import VASL.build.module.ASLMap;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.IFTMods;
@@ -12,17 +11,14 @@ import VASL.build.module.fullrules.DataClasses.LineofBattle;
 import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.LOSClasses.*;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.ObjectClasses.*;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.ObjectFactoryClasses.SWCreation;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
-import VASL.build.module.map.VASLThread;
 import VASSAL.build.GameModule;
 import VASSAL.counters.GamePiece;
-import VASSAL.counters.Properties;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -555,8 +551,8 @@ public class IFTC implements IIFTC {
         }
     }
     protected boolean AddtoTempTerrain(LOSResult result, TempSolution Tempsolitem) {
-        MapDataC MapData = scen.Maptables;
-        LinkedList<GameLocation> LocationCol = null;  //MapData.getLocationCol();
+        //MapDataC MapData = scen.Maptables;
+        //LinkedList<GameLocation> LocationCol = null;  //MapData.getLocationCol();
         TerrainChecks PassTerrChk = new TerrainChecks();
         ThreadedLOSCheckCommonc LOSCheckCommon = new ThreadedLOSCheckCommonc(PassTerrChk);
 
@@ -882,6 +878,8 @@ public class IFTC implements IIFTC {
     protected boolean AddtoFireGroupandTargetGroup(int SolUsedID) {
         // called by ifT.DetermineFireSolution
         // adds units from valid Temp Solution to FireGroup and TargetGroup
+        ScenarioC scen = ScenarioC.getInstance();
+        CommonFunctionsC comfun = new CommonFunctionsC(pScenID);
 
         boolean AddtoFGTG = false;
         // add firer(s) to FireGroup
@@ -909,10 +907,11 @@ public class IFTC implements IIFTC {
                             int myLdrdrm = 0;
                             int myHeroDRM = 0;
                             int WhichtoUse = 0;
-                            LineofBattle TempFiringLOBRecord = Linqdata.GetLOBRecord(5); // test value should be TempFiringUnit.getbaseunit().getUnit_ID
+                            LineofBattle TempFiringLOBRecord = comfun.Getlob(Integer.toString(TempFiringUnit.getbaseunit().getLOBLink()));
                             Constantvalues.Utype myType = TempFiringLOBRecord.getUnitType();
                             if (myType == Constantvalues.Utype.Leader || myType == Constantvalues.Utype.LdrHero) {
-                                myLdrdrm = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.LDRM, TempFiringUnit.getbaseunit().getLOBLink()));
+                                Leader TempLeader = comfun.Getleader(Integer.toString(TempFiringUnit.getbaseunit().getLOBLink()));
+                                myLdrdrm = TempLeader.getLDRM();
                             } else {
                                 myLdrdrm = 0;
                             }
@@ -1232,9 +1231,14 @@ public class IFTC implements IIFTC {
                 for (PersUniti eachTarget : TargGroup) {
                     combatstring += eachTarget.getbaseunit().getUnitName() + " ";
                 }
+                String drmstring = "";
+                for (IFTMods combatdrm: FinalDRMLIst) {
+                    drmstring += Integer.toString(combatdrm.getDRM()) + " " + combatdrm.getDRMdesc() + " ";
+                }
                 PersUniti testTarg = TargGroup.getFirst();
                 combatstring += "with  " + Integer.toString(testTarg.getTargetunit().getAttackedbyFP()) +
                         " FP and a " + Integer.toString(testTarg.getTargetunit().getAttackedbydrm()) + " drm";
+                if (FinalDRMLIst.size() > 0) combatstring += "(" + drmstring + ")";
                 GameModule.getGameModule().getChatter().send(combatstring);
                 // clicking fire button will trigger combat; clicking units will rework fire solution back to here
                 GameModule.getGameModule().getChatter().send("Click Fire button to attack!");

@@ -4,11 +4,10 @@ import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
-import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASSAL.build.GameModule;
+import org.apache.xpath.operations.Or;
 
 import java.util.LinkedList;
 
@@ -17,7 +16,6 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
 
     private Constantvalues.CombatStatus myCombatStatus;
     private double myCombatFP;
-    private LinkedList<GameLocation> MapCol;
     private Location myLoc;
     private SuppWeapi myBaseUnit;
 
@@ -295,11 +293,16 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
     }
 
     public void UpdateCombatStatus(Constantvalues.CombatStatus NewCombatStatus, int ROFdr) {
-        DataC Linqdata= DataC.GetInstance();
+        ScenarioC scen = ScenarioC.getInstance();
         myCombatStatus = NewCombatStatus;
-        OrderofBattleSW UpdateSW = Linqdata.GetOBSWRecord(myBaseUnit.getbaseSW().getUnit_ID());
-        UpdateSW.setCombatStatus(myCombatStatus);
-        myBaseUnit.getbaseSW().setCombatStatus(myCombatStatus);
+        LinkedList<OrderofBattleSW> TempSWCol = scen.getOBSWcol();
+        for (OrderofBattleSW testOBSW : TempSWCol) {
+            if (testOBSW.getOBSW_ID() == myBaseUnit.getbaseSW().getUnit_ID()) {
+                testOBSW.setCombatStatus(myCombatStatus);
+                myBaseUnit.getbaseSW().setCombatStatus(myCombatStatus);
+                break;
+            }
+        }
     }
 
     public Constantvalues.Utype getUseHeroOrLeader() {return null;} // NEED TO CODE

@@ -2,15 +2,12 @@ package VASL.build.module.fullrules.LOSClasses;
 
 import VASL.LOS.Map.Hex;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.IFTCombatClasses.CombatCalcC;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.ObjectClasses.AltHexGTerrain;
 import VASL.build.module.fullrules.ObjectClasses.CombatTerrain;
 import VASL.build.module.fullrules.ObjectClasses.SmokeHolder;
 import VASL.build.module.fullrules.TerrainClasses.ManageScenarioTerrain;
 
 
-import java.lang.annotation.Target;
 import java.util.LinkedList;
 
 public class LOSSolution extends BaseSolution {

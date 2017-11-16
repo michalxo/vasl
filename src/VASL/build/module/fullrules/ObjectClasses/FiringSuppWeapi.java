@@ -2,7 +2,6 @@ package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 
 public interface FiringSuppWeapi {
     Constantvalues.CombatStatus getCombatStatus();

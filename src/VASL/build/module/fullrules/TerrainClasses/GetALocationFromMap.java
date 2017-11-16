@@ -1,7 +1,6 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 
 import java.util.LinkedList;
 
@@ -10,14 +9,14 @@ import java.util.LinkedList;
  */
 public class GetALocationFromMap {
     // This class handles various methods to return row(s) from the Map Table that meet parameter criteria (are of a specified location type)
-    private LinkedList<GameLocation> MapData;
-    private LinkedList<GameLocation> MapCol;
+    //private LinkedList<GameLocation> MapData;
+    //private LinkedList<GameLocation> MapCol;
 
     // overloaded
     // handles standard access via open data reader
-    public GetALocationFromMap(LinkedList<GameLocation> LocationCol) {   // As IQueryable(Of MapDataClassLibrary.GameLocation))
-        MapData = LocationCol;
-    }
+    //public GetALocationFromMap(LinkedList<GameLocation> LocationCol) {   // As IQueryable(Of MapDataClassLibrary.GameLocation))
+       //MapData = LocationCol;
+    //}
 
     // handles access via new data reader when multithreading
     public GetALocationFromMap() {
@@ -58,7 +57,7 @@ public class GetALocationFromMap {
     }
     // overloaded
     // first function returns record when have LocIndex
-    public GameLocation RetrieveLocationfromMaptable(int LocIndex) {
+    /*public GameLocation RetrieveLocationfromMaptable(int LocIndex) {
         // called by Mapactions.Puthexdataintocollection, Terrainactions.GetTerrain
         // 'returns the location records matching the location index value
         return null; //(From QU As MapDataClassLibrary.GameLocation In MapData Where QU.LocIndex = LocIndex).First - temporary while debugging delete
@@ -83,13 +82,13 @@ public class GetALocationFromMap {
 
         GameLocation LocToGet;
         //remmed out while debugging - delete
-        /*try {
+        *//*try {
             LocToGet = (From QU As MapDataClassLibrary.GameLocation In MapCol Where QU.Hexnum = Hexnumber
             And(QU.Location = Location Or QU.OtherTerraininLocation = Location)).First
         }catch (Exception e) {
             MessageBox.Show(e.ToString & vbCrLf & vbCrLf & Hexnumber.ToString & Space(5) & Location.ToString)
             LocToGet = null;
-        }*/
+        }*//*
         MapCol = null;
         return null; //temporary while debugging delete
     }
@@ -102,16 +101,16 @@ public class GetALocationFromMap {
     }
     // this overload returns all locations in a specified hex
     public LinkedList<GameLocation> RetrieveLocationsfromMapTable(int Filter, String LookingFor) {
-        /*Select Case Trim(LookingFor)
+        *//*Select Case Trim(LookingFor)
         Case "Hexnum"
         Try
         Return From Qu As MapDataClassLibrary.GameLocation In MapData Where Qu.Hexnum = Filter
         Catch
         Return Nothing
         End Try
-        End Select*/
+        End Select*//*
                 return null;
-    }
+    }*/
     public String GetnamefromdatatableMap(int hexnumber) {
         // Called by Map.HexbyHexClear, Map.LOSCheck, MapCoord.Gethexname, RangeClassC.DirExtent
         // Returns Hexname from a scenario maptable based on hexnumber passed as parameter

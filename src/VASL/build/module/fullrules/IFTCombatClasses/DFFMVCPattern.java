@@ -10,13 +10,10 @@ import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.LOSClasses.LOSSolution;
 import VASL.build.module.fullrules.LOSClasses.LOSThreadManagerC;
 import VASL.build.module.fullrules.LOSClasses.TempSolution;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.ObjectClasses.AltHexGTerrain;
 import VASL.build.module.fullrules.ObjectClasses.CombatTerrain;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
-import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 import VASL.build.module.fullrules.TerrainClasses.LevelChecks;
 
 import java.util.*;

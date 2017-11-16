@@ -4,6 +4,8 @@ import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
+import VASL.build.module.fullrules.DataClasses.SupportWeapon;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectChangeClasses.ElimConcealC;
 import VASL.build.module.fullrules.ObjectChangeClasses.RevealUnitC;
 import VASL.build.module.fullrules.ObjectChangeClasses.VisibilityChangei;
@@ -11,11 +13,14 @@ import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.CombatUtil;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 import VASL.build.module.fullrules.UtilityClasses.RandomSelection;
+import VASL.build.module.map.StartGame;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class IFTResultC implements IFTResulti {
@@ -122,7 +127,7 @@ public class IFTResultC implements IFTResulti {
             if (FDR > 15) {
                 IFTTableResult = Constantvalues.IFTResult.NR;
             } else {
-                IFTTableResult = Linqdata.GetIFTResult(SameTarget.get(0).getTargetunit().getAttackedbyFP(), FDR);
+                IFTTableResult = GetIFTResult(SameTarget.get(0).getTargetunit().getAttackedbyFP(), FDR);
             }
             if (IFTTableResult == Constantvalues.IFTResult.K1 ||
                     IFTTableResult == Constantvalues.IFTResult.K2 ||
@@ -396,13 +401,16 @@ public class IFTResultC implements IFTResulti {
         }
     }
     private boolean FireGrouphasMG(LinkedList<PersUniti> FireGroup) {
+        ScenarioC scen = ScenarioC.getInstance();
+
         for (PersUniti FiringUnit: FireGroup) {
-            if (Constantvalues.Typetype.SW == FiringUnit.getbaseunit().getTypeType_ID()) {
-                OrderofBattleSW SWToCheck = Linqdata.GetOBSWRecord(FiringUnit.getbaseunit().getUnit_ID());
-                if (SWToCheck.ISATypeOf(Constantvalues.SWtype.AnyMG)) {
+
+            //NEED TO ADD CODE TO LOOK FOR MG - BELOW DOES NOT WORK AS FIRINGUNIT IS NEVER A SW; IT IS PERSUNITI BY DEF
+            /*if (Constantvalues.Typetype.SW == FiringUnit.getbaseunit().getTypeType_ID()) {
+                if (FiringUnit.getbaseunit().IsMG().ISATypeOf(Constantvalues.SWtype.AnyMG)) {
                     return true;
                 } // sw is a MG
-            }
+            }*/
         }
         // if here then no MG
         return false;
@@ -437,5 +445,12 @@ public class IFTResultC implements IFTResulti {
     }
     private void RecalcFP(LinkedList<PersUniti> FireGroup, LinkedList<PersUniti> TargGroup) {
 
+    }
+    private Constantvalues.IFTResult GetIFTResult(int FPCol, int FDR){
+        ScenarioC scen = ScenarioC.getInstance();
+        HashMap<String, IFTTableResult> prIFTTableLookUp = scen.getIFTTableLookUp();
+        String resultname = Integer.toString(FDR) + "." + Integer.toString(FPCol);
+        IFTTableResult ifttableresult = prIFTTableLookUp.get(resultname);
+        return ifttableresult.getIFTResult();
     }
 }

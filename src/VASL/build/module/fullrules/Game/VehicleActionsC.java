@@ -20,7 +20,7 @@ public class VehicleActionsC {
     // constructor
     public VehicleActionsC(DataC Linqdata, ScenarioC Scendet) {
         // get all vehicles involved in a scenario
-        LinkedList<OBVehicles> OBVehcol = Linqdata.RetrieveScenarioVehicles(Scendet.getScenID());
+        LinkedList<OBVehicles> OBVehcol =  new LinkedList<OBVehicles>(); //Linqdata.RetrieveScenarioVehicles(Scendet.getScenID());
         if (OBVehcol.size() == 0) {
             GameModule.getGameModule().getChatter().send("No scenario vehicles found. Exiting");
             return;

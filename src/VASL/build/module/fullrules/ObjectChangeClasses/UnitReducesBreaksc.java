@@ -6,7 +6,9 @@ import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASSAL.build.GameModule;
+import VASSAL.counters.GamePiece;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 public class UnitReducesBreaksc implements StatusChangei {
@@ -45,8 +47,10 @@ public class UnitReducesBreaksc implements StatusChangei {
                     'create the new HS*/
 
         int ReducesTo = TargParent.getTargetunit().getReducesTo();
-        String NewName = "";
-        GameModule.getGameModule().getChatter().send("Enter Name of New Half-Squad: " + TargParent.getbaseunit().getUnitName() + " is reduced to a Half-Squad");
+        String NewName ="";
+        while (NewName =="") {
+            NewName = askforNewUnit(TargParent.getbaseunit().getUnitName());
+        }
         PersCreation UseObjectFactory = new PersCreation();
         PersUniti NewUnit = UseObjectFactory.CreateNewInstance(ReducesTo, NewName, TargParent);
         // update new HS with values of previous unit - Do we need all of this
@@ -63,6 +67,10 @@ public class UnitReducesBreaksc implements StatusChangei {
             NewUnit.getbaseunit().setPinned(false);
             NewUnit.getbaseunit().setCombatStatus(Constantvalues.CombatStatus.None);
             NewUnit.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
+            // add new counter, flip it and add DM
+            //CommonFunctionsC ToDO = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
+            //GamePiece ToAdd = ToDO.GetNewGamePiece(NewUnit.getbaseunit().getLevelinHex());
+            //if (ToBreak != null) {ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));}
         }
         // put old TargetUnit out of play
         if (TargParent.getTargetunit() == null) {
@@ -77,8 +85,12 @@ public class UnitReducesBreaksc implements StatusChangei {
         TargParent.getbaseunit().setCombatStatus(Constantvalues.CombatStatus.None);
         TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
         TargParent.getbaseunit().setHex(null);
-                TargParent.getbaseunit().sethexlocation(null);
+        TargParent.getbaseunit().sethexlocation(null);
         TargParent.getbaseunit().sethexPosition(Constantvalues.AltPos.None);
+        // remove old unit
+        CommonFunctionsC ToDO = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
+        GamePiece ToBreak = ToDO.GetGamePieceFromID(TargParent.getbaseunit().getUnit_ID());
+        if (ToBreak != null) {ToBreak.keyEvent(KeyStroke.getKeyStroke('D', java.awt.event.InputEvent.CTRL_MASK));}
 
         //'remove old unit from moving list TOO EARLY - DO THIS LATER
         if (TargParent.getMovingunit() != null) {Scencolls.SelMoveUnits.remove(TargParent);}
@@ -114,10 +126,30 @@ public class UnitReducesBreaksc implements StatusChangei {
     public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
     public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
 
-    /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
-            Get
+    /**
+     * Displays the input dialog and returns user input
+     */
+    public String askforNewUnit(String Oldname) {
 
-    End Get
-    End Property*/
+        // show confirmation dialog
+        /*String dialogResult = JOptionPane.s (
+                null,
+                "Are you sure you want to convert this game to 6.2 format?",
+                "Warning",
+                JOptionPane.YES_NO_OPTION);
+
+        if(dialogResult == JOptionPane.YES_OPTION){
+            execute();
+        }*/
+
+        //JFrame frame = new JFrame("Unit Reduces");
+        JOptionPane pane = new JOptionPane();
+        String newname =  pane.showInputDialog(null,
+                "Enter Name of New Half-Squad: ",
+                Oldname + " is reduced to a Half-Squad",
+                JOptionPane.QUESTION_MESSAGE
+        );
+        return newname;
+    }
 
 }

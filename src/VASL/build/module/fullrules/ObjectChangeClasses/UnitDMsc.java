@@ -4,7 +4,9 @@ import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import VASSAL.counters.GamePiece;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 public class UnitDMsc implements StatusChangei {
@@ -49,6 +51,11 @@ public class UnitDMsc implements StatusChangei {
         TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
         TargParent.getTargetunit().UpdateTargetStatus(TargParent);
         TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() +  " DMs");
+
+        // flip counter and add DM
+        CommonFunctionsC ToDO = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
+        GamePiece ToBreak = ToDO.GetGamePieceFromID(TargParent.getbaseunit().getUnit_ID());
+        //if (ToBreak != null) {ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));}
 
         // HoB
         if (TargParent.getTargetunit().getHoBFlag()) { // rolled a 2

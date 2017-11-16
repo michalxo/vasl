@@ -20,7 +20,7 @@ public class SWActionsC {
     // constructor
     public SWActionsC(DataC Linqdata, ScenarioC Scendet) {
         // get all SWs involved in a scenario
-        LinkedList<OrderofBattleSW> OBSWcol = Linqdata.RetrieveScenarioOBSW(Scendet.getScenID());
+        LinkedList<OrderofBattleSW> OBSWcol = Scendet.getOBSWcol();  // Linqdata.RetrieveScenarioOBSW(Scendet.getScenID());
         if (OBSWcol.size() == 0) {
             GameModule.getGameModule().getChatter().send("No scenario units found. Exiting");
             return;

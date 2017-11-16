@@ -4,9 +4,14 @@ import VASL.LOS.Map.Hex;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.EnemyHexLOSHFPdrm;
+import VASL.build.module.fullrules.DataClasses.LineofBattle;
+import VASL.build.module.fullrules.DataClasses.SupportWeapon;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectClasses.AltHexGTerrain;
 import VASL.build.module.fullrules.ObjectClasses.CombatTerrain;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import com.sun.org.apache.bcel.internal.generic.Select;
 
 import java.util.LinkedList;
 
@@ -124,12 +129,17 @@ public class LOSThreadManagerC {
         // get normal range of "firing" unit
         // get enemy units in hex
         DataC Linqdata = DataC.GetInstance(); // use null values when sure instance already exists
+        ScenarioC scen = ScenarioC.getInstance();
+        CommonFunctionsC comfun = new CommonFunctionsC(scen.getScenID());
         // determine lowest range
         for (PersUniti SelectedUnit : SeeingTocheck) {
             if (SelectedUnit.getbaseunit().getTypeType_ID() == Constantvalues.Typetype.SW) { // Is MG
-                UnitRange = (Integer) Linqdata.GetLOBSWData(Constantvalues.LOBItem.GETRANGE, SelectedUnit.getbaseunit().getLOBLink());
+                SupportWeapon basesw = comfun.GetSupportWeapon(Integer.toString(SelectedUnit.getbaseunit().getLOBLink()));
+                UnitRange =  basesw.getRANGE(); //Integer) Linqdata.GetLOBSWData(Constantvalues.LOBItem.GETRANGE, SelectedUnit.getbaseunit().getLOBLink());
             } else {
-                UnitRange = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.GETRANGE, SelectedUnit.getbaseunit().getLOBLink()));
+                LineofBattle lineofBattle = comfun.Getlob(Integer.toString(SelectedUnit.getbaseunit().getLOBLink()));
+                UnitRange = lineofBattle.getRange();
+                //UnitRange = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.GETRANGE, SelectedUnit.getbaseunit().getLOBLink()));
                 // temporary while debugging undo
                 /*Dim GetUnit As DataClassLibrary.OrderofBattle = Linqdata.GetUnitfromCol(SelectedUnit.BasePersUnit.Unit_ID);
                 // adjust if wounded

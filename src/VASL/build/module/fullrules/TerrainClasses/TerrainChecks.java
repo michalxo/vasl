@@ -6,9 +6,7 @@ import VASL.LOS.VASLGameInterface;
 import VASL.LOS.counters.Smoke;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.Game.ScenarioC;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 //import VASL.build.module.fullrules.MapDataClasses.LocationType;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.ObjectClasses.SmokeHolder;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 
@@ -18,7 +16,7 @@ import java.util.LinkedList;
 
 public class TerrainChecks {
 
-    private LinkedList<GameLocation> MapData = new LinkedList<GameLocation>();
+    //private LinkedList<GameLocation> MapData = new LinkedList<GameLocation>();
 
     public TerrainChecks() {
 
@@ -236,14 +234,146 @@ public class TerrainChecks {
             Select QU.RemoveWhenUnoccupied).First)*/
             return false;
     }
-    public String GetPositionData(Constantvalues.TerrFactor Territem, int TerrID) {
+    public int GetPositionTEM(Constantvalues.AltPos AltPostoCheck) {
         //called by
-        // is meant to retrieve specific item from Position table in Map database
-        // TerrID is type of terrain - which record to look at
-        // Territem is which terrain element to return
+        // is meant to retrieve TEM for position in hex
 
+        switch (AltPostoCheck) {
+            case AboveWire:
+                return 0;
+            case WallAdv:
+                return 2;
+            case InFoxhole:
+                return 2;
+            case InTrench:
+                return 2;
+            case OtherTerrainInHex:
+                return 0;
+            case InSanger:
+                return 1;
+            case AbovePanji:
+                return 0;
+            case OnRoad:
+                return 0;
+            case CrestStatus1:
+                return 2;
+            case CrestStatus2:
+                return 2;
+            case CrestStatus3:
+                return 2;
+            case CrestStatus4:
+                return 2;
+            case CrestStatus5:
+                return 2;
+            case CrestStatus6:
+                return 2;
+            case ExitedEntrench:
+                return 0;
+            case ExitedCrest1:
+                return 0;
+            case ExitedCrest2:
+                return 0;
+            case ExitedCrest3:
+                return 0;
+            case ExitedCrest4:
+                return 0;
+            case ExitedCrest5:
+                return 0;
+            case ExitedCrest6:
+                return 0;
+            case Rider:
+                return 0;
+            case Passenger:
+                return 0;
+            case WACrestStatus1:
+                return 2;
+            case WACrestStatus2:
+                return 2;
+            case WACrestStatus3:
+                return 2;
+            case WACrestStatus4:
+                return 2;
+            case WACrestStatus5:
+                return 2;
+            case WACrestStatus6:
+                return 2;
+            case None:
+                return 0;
+            default:
+                return 0;
+        }
+    }
+    public String GetPositionDesc(Constantvalues.AltPos AltPostoCheck) {
+        //called by
+        // is meant to retrieve TEM for position in hex
+
+        switch (AltPostoCheck) {
+            case AboveWire:
+                return "Above Wire";
+            case WallAdv:
+                return "Wall Advantage";
+            case InFoxhole:
+                return "Foxhole";
+            case InTrench:
+                return "Trench";
+            case OtherTerrainInHex:
+                return "Other Terrain";
+            case InSanger:
+                return "Sanger";
+            case AbovePanji:
+                return "Above Panji";
+            case OnRoad:
+                return "On Road";
+            case CrestStatus1:
+                return "Crest Status";
+            case CrestStatus2:
+                return "Crest Status";
+            case CrestStatus3:
+                return "Crest Status";
+            case CrestStatus4:
+                return "Crest Status";
+            case CrestStatus5:
+                return "Crest Status";
+            case CrestStatus6:
+                return "Crest Status";
+            case ExitedEntrench:
+                return "Exit Trench";
+            case ExitedCrest1:
+                return "Exit Crest";
+            case ExitedCrest2:
+                return "Exit Crest";
+            case ExitedCrest3:
+                return "Exit Crest";
+            case ExitedCrest4:
+                return "Exit Crest";
+            case ExitedCrest5:
+                return "Exit Crest";
+            case ExitedCrest6:
+                return "Exit Crest";
+            case Rider:
+                return "Rider";
+            case Passenger:
+                return "Passenger";
+            case WACrestStatus1:
+                return "Wall Advantage";
+            case WACrestStatus2:
+                return "Wall Advantage";
+            case WACrestStatus3:
+                return "Wall Advantage";
+            case WACrestStatus4:
+                return "Wall Advantage";
+            case WACrestStatus5:
+                return "Wall Advantage";
+            case WACrestStatus6:
+                return "Wall Advantage";
+            case None:
+                return "None";
+            default:
+                return "None";
+        }
+    }
         //Dim Postab As MapDataClassLibrary.MapDataClassesDataContext = Maptables.GetMapDatabase
-        String TerrInfo = "";
+        //String TerrInfo = "";
        /* 'query
         If TerrID = 0 Then return TerrInfo
         Select Case Territem
@@ -275,8 +405,8 @@ public class TerrainChecks {
         '    TerrInfo = (From QU In db.Locations Where QU.Terraintype = TerrID _
         '                     Select QU.ObstHeight).First.ToString
         End Select*/
-        return TerrInfo;
-    }
+        //return TerrInfo;
+    //}
     public boolean IsLocationOGforFFMO(Location TestHexlocation, Constantvalues.AltPos TestHexPosition) {
 
         /*Dim LoctoUse = (From QU As MapDataClassLibrary.GameLocation In MapData Where QU.LocIndex = TestLocIndex).First

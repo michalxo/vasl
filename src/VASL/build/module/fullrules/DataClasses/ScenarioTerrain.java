@@ -2,11 +2,7 @@ package VASL.build.module.fullrules.DataClasses;
 
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
-
-import java.util.LinkedList;
 
 public class ScenarioTerrain {
     private String pFeature;
@@ -19,8 +15,6 @@ public class ScenarioTerrain {
     private Constantvalues.AltPos phexposition;
     private Constantvalues.VisibilityStatus pVisibilityStatus;
     private int pLocIndex;
-    private MapDataC Maptables = MapDataC.GetInstance("", 0); //{Trim("Scen" & Me.Scenario.ToString), CInt(Me.Scenario))
-    private LinkedList<GameLocation> LocationCol = new LinkedList<GameLocation>();
 
     public ScenarioTerrain() {
         

@@ -2,7 +2,6 @@ package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 
 import java.util.LinkedList;
 
@@ -38,11 +37,6 @@ public class BaseHex {
         prStaircasevalue = PassLocation.getHex().hasStairway();
         prControlvalue = Passcontrol;
         prHexBaseLevelValue = PassLocation.getHex().getBaseHeight();
-        MapDataC Maptables = MapDataC.GetInstance("", 0);  // use null values for parameters when sure instance exists
-        //Dim LocationCol As IQueryable (Of MapDataClassLibrary.GameLocation) =Maptables.LocationCol
-        //GetALocationFromMap Getlocs = new GetALocationFromMap(LocationCol);
-        //GameLocation LocToUse = Getlocs.RetrieveLocationfromMaptable(PassHexID, PasshexTerrtype);
-        //prlocindex = LocToUse.LocIndex;
         prSmokeList = PassSmokeList;
         prOBA = PassOBA;
     }

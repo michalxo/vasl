@@ -53,7 +53,8 @@ public class LineofBattle {
        pUnitType = PassUnitType;
 
    }
-   
+   public LineofBattle(){}
+
    public String getLOBName(){return pLOBName;}
    public void setLOBName(String value){pLOBName = value;}
    public Constantvalues.Nationality getNationality() {return pNationality;}

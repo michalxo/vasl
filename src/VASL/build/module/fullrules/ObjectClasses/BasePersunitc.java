@@ -4,10 +4,8 @@ import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 

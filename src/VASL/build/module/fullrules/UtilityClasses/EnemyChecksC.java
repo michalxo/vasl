@@ -2,9 +2,6 @@ package VASL.build.module.fullrules.UtilityClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
-import VASL.build.module.fullrules.DataClasses.Scenario;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASSAL.build.GameModule;
 
 import java.util.LinkedList;
 
@@ -28,7 +25,7 @@ public class EnemyChecksC {
     private int Locindexvalue = 0;
     private int myScenID;
     //private NewMap As UtilWObj.ASLXNA.NewMapDB
-    private LinkedList<GameLocation> Mapcol = new LinkedList<GameLocation>();
+    //private LinkedList<GameLocation> Mapcol = new LinkedList<GameLocation>();
     private DataC Linqdata  = DataC.GetInstance();
    // private LinkedList<LocationContent> myPassLocationContents = new LinkedList<LocationContent>();
 

@@ -11,7 +11,6 @@ import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASSAL.build.GameModule;
 import VASL.LOS.Map.Location;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,10 +30,10 @@ public class DataC {
     private int pScenID;
     private Connection asldatacon;
     //    'publicTempCombatTerrCol As New Collection
-    public LinkedList<OrderofBattle> Unitcol = new LinkedList<OrderofBattle>();
-    public LinkedList<OrderofBattleSW> OBSWcol = new LinkedList<OrderofBattleSW>();
-    public LinkedList<LineofBattle> LOBTypeCol = new LinkedList<LineofBattle>();
-    public LinkedList<SupportWeapon> SWLOBTypeCol = new LinkedList<SupportWeapon>();
+    //public LinkedList<OrderofBattle> Unitcol = new LinkedList<OrderofBattle>();
+    //public LinkedList<OrderofBattleSW> OBSWcol = new LinkedList<OrderofBattleSW>();
+    //public LinkedList<LineofBattle> LOBTypeCol = new LinkedList<LineofBattle>();
+    //public LinkedList<SupportWeapon> SWLOBTypeCol = new LinkedList<SupportWeapon>();
     //public VehicleCol As IQueryable(Of AFV)
     private LinkedList<ScenarioTerrain> pScenFeatcol = new LinkedList<ScenarioTerrain>();
     //public Concealcol As IQueryable(Of Concealment)
@@ -42,7 +41,7 @@ public class DataC {
     //public VehiclesInhex As IQueryable(Of AFV)
     //public Unposscol As List(Of Unpossessed)
     //public dataTableMap As New DataTable
-    private Constantvalues.IFTResult[][] IFTTable = new Constantvalues.IFTResult[16][12];
+    //private Constantvalues.IFTResult[][] IFTTable = new Constantvalues.IFTResult[16][12];
 
     // constructors
     private DataC() {
@@ -98,9 +97,9 @@ public class DataC {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             asldatacon = DriverManager.getConnection(connectionUrl);
             // create collections of static data drawn from db
-            CreateLOBTypeCollection();
-            CreateSWLOBTypeCollection();
-            CreateIFTTable();
+            //CreateLOBTypeCollection();
+            //CreateSWLOBTypeCollection();
+            //CreateIFTTable();
         }
         // Handle any errors that may have occurred.
         catch (Exception e) {
@@ -124,7 +123,7 @@ public class DataC {
         } catch (Exception e) {
         }
     }
-    public void CreateLOBTypeCollection(){
+    /*public void CreateLOBTypeCollection(){
 
         String PassLOBName = "";
         Constantvalues.Nationality PassNationality = Constantvalues.Nationality.None;
@@ -200,9 +199,9 @@ public class DataC {
             if (rs != null) try { rs.close(); } catch(Exception e) {}
             if (stmt != null) try { stmt.close(); } catch(Exception e) {}
         }
-    }
+    }*/
 
-    public void CreateSWLOBTypeCollection(){
+    /*public void CreateSWLOBTypeCollection(){
 
         int PassID = 0;
         String PassWeaponName = "";
@@ -265,9 +264,9 @@ public class DataC {
             if (rs != null) try { rs.close(); } catch(Exception e) {}
             if (stmt != null) try { stmt.close(); } catch(Exception e) {}
         }
-    }
+    }*/
 
-    public void CreateIFTTable(){
+    /*public void CreateIFTTable(){
 
         Statement stmt = null;
         ResultSet rs = null;
@@ -308,7 +307,8 @@ public class DataC {
             if (rs != null) try { rs.close(); } catch(Exception e) {}
             if (stmt != null) try { stmt.close(); } catch(Exception e) {}
         }
-    }
+    }*/
+
     //remmed out while debugging undo
     /*publicFunction GetConnectionString(ByVal WhichOne As Integer) As String
             'called by routines in Terraindata to create connection string to use in database connection
@@ -400,7 +400,7 @@ public class DataC {
     Return (Maxhexnum + 1)  'creates new largest for next scen value
     End Function
 */
-    public Scenario GetScenarioData(String ScenID) {
+    /*public Scenario GetScenarioData(String ScenID) {
         // called by Scenario.OpenScenario - is meant to retrieve scenario record from database - via a stored procedure\function call
         String Scenname = ScenID;
 
@@ -426,7 +426,7 @@ public class DataC {
             }
         }
         return null;
-    }
+    }*/
     /*public Scenario GetScenarioData(int ScenID) {
         // called by Scenario.OpenScenario - is meant to retrieve scenario record from database - via a stored procedure\function call
         String Scenname = Integer.toString(ScenID);
@@ -461,7 +461,7 @@ public class DataC {
         pScenID = Sceninfo.getScenNum();
         return Sceninfo;
     }*/
-    public List<Scenario> GetScenList() {
+    /*public List<Scenario> GetScenList() {
         try {
             // Dim Scenlist = From QU In db.scens Where QU.Finished = False Select QU
             return null; //Scenlist;
@@ -470,9 +470,9 @@ public class DataC {
             return null;
         }
 
-    }
+    }*/
 
-    public LinkedList<OrderofBattle> RetrieveScenarioUnits(int ScenarioID) {
+    /*public LinkedList<OrderofBattle> RetrieveScenarioUnits(int ScenarioID) {
         // called by Unitactions.New
         // pulls all OB units for a given scenario it a collection of type OrderofBattle
 
@@ -482,18 +482,18 @@ public class DataC {
 
 
         // LinkedList<OrderofBattle> Unitcol = new LinkedList<OrderofBattle>();
-        /*try {
+        *//*try {
             // Dim Unitcol = From QU In db.OrderofBattles Where QU.Scenario = ScenarioID And Not
             // QU.OrderStatus = ConstantClassLibrary.ASLXNA.OrderStatus.NotInPlay Select QU
             return Unitcol;
         } catch(Exception ex) {
             GameModule.getGameModule().getChatter().send("Some kind of error" + Integer.toString(ScenarioID) +": RetieveScenarioUnits Failure");
             return null;
-        }*/
+        }*//*
 
-    }
+    }*/
 
-    private LinkedList<OrderofBattle> CreatetestOBunits() {
+    /*private LinkedList<OrderofBattle> CreatetestOBunits() {
 
         // temporary while debugging; creates units linked to counters on board
         LinkedList<OrderofBattle> Testunits = new LinkedList<OrderofBattle>();
@@ -625,9 +625,9 @@ public class DataC {
 
         Testunits.add(Newunit);
         return Testunits;
-    }
+    }*/
 
-    public LinkedList<OBVehicles> RetrieveScenarioVehicles(int ScenarioID) {
+    /*public LinkedList<OBVehicles> RetrieveScenarioVehicles(int ScenarioID) {
         // called by VehicleActionsC()
         // pulls all OB vehicles for a given scenario it a collection of type OBVehicles
         try {
@@ -638,7 +638,7 @@ public class DataC {
             //Return Nothing
         }
         return null;
-    }
+    }*/
     /*public void RetrieveConcealment(ByVal ScenarioID As Integer) As IQueryable(Of Concealment)
             'called by ConcealActions.New
             'pulls all Concealment for a given scenario it a collection of type Concealment
@@ -665,7 +665,7 @@ public class DataC {
     Return Nothing
     End Try
     End Function*/
-    public LinkedList<OrderofBattleSW> RetrieveScenarioOBSW(int ScenarioID) {
+    /*public LinkedList<OrderofBattleSW> RetrieveScenarioOBSW(int ScenarioID) {
         // called by SWactionsC()
         // pulls all OB SW for a given scenario it a collection of type OrderofBattleSW
         try {
@@ -676,7 +676,7 @@ public class DataC {
             //Return Nothing
         }
         return null;
-    }
+    }*/
     /*publicFunction RetrieveUnpossessed() As IQueryable(Of Unpossessed)
             'called by Unpossactions.New
             'pulls all unpossessed SW into a collection of type Unpossessed
@@ -766,7 +766,7 @@ public class DataC {
     End Try
     End Function
     */
-    public OrderofBattle GetUnitfromCol(int IDtopass) {
+    /*public OrderofBattle GetUnitfromCol(int IDtopass) {
         // called by Gamecontrol.determineclickpossibilities and Gameform.pbGameMap_MouseMove
         // add Gameform.DetermineWhoIsOnTop
         // returns specific unit
@@ -784,7 +784,7 @@ public class DataC {
 
         OrderofBattle getunit = null; // (From QU In Unitcol Where QU.OBUnit_ID = IDtopass Select QU).First;
         return getunit;
-    }
+    }*/
 
     /*
         publicFunction GetVehiclefromCol(ByVal IDtopass As Integer) As AFV
@@ -853,7 +853,7 @@ public class DataC {
         Return getconceal
         End Function
         */
-    public boolean RemoveConFromCol(int ConToRemove) {
+    /*public boolean RemoveConFromCol(int ConToRemove) {
         // called by StatusChange.ElimConcealC.Takeaction
         // eliminates specific concealment item in collection
 
@@ -864,21 +864,21 @@ public class DataC {
         }
         // delete query
         // temporary while debugging UNDO
-        /*Dim RemoveCon = (From Qu In db.Concealments Where  Qu.Con_ID = idtopass Select Qu).First
+        *//*Dim RemoveCon = (From Qu In db.Concealments Where  Qu.Con_ID = idtopass Select Qu).First
         Dim ScenarioID As Integer = RemoveCon.Scenario
             db.Concealments.DeleteOnSubmit(RemoveCon)
             db.SubmitChanges()
             'redo the collection
         Concealcol = RetrieveConcealment(ScenarioID)
-            'Concealcol = Concealcol.Where(Function(FindCol) FindCol.Con_ID <> idtopass)*/
+            'Concealcol = Concealcol.Where(Function(FindCol) FindCol.Con_ID <> idtopass)*//*
         return true;
-    }
+    }*/
 
-    public String GetNatInfo(Constantvalues.Nationality Playerside, int InfoToGet) {
+    /*public String GetNatInfo(Constantvalues.Nationality Playerside, int InfoToGet) {
         // called by Gameform.setphaseenvironment
         // uses database lookup table to get side name
 
-        /*Dim Getname As LookUpNationality = (From QU In db.LookUpNationalities _
+        *//*Dim Getname As LookUpNationality = (From QU In db.LookUpNationalities _
         Where QU.Natint = Playerside Select QU).First
         Select Case InfoToGet
         Case 1
@@ -889,9 +889,9 @@ public class DataC {
         Return sidestring
         Case Else
         Return Nothing
-        End Select*/
+        End Select*//*
         return "German";
-    }
+    }*/
 
            /*
     publicFunction GetPhasename(ByVal Currentphase As Integer) As String
@@ -951,18 +951,18 @@ public class DataC {
     End Function*/
 
 
-    public boolean WriteScenarioData(Scenario scendat) {
+    /*public boolean WriteScenarioData(Scenario scendat) {
         // return if (db.TryToUpdateScendata(scendat),True, False)
         return false;
-    }
+    }*/
 
-    public int GetUnpossessedHex(int EquipID, int EquipType) {
+    /*public int GetUnpossessedHex(int EquipID, int EquipType) {
         // called by OBSW.Ownerhex
         // gets number of hex in which unpossessed SW or Gun is located
 
         int Hexnumber = 0;
         // tempoarary while debugging undo
-    /*        'query
+    *//*        'query
     Try
             Hexnumber = (From
     Qu In
@@ -975,18 +975,18 @@ public class DataC {
     Catch Ex
     As Exception
     Hexnumber =0
-    End Try*/
+    End Try*//*
         return Hexnumber;
-    }
+    }*/
 
-    public String GetLOBData(Constantvalues.LOBItem PassLOBItem, int PassLobID) {
+    /*public String GetLOBData(Constantvalues.LOBItem PassLOBItem, int PassLobID) {
         // called by IFT.GetUnitRangeFPAssF, FireUnit.new, TargUnit.New, OBSW.CanStillUseInherentFP
         // is meant to retrieve specific item from LOB table in database
         // LobItem identifies which field to retrieve; LobID identifies which row to use
         String LOBInfo = "";
         switch (PassLOBItem) {
             //remmed out while debugging undo
-            /*case UNITTYPE: if (PassLobID <1000) {
+            case UNITTYPE: if (PassLobID <1000) {
                     LOBInfo = (From QU In db.LineofBattles Where QU.OBLink = LobID Select QU.UnitType).First.ToString;
                 } else {
                     LOBInfo = (From QU In db.Leaders Where QU.OBLink = LobID Select QU.UnitType).First.ToString;
@@ -1025,10 +1025,10 @@ public class DataC {
                     LOBInfo = CStr(ConstantClassLibrary.ASLXNA.UClass.Elite);
                 }
                 break;
-                */
+
             case SMOKE: LOBInfo = "1"; // test code (From qu In db.LineofBattles Where qu.OBLink = LobID Select qu.Smoke).First.ToString;
                 break;
-                /*
+
             case MORALELEVEL: if (PassLobID <1000) {
                     LOBInfo = (From qu In db.LineofBattles Where qu.OBLink = LobID Select qu.MoraleLevel).First.ToString;
                 } else {
@@ -1040,15 +1040,15 @@ public class DataC {
                 } else {
                     LOBInfo = "0";
                 }
-                break;*/
+                break;
             default:
                 LOBInfo = null;
         }
 
         return LOBInfo;
-    }
+    }*/
 
-    public LineofBattle GetLOBRecord(int lobitem) {
+    /*public LineofBattle GetLOBRecord(int lobitem) {
 
        for (LineofBattle Newunit: LOBTypeCol) {
             if (Newunit.getOBLink() == lobitem) {
@@ -1056,10 +1056,10 @@ public class DataC {
             }
        }
        return null;
-    }
+    }*/
 
 
-    public SupportWeapon GetLOBSWRecord(int lobitem) {
+    /*public SupportWeapon GetLOBSWRecord(int lobitem) {
         for (SupportWeapon NewWeapon: SWLOBTypeCol) {
             if (NewWeapon.getID() == lobitem) {
                 return NewWeapon;
@@ -1067,16 +1067,16 @@ public class DataC {
         }
         return null;
 
-    }
-    public LinkedList<LineofBattle> getLOBTypeCol() {return LOBTypeCol;}
+    }*/
+    //public LinkedList<LineofBattle> getLOBTypeCol() {return LOBTypeCol;}
 
-    public LinkedList<SupportWeapon> getSWLOBTypeCol() {return SWLOBTypeCol;}
+    //public LinkedList<SupportWeapon> getSWLOBTypeCol() {return SWLOBTypeCol;}
 
-    public String GetLOBVehData(int LOBitem, int LobID) {
+    /*public String GetLOBVehData(int LOBitem, int LobID) {
         // called by ManageTexture.GetTexture
         // is meant to retrieve specific item from AFVDefault table in database
         // LobItem identifies which field to retrieve; LobID identifies which row to use
-        /*Dim LOBInfo As String = ""
+        *//*Dim LOBInfo As String = ""
             'query
         Select Case
         LOBitem
@@ -1089,9 +1089,9 @@ public class DataC {
         Case Else
                 LOBInfo =""
         End Select
-        Return LOBInfo*/
+        Return LOBInfo*//*
         return null;
-    }
+    }*/
     //remmed out while debugging undo
     /*publicFunction IsUnitAPassOrRider(ByVal UnitID As Integer, ByVal TypeTest As Integer) As Boolean
             'called by MovementC.Statusprevents
@@ -1164,7 +1164,7 @@ public class DataC {
     End Function
 
     */
-    public Constantvalues.IFTResult GetIFTResult(int FPCol, int FDR) {
+    /*public Constantvalues.IFTResult GetIFTResult(int FPCol, int FDR) {
 
         int useCol=0;
         if (FDR <0 ) {FDR = 0;}
@@ -1207,17 +1207,17 @@ public class DataC {
 
         }
         return IFTTable[FDR][useCol];
-    }
+    }*/
 
 
-    public Object GetLOBSWData(Constantvalues.LOBItem SWLOBitem, int SWLOBID) {
+    /*public Object GetLOBSWData(Constantvalues.LOBItem SWLOBitem, int SWLOBID) {
         // called by  - is meant to retrieve specific item from SWLOB table in database
         // SWLOBItem is the field to be retrieved, SWLOBID is the weapon identifier
 
         Object SWLOBInfo;
         switch (SWLOBitem) {
             //remmed out while debugging undo
-            /*case FIREPOWER: SWLOBInfo = CInt((From QU In db.SupportWeapons Where QU.WeaponType = SWLOBID Select QU.FIREPOWER).First);
+            *//*case FIREPOWER: SWLOBInfo = CInt((From QU In db.SupportWeapons Where QU.WeaponType = SWLOBID Select QU.FIREPOWER).First);
                 break;
             case GETRANGE: SWLOBInfo = CInt((From QU In db.SupportWeapons Where QU.WeaponType = SWLOBID Select QU.RANGE).First);
                 break;
@@ -1234,12 +1234,12 @@ public class DataC {
             case DMSIMAGE: SWLOBInfo = (From QU In db.SupportWeapons Where QU.WeaponType = SWLOBID Select QU.DMImage).First;
                 break;
             case BROKENDMSWIMAGE: SWLOBInfo = (From QU In db.SupportWeapons Where QU.WeaponType = SWLOBID Select QU.BrokenDMImage).First;
-                break;*/
+                break;*//*
             default: SWLOBInfo = null;
                 break;
         }
         return SWLOBInfo;
-    }
+    }*/
     //remmed out while debugging undo
     /*publicFunction GetOBSWData(ByVal SWOBitem As Integer, ByVal SWOBID As Integer) As String
             'called by  - is meant to retrieve specific item from
@@ -1265,7 +1265,7 @@ public class DataC {
     Return SWOBInfo
     End Function
     */
-    public OrderofBattleSW GetOBSWRecord(String OBSWname) {
+    /*public OrderofBattleSW GetOBSWRecord(String OBSWname) {
         // called by IFT.AddtoFireGroupandTargetGroup
         // is meant to retrieve record of firing SW from database
 
@@ -1282,7 +1282,7 @@ public class DataC {
         // query
         OrderofBattleSW OBSWInfo  = null; //(From QU In OBSWcol Where QU.OBSW_ID = OBSWID Select QU).First;
         return OBSWInfo;
-    }
+    }*/
 
             /*
         'publicFunction GetTerrainData(ByVal Territem As Integer, ByVal TerrID As Integer) As String
@@ -1469,53 +1469,45 @@ public class DataC {
     Catch ex As Exception
     Return False
     End Try
-    End Function
-    publicFunction CreateNewUnitinDB(ByVal PassCharacterStatus As Integer, ByVal PassCombatStatus As Integer, ByVal PassConID As Integer, ByVal PassCX As Boolean, ByVal PassELR As Integer, ByVal PassFirstSWLink As Integer, ByVal PassFortitudeStatus As Integer,
-                                      ByVal PassHexEnteredSideCrossedLastMove As Integer, ByVal PassHexlocation As Integer, ByVal Passhexname As String, ByVal Passhexnum As Integer, ByVal PassLevelInHex As Integer, ByVal PassLobLink As Integer,
-                                      ByVal PassLocIndex As Integer, ByVal PassMovementStatus As Integer, ByVal Passnationality As Integer, ByVal PassOBname As String, ByVal PassOrderStatus As Integer, ByVal Passpinned As Boolean, ByVal Passhexposition As Integer,
-                                      ByVal PassRoleStatus As Integer, ByVal PassScenario As Integer, ByVal passsecondswlink As Integer, ByVal PassSW As Integer, ByVal PassTurnArrives As Integer, ByVal PassVisibilityStatus As Integer) As OrderofBattle
-    Dim NewUnit As New OrderofBattle
-    NewUnit.OBUnit_ID = GetNewUnitID()
-    With NewUnit
-                .CharacterStatus = PassCharacterStatus
-            .CombatStatus = PassCombatStatus
-            .Con_ID = PassConID
-            .CX = PassCX
-            .ELR = PassELR
-            .FirstSWLink = PassFirstSWLink
-            .FortitudeStatus = PassFortitudeStatus
-            .HexEnteredSideCrossedLastMove = PassHexEnteredSideCrossedLastMove
-            .hexlocation = PassHexlocation
-            .Hexname = Passhexname
-            .hexnum = Passhexnum
-            .LevelinHex = PassLevelInHex
-            .LOBLink = PassLobLink
-            .LocIndex = PassLocIndex
-            .MovementStatus = PassMovementStatus
-            .Nationality = Passnationality
-            .OBName = PassOBname
-            .OrderStatus = PassOrderStatus
-            .Pinned = Passpinned
-            .Position = Passhexposition
-            .RoleStatus = PassRoleStatus
-            .Scenario = PassScenario
-            .SecondSWlink = passsecondswlink
-            .SW = PassSW
-            .TurnArrives = PassTurnArrives
-            .VisibilityStatus = PassVisibilityStatus
-    End With
+    End Function*/
+    /*public OrderofBattle CreateNewOBUnit(Constantvalues.CharacterStatus PassCharacterStatus, Constantvalues.CombatStatus PassCombatStatus, int PassConID, boolean PassCX, int PassELR, int PassFirstSWLink,
+            Constantvalues.FortitudeStatus PassFortitudeStatus, int PassHexEnteredSideCrossedLastMove, Location PassHexlocation, String Passhexname, int PassLevelInHex, int PassLobLink,
+            Constantvalues.MovementStatus PassMovementStatus, Constantvalues.Nationality Passnationality, String PassOBname, Constantvalues.OrderStatus PassOrderStatus, boolean Passpinned,
+            Constantvalues.AltPos Passhexposition, Constantvalues.RoleStatus PassRoleStatus, int PassScenario, int passsecondswlink, int PassSW, int PassTurnArrives,
+            Constantvalues.VisibilityStatus PassVisibilityStatus, int PassOBUnit_ID) {
+        ScenarioC scen = ScenarioC.getInstance();
+        OrderofBattle Newunit = new OrderofBattle();
 
-            db.OrderofBattles.InsertOnSubmit(NewUnit)
-    Try
-                db.SubmitChanges()
-    RetrieveScenarioUnits(PassScenario)  'SHOULD THIS STILL BE REQUIRED? July 2014
-    Return NewUnit
-    Catch ex As Exception
-    Return Nothing
-    End Try
+        Newunit.setOBUnit_ID(PassOBUnit_ID);                                    //(5678);
+        Newunit.setOBName(PassOBname);                                                         //("467B");
+        Newunit.setLOBLink(PassLobLink);                                      //(5);
+        Newunit.setHexname(Passhexname);                                                        //("N2");
+        Newunit.sethex(scen.getGameMap().getHex(Newunit.getHexname()));
+        Newunit.sethexlocation(PassHexlocation);            // this needs to be captured as a token - how? what values?  for now set as 0 placeholder
+        Newunit.setLevelinHex(PassLevelInHex);                                   //(0);
+        Newunit.setHexEnteredSideCrossedLastMove(PassHexEnteredSideCrossedLastMove);                //(0);
+        Newunit.setPosition(Passhexposition);   //(0);
+        Newunit.setCon_ID(PassConID);                                       //(0);
+        Newunit.setCX(PassCX);                              //(false);
+        Newunit.setPinned(Passpinned);                         //(false);
+        Newunit.setELR(PassELR);                                         //(3);
+        Newunit.setSW(PassSW);                                          //(0);
+        Newunit.setFirstSWLink(PassFirstSWLink);                                 //(0);
+        Newunit.setSecondSWlink(passsecondswlink);                                //(0);
+        Newunit.setVisibilityStatus(PassVisibilityStatus);  // (.VisibilityStatus.Visible);
+        Newunit.setCharacterStatus(PassCharacterStatus);    // Constantvalues.CharacterStatus.NONE);
+        Newunit.setCombatStatus(PassCombatStatus);          // Constantvalues.CombatStatus.None);
+        Newunit.setFortitudeStatus(PassFortitudeStatus);    // Constantvalues.FortitudeStatus.Normal);
+        Newunit.setMovementStatus(PassMovementStatus);      // Constantvalues.MovementStatus.NotMoving);
+        Newunit.setNationality(Passnationality);     //  Constantvalues.Nationality.Germans);
+        Newunit.setOrderStatus(PassOrderStatus);            // Constantvalues.OrderStatus.GoodOrder);
+        Newunit.setRoleStatus(PassRoleStatus);              // Constantvalues.RoleStatus.None);
+        Newunit.setScenario(PassScenario);
+        Newunit.setTurnArrives(PassTurnArrives);
 
-    End Function
-    publicFunction CreateNewConinDB(ByVal PassCX As Boolean, ByVal PassFortitudeStatus As Integer,
+        return Newunit;
+    }*/
+    /*publicFunction CreateNewConinDB(ByVal PassCX As Boolean, ByVal PassFortitudeStatus As Integer,
                                      ByVal PassHexEnteredSideCrossedLastMove As Integer, ByVal PassHexlocation As Integer, ByVal Passhexname As String, ByVal Passhexnum As Integer, ByVal PassLevelInHex As Integer,
                                      ByVal PassLocIndex As Integer, ByVal PassMovementStatus As Integer, ByVal Passnationality As Integer, ByVal PassOBname As String, ByVal Passhexposition As Integer,
                                      ByVal PassScenario As Integer) As Concealment

@@ -7,6 +7,7 @@ import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASSAL.build.GameModule;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 public class UnitReducesc implements StatusChangei {
@@ -48,8 +49,11 @@ public class UnitReducesc implements StatusChangei {
 
                     'create the new HS*/
         int ReducesTo = TargParent.getTargetunit().getReducesTo();
-        String NewName = "";
-        GameModule.getGameModule().getChatter().send("Enter Name of New Half-Squad: " + TargParent.getbaseunit().getUnitName() + " is reduced to a Half-Squad");
+        String NewName ="";
+        while (NewName =="") {
+            NewName = askforNewUnit(TargParent.getbaseunit().getUnitName());
+        }
+        //GameModule.getGameModule().getChatter().send("Enter Name of New Half-Squad: " + TargParent.getbaseunit().getUnitName() + " is reduced to a Half-Squad");
         PersCreation UseObjectFactory = new PersCreation();
         PersUniti NewUnit = UseObjectFactory.CreateNewInstance(ReducesTo, NewName, TargParent);
         // update new HS with values of previous unit - Do we need all of this
@@ -111,9 +115,29 @@ public class UnitReducesc implements StatusChangei {
     public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
     public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
 
-    /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
-            Get
+    /**
+     * Displays the input dialog and returns user input
+     */
+    public String askforNewUnit(String Oldname) {
 
-    End Get
-    End Property*/
+        // show confirmation dialog
+        /*String dialogResult = JOptionPane.s (
+                null,
+                "Are you sure you want to convert this game to 6.2 format?",
+                "Warning",
+                JOptionPane.YES_NO_OPTION);
+
+        if(dialogResult == JOptionPane.YES_OPTION){
+            execute();
+        }*/
+
+        //JFrame frame = new JFrame("Unit Reduces");
+        JOptionPane pane = new JOptionPane();
+        String newname =  pane.showInputDialog(null,
+                "Enter Name of New Half-Squad: ",
+                Oldname + " is reduced to a Half-Squad",
+                JOptionPane.QUESTION_MESSAGE
+        );
+        return newname;
+    }
 }

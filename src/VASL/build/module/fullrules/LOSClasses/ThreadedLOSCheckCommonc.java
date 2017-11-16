@@ -2,18 +2,13 @@ package VASL.build.module.fullrules.LOSClasses;
 
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
-import VASL.LOS.Map.Terrain;
 import VASL.LOS.VASLGameInterface;
 import VASL.LOS.counters.OBA;
-import VASL.LOS.counters.Smoke;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.Game.ScenarioC;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.ObjectClasses.AltHexGTerrain;
 import VASL.build.module.fullrules.ObjectClasses.CombatTerrain;
 import VASL.build.module.fullrules.ObjectClasses.SmokeHolder;
-import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;

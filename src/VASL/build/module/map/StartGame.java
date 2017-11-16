@@ -9,6 +9,11 @@ import VASL.LOS.Map.Hex;
 import VASL.build.module.ASLMap;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.Game.*;
+import VASL.build.module.fullrules.IFTCombatClasses.IFTTable;
+import VASL.build.module.fullrules.IFTCombatClasses.IFTTableResult;
+import VASL.build.module.fullrules.IFTCombatClasses.LOBTable;
+import VASL.build.module.fullrules.ObjectClasses.LeaderTable;
+import VASL.build.module.fullrules.ObjectClasses.SupportWeaponTable;
 import VASSAL.build.AbstractConfigurable;
 import VASSAL.build.Buildable;
 import VASSAL.build.GameModule;
@@ -20,14 +25,20 @@ import VASSAL.build.module.map.PieceMover;
 import VASSAL.command.Command;
 import VASSAL.command.CommandEncoder;
 import VASSAL.counters.*;
+import VASSAL.counters.Properties;
+import VASSAL.counters.Stack;
+import VASSAL.tools.DataArchive;
+import VASSAL.tools.io.IOUtils;
+import org.jdom2.JDOMException;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 public class  StartGame extends AbstractConfigurable implements MouseListener, GameComponent, CommandEncoder, Drawable {
     private ScenarioC scen;
@@ -41,7 +52,6 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
     protected PieceFinder dragTargetSelector;
     protected PieceVisitorDispatcher selectionProcessor;
     protected Comparator<GamePiece> pieceSorter = new PieceSorter();
-
 
     public void Initialize(boolean getgoing) {
 
@@ -57,6 +67,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
             scen = ScenarioC.getInstance();
             Linqdata = DataC.GetInstance();
             Linqdata.InitializeData();
+            CreateLookUpTables();
             String PassScenID = "Fullrules"; // need to link this to VASL scenario name
             if (scen.OpenScenario(PassScenID, pmap)) {
                 Linqdata.closeconnection();
@@ -660,4 +671,86 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
     public Command getRestoreCommand() {
         return null;
     }
+
+    private void CreateLookUpTables(){
+        //IFT Table
+        InputStream inputStream = null;
+        IFTTable ifttable = new IFTTable();
+        final String IFTTableFileName = "fullrulesdata/IFTTable.xml"; // name of the shared board metadata file
+        try {
+            DataArchive archive = GameModule.getGameModule().getDataArchive();
+            // IFT Table metadata
+            inputStream = archive.getInputStream(IFTTableFileName);
+
+            ifttable.parseIFTTableFile(inputStream);
+        } catch (IOException e){
+
+        } catch (JDOMException e) {
+            //sharedBoardMetadata = null;
+            //throw new JDOMException("Cannot read the shared metadata file", e);
+        }finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+        scen.setIFTTableLookUp(ifttable.getIFTTableTypes());
+
+        // LOB Table
+        inputStream = null;
+        LOBTable lobtable = new LOBTable();
+        final String LOBTableFileName = "fullrulesdata/LOBTable.xml"; // name of the LOB metadata file
+        try {
+            DataArchive archive = GameModule.getGameModule().getDataArchive();
+            // LOB Table metadata
+            inputStream = archive.getInputStream(LOBTableFileName);
+
+            lobtable.parseLOBTableFile(inputStream);
+        } catch (IOException e){
+
+        } catch (JDOMException e) {
+            //sharedBoardMetadata = null;
+            //throw new JDOMException("Cannot read the line of battle metadata file", e);
+        }finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+        scen.setLOBTableLookUp(lobtable.getLOBTableTypes());
+        // Leader Table
+        inputStream = null;
+        LeaderTable leadertable = new LeaderTable();
+        final String LeaderTableFileName = "fullrulesdata/LeaderTable.xml"; // name of the leader metadata file
+        try {
+            DataArchive archive = GameModule.getGameModule().getDataArchive();
+            // Leader Table metadata
+            inputStream = archive.getInputStream(LeaderTableFileName);
+
+            leadertable.parseLeaderTableFile(inputStream);
+        } catch (IOException e){
+
+        } catch (JDOMException e) {
+            //sharedBoardMetadata = null;
+            //throw new JDOMException("Cannot read the leader metadata file", e);
+        }finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+        scen.setLeaderTableLookUp(leadertable.getLeaderTableTypes());
+        // LOB SupportWeapon Table
+        inputStream = null;
+        SupportWeaponTable supportweapontable = new SupportWeaponTable();
+        final String SupportWeaponTableFileName = "fullrulesdata/SuppWTable.xml"; // name of the SupportWeapon metadata file
+        try {
+            DataArchive archive = GameModule.getGameModule().getDataArchive();
+            // SW Table metadata
+            inputStream = archive.getInputStream(SupportWeaponTableFileName);
+
+            supportweapontable.parseSuppWTableFile(inputStream);
+        } catch (IOException e){
+
+        } catch (JDOMException e) {
+            //sharedBoardMetadata = null;
+            //throw new JDOMException("Cannot read the shared metadata file", e);
+        }finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+        scen.setSupportWeaponTableLookUp(supportweapontable.getSuppWTableTypes());
+    }
+
+
 }

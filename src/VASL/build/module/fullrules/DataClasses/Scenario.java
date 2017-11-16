@@ -1,9 +1,8 @@
 package VASL.build.module.fullrules.DataClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
-
-import java.sql.*;
 import java.util.Date;
 
 
@@ -57,52 +56,52 @@ public class Scenario {
     private boolean pNoQuarter;
 
     // constructor
-    public Scenario(ResultSet rs) {
-        // put database info into object
+    public Scenario(String readString) {
+        // put string info from saved game file into a scenario object
         String tempstring=null;
+        String[] tokens = readString.split("\\s+");
+        ConversionC DoConversion = new ConversionC();
+        ScenarioC scen = ScenarioC.getInstance();
         try {
-            while (rs.next()) {
-                try {
-                    pGT = rs.getInt(1);
-                    pCURRENTTURN = rs.getInt(2);
-                    pYEAR = rs.getInt(3);
-                    pMONTH = rs.getString(4);
+            pGT = Double.parseDouble(tokens[1]);
+            pCURRENTTURN = Integer.parseInt(tokens[2]);
+            pYEAR = Integer.parseInt(tokens[3]);
+            pMONTH = tokens[4];
                     //pDAYNIGHT = ConverttoDayNight(rs.getInt(6));  // Constantvalues.DayNight
                     //pDATETIME = rs.getDate(7);
-                    pWINDSPEED = rs.getInt(7);
-                    pWINDDIR = rs.getString(8);
-                    pECDRM = rs.getInt(9);
-                    pATTSAN = rs.getInt(10);
-                    pDFNSAN = rs.getInt(11);
-                    pATTIB = rs.getInt(12);
-                    pDFNIB = rs.getInt(13);
-                    pATTCP = rs.getInt(14);
-                    pDFNCP = rs.getInt(15);
-                    pATTIBL = rs.getInt(16);
-                    pDFNIBL = rs.getInt(17);
-                    pAREINFORCE = rs.getString(18);
-                    pDREINFORCE = rs.getString(19);
-                    pFULLNAME = rs.getString(20);
-                    pCVPATT = rs.getInt(21);
-                    pCVPDEF = rs.getInt(22);
-                    pLVPATT = rs.getInt(23);
-                    pLVPDEF = rs.getInt(24);
-                    //pSanattaloc = rs.getString(26);
-                    //pSanattbloc = rs.getString(27);
-                    //pSandfnaloc = rs.getString(28);
-                    //pSandfnbloc = rs.getString(29);
-
-                    pATT1 = ConverttoNationality(rs.getInt(29));  //Constantvalues.Nationality.Germans;
-                    pDFN1 = ConverttoNationality(rs.getInt(30));  // Constantvalues.Nationality.Russians;
-                    pPhase = ConverttoPhase(rs.getInt(31));  //Constantvalues.Phase.PrepFire;
-                    pScenNum = rs.getInt(32);
-                    pMistDust = rs.getInt(33);
-                    pATT2 = ConverttoNationality(rs.getInt(34));
-                    pDFN2 = ConverttoNationality(rs.getInt(35));
-                    pWeather = rs.getInt(36);
-                    pRules = ConverttoRules(rs.getInt(37));
-                    pMap = ConverttoMap(rs.getInt(38));
-                    pWindHexGrain = rs.getInt(39);
+            pWINDSPEED =Integer.parseInt(tokens[5]);
+            pWINDDIR = tokens[6];
+            pECDRM = Integer.parseInt(tokens[7]);
+            pATTSAN = Integer.parseInt(tokens[8]);
+            pDFNSAN = Integer.parseInt(tokens[9]);
+            pATTIB = Integer.parseInt(tokens[10]);
+            pDFNIB = Integer.parseInt(tokens[11]);
+            pATTCP = Integer.parseInt(tokens[12]);
+            pDFNCP = Integer.parseInt(tokens[13]);
+            pATTIBL = Integer.parseInt(tokens[14]);
+            pDFNIBL = Integer.parseInt(tokens[15]);
+            pAREINFORCE = tokens[16];
+            pDREINFORCE = tokens[17];
+            pFULLNAME = tokens[18];
+            pCVPATT = Integer.parseInt(tokens[19]);
+            pCVPDEF = Integer.parseInt(tokens[20]);
+            pLVPATT = Integer.parseInt(tokens[21]);
+            pLVPDEF = Integer.parseInt(tokens[22]);
+            pSanattaloc = tokens[23];
+            pSanattbloc = tokens[24];
+            pSandfnaloc = tokens[25];
+            pSandfnbloc = tokens[26];
+            pATT1 = ConverttoNationality(Integer.parseInt(tokens[27]));  //Constantvalues.Nationality.Germans;
+            pDFN1 = ConverttoNationality(Integer.parseInt(tokens[28]));  // Constantvalues.Nationality.Russians;
+            pPhase = ConverttoPhase(Integer.parseInt(tokens[29]));  //Constantvalues.Phase.PrepFire;
+            pScenNum = Integer.parseInt(tokens[30]);
+            pMistDust = Integer.parseInt(tokens[31]);
+            pATT2 = ConverttoNationality(Integer.parseInt(tokens[32]));
+            pDFN2 = ConverttoNationality(Integer.parseInt(tokens[33]));
+            pWeather = Integer.parseInt(tokens[34]);
+            pRules = ConverttoRules(Integer.parseInt(tokens[35]));
+            pMap = ConverttoMap(Integer.parseInt(tokens[36]));
+            pWindHexGrain = Integer.parseInt(tokens[37]);
                 /*private String pASLName;
                 private boolean pFinished;*/
                     //tempstring = rs.getString(3);
@@ -112,13 +111,11 @@ public class Scenario {
                 private boolean pattsanactivated;
                 private boolean pdfnsanactivated;
                 private boolean pNoQuarter;*/
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+
     }
     		
 	public double getGT() {return pGT;}
@@ -199,7 +196,7 @@ public class Scenario {
     public void setRules(Constantvalues.Rules value) {pRules = value;}
 	public Constantvalues.Map getMap() {return pMap;}
     public void setMap(Constantvalues.Map value) {pMap = value;}
-	public int WindHexGrain() {return pWindHexGrain;}
+	public int getWindHexGrain() {return pWindHexGrain;}
     public void setWindHexGrain(int value) {pWindHexGrain = value;}
     public String getASLName() {return pASLName;}
     public void setASLName(String value) {pASLName=value;}

@@ -3,7 +3,7 @@ package VASL.build.module.fullrules.UtilityClasses;
 import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+
 
 public class ConversionC {
 
@@ -38,7 +38,7 @@ public class ConversionC {
                 return null;
         }
     }
-    public Constantvalues.Nationality ConverttoNationality(int databasevalue) {
+    public Constantvalues.Nationality  ConverttoNationality(int databasevalue) {
         switch(databasevalue) {
             case 2001:
                 return Constantvalues.Nationality.Yanks;
@@ -144,6 +144,32 @@ public class ConversionC {
                 return null;
         }
     }
+    public int ConvertPhasetoInt(Constantvalues.Phase phasevalue) {
+        switch(phasevalue) {
+            case Setup:
+                return 1200;
+            case Rally:
+                return 1201;
+            case PrepFire:
+                return 1202;
+            case Movement:
+                return 1203;
+            case DefensiveFire:
+                return 1204;
+            case AdvancingFire:
+                return 1205;
+            case Rout:
+                return 1206;
+            case Advance:
+                return 1207;
+            case CloseCombat:
+                return 1208;
+            case Refitphase:
+                return 1209;
+            default:
+                return 0;
+        }
+    }
     public Constantvalues.Rules ConverttoRules(int databasevalue) {
         switch(databasevalue) {
             case 1001:
@@ -178,6 +204,42 @@ public class ConversionC {
                 return Constantvalues.Rules.VotGScenario;
             default:
                 return null;
+        }
+    }
+    public int ConvertRulestoInt(Constantvalues.Rules rulesvalue) {
+        switch(rulesvalue) {
+            case SingleScenario:
+                return 1001;
+            case KGPCampaign:
+                return 1002;
+            case RedBCampaign:
+                return 1003;
+            case PlatoonLCampaign:
+                return 1004;
+            case PegasusCampaign:
+                return 1005;
+            case BloodReefcampaign:
+                return 1006;
+            case PrimosoleCampaign:
+                return 1007;
+            case KGPScenario:
+                return 1008;
+            case RedBScenario:
+                return 1009;
+            case PlatoonLScenario:
+                return 2010;
+            case PegasusScenario:
+                return 1011;
+            case BloodReefScenario:
+                return 1012;
+            case PrimosoleScenario:
+                return 1013;
+            case VotGCampaign:
+                return 1014;
+            case VotGScenario:
+                return 1015;
+            default:
+                return 0;
         }
     }
     public Constantvalues.Map ConverttoMap(int databasevalue) {
@@ -246,6 +308,74 @@ public class ConversionC {
                 return Constantvalues.Map.bdVotG;
             default:
                 return null;
+        }
+    }
+    public int ConvertMaptoInt(Constantvalues.Map mapvalue) {
+        switch(mapvalue) {
+            case bd1a:
+                return 1001;
+            case bd1b:
+                return 1101;
+            case bd2a:
+                return 1002;
+            case bd2b:
+                return 1012;
+            case bd3a:
+                return 1003;
+            case bd3b:
+                return 1013;
+            case bd4a:
+                return 1004;
+            case bd4b:
+                return 1014;
+            case bd5a:
+                return 1005;
+            case bd5b:
+                return 1015;
+            case bd6a:
+                return 1006;
+            case bd6b:
+                return 1016;
+            case bd7a:
+                return 1007;
+            case bd7b:
+                return 1017;
+            case bd8a:
+                return 1008;
+            case bd8b:
+                return 1018;
+            case bd9a:
+                return 1009;
+            case bd9b:
+                return 1019;
+            case bdCreateMap:
+                return 1100;
+            case bdStoumont:
+                return 1101;
+            case bdLaGleize:
+                return 1102;
+            case bdCheneux:
+                return 1103;
+            case bdRedB:
+                return 1104;
+            case bdCrete:
+                return 1105;
+            case bdBalta:
+                return 1107;
+            case bdBurma:
+                return 1111;
+            case bdPhillipines:
+                return 1112;
+            case bdPegasusBridge:
+                return 1113;
+            case bdBloodReef:
+                return 1114;
+            case bdPrimosole:
+                return 1115;
+            case bdVotG:
+                return 1116;
+            default:
+                return 0;
         }
     }
     public Constantvalues.Utype ConverttoUnitType(int databasevalue) {
@@ -1463,9 +1593,9 @@ public class ConversionC {
                 return Constantvalues.Location.Burnabletype;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
                 return Constantvalues.Location.Roof;
-            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("Stone Building")) {
                 return Constantvalues.Location.StoneBuildingGroundlevel;
-            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("Stone Building, 1 Level")) {
                 return Constantvalues.Location.StoneBuilding1stLevel;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("Stone Building, 2 Level")) {
                 return Constantvalues.Location.StoneBuilding2ndLevel;
@@ -1473,11 +1603,11 @@ public class ConversionC {
                 return Constantvalues.Location.StoneBuilding3rdLevel;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
                 return Constantvalues.Location.StoneCellar;
-            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("Wooden Building")) {
                 return Constantvalues.Location.WoodBuildingGroundlevel;
-            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("Wooden Building, 1 Level")) {
                 return Constantvalues.Location.WoodBuilding1stLevel;
-            } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
+            } else if ((SeeLOSLoc.getTerrain().getName()).equals("Wooden Building, 2 Level")) {
                 return Constantvalues.Location.WoodBuilding2ndLevel;
             } else if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
                 return Constantvalues.Location.WoodBuilding3rdLevel;
@@ -3196,4 +3326,54 @@ public class ConversionC {
 
         }
     }
+    public Constantvalues.SWStatus ConverttoSWStatus (int swstatusvalue){
+        switch (swstatusvalue){
+            case 5101:
+                return Constantvalues.SWStatus.GoodOrderSW;
+            case 5102:
+                return Constantvalues.SWStatus.Brokendown;
+            case 5103:
+                return Constantvalues.SWStatus.Dismantled;
+            case 5104:
+                return Constantvalues.SWStatus.Dis_Broken;
+            case 5105:
+                return Constantvalues.SWStatus.Malfunctioned;
+            case 5106:
+                return Constantvalues.SWStatus.Eliminated;
+            case 5110:
+                return Constantvalues.SWStatus.DCPlaced;
+            case 5115:
+                return Constantvalues.SWStatus.Used;
+            case 5120:
+                return Constantvalues.SWStatus.None;
+            default:
+                return Constantvalues.SWStatus.None;
+
+        }
+    }
+    public int ConvertSWStatustoInt(Constantvalues.SWStatus swstatusvalue){
+        switch (swstatusvalue){
+            case GoodOrderSW:
+                return 5101;
+            case Brokendown:
+                return 5102;
+            case Dismantled:
+                return 5103;
+            case Dis_Broken:
+                return 5104;
+            case Malfunctioned:
+                return 5105;
+            case Eliminated:
+                return 5106;
+            case DCPlaced:
+                return 5110;
+            case Used:
+                return 5115;
+            case None:
+                return 5120;
+            default:
+                return 5120;
+        }
+    }
+
 }

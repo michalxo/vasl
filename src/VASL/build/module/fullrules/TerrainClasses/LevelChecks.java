@@ -1,12 +1,8 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
-import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.Game.ScenarioC;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-
-import java.util.LinkedList;
 
 /**
  * Created by dougr_000 on 7/18/2017.

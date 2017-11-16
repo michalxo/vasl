@@ -3,10 +3,6 @@ package VASL.build.module.fullrules.TerrainClasses;
 import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
-
-import java.util.LinkedList;
 
 public class IsSide {
     // This class handles various methods to return value of boolean test accesssing one or more hexsides for specified location(s)

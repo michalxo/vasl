@@ -3,6 +3,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 import VASL.build.module.fullrules.UtilityClasses.HOBCheckC;
 import java.util.List;
@@ -437,20 +438,22 @@ public class Russian447Targc implements TargetPersUniti {
         return true;
     }
     public boolean UpdateTargetStatus(PersUniti PassTarget) {
+        CommonFunctionsC comfun = new CommonFunctionsC(PassTarget.getbaseunit().getScenario());
+        OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(PassTarget.getbaseunit().getUnit_ID());
 
-        DataC Linqdata = DataC.GetInstance();
-        OrderofBattle UpdateUnit = Linqdata.GetUnitfromCol(PassTarget.getbaseunit().getUnit_ID());
-        UpdateUnit.setOrderStatus(getOrderStatus());
-        PassTarget.getbaseunit().setOrderStatus(getOrderStatus());
-        UpdateUnit.setCX(PassTarget.getbaseunit().getCX());
-        UpdateUnit.setPinned(PassTarget.getbaseunit().getPinned());
-        UpdateUnit.setCombatStatus(PassTarget.getbaseunit().getCombatStatus());
-        UpdateUnit.setMovementStatus(PassTarget.getbaseunit().getMovementStatus());
-        UpdateUnit.setFirstSWLink(PassTarget.getbaseunit().getFirstSWLink());
-        UpdateUnit.setSecondSWlink(PassTarget.getbaseunit().getSecondSWLink());
-        UpdateUnit.setSW(PassTarget.getbaseunit().getnumSW());
-        //Linqdata.QuickUpdate();
-        return true;
+        if (UpdateUnit != null) {
+            UpdateUnit.setOrderStatus(getOrderStatus());
+            PassTarget.getbaseunit().setOrderStatus(getOrderStatus());
+            UpdateUnit.setCX(PassTarget.getbaseunit().getCX());
+            UpdateUnit.setPinned(PassTarget.getbaseunit().getPinned());
+            UpdateUnit.setCombatStatus(PassTarget.getbaseunit().getCombatStatus());
+            UpdateUnit.setMovementStatus(PassTarget.getbaseunit().getMovementStatus());
+            UpdateUnit.setFirstSWLink(PassTarget.getbaseunit().getFirstSWLink());
+            UpdateUnit.setSecondSWlink(PassTarget.getbaseunit().getSecondSWLink());
+            UpdateUnit.setSW(PassTarget.getbaseunit().getnumSW());
+            return true;
+        }
+        return false;
     }
     public int getLdrDRM () {return 0;}
 

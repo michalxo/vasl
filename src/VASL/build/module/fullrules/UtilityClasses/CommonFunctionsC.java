@@ -1,27 +1,30 @@
 package VASL.build.module.fullrules.UtilityClasses;
 
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
-import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.DataClasses.*;
 import VASL.build.module.fullrules.Game.ScenarioC;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
+import VASL.build.module.fullrules.ObjectClasses.Leader;
 import VASSAL.build.GameModule;
 import VASSAL.counters.GamePiece;
 import VASSAL.counters.PieceIterator;
 import VASSAL.counters.Stack;
+
+import java.util.HashMap;
 
 public class CommonFunctionsC {
     private int myscenid;
     private DataC Linqdata = DataC.GetInstance();
     public final static String DB_COUNTER_TYPE_MARKER_KEY = "DBCounterType";
     public final static String DB_UNIT_TYPE = "unit";
+    ScenarioC scen  = ScenarioC.getInstance();
     public CommonFunctionsC (int PassScenid) {
         myscenid = PassScenid;
     }
 
     // Methods - each of this is distinct and does a particular thing
 
-    public GameLocation GetSniperLocation(Constantvalues.Nationality SniperNationality, String AorB) {
+    public Location GetSniperLocation(Constantvalues.Nationality SniperNationality, String AorB) {
         /*
         'use empty variables when know that instance already exists
         Dim Scendet As DataClassLibrary.scen = Linqdata.GetScenarioData(myscenid)
@@ -49,7 +52,6 @@ public class CommonFunctionsC {
         // called by ObjectChange classes
         // retrieves SAN for other side of parameter SideNationality
 
-        ScenarioC scen  = ScenarioC.getInstance();
         Scenario Scendet = scen.getScendet();
         return  (SideNationality == Scendet.getATT1() || SideNationality == Scendet.getATT2()) ? Scendet.getDFNSAN(): Scendet.getATTSAN();
     }
@@ -121,4 +123,117 @@ public class CommonFunctionsC {
 
         return piece.getProperty(key) != null && piece.getProperty(key).equals(value);
     }
+
+    public LineofBattle Getlob(String OBLink){
+        HashMap<String, LineofBattle> LOBLookUp = scen.getLOBTableLookUp();
+        LineofBattle lineofBattle = LOBLookUp.get(OBLink);
+        return lineofBattle;
+    }
+
+    public Leader Getleader(String OBLink){
+        HashMap<String, Leader> LeaderLookUp = scen.getLeaderTableLookUp();
+        Leader leader = LeaderLookUp.get(OBLink);
+        return leader;
+    }
+
+    public SupportWeapon GetSupportWeapon(String OBLink){
+        HashMap<String, SupportWeapon> SupportWeaponLookUp = scen.getSupportWeaponTableLookUp();
+        SupportWeapon supportWeapon = SupportWeaponLookUp.get(OBLink);
+        return supportWeapon;
+    }
+
+    public OrderofBattle getUnderlyingOBunitforPersUniti(int OBUnit_ID) {
+        // returns the matching OrderofBattle unit for a PersUniti
+        ScenarioC scen = ScenarioC.getInstance();
+        for(OrderofBattle testOBunit: scen.getOBUnitcol() ) {
+            if (testOBunit.getOBUnit_ID() == OBUnit_ID) {
+                return testOBunit;
+            }
+        }
+        return null;
+    }
+
+    /*public GamePiece GetNewGamePiece(int Counterlink) {
+        GamePiece newpiece = new GamePiece() {
+            public void setMap(Map map) {
+
+            }
+
+            public Map getMap() {
+                return null;
+            }
+
+            public void draw(Graphics graphics, int i, int i1, Component component, double v) {
+
+            }
+
+            public Point getPosition() {
+                return null;
+            }
+
+            public void setPosition(Point point) {
+
+            }
+
+            public Rectangle boundingBox() {
+                return null;
+            }
+
+            public Shape getShape() {
+                return null;
+            }
+
+            public Stack getParent() {
+                return null;
+            }
+
+            public void setParent(Stack stack) {
+
+            }
+
+            public Command keyEvent(KeyStroke keyStroke) {
+                return null;
+            }
+
+            public String getName() {
+                return null;
+            }
+
+            public String getLocalizedName() {
+                return null;
+            }
+
+            public String getId() {
+                return null;
+            }
+
+            public void setId(String s) {
+
+            }
+
+            public String getType() {
+                return null;
+            }
+
+            public String getState() {
+                return null;
+            }
+
+            public void setState(String s) {
+
+            }
+
+            public void setProperty(Object o, Object o1) {
+
+            }
+
+            public Object getProperty(Object o) {
+                return null;
+            }
+
+            public Object getLocalizedProperty(Object o) {
+                return null;
+            }
+        }
+    }*/
 }

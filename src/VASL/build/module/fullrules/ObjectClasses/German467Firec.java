@@ -2,8 +2,6 @@ package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-import VASL.build.module.fullrules.MapDataClasses.MapDataC;
 import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
@@ -29,9 +27,8 @@ public class German467Firec implements FiringPersUniti {
     private int myOBLink;
     private Location MyLoc;
     private PersUniti myUnit;
-    private LinkedList<GameLocation> Mapcol = new LinkedList<GameLocation>();
     private GetALocationFromMap Getlocs;
-    MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
+    //MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
 
     public German467Firec(boolean PassIsCX, boolean PassIsPinned, boolean PassHasMG, boolean PassUsingInherentFP, boolean PassUsingfirstMG, boolean PassUsingsecondMG, PersUniti PassUnit) {
 
@@ -170,11 +167,11 @@ public class German467Firec implements FiringPersUniti {
             } else if (range == 0 && LevelDifference == 0) {
                 // do pillbox check - LOS needs be within CA
                 int HexLocIndex = 0;  //Getlocs.GetPillboxLocation(MyLoc.getHexnum()); temp while debugging
-                GameLocation UsingHex;
+                //GameLocation UsingHex;
                 if (HexLocIndex > 0) {
                     boolean PillboxLOS = false;
                     // get Pillbox location
-                    UsingHex = Getlocs.RetrieveLocationfromMaptable(HexLocIndex);
+                    //UsingHex = Getlocs.RetrieveLocationfromMaptable(HexLocIndex);
                     // Now determine Pillbox covered arc
                     TerrainChecks TerrChk = new TerrainChecks();
                     //String Imagename = TerrChk.GetLocationData(Constantvalues.TerrFactor.Image, (UsingHex.getLocation()));

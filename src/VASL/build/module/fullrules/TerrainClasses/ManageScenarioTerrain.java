@@ -1,19 +1,18 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
 
 import java.util.LinkedList;
 
 public class ManageScenarioTerrain {
     public ManageScenarioTerrain(){}
 
-    public LinkedList<GameLocation> ShowScenarioTerrain(LinkedList<GameLocation> LocationCol) {
+    /*public LinkedList<GameLocation> ShowScenarioTerrain(LinkedList<GameLocation> LocationCol) {
         // called by Terrainactions.new
         // takes records from the map data table where counters are necessary
         try {
 
-            /*Return From QU As MapDataClassLibrary.GameLocation In LocationCol Where QU.ShowCounter = True
+            *//*Return From QU As MapDataClassLibrary.GameLocation In LocationCol Where QU.ShowCounter = True
             Or(QU.IsWire And QU.WireVisible) Or(QU.APMines > 0And QU.APMinesVisible)
             Or(QU.ATMines > 0And QU.ATMinesVisible) Or QU.Smoke > 0
             Catch
@@ -37,12 +36,12 @@ public class ManageScenarioTerrain {
             Case ConstantClassLibrary.ASLXNA.Location.Smoketype
             If LocFound.Smoke > 0 Then Return True
             End Select
-            Return False*/
+            Return False*//*
         } catch (Exception e) {
 
         }
         return null;
-    }
+    }*/
     public boolean IsFeatureVisHind(int Featuretype) {
         /*'called by various terrain and LOSH functions
 
@@ -68,9 +67,9 @@ public class ManageScenarioTerrain {
             '    End Select
             '    Return False
             'End Function*/
-    public GameLocation UpdateLocation(int LocIndexChange, int ChangetoMake, LinkedList<GameLocation> Mapdata) {
+    /*public GameLocation UpdateLocation(int LocIndexChange, int ChangetoMake, LinkedList<GameLocation> Mapdata) {
         GameLocation LocFound=null;
-        /*Dim GetLocs = New GetALocationFromMapTable(Mapdata) :Dim nextlocfound As MapDataClassLibrary.GameLocation
+        *//*Dim GetLocs = New GetALocationFromMapTable(Mapdata) :Dim nextlocfound As MapDataClassLibrary.GameLocation
         Dim LocFound As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(LocIndexChange)
         Select Case ChangetoMake
         Case ConstantClassLibrary.ASLXNA.VisHind.VehDust To ConstantClassLibrary.ASLXNA.VisHind.GreyWPDisp
@@ -93,9 +92,9 @@ public class ManageScenarioTerrain {
         CurrentLevelHexnum = nextlocfound.Hexnum :CurrentLevelLocation = nextlocfound.Location
         Next NextLocUp
         End Select
-        'Dim UpdatedMapTable As IQueryable(Of MapDataClassLibrary.GameLocation) = Mapdata*/
+        'Dim UpdatedMapTable As IQueryable(Of MapDataClassLibrary.GameLocation) = Mapdata*//*
         return LocFound;  // UpdatedMapTable
-    }
+    }*/
     public int GetSmokeHeight(Constantvalues.VisHind Smoketype) {
         /*'called by Me.UpdateLocation
         'determines height of smoke added

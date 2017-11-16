@@ -2,12 +2,16 @@ package VASL.build.module.fullrules.IFTCombatClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
+import VASL.build.module.fullrules.DataClasses.LineofBattle;
 import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectChangeClasses.*;
+import VASL.build.module.fullrules.ObjectClasses.Leader;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASSAL.build.GameModule;
+import org.mockito.internal.matchers.Same;
 
 import java.util.LinkedList;
 
@@ -264,7 +268,7 @@ public class CombatResC implements CombatResi {
         String msg;
         String msgtitle;
         PersUniti TestToSwap1; PersUniti TestToSwap2;
-
+        CommonFunctionsC comfun = new CommonFunctionsC(SameTargets.get(0).getbaseunit().getScenario());
         NumTargs = SameTargets.size();
         do {
             swap = false; Keepgoing=true;
@@ -273,7 +277,8 @@ public class CombatResC implements CombatResi {
                     Unittocheck = SameTargets.get(i);
                     test1 = Unittocheck.getbaseunit().IsUnitALeader();
                     if (test1) {
-                        LdrmTest1 = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.LDRM, Unittocheck.getbaseunit().getLOBLink()));
+                        Leader TempLeader = comfun.Getleader(Integer.toString(Unittocheck.getbaseunit().getLOBLink()));
+                        LdrmTest1 = TempLeader.getLDRM();  // Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.LDRM, Unittocheck.getbaseunit().getLOBLink()));
                         if ((Unittocheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Wounded ||
                                 Unittocheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Fan_Wnd ||
                                 Unittocheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Enc_Wnd ||
@@ -281,11 +286,14 @@ public class CombatResC implements CombatResi {
                             LdrmTest1 += 1;
                         }
                     }
-                    MoraleLevelTest1 = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.MORALELEVEL, Unittocheck.getbaseunit().getLOBLink()));
+                    LineofBattle lineofBattle = comfun.Getlob(Integer.toString(Unittocheck.getbaseunit().getLOBLink()));
+                    MoraleLevelTest1 = lineofBattle.getMoraleLevel();
+                    //MoraleLevelTest1 = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.MORALELEVEL, Unittocheck.getbaseunit().getLOBLink()));
                     TestUnittoCheck = SameTargets.get(j);
                     test2 = TestUnittoCheck.getbaseunit().IsUnitALeader();
                     if (test2) {
-                        LdrmTest2 = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.LDRM, (TestUnittoCheck.getbaseunit().getLOBLink())));
+                        Leader TempLeader = comfun.Getleader(Integer.toString(TestUnittoCheck.getbaseunit().getLOBLink()));
+                        LdrmTest2 = TempLeader.getLDRM();  //.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.LDRM, (TestUnittoCheck.getbaseunit().getLOBLink())));
                         if ((TestUnittoCheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Wounded ||
                                 TestUnittoCheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Fan_Wnd ||
                                 TestUnittoCheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Enc_Wnd ||
@@ -293,7 +301,9 @@ public class CombatResC implements CombatResi {
                             LdrmTest2 += 1;
                         }
                     }
-                    MoraleLevelTest2 = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.MORALELEVEL, TestUnittoCheck.getbaseunit().getLOBLink()));
+                    lineofBattle = comfun.Getlob(Integer.toString(TestUnittoCheck.getbaseunit().getLOBLink()));
+                    MoraleLevelTest2 = lineofBattle.getMoraleLevel();
+                    //MoraleLevelTest2 = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.MORALELEVEL, TestUnittoCheck.getbaseunit().getLOBLink()));
                     Test3 = (MoraleLevelTest2 >= MoraleLevelTest1);
                     if (test1 && test2 && Test3) {
                         if (LdrmTest2 < LdrmTest1) {

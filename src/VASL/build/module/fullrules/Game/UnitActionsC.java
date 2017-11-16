@@ -52,31 +52,6 @@ public class UnitActionsC {
                 // add new unit to Unitcol collection
             Scencolls.Unitcol.add(AddNewUnit);
 
-
-            // none of the below is needed as VASL handles the graphics DELETE
-            /*'determines if a counter should be visible and if so sets the texture
-            Dim TextureName  As String = AddNewUnit.SetTexture()
-            If Not IsNothing(TextureName) Then
-                AddNewUnit.BasePersUnit.OBTexture = Game.Content.Load(Of Texture2D) (Trim(TextureName))
-                'adds to list of hexes with a counter texture to show
-                Game.Scenario.DisplaySprite = New ObjectClassLibrary.ASLXNA.SpriteOrder(AddNewUnit.BasePersUnit.Unit_ID,
-                    CInt(AddNewUnit.BasePersUnit.hexlocation), CInt(AddNewUnit.BasePersUnit.LOBLink), AddNewUnit.BasePersUnit.OBTexture, AddNewUnit.BasePersUnit.DrawPos(MapGeo.MapBtype, MapGeo.Xoffset, MapGeo.Yoffset, MapGeo.MaxCols, MapGeo.MaxRows), AddNewUnit.BasePersUnit.UnitName,
-                    CInt(AddNewUnit.BasePersUnit.hexPosition), CInt(AddNewUnit.BasePersUnit.Hexnum),
-                    CInt(AddNewUnit.BasePersUnit.LOCIndex))
-                creates collection of hexes where counters are to be displayed
-                Dim hexnum As Integer = CInt(AddNewUnit.BasePersUnit.Hexnum)
-                If Not (Game.Scenario.HexesWithCounter.ContainsKey(hexnum)) Then
-                    'if hex not already added, then add
-                    Game.Scenario.HexesWithCounter.Add(hexnum, New VisibleOccupiedhexes(hexnum))
-                End If
-                'adds specific counter infor to collection for each occupied hex
-                Dim OH As VisibleOccupiedhexes
-                OH = CType(Game.Scenario.HexesWithCounter(hexnum), VisibleOccupiedhexes)
-                OH.AddObjecttoDisplay(Game.Scenario.DisplaySprite)
-                'check to see if level, sewer, or other location counter needs to be displayed - inherent locations only
-                OH.CheckforAssociatedLocationCounter(Game.Scenario.DisplaySprite)
-            OH = Nothing
-            End If*/
         }
 
         // temporary while debugging undo

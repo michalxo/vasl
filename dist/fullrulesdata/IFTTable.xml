@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<!--
+	This file contains additional information about game counters.
+-->
+<IFTTable>
+
+    <!-- metadata for each IFT Table cell (IFTtype)
+    Attributes:
+        name = DR + "." + FPCol
+        DR = Final DR row on IFT
+        FPCol = Firepower column on IFT 
+        IFTResult = value at each (DR, FPCol) cell on OFT
+
+        KIA7 = 8601
+        KIA6 = 8602
+        KIA5 = 8603
+        KIA4 = 8604
+        KIA3 = 8605
+        KIA2 = 8606
+        KIA1 = 8607
+        K4 = 8608
+        K3 = 8609
+        K2 = 8610
+        K1 = 8611
+        MC4 = 8612
+        MC3 = 8613
+        MC2 = 8614
+        MC1 = 8615
+        NMC = 8616
+        PTC = 8617
+        NR = 8618
+
+    -->
+    <IFTtype name="0.1" DR="0" FPCol="1" IFTResult="8607"/>
+    <IFTtype name="1.1" DR="1" FPCol="1" IFTResult="8611"/>
+    <IFTtype name="2.1" DR="2" FPCol="1" IFTResult="8615"/>
+    <IFTtype name="3.1" DR="3" FPCol="1" IFTResult="8615"/>
+    <IFTtype name="4.1" DR="4" FPCol="1" IFTResult="8616"/>
+    <IFTtype name="5.1" DR="5" FPCol="1" IFTResult="8617"/>
+    <IFTtype name="6.1" DR="6" FPCol="1" IFTResult="8618"/>
+    <IFTtype name="7.1" DR="7" FPCol="1" IFTResult="8618"/>
+    <IFTtype name="8.1" DR="8" FPCol="1" IFTResult="8618"/>
+    <IFTtype name="9.1" DR="9" FPCol="1" IFTResult="8618"/>
+    <IFTtype name="10.1" DR="10" FPCol="1" IFTResult="8618"/>
+    <IFTtype name="11.1" DR="11" FPCol="1" IFTResult="8618"/>
+    <IFTtype name="12.1" DR="12" FPCol="1" IFTResult="8618"/>
+    <IFTtype name="13.1" DR="13" FPCol="1" IFTResult="8618"/>
+    <IFTtype name="14.1" DR="14" FPCol="1" IFTResult="8618"/>
+    <IFTtype name="15.1" DR="15" FPCol="1" IFTResult="8618"/>
+
+    <IFTtype name="0.2" DR="0" FPCol="2" IFTResult="8606"/>
+    <IFTtype name="1.2" DR="1" FPCol="2" IFTResult="8607"/>
+    <IFTtype name="2.2" DR="2" FPCol="2" IFTResult="8611"/>
+    <IFTtype name="3.2" DR="3" FPCol="2" IFTResult="8615"/>
+    <IFTtype name="4.2" DR="4" FPCol="2" IFTResult="8615"/>
+    <IFTtype name="5.2" DR="5" FPCol="2" IFTResult="8616"/>
+    <IFTtype name="6.2" DR="6" FPCol="2" IFTResult="8617"/>
+    <IFTtype name="7.2" DR="7" FPCol="2" IFTResult="8618"/>
+    <IFTtype name="8.2" DR="8" FPCol="2" IFTResult="8618"/>
+    <IFTtype name="9.2" DR="9" FPCol="2" IFTResult="8618"/>
+    <IFTtype name="10.2" DR="10" FPCol="2" IFTResult="8618"/>
+    <IFTtype name="11.2" DR="11" FPCol="2" IFTResult="8618"/>
+    <IFTtype name="12.2" DR="12" FPCol="2" IFTResult="8618"/>
+    <IFTtype name="13.2" DR="13" FPCol="2" IFTResult="8618"/>
+    <IFTtype name="14.2" DR="14" FPCol="2" IFTResult="8618"/>
+    <IFTtype name="15.2" DR="15" FPCol="2" IFTResult="8618"/>
+
+    <IFTtype name="0.4" DR="0" FPCol="4" IFTResult="8606"/>
+    <IFTtype name="1.4" DR="1" FPCol="4" IFTResult="8607"/>
+    <IFTtype name="2.4" DR="2" FPCol="4" IFTResult="8610"/>
+    <IFTtype name="3.4" DR="3" FPCol="4" IFTResult="8614"/>
+    <IFTtype name="4.4" DR="4" FPCol="4" IFTResult="8615"/>
+    <IFTtype name="5.4" DR="5" FPCol="4" IFTResult="8615"/>
+    <IFTtype name="6.4" DR="6" FPCol="4" IFTResult="8616"/>
+    <IFTtype name="7.4" DR="7" FPCol="4" IFTResult="8617"/>
+    <IFTtype name="8.4" DR="8" FPCol="4" IFTResult="8618"/>
+    <IFTtype name="9.4" DR="9" FPCol="4" IFTResult="8618"/>
+    <IFTtype name="10.4" DR="10" FPCol="4" IFTResult="8618"/>
+    <IFTtype name="11.4" DR="11" FPCol="4" IFTResult="8618"/>
+    <IFTtype name="12.4" DR="12" FPCol="4" IFTResult="8618"/>
+    <IFTtype name="13.4" DR="13" FPCol="4" IFTResult="8618"/>
+    <IFTtype name="14.4" DR="14" FPCol="4" IFTResult="8618"/>
+    <IFTtype name="15.4" DR="15" FPCol="4" IFTResult="8618"/>
+
+    <IFTtype name="0.6" DR="0" FPCol="6" IFTResult="8605"/>
+    <IFTtype name="1.6" DR="1" FPCol="6" IFTResult="8606"/>
+    <IFTtype name="2.6" DR="2" FPCol="6" IFTResult="8607"/>
+    <IFTtype name="3.6" DR="3" FPCol="6" IFTResult="8610"/>
+    <IFTtype name="4.6" DR="4" FPCol="6" IFTResult="8614"/>
+    <IFTtype name="5.6" DR="5" FPCol="6" IFTResult="8615"/>
+    <IFTtype name="6.6" DR="6" FPCol="6" IFTResult="8615"/>
+    <IFTtype name="7.6" DR="7" FPCol="6" IFTResult="8616"/>
+    <IFTtype name="8.6" DR="8" FPCol="6" IFTResult="8617"/>
+    <IFTtype name="9.6" DR="9" FPCol="6" IFTResult="8618"/>
+    <IFTtype name="10.6" DR="10" FPCol="6" IFTResult="8618"/>
+    <IFTtype name="11.6" DR="11" FPCol="6" IFTResult="8618"/>
+    <IFTtype name="12.6" DR="12" FPCol="6" IFTResult="8618"/>
+    <IFTtype name="13.6" DR="13" FPCol="6" IFTResult="8618"/>
+    <IFTtype name="14.6" DR="14" FPCol="6" IFTResult="8618"/>
+    <IFTtype name="15.6" DR="15" FPCol="6" IFTResult="8618"/>
+
+    <IFTtype name="0.8" DR="0" FPCol="8" IFTResult="8605"/>
+    <IFTtype name="1.8" DR="1" FPCol="8" IFTResult="8606"/>
+    <IFTtype name="2.8" DR="2" FPCol="8" IFTResult="8607"/>
+    <IFTtype name="3.8" DR="3" FPCol="8" IFTResult="8610"/>
+    <IFTtype name="4.8" DR="4" FPCol="8" IFTResult="8614"/>
+    <IFTtype name="5.8" DR="5" FPCol="8" IFTResult="8614"/>
+    <IFTtype name="6.8" DR="6" FPCol="8" IFTResult="8615"/>
+    <IFTtype name="7.8" DR="7" FPCol="8" IFTResult="8615"/>
+    <IFTtype name="8.8" DR="8" FPCol="8" IFTResult="8616"/>
+    <IFTtype name="9.8" DR="9" FPCol="8" IFTResult="8617"/>
+    <IFTtype name="10.8" DR="10" FPCol="8" IFTResult="8618"/>
+    <IFTtype name="11.8" DR="11" FPCol="8" IFTResult="8618"/>
+    <IFTtype name="12.8" DR="12" FPCol="8" IFTResult="8618"/>
+    <IFTtype name="13.8" DR="13" FPCol="8" IFTResult="8618"/>
+    <IFTtype name="14.8" DR="14" FPCol="8" IFTResult="8618"/>
+    <IFTtype name="15.8" DR="15" FPCol="8" IFTResult="8618"/>
+
+    <IFTtype name="0.12" DR="0" FPCol="12" IFTResult="8605"/>
+    <IFTtype name="1.12" DR="1" FPCol="12" IFTResult="8606"/>
+    <IFTtype name="2.12" DR="2" FPCol="12" IFTResult="8607"/>
+    <IFTtype name="3.12" DR="3" FPCol="12" IFTResult="8609"/>
+    <IFTtype name="4.12" DR="4" FPCol="12" IFTResult="8613"/>
+    <IFTtype name="5.12" DR="5" FPCol="12" IFTResult="8614"/>
+    <IFTtype name="6.12" DR="6" FPCol="12" IFTResult="8614"/>
+    <IFTtype name="7.12" DR="7" FPCol="12" IFTResult="8615"/>
+    <IFTtype name="8.12" DR="8" FPCol="12" IFTResult="8615"/>
+    <IFTtype name="9.12" DR="9" FPCol="12" IFTResult="8616"/>
+    <IFTtype name="10.12" DR="10" FPCol="12" IFTResult="8617"/>
+    <IFTtype name="11.12" DR="11" FPCol="12" IFTResult="8618"/>
+    <IFTtype name="12.12" DR="12" FPCol="12" IFTResult="8618"/>
+    <IFTtype name="13.12" DR="13" FPCol="12" IFTResult="8618"/>
+    <IFTtype name="14.12" DR="14" FPCol="12" IFTResult="8618"/>
+    <IFTtype name="15.12" DR="15" FPCol="12" IFTResult="8618"/>
+
+    <IFTtype name="0.16" DR="0" FPCol="16" IFTResult="8604"/>
+    <IFTtype name="1.16" DR="1" FPCol="16" IFTResult="8605"/>
+    <IFTtype name="2.16" DR="2" FPCol="16" IFTResult="8606"/>
+    <IFTtype name="3.16" DR="3" FPCol="16" IFTResult="8607"/>
+    <IFTtype name="4.16" DR="4" FPCol="16" IFTResult="8609"/>
+    <IFTtype name="5.16" DR="5" FPCol="16" IFTResult="8613"/>
+    <IFTtype name="6.16" DR="6" FPCol="16" IFTResult="8614"/>
+    <IFTtype name="7.16" DR="7" FPCol="16" IFTResult="8614"/>
+    <IFTtype name="8.16" DR="8" FPCol="16" IFTResult="8615"/>
+    <IFTtype name="9.16" DR="9" FPCol="16" IFTResult="8615"/>
+    <IFTtype name="10.16" DR="10" FPCol="16" IFTResult="8616"/>
+    <IFTtype name="11.16" DR="11" FPCol="16" IFTResult="8617"/>
+    <IFTtype name="12.16" DR="12" FPCol="16" IFTResult="8618"/>
+    <IFTtype name="13.16" DR="13" FPCol="16" IFTResult="8618"/>
+    <IFTtype name="14.16" DR="14" FPCol="16" IFTResult="8618"/>
+    <IFTtype name="15.16" DR="15" FPCol="16" IFTResult="8618"/>
+
+    <IFTtype name="0.20" DR="0" FPCol="20" IFTResult="8604"/>
+    <IFTtype name="1.20" DR="1" FPCol="20" IFTResult="8605"/>
+    <IFTtype name="2.20" DR="2" FPCol="20" IFTResult="8606"/>
+    <IFTtype name="3.20" DR="3" FPCol="20" IFTResult="8607"/>
+    <IFTtype name="4.20" DR="4" FPCol="20" IFTResult="8608"/>
+    <IFTtype name="5.20" DR="5" FPCol="20" IFTResult="8612"/>
+    <IFTtype name="6.20" DR="6" FPCol="20" IFTResult="8613"/>
+    <IFTtype name="7.20" DR="7" FPCol="20" IFTResult="8614"/>
+    <IFTtype name="8.20" DR="8" FPCol="20" IFTResult="8614"/>
+    <IFTtype name="9.20" DR="9" FPCol="20" IFTResult="8615"/>
+    <IFTtype name="10.20" DR="10" FPCol="20" IFTResult="8615"/>
+    <IFTtype name="11.20" DR="11" FPCol="20" IFTResult="8616"/>
+    <IFTtype name="12.20" DR="12" FPCol="20" IFTResult="8617"/>
+    <IFTtype name="13.20" DR="13" FPCol="20" IFTResult="8618"/>
+    <IFTtype name="14.20" DR="14" FPCol="20" IFTResult="8618"/>
+    <IFTtype name="15.20" DR="15" FPCol="20" IFTResult="8618"/>
+
+    <IFTtype name="0.24" DR="0" FPCol="24" IFTResult="8603"/>
+    <IFTtype name="1.24" DR="1" FPCol="24" IFTResult="8604"/>
+    <IFTtype name="2.24" DR="2" FPCol="24" IFTResult="8605"/>
+    <IFTtype name="3.24" DR="3" FPCol="24" IFTResult="8606"/>
+    <IFTtype name="4.24" DR="4" FPCol="24" IFTResult="8607"/>
+    <IFTtype name="5.24" DR="5" FPCol="24" IFTResult="8608"/>
+    <IFTtype name="6.24" DR="6" FPCol="24" IFTResult="8612"/>
+    <IFTtype name="7.24" DR="7" FPCol="24" IFTResult="8613"/>
+    <IFTtype name="8.24" DR="8" FPCol="24" IFTResult="8614"/>
+    <IFTtype name="9.24" DR="9" FPCol="24" IFTResult="8614"/>
+    <IFTtype name="10.24" DR="10" FPCol="24" IFTResult="8615"/>
+    <IFTtype name="11.24" DR="11" FPCol="24" IFTResult="8615"/>
+    <IFTtype name="12.24" DR="12" FPCol="24" IFTResult="8616"/>
+    <IFTtype name="13.24" DR="13" FPCol="24" IFTResult="8617"/>
+    <IFTtype name="14.24" DR="14" FPCol="24" IFTResult="8618"/>
+    <IFTtype name="15.24" DR="15" FPCol="24" IFTResult="8618"/>
+
+    <IFTtype name="0.30" DR="0" FPCol="30" IFTResult="8602"/>
+    <IFTtype name="1.30" DR="1" FPCol="30" IFTResult="8603"/>
+    <IFTtype name="2.30" DR="2" FPCol="30" IFTResult="8604"/>
+    <IFTtype name="3.30" DR="3" FPCol="30" IFTResult="8605"/>
+    <IFTtype name="4.30" DR="4" FPCol="30" IFTResult="8606"/>
+    <IFTtype name="5.30" DR="5" FPCol="30" IFTResult="8607"/>
+    <IFTtype name="6.30" DR="6" FPCol="30" IFTResult="8608"/>
+    <IFTtype name="7.30" DR="7" FPCol="30" IFTResult="8612"/>
+    <IFTtype name="8.30" DR="8" FPCol="30" IFTResult="8613"/>
+    <IFTtype name="9.30" DR="9" FPCol="30" IFTResult="8614"/>
+    <IFTtype name="10.30" DR="10" FPCol="30" IFTResult="8614"/>
+    <IFTtype name="11.30" DR="11" FPCol="30" IFTResult="8615"/>
+    <IFTtype name="12.30" DR="12" FPCol="30" IFTResult="8615"/>
+    <IFTtype name="13.30" DR="13" FPCol="30" IFTResult="8616"/>
+    <IFTtype name="14.30" DR="14" FPCol="30" IFTResult="8617"/>
+    <IFTtype name="15.30" DR="15" FPCol="30" IFTResult="8618"/>
+
+    <IFTtype name="0.36" DR="0" FPCol="36" IFTResult="8601"/>
+    <IFTtype name="1.36" DR="1" FPCol="36" IFTResult="8602"/>
+    <IFTtype name="2.36" DR="2" FPCol="36" IFTResult="8603"/>
+    <IFTtype name="3.36" DR="3" FPCol="36" IFTResult="8604"/>
+    <IFTtype name="4.36" DR="4" FPCol="36" IFTResult="8605"/>
+    <IFTtype name="5.36" DR="5" FPCol="36" IFTResult="8606"/>
+    <IFTtype name="6.36" DR="6" FPCol="36" IFTResult="8607"/>
+    <IFTtype name="7.36" DR="7" FPCol="36" IFTResult="8608"/>
+    <IFTtype name="8.36" DR="8" FPCol="36" IFTResult="8612"/>
+    <IFTtype name="9.36" DR="9" FPCol="36" IFTResult="8613"/>
+    <IFTtype name="10.36" DR="10" FPCol="36" IFTResult="8614"/>
+    <IFTtype name="11.36" DR="11" FPCol="36" IFTResult="8614"/>
+    <IFTtype name="12.36" DR="12" FPCol="36" IFTResult="8615"/>
+    <IFTtype name="13.36" DR="13" FPCol="36" IFTResult="8615"/>
+    <IFTtype name="14.36" DR="14" FPCol="36" IFTResult="8616"/>
+    <IFTtype name="15.36" DR="15" FPCol="36" IFTResult="8617"/>
+
+</IFTTable>

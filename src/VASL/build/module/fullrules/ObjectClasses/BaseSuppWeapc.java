@@ -3,6 +3,9 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.DataClasses.SupportWeapon;
+import VASL.build.module.fullrules.Game.ScenarioC;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASSAL.build.GameModule;
 
 public class BaseSuppWeapc {
@@ -33,6 +36,9 @@ public class BaseSuppWeapc {
     private int myDisPP;
     private boolean myCaptured;
     private int myOwner;
+    private boolean myIsMG;
+    private boolean myIsFT;
+    private boolean myIsDC;
 
     public BaseSuppWeapc(int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, boolean PassCX,
                          int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassPP, int PassRepair, int PassDisPP,
@@ -67,6 +73,7 @@ public class BaseSuppWeapc {
         myRepair = PassRepair;
         myCaptured = PassCaptured;
         myOwner = PassOwner;
+        settypeflags();
     }
 
     public String getUnitName() {return myUnitName;}
@@ -115,9 +122,9 @@ public class BaseSuppWeapc {
     public boolean isCaptured() {return myCaptured;}
     public int getOwner() {return myOwner;}
     public void setOwner(int value) {myOwner = value;}
-    public boolean IsMG() {return false;}
-    public boolean IsFT() {return false;}
-    public boolean IsDC() {return false;}
+    public boolean IsMG() {return myIsMG;}
+    public boolean IsFT() {return myIsFT;}
+    public boolean IsDC() {return myIsDC;}
 
     // public MovingSuppWeapi[] getMovingSW(){return null;}
     public FiringSuppWeapi[] getFiringSW(){return null;}
@@ -201,6 +208,32 @@ public class BaseSuppWeapc {
             return true;
         } else {
             return false;
+        }
+    }
+    public void settypeflags() {
+        CommonFunctionsC comfun = new CommonFunctionsC(myScenario);
+        SupportWeapon weapontocheck = comfun.GetSupportWeapon(Integer.toString(myLOBLink));
+        switch (weapontocheck.getWeaponType()) {
+            case LMGun: case MMGun: case HMGun: case H50cal:
+                myIsMG=true;
+                myIsFT=false;
+                myIsDC=false;
+                break;
+            case FThr:
+                myIsMG=false;
+                myIsFT=true;
+                myIsDC=false;
+                break;
+            case DemoC:
+                myIsMG=false;
+                myIsFT=false;
+                myIsDC=true;
+                break;
+            default:
+                myIsMG=false;
+                myIsFT=false;
+                myIsDC=false;
+                break;
         }
     }
 }

@@ -2,9 +2,6 @@ package VASL.build.module.fullrules.TerrainClasses;
 
 import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.MapDataClasses.GameLocation;
-
-import java.util.LinkedList;
 
 public class IsTerrain {
     // This class handles various methods to return value of boolean test accesssing one or more columns from the Map Table for specified location(s)
