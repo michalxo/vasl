@@ -12557,7 +12557,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         End Property
         Public ReadOnly Property Type() As Integer Implements FiringPersUniti.Type
         Get
-        Return ConstantClassLibrary.ASLXNA.Utype.Leader
+        Return ConstantClassLibrary.ASLXNA.Utype.SMC
         End Get
         End Property
         Public ReadOnly Property LOBLink() As Integer Implements FiringPersUniti.LOBLink
@@ -12918,7 +12918,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         End Property
         Public ReadOnly Property Type() As Integer Implements FiringPersUniti.Type
         Get
-        Return ConstantClassLibrary.ASLXNA.Utype.Leader
+        Return ConstantClassLibrary.ASLXNA.Utype.SMC
         End Get
         End Property
         Public ReadOnly Property LOBLink() As Integer Implements FiringPersUniti.LOBLink
@@ -17951,14 +17951,14 @@ package VASL.build.module.fullrules.ObjectClasses;
         'breaks
         If FDR > (CurrentMoraleLevel - TargSTackLdrdrm + myELR) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReplacesReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         Else
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         ElseIf FDR < (CurrentMoraleLevel - TargSTackLdrdrm) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.Reduces
-        Resultstring = " and passes MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and passes MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         End If
         If Not PersUnitImpact = 0 Then Return True Else Return False
@@ -18505,14 +18505,14 @@ package VASL.build.module.fullrules.ObjectClasses;
         'breaks
         If FDR > (CurrentMoraleLevel - TargSTackLdrdrm + myELR) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReplacesReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         Else
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         ElseIf FDR < (CurrentMoraleLevel - TargSTackLdrdrm) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.Reduces
-        Resultstring = " and passes MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and passes MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         End If
         If Not PersUnitImpact = 0 Then Return True Else Return False
@@ -19152,14 +19152,14 @@ package VASL.build.module.fullrules.ObjectClasses;
         'breaks
         If FDR > (CurrentMoraleLevel - TargSTackLdrdrm + myELR) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReplacesReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         Else
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         ElseIf FDR < (CurrentMoraleLevel - TargSTackLdrdrm) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.Reduces
-        Resultstring = " and passes MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and passes MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         End If
         If Not PersUnitImpact = 0 Then Return True Else Return False
@@ -19677,14 +19677,14 @@ package VASL.build.module.fullrules.ObjectClasses;
         'breaks
         If FDR > (CurrentMoraleLevel - TargSTackLdrdrm + myELR) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReplacesReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         Else
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         ElseIf FDR < (CurrentMoraleLevel - TargSTackLdrdrm) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.Reduces
-        Resultstring = " and passes MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and passes MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         End If
         If Not PersUnitImpact = 0 Then Return True Else Return False
@@ -20204,14 +20204,14 @@ package VASL.build.module.fullrules.ObjectClasses;
         'breaks
         If FDR > (CurrentMoraleLevel - TargSTackLdrdrm + myELR) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReplacesReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         Else
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         ElseIf FDR < (CurrentMoraleLevel - TargSTackLdrdrm) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.Reduces
-        Resultstring = " and passes MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and passes MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         End If
         If Not PersUnitImpact = 0 Then Return True Else Return False
@@ -24832,14 +24832,14 @@ package VASL.build.module.fullrules.ObjectClasses;
         'breaks
         If FDR > (CurrentMoraleLevel - TargSTackLdrdrm + myELR) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReplacesReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         Else
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         ElseIf FDR < (CurrentMoraleLevel - TargSTackLdrdrm) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.Reduces
-        Resultstring = " and passes MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and passes MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         End If
         If Not PersUnitImpact = 0 Then Return True Else Return False
@@ -25366,14 +25366,14 @@ package VASL.build.module.fullrules.ObjectClasses;
         'breaks
         If FDR > (CurrentMoraleLevel - TargSTackLdrdrm + myELR) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReplacesReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         Else
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         ElseIf FDR < (CurrentMoraleLevel - TargSTackLdrdrm) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.Reduces
-        Resultstring = " and passes MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and passes MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         End If
         If Not PersUnitImpact = 0 Then Return True Else Return False
@@ -25900,14 +25900,14 @@ package VASL.build.module.fullrules.ObjectClasses;
         'breaks
         If FDR > (CurrentMoraleLevel - TargSTackLdrdrm + myELR) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReplacesReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         Else
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.ReducesBreaks
-        Resultstring = " and breaks as it fails MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and breaks as it fails MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         ElseIf FDR < (CurrentMoraleLevel - TargSTackLdrdrm) Then
         PersUnitImpact = ConstantClassLibrary.ASLXNA.PersUnitResult.Reduces
-        Resultstring = " and passes MC with " & Ldrstring & "Leader drm and a " & ODR.ToString & " dice roll"
+        Resultstring = " and passes MC with " & Ldrstring & "SMC drm and a " & ODR.ToString & " dice roll"
         End If
         End If
         If Not PersUnitImpact = 0 Then Return True Else Return False
@@ -27558,7 +27558,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         End Property
         'Methods
         Public Function IsUnitALeader() As Boolean
-        Return If(Me.Type_ID >= ConstantClassLibrary.ASLXNA.Utype.LdrHero And Me.LOBLink <= ConstantClassLibrary.ASLXNA.Utype.Leader, True, False)
+        Return If(Me.Type_ID >= ConstantClassLibrary.ASLXNA.Utype.LdrHero And Me.LOBLink <= ConstantClassLibrary.ASLXNA.Utype.SMC, True, False)
         End Function
         Public Function IsUnitASMC() As Boolean
         Return If(Me.Type_ID >= ConstantClassLibrary.ASLXNA.Utype.LdrHero And Me.LOBLink <= ConstantClassLibrary.ASLXNA.Utype.Commissar, True, False)
@@ -35365,7 +35365,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         'Private myCon_ID As Integer      'OB id of associated concealment counter; for concealment counters themsleves is always 0  Orderofbattle.con_id
         'Private myUnit_ID As Integer     'OB id of the personnel/SW/concealment counter  Orderofbattle.OBUnit_ID/Concealment.con_id/OrderofBattleSW/OBSW_ID
         'Private myTypeType_ID As Integer      ' value of Enum.TypeType for all counters
-        'Private myUnitType As Integer 'value of Unittype; stored in LOB and Leader tables;  equals Enum.Utype
+        'Private myUnitType As Integer 'value of Unittype; stored in LOB and SMC tables;  equals Enum.Utype
         'Private myFirstSWLink As Integer
         'Private mySecondSWlink As Integer
         'Private mySW As Integer

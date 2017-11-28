@@ -4,6 +4,8 @@ import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.DataC;
+import VASL.build.module.fullrules.DataClasses.OrderofBattle;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
 
 import java.awt.image.BufferedImage;
@@ -25,7 +27,7 @@ public class BasePersunitc implements Basepersuniti {
     private int pCon_ID;      // OB id of associated concealment counter; for concealment counters themsleves is always 0  Orderofbattle.con_id
     private int pUnit_ID;     // OB id of the personnel/SW/concealment counter  Orderofbattle.OBUnit_ID/Concealment.con_id/OrderofBattleSW/OBSW_ID
     private Constantvalues.Typetype pTypeType_ID;      //  value of Enum.TypeType for all counters
-    private Constantvalues.Utype pUnitType; // value of Unittype; stored in LOB and Leader tables;  equals Enum.Utype
+    private Constantvalues.Utype pUnitType; // value of Unittype; stored in LOB and SMC tables;  equals Enum.Utype
     private int pFirstSWLink;
     private int pSecondSWlink;
     private int pSW;
@@ -42,7 +44,6 @@ public class BasePersunitc implements Basepersuniti {
     private Constantvalues.RoleStatus pRoleStatus;
     private boolean pPinned;
     private Constantvalues.UClass pUnitClass;   // value of Enum.UClass for personnel units; always 0 for concealment and SW counters   LineOfBattle.Class
-    private BufferedImage pOBTexture;  // holds value of image
     private LinkedList<PersUniti> pGuarding;
 
     // constructor
@@ -270,14 +271,6 @@ public class BasePersunitc implements Basepersuniti {
         pPinned = value;
     }
 
-    public BufferedImage getOBTexture() {
-        return pOBTexture;
-    }
-
-    public void setOBTexture(BufferedImage value) {
-        pOBTexture = value;
-    }
-
     public int getnumSW() {
         return pSW;
     }
@@ -381,9 +374,10 @@ public class BasePersunitc implements Basepersuniti {
         return true;
     }
     public boolean UpdateBaseStatus(PersUniti PassUnit) {
-        DataC Linqdata = DataC.GetInstance();
-        /*if (PassUnit.getbaseunit().getTypeType_ID() == Constantvalues.Typetype.Concealment) {
-            Dim UpdateUnit As DataClassLibrary.
+        ScenarioC scen = ScenarioC.getInstance();
+
+        if (PassUnit.getbaseunit().getTypeType_ID() == Constantvalues.Typetype.Concealment) {
+            /*Dim UpdateUnit As DataClassLibrary.
             Concealment = Linqdata.GetConcealmentfromCol(PassUnit.BasePersUnit.Unit_ID)
             UpdateUnit.CX = CX
             'UpdateUnit.ELR = CType(ELR, Short?)
@@ -403,31 +397,43 @@ public class BasePersunitc implements Basepersuniti {
             UpdateUnit.HexEnteredSideCrossedLastMove = HexEntSideCrossed
             UpdateUnit.FortitudeStatus = FortitudeStatus
             'UpdateUnit.RoleStatus = RoleStatus
-            'UpdateUnit.VisibilityStatus = VisibilityStatus
-            Else
-            Dim UpdateUnit As DataClassLibrary.OrderofBattle = Linqdata.GetUnitfromCol(PassUnit.BasePersUnit.Unit_ID)
-            UpdateUnit.CX = CX
-            UpdateUnit.ELR = CType(ELR, Short ?)
-            UpdateUnit.Pinned = Pinned
-            UpdateUnit.CombatStatus = CombatStatus
-            UpdateUnit.MovementStatus = MovementStatus
-            UpdateUnit.FirstSWLink = CType(FirstSWLink, Short ?)
-            UpdateUnit.SecondSWlink = CType(SecondSWlink, Short ?)
-            UpdateUnit.SW = CType(SW, Short ?)
-            UpdateUnit.TurnArrives = CType(TurnArrives, Short ?)
-            UpdateUnit.hexnum = CType(Hexnum, Short ?)
-            UpdateUnit.Hexname = Hexname
-            UpdateUnit.hexlocation = hexlocation
-            UpdateUnit.Position = hexPosition
-            UpdateUnit.LocIndex = LOCIndex
-            UpdateUnit.LevelinHex = LevelinHex
-            UpdateUnit.HexEnteredSideCrossedLastMove = HexEntSideCrossed
-            UpdateUnit.FortitudeStatus = FortitudeStatus
-            UpdateUnit.RoleStatus = RoleStatus
-            UpdateUnit.VisibilityStatus = VisibilityStatus
-            UpdateUnit.Con_ID = Con_ID
+            'UpdateUnit.VisibilityStatus = VisibilityStatus*/
+        } else {
+            for (OrderofBattle UpdateUnit: scen.getOBUnitcol()){
+                if (UpdateUnit.getOBUnit_ID() == PassUnit.getbaseunit().getUnit_ID()){
+                    // found unit to update
+                    UpdateUnit.setCX(PassUnit.getbaseunit().getCX());
+                    UpdateUnit.setELR(PassUnit.getbaseunit().getELR());
+                    UpdateUnit.setPinned(PassUnit.getbaseunit().getPinned());
+                    UpdateUnit.setCombatStatus(PassUnit.getbaseunit().getCombatStatus());
+                    UpdateUnit.setMovementStatus(PassUnit.getbaseunit().getMovementStatus());
+                    UpdateUnit.setFirstSWLink(PassUnit.getbaseunit().getFirstSWLink());
+                    UpdateUnit.setSecondSWlink(PassUnit.getbaseunit().getSecondSWLink());
+                    UpdateUnit.setSW(PassUnit.getbaseunit().getnumSW());
+                    UpdateUnit.setHexname(PassUnit.getbaseunit().getHexName());
+                    UpdateUnit.sethexlocation(PassUnit.getbaseunit().gethexlocation());
+                    UpdateUnit.setPosition(PassUnit.getbaseunit().gethexPosition());
+                    UpdateUnit.setLevelinHex((int)PassUnit.getbaseunit().getLevelinHex());
+                    UpdateUnit.setHexEnteredSideCrossedLastMove(PassUnit.getbaseunit().getHexEntSideCrossed());
+                    UpdateUnit.setFortitudeStatus(PassUnit.getbaseunit().getFortitudeStatus());
+                    UpdateUnit.setRoleStatus(PassUnit.getbaseunit().getRoleStatus());
+                    UpdateUnit.setVisibilityStatus(PassUnit.getbaseunit().getVisibilityStatus());
+                    UpdateUnit.setCon_ID(PassUnit.getbaseunit().getCon_ID());
+                    UpdateUnit.sethex(PassUnit.getbaseunit().getHex());
+                    UpdateUnit.setOrderStatus(PassUnit.getbaseunit().getOrderStatus());
+                    UpdateUnit.setCharacterStatus(PassUnit.getbaseunit().getCharacterStatus());
+                    // these may not need to be updated. Can they change during scenario?
+                    UpdateUnit.setTurnArrives(PassUnit.getbaseunit().getTurnArrives());
+                    UpdateUnit.setNationality(PassUnit.getbaseunit().getNationality());
+                    UpdateUnit.setOBName(PassUnit.getbaseunit().getUnitName());
+                    UpdateUnit.setOBUnit_ID(PassUnit.getbaseunit().getUnit_ID());
+                    //UpdateUnit.setGuard_ID(PassUnit.getbaseunit().getG);
+                    break;
+                }
+            }
+
         }
-        Linqdata.QuickUpdate();*/
+
         return true;
     }
 
@@ -468,7 +474,6 @@ public class BasePersunitc implements Basepersuniti {
 
     public boolean AddPrisoner(PersUniti PassUnit) {
 
-        DataC Linqdata = DataC.GetInstance(); // use empty variables when know that instance already exists
         pGuarding.add(PassUnit);
         // update OBUnit -    MOVE ELSEWEHRE THHIS IS TEMP FIX AUG 14
         //Dim UpdateUnit As DataClassLibrary.OrderofBattle = Linqdata.GetUnitfromCol(PassUnit.BasePersUnit.Unit_ID);
@@ -478,7 +483,6 @@ public class BasePersunitc implements Basepersuniti {
     }
 
     public boolean DeletePrisoner(PersUniti PassUnit) {
-        DataC Linqdata = DataC.GetInstance();  // use empty variables when know that instance already exists
         pGuarding.remove(PassUnit);
         // update OBUnit -    MOVE ELSEWEHRE THHIS IS TEMP FIX AUG 14
         //Dim UpdateUnit As DataClassLibrary.OrderofBattle = Linqdata.GetUnitfromCol(PassUnit.BasePersUnit.Unit_ID);

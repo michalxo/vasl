@@ -935,7 +935,7 @@ public class DataC {
     Case ConstantClassLibrary.ASLXNA.Utype.MMC
     Return "MMC"
     Case ConstantClassLibrary.ASLXNA.Utype.SMC, ConstantClassLibrary.ASLXNA.Utype.Commissar, ConstantClassLibrary.ASLXNA.Utype.Hero, ConstantClassLibrary.ASLXNA.Utype.LdrHero,
-    ConstantClassLibrary.ASLXNA.Utype.Leader, ConstantClassLibrary.ASLXNA.Utype.PathFind, ConstantClassLibrary.ASLXNA.Utype.THHero
+    ConstantClassLibrary.ASLXNA.Utype.SMC, ConstantClassLibrary.ASLXNA.Utype.PathFind, ConstantClassLibrary.ASLXNA.Utype.THHero
     Return "SMC"
     Case ConstantClassLibrary.ASLXNA.Utype.Squad
     Return "Squad"

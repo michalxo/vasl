@@ -12,7 +12,6 @@ import java.util.LinkedList;
 public class UnitPossessesSWc implements StatusChangei {
 
     private int mySWtoPossess;
-    private DataC Linqdata = DataC.GetInstance();
     private LinkedList<PersUniti> myNewTargs = new LinkedList<PersUniti>();
     //private myPopUpList As New List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface)
 

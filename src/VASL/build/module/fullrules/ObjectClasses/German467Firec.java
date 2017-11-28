@@ -248,7 +248,7 @@ public class German467Firec implements FiringPersUniti {
     public void SprayFireModification(boolean UsingSprayFire) {
         // called by ifT.CalcFP
         // changes CombatFP property based on use of Spraying Fire
-        if (UsingSprayFire = true) {
+        if (UsingSprayFire == true) {
             myCombatFP = myCombatFP / 2;
             //'MsgBox(String.Format("Spraying Fire reduces {0} FP to {1}", Trim(Me.Name), CStr(myCombatFP)))
         }

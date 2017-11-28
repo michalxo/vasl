@@ -26,7 +26,6 @@ import java.util.List;
 public class PersCreation {
     // holds code that creates persuniti objects and related property classes within Objectclasslibrary.aslxna.Persuniti
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
-    private DataC Linqdata = DataC.GetInstance();  // use empty variables when know that instance already exists
     ScenarioC scen = ScenarioC.getInstance();
 
     // Personnel unit instances
@@ -238,6 +237,13 @@ public class PersCreation {
                                 (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                                 1102, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                                 unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Hero, unititem.getRoleStatus());
+                    case Germans:
+                        return new German149c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                                unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
+                                (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                                (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                                1102, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                                unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Hero, unititem.getRoleStatus());
                 }
             case 1124:
                 switch (unititem.getNationality()) {
@@ -310,7 +316,7 @@ public class PersCreation {
         int PassSW  = 0;
         int PassTurnArrives  = BirthingUnit.getbaseunit().getTurnArrives();
         Constantvalues.VisibilityStatus PassVisibilityStatus = Constantvalues.VisibilityStatus.Visible;
-        int PassOBUnit_ID = BirthingUnit.getbaseunit().getUnit_ID() + 1000;
+        int PassOBUnit_ID = BirthingUnit.getbaseunit().getUnit_ID() + 1000;  //this will do for now but needs to be redone
         PersUniti NewUnit= null;
 
         // temporary while debugging UNDO
@@ -721,8 +727,8 @@ public class PersCreation {
             case 1102:
                 switch (TargetUnit.getbaseunit().getNationality()) {
                     case Germans:
-                        // return new ObjectClassLibrary.ASLXNA.German149Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
-                        // PassSmoke, TargetUnit)
+                        return new German149Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
+                        PassSmoke, TargetUnit);
                     case Russians:
                         //return new Russian149Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
                         //        PassSmoke, TargetUnit);

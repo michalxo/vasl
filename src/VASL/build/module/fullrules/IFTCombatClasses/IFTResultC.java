@@ -17,7 +17,9 @@ import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 import VASL.build.module.fullrules.UtilityClasses.RandomSelection;
 import VASL.build.module.map.StartGame;
+import VASSAL.counters.GamePiece;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +34,6 @@ public class IFTResultC implements IFTResulti {
     private boolean pCowers;
     private LinkedList<TargetType> FPdrmList = new LinkedList<TargetType>();
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
-    private DataC Linqdata = DataC.GetInstance();
     public Constantvalues.HitLocation getHitLocation() {
         return pHitLoc;
     }
@@ -313,6 +314,16 @@ public class IFTResultC implements IFTResulti {
         LinkedList<PersUniti> TempNewTargets = new LinkedList<PersUniti>();
         PersUniti AddTarget;
         for (PersUniti CheckItem: TargGroup) {
+            if (CheckItem.getTargetunit().getVisibilityStatus() == Constantvalues.VisibilityStatus.Concealed ||
+                    CheckItem.getTargetunit().getVisibilityStatus()== Constantvalues.VisibilityStatus.Hidden){
+                if (CheckItem.getTargetunit().getIFTResult() != Constantvalues.IFTResult.NR) {
+                    //concealed units are revealed
+                    CommonFunctionsC ToDO = new CommonFunctionsC(CheckItem.getbaseunit().getScenario());
+                    GamePiece ToReveal = ToDO.GetGamePieceConCounterFromID(CheckItem.getbaseunit().getUnit_ID());
+                    if (ToReveal != null) {ToReveal.keyEvent(KeyStroke.getKeyStroke('D', java.awt.event.InputEvent.CTRL_MASK));}
+                }
+            }
+
             if (Constantvalues.Typetype.Concealment == CheckItem.getbaseunit().getTypeType_ID()) {
                 if (CheckItem.getTargetunit().getIFTResult() != Constantvalues.IFTResult.NR) {
                     //concealed units are revealed

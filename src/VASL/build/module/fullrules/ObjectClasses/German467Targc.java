@@ -210,12 +210,12 @@ public class German467Targc implements TargetPersUniti {
                 Resultstring = " and passes a MC with " ;
             }
         }
-        myCombatResultsString += Resultstring + Ldrstring + "Leader drm and a " + Integer.toString(FDR + TargSTackLdrdrm) + " modified dice roll:";
-        if (myPersUnitImpact != Constantvalues.PersUnitResult.NoEffects) {
+        myCombatResultsString += Resultstring + Ldrstring + "SMC drm and a " + Integer.toString(FDR + TargSTackLdrdrm) + " modified dice roll:";
+        //if (myPersUnitImpact != Constantvalues.PersUnitResult.NoEffects) {
             return true;
-        } else {
-            return false;
-        }
+        //} else {
+        //    return false;
+        //}
     }
 
     public boolean HasFT() {
@@ -278,7 +278,8 @@ public class German467Targc implements TargetPersUniti {
         }
         DiceC Dieclass = new DiceC();
         int ODR = Dieclass.Diceroll();
-
+        // test code
+        ODR=2;
         myCombatResultsString += myName + " rolls an original " + java.lang.Integer.toString(ODR);
         // sniper
         SANCheck(ODR);
@@ -337,12 +338,12 @@ public class German467Targc implements TargetPersUniti {
                 Resultstring = " and passes a MC with " ;
             }
         }
-        myCombatResultsString += Resultstring + Ldrstring + "Leader drm and a " + Integer.toString(FDR + TargStackLdrdrm) + " modified dice roll:";
-        if (myPersUnitImpact != Constantvalues.PersUnitResult.NoEffects) {
+        myCombatResultsString += Resultstring + Ldrstring + "SMC drm and a " + Integer.toString(FDR + TargStackLdrdrm) + " modified dice roll:";
+        //if (myPersUnitImpact != Constantvalues.PersUnitResult.NoEffects) {
             return true;
-        } else {
-            return false;
-        }
+        //} else {
+        //    return false;
+        //}
     }
 
     public boolean NR() {
@@ -503,7 +504,7 @@ public class German467Targc implements TargetPersUniti {
     }
 
     public Constantvalues.PersUnitResult HOBMC() {
-        int HOBdrm = 2; // Russian
+        int HOBdrm = 2;
         if (myOrderStatus == Constantvalues.OrderStatus.Broken || myOrderStatus == Constantvalues.OrderStatus.Broken_DM) {HOBdrm += 1;}  // broken
         HOBCheckC HOB = new HOBCheckC();
         Constantvalues.HOBResult HOBRes = HOB.GetHOBOutcome(HOBdrm);
@@ -512,6 +513,7 @@ public class German467Targc implements TargetPersUniti {
                 setPersUnitImpact(Constantvalues.PersUnitResult.Fanatics);
                 break;
             case HeroCreation:
+                setPersUnitImpact(Constantvalues.PersUnitResult.HeroCreation);
                 break;
             case Hardens:
                 setPersUnitImpact(Constantvalues.PersUnitResult.Fanatics);

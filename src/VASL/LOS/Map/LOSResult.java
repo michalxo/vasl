@@ -17,6 +17,9 @@
 package VASL.LOS.Map;
 
 import VASL.LOS.counters.OBA;
+import VASL.LOS.counters.Smoke;
+import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.ObjectClasses.HindInLOS;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -57,8 +60,9 @@ public class LOSResult {
     private	HashMap<Integer, Integer>	vehicleHindrances	= new HashMap<Integer, Integer>();
     private HashSet<OBA> obaHindrances = new HashSet<OBA>();
 
-	// stuff added to Hex to support IFT combat
+	// stuff added to LOSResult to support IFT combat
 	private LinkedList<Hex> hexesInLOS = new LinkedList<Hex>();
+	private LinkedList<HindInLOS> hindInLOS = new LinkedList<HindInLOS>();
 
 	// hindrance/blocked methods
 	public boolean  isBlocked()				{return blocked;}
@@ -157,9 +161,23 @@ public class LOSResult {
         if(!smokeHindrances.containsKey(range) ||
            (smokeHindrances.containsKey(range) && hindrance > smokeHindrances.get(range))) {
             smokeHindrances.put(range, hindrance);
+			// to support fullrules
+			Smoke bestsmoke = null;
+			int smokehind = 0;
+			HashSet<Smoke> hexSmoke = h.getMap().getLOSStatus().VASLGameInterface.getSmoke(h);
+			for (Smoke s: hexSmoke){
+				if (s.getHindrance() > smokehind) {
+					bestsmoke = s;
+					smokehind = s.getHindrance();
+				}
+			}
+			// need to fix name to differentiate - using getname()  includes too much info
+			HindInLOS newHind = new HindInLOS(h.getName(), Constantvalues.Feature.Smoke, "Smoke", bestsmoke.getHindrance() );
+			addHindtohindInLOS(newHind);
         }
 
         setBlockedByHindrance(x, y);
+
 	}
 
     /**
@@ -178,9 +196,14 @@ public class LOSResult {
         if(!vehicleHindrances.containsKey(range) ||
                 (vehicleHindrances.containsKey(range) && hindrance > vehicleHindrances.get(range))) {
             vehicleHindrances.put(range, hindrance);
+			// to support fullrules
+			//need to improve this re type - wreck, bowreck, vehicle
+			HindInLOS newHind = new HindInLOS(h.getName(), Constantvalues.Feature.Wreck, "Wreck", 1);
+			addHindtohindInLOS(newHind);
         }
 
         setBlockedByHindrance(x, y);
+
     }
 
     /**
@@ -194,6 +217,11 @@ public class LOSResult {
         setFirstHindrance(x, y);
         obaHindrances.add(oba);
         setBlockedByHindrance(x, y);
+        // to support fullrules
+		//need to improve this re type of OBA: FFE1, FFE2, etc
+		Hex h = sourceLocation.getHex().getMap().gridToHex(x, y);
+		HindInLOS newHind = new HindInLOS(h.getName(), Constantvalues.Feature.FFE1, "OBA", 1);
+		addHindtohindInLOS(newHind);
     }
 
     // location methods
@@ -259,6 +287,8 @@ public class LOSResult {
     public LinkedList<Hex> gethexesInLOS(){
         return hexesInLOS;
     }
+    public LinkedList<HindInLOS> gethindInLOS() {return hindInLOS;}
+
     public void addHextohexesInLOS(Hex addHex){
     	if (hexesInLOS.size() !=0) {
 			for (Hex checkformatch : hexesInLOS) {
@@ -269,9 +299,23 @@ public class LOSResult {
 		}
 		hexesInLOS.add(addHex);
     }
+	public void addHindtohindInLOS(HindInLOS addHind){
+		if (hindInLOS.size() !=0) {
+			for (HindInLOS checkformatch : hindInLOS) {
+				if(checkformatch ==addHind ){
+					return;
+				}
+				if (checkformatch.getHinddesc() == "OBA" && addHind.getHinddesc() == "OBA"){
+					return;
+				}
+			}
+		}
+		hindInLOS.add(addHind);
+	}
     public void ClearhexesInLOS()  {
         hexesInLOS.clear();
     }
+    public void ClearhindInLOS() {hexesInLOS.clear();}
     public Location getSourceLocation() {return sourceLocation;}
     public Location getTargetLocation() {return targetLocation;}
 

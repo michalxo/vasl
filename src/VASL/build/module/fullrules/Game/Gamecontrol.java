@@ -18,7 +18,7 @@ public class Gamecontrol {
     // This class holds basic game functionality and is inherited by scenario via campaign. It should
     // hold values and routines that could be accessed outside of a scenario
     private int pGameAction; // not implemented yet; will hold Constantvalues.UserInput (2800) and
-    public DataC Linqdata = DataC.GetInstance();
+
     // temporary while debugging undo
     /*public SWStatusC SWStatus; // = new SWStatusC();
     public UnitStatusC UnitState; // = new UnitStatusC();
@@ -1024,7 +1024,7 @@ public class Gamecontrol {
     CasSize += 1
     If FoundUnit.BasePersUnit.CharacterStatus = Constantvalues.CharacterStatus.Stealthy Then StealthyDRM -= 1
     If FoundUnit.BasePersUnit.CharacterStatus = Constantvalues.CharacterStatus.Lax Then StealthyDRM += 1
-    caseConstantvalues.Utype.LdrHero, Constantvalues.Utype.Leader
+    caseConstantvalues.Utype.LdrHero, Constantvalues.Utype.SMC
     ldrDRM += CInt(Game.Linqdata.GetLOBData(Constantvalues.LOBItem.ldrm, CInt(FoundUnit.BasePersUnit.LOBLink)))
     If FinalLdrDrm > ldrDRM Then FinalLdrDrm = ldrDRM
     If reveallist.Count > 1 Then LdrPres = True

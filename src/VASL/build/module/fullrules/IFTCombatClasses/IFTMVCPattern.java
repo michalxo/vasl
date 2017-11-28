@@ -619,8 +619,8 @@ public class EnemyValuesConcreteC {
         // called by EnemyValuesConcreteC.SetLOSFPdrmValues
         // used check that there is more in a hex than a leader
         for Each FiringUnit As ObjectClassLibrary.ASLXNA.PersUniti In firegrouptouse {
-            if (FiringUnit.BasePersUnit.Unittype = ConstantClassLibrary.ASLXNA.Utype.Leader Or(FiringUnit.BasePersUnit.Unittype =ConstantClassLibrary.ASLXNA.Utype.LdrHero And
-            FiringUnit.FiringPersUnit.UseHeroOrLeader=ConstantClassLibrary.ASLXNA.Utype.Leader){
+            if (FiringUnit.BasePersUnit.Unittype = ConstantClassLibrary.ASLXNA.Utype.SMC Or(FiringUnit.BasePersUnit.Unittype =ConstantClassLibrary.ASLXNA.Utype.LdrHero And
+            FiringUnit.FiringPersUnit.UseHeroOrLeader=ConstantClassLibrary.ASLXNA.Utype.SMC){
             // do nothing
             }
             else {

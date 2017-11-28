@@ -26,7 +26,6 @@ public class EnemyChecksC {
     private int myScenID;
     //private NewMap As UtilWObj.ASLXNA.NewMapDB
     //private LinkedList<GameLocation> Mapcol = new LinkedList<GameLocation>();
-    private DataC Linqdata  = DataC.GetInstance();
    // private LinkedList<LocationContent> myPassLocationContents = new LinkedList<LocationContent>();
 
     //   constructor

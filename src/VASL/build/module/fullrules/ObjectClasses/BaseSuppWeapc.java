@@ -130,7 +130,7 @@ public class BaseSuppWeapc {
     public FiringSuppWeapi[] getFiringSW(){return null;}
 
     /*public boolean IsUnitALeader() {
-        return if(this.getType_ID() >= ConstantClassLibrary.ASLXNA.Utype.LdrHero And Me.LOBLink <= ConstantClassLibrary.ASLXNA.Utype.Leader, True, False)
+        return if(this.getType_ID() >= ConstantClassLibrary.ASLXNA.Utype.LdrHero And Me.LOBLink <= ConstantClassLibrary.ASLXNA.Utype.SMC, True, False)
     }
     public boolean IsUnitASMC() {
         return If(Me.Type_ID >= ConstantClassLibrary.ASLXNA.Utype.LdrHero And Me.LOBLink <= ConstantClassLibrary.ASLXNA.Utype.Commissar, True, False)

@@ -4,8 +4,8 @@ import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.LOSResult;
 import VASL.LOS.Map.Location;
 import VASL.LOS.VASLGameInterface;
+import VASL.build.module.ASLMap;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.IFTMods;
 import VASL.build.module.fullrules.DataClasses.LineofBattle;
 import VASL.build.module.fullrules.DataClasses.Scenario;
@@ -59,7 +59,6 @@ public class IFTC implements IIFTC {
     private int pScenID; // holds value of scenario index
     private Scenario scendet;  // Scenario object
     private ScenarioC scen = ScenarioC.getInstance();
-    private DataC Linqdata;
     private VASL.LOS.Map.LOSResult losresult;
 
     // constructor
@@ -149,7 +148,6 @@ public class IFTC implements IIFTC {
 
         // elsewhere in program need to handle reverse fire issues - AFV combat
         // INTEGRATE THIS INTO CLASS GETSIDEFORPHASE IN ASLGAME
-        Linqdata=DataC.GetInstance();
         boolean test1;
         boolean test2;
         scen = ScenarioC.getInstance();
@@ -208,6 +206,7 @@ public class IFTC implements IIFTC {
         // then return to ClickedOnNewParticipants and move to ManageCombatSolutionDetermination for Calc(FP And DRM)
         boolean CheckResult = false;
         VASL.LOS.Map.Map MapInUse = scen.getGameMap();
+        ASLMap theMap = scen.getASLMap();
         losresult = new LOSResult();
         boolean SetCleartotrue = false;
         int BringBackID = 0;
@@ -237,7 +236,7 @@ public class IFTC implements IIFTC {
 
                 // REPLACE VS CODE WITH CALL TO VASLTHREAD
                 // 'need to clear TempCombatTerrcol at this point to ensure create valid list for each Fire solution (unique LOS)
-                LOSTest.TempCombatTerrCol.clear();  // 'Linqdata.TempCombatTerrCol.Clear()
+                LOSTest.TempCombatTerrCol.clear();
 
                 // call VASL LOS routine
                 // do the LOS
@@ -248,8 +247,8 @@ public class IFTC implements IIFTC {
 //                }
 //                else {
 
-                VASLGameInterface VASLGameInterface = null; //new VASLGameInterface(theMap, MapInUse); temporary while debugging
-                //VASLGameInterface.updatePieces();
+                VASLGameInterface VASLGameInterface = new VASLGameInterface(theMap, MapInUse);
+                VASLGameInterface.updatePieces();
                 boolean useAuxSourceLOSPoint = false; // temporary while debugging, need to determine properly
                 boolean useAuxTargetLOSPoint = false;
                 Location source = TempSolitem.getSeeHex().getCenterLocation();
@@ -297,8 +296,8 @@ public class IFTC implements IIFTC {
             }
             // at this point all Temp Solutions are valid so add TempSolutions, TempUnuits and TempCombatTerr to valid solutions
             for (TempSolution TempSolitem : TempSolutions) {
-                // TempSol to ValidSol
-                AddtoValidSolutions(TempSolitem);
+                // TempSol to ValidSol, including hexes in los
+                AddtoValidSolutions(TempSolitem, LOSTest.TempCombatTerrCol);
                 // add firer(s) to FireGroup, target(s) to Target Group
                 AddtoFireGroupandTargetGroup(TempSolitem.getID());
                 // clear Temps
@@ -558,7 +557,7 @@ public class IFTC implements IIFTC {
 
         for (Hex HexInLOS: result.gethexesInLOS()){
             // create CombatTerrain object
-            LOSCheckCommon.AddCombatTerrainHexThread(HexInLOS.getCenterLocation(), Tempsolitem.getID(), HexInLOS.getCombatHexrole());  // getCenterLocation is not right
+            LOSCheckCommon.AddCombatTerrainHex(HexInLOS.getCenterLocation(), Tempsolitem.getID(), HexInLOS.getCombatHexrole(), result);  // getCenterLocation is not right
         }
         for (CombatTerrain addCombatTerr: LOSCheckCommon.TempCombatTerrColCommon){
             LOSTest.TempCombatTerrCol.add(addCombatTerr);
@@ -618,7 +617,7 @@ public class IFTC implements IIFTC {
                     AddYes = true;
                     if (TempSolutions.size() > 0) {
                         for (TempSolution TempSolitem : TempSolutions) {
-                            if (TempTargU.getbaseunit().getHexName() == TempSolitem.getSeenHex().getName()) {
+                            if (TempTargU.getbaseunit().getHexName().equals(TempSolitem.getSeenHex().getName())) {
                                 // same TempSolution already exists no need to create new one
                                 for (PersUniti TempFirUnit : TempFireGroup) {
                                     TempFirUnit.getbaseunit().setSolID(TempSolitem.getID());
@@ -910,8 +909,8 @@ public class IFTC implements IIFTC {
                             LineofBattle TempFiringLOBRecord = comfun.Getlob(Integer.toString(TempFiringUnit.getbaseunit().getLOBLink()));
                             Constantvalues.Utype myType = TempFiringLOBRecord.getUnitType();
                             if (myType == Constantvalues.Utype.Leader || myType == Constantvalues.Utype.LdrHero) {
-                                Leader TempLeader = comfun.Getleader(Integer.toString(TempFiringUnit.getbaseunit().getLOBLink()));
-                                myLdrdrm = TempLeader.getLDRM();
+                                SMC tempSMC = comfun.GetSMC(Integer.toString(TempFiringUnit.getbaseunit().getLOBLink()));
+                                myLdrdrm = tempSMC.getLDRM();
                             } else {
                                 myLdrdrm = 0;
                             }
@@ -991,7 +990,7 @@ public class IFTC implements IIFTC {
         }
     }
 
-        protected boolean AddtoValidSolutions (TempSolution TempSolitem) {
+        protected boolean AddtoValidSolutions (TempSolution TempSolitem, LinkedList<CombatTerrain> PassHexesInLOS) {
             // called by ifT.DetermineFireSolution
             // adds a validated fire solution to the ValidSolutions group
 
@@ -1004,7 +1003,7 @@ public class IFTC implements IIFTC {
             try {
                 ValidSolutions.add(new LOSSolution(TempSolitem.getSeeHex(), TempSolitem.getSeeLevelInHex(), TempSolitem.getTotalSeeLevel(),
                         TempSolitem.getSeePositionInHex(), TempSolitem.getSeenHex(), TempSolitem.getSeenLevelInHex(), TempSolitem.getTotalSeenLevel(),
-                        TempSolitem.getSeenPositionInHex(), TempSolitem.getSolworks(), TempSolitem.getLOSFollows(), PassID, TempSolitem.getScenMap()));
+                        TempSolitem.getSeenPositionInHex(), TempSolitem.getSolworks(), TempSolitem.getLOSFollows(), PassID, TempSolitem.getScenMap(), PassHexesInLOS));
                 return true;
             } catch (Exception e) {
                 GameModule.getGameModule().getChatter().send("Error adding Fire Solution to ValidSolutions: IFT.AddtoValidSolutions");
@@ -1034,7 +1033,6 @@ public class IFTC implements IIFTC {
                 ObjIDlink = Integer.parseInt(SelUnit.getProperty("TextLabel").toString());
                 for(PersUniti findunit: Scencolls.Unitcol){
                     if(findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
-                        //GameModule.getGameModule().getChatter().send("Have found selected unit in PersUniti collection: " + findunit.getbaseunit().getUnitName());
                         if (findunit.getbaseunit().getNationality() == getTargetSide()) {
                             WhichOne = Constantvalues.CombatStatus.None;
                         } else {
@@ -1051,7 +1049,6 @@ public class IFTC implements IIFTC {
             ObjIDlink = Integer.parseInt(SelUnit.getProperty("TextLabel").toString());
             for (PersUniti findunit : Scencolls.Unitcol) {
                 if (findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
-                    //GameModule.getGameModule().getChatter().send("Have found selected unit in PersUniti collection: " + findunit.getbaseunit().getUnitName());
                     if (findunit.getbaseunit().getNationality() == getTargetSide()) {
                         WhichOne = Constantvalues.CombatStatus.None;
                     } else {
@@ -1233,7 +1230,7 @@ public class IFTC implements IIFTC {
                 }
                 String drmstring = "";
                 for (IFTMods combatdrm: FinalDRMLIst) {
-                    drmstring += Integer.toString(combatdrm.getDRM()) + " " + combatdrm.getDRMdesc() + " ";
+                    drmstring += Integer.toString(combatdrm.getDRM()) + " " + combatdrm.getDRMdesc() + " in " + combatdrm.getDRMLocation().getHex().getName() + " ";
                 }
                 PersUniti testTarg = TargGroup.getFirst();
                 combatstring += "with  " + Integer.toString(testTarg.getTargetunit().getAttackedbyFP()) +
@@ -1427,20 +1424,7 @@ public class IFTC implements IIFTC {
         for (PersUniti firer: FireGroup) {
             firer.getFiringunit().UpdateCombatStatus(NewCombatStatus, IFTRes.getROFdr());
         }
-        // best way is to recreate all sprites in the hex based on final status at this point
-        // NEED A NEW WAY TO IMPLEMENT
-        /*For Each Firehex As Integer In FirerHexes
-        Dim OH As VisibleOccupiedhexes
-        OH = CType(Game.Scenario.HexesWithCounter(Firehex), VisibleOccupiedhexes)
-        OH.GetAllSpritesInHex()
-        OH.RedoDisplayOrder()
-        Next
-        For Each TargetHex As Integer In TargetHexes
-        Dim OH As VisibleOccupiedhexes
-        OH = CType(Game.Scenario.HexesWithCounter(TargetHex), VisibleOccupiedhexes)
-        OH.GetAllSpritesInHex()
-        OH.RedoDisplayOrder()
-        Next*/
+
         if (CombatRes.NeedToResume()) {
             myNeedToResumeResolution = true;
             //  create sniper hover

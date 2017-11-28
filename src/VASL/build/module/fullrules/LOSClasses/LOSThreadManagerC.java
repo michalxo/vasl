@@ -75,14 +75,15 @@ public class LOSThreadManagerC {
         // sets up various lists needed by IFTC when it calculates FP and drm
 
         // TempSol to ValidSol; uses IFTC as needed to do specific calculations/actions
-        boolean SolutionAdded = AddtoValidSolutions_Thread(Tempsol, ValidSolutions_Thread);
+        LinkedList<CombatTerrain> PassHexesInLOS = new LinkedList<CombatTerrain>(); // NEED TO FIX AS THIS WILL ALWAYS CONTAIN NO ITEMS
+        boolean SolutionAdded = AddtoValidSolutions_Thread(Tempsol, ValidSolutions_Thread, PassHexesInLOS);
         // Temp Althexgrain to AltHexLOSGroup
         boolean AltSolutionAdded = AddtoAltHexLOSGroup();
         // return the fire solution
 
     }
 
-    public boolean AddtoValidSolutions_Thread(TempSolution TempSolitem, LinkedList<LOSSolution> ValidSolutions_Thread) {
+    public boolean AddtoValidSolutions_Thread(TempSolution TempSolitem, LinkedList<LOSSolution> ValidSolutions_Thread, LinkedList<CombatTerrain> PassHexesInLOS) {
         // called by IFT.DetermineFireSolution
         // adds a validated fire solution to the ValidSolutions group
 
@@ -98,7 +99,8 @@ public class LOSThreadManagerC {
                     TempSolitem.getSolworks(),
                     TempSolitem.getLOSFollows(),
                     TempSolitem.getID(),
-                    TempSolitem.getScenMap()));
+                    TempSolitem.getScenMap(),
+                    PassHexesInLOS));
             return true;
         } catch (Exception e) {
             return false;
@@ -128,7 +130,6 @@ public class LOSThreadManagerC {
         int LOSRange = 0;  // MapGeo.CalcRange(Starthexnum, Testhexnum, True);
         // get normal range of "firing" unit
         // get enemy units in hex
-        DataC Linqdata = DataC.GetInstance(); // use null values when sure instance already exists
         ScenarioC scen = ScenarioC.getInstance();
         CommonFunctionsC comfun = new CommonFunctionsC(scen.getScenID());
         // determine lowest range

@@ -18,10 +18,9 @@ public class SWActionsC {
     // creates the Scencoll collection of SW in the scenario
 
     // constructor
-    public SWActionsC(DataC Linqdata, ScenarioC Scendet) {
+    public SWActionsC(LinkedList<OrderofBattleSW>  PassOBSWcol) {
         // get all SWs involved in a scenario
-        LinkedList<OrderofBattleSW> OBSWcol = Scendet.getOBSWcol();  // Linqdata.RetrieveScenarioOBSW(Scendet.getScenID());
-        if (OBSWcol.size() == 0) {
+        if (PassOBSWcol.size() == 0) {
             GameModule.getGameModule().getChatter().send("No scenario units found. Exiting");
             return;
         }
@@ -31,7 +30,7 @@ public class SWActionsC {
         ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
         SuppWeapi AddNewSW;
         Constantvalues.SWtype PassSWtype = Constantvalues.SWtype.None;
-        for (OrderofBattleSW OBSWitem : OBSWcol) {
+        for (OrderofBattleSW OBSWitem : PassOBSWcol) {
             PassSWtype = Constantvalues.SWtype.None; //  CInt(Game.Linqdata.GetLOBData(Constantvalues.LOBItem.UnitClass, CInt(unititem.LOBLink)))
             if (OBSWitem.getStatus() == Constantvalues.SWStatus.Used ||
                     OBSWitem.getStatus() == Constantvalues.SWStatus.Eliminated ||

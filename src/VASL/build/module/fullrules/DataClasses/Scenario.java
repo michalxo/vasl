@@ -105,7 +105,7 @@ public class Scenario {
                 /*private String pASLName;
                 private boolean pFinished;*/
                     //tempstring = rs.getString(3);
-                    //pPTURN = ConverttoWhoCanDo(tempstring);
+            pPTURN = ConverttoWhoCanDo(Integer.parseInt(tokens[38]));
                 /*private boolean pattsanpinned;
                 private boolean pdfnsanpinned;
                 private boolean pattsanactivated;
@@ -213,7 +213,7 @@ public class Scenario {
     public boolean getNoQuarter() {return pNoQuarter;}
     public void setNoQuarter(boolean value) {pNoQuarter=value;}
 
-    private Constantvalues.WhoCanDo ConverttoWhoCanDo(String databasevalue){
+    private Constantvalues.WhoCanDo ConverttoWhoCanDo(int databasevalue){
 
         ConversionC DoConversion = new ConversionC();
         return DoConversion.ConverttoWhoCanDo(databasevalue);

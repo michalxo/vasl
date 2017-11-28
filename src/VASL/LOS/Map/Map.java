@@ -813,7 +813,7 @@ public class Map  {
         }
 
         LOSStatus status = new  LOSStatus(source, useAuxSourceLOSPoint, target, useAuxTargetLOSPoint, result, VASLGameInterface);
-
+        prstatus = status;
         // check same hex rules
         if(checkSameHexSmokeRule(status, result)) {
             return;
@@ -1151,7 +1151,7 @@ public class Map  {
             // set values used in IFT combat
             sourceHex.setCombatHexrole(Constantvalues.Hexrole.Firer);
             result.addHextohexesInLOS(sourceHex);
-            targetHex.setCombatHexrole(Constantvalues.Hexrole.Target);
+            if(targetHex.getCombatHexrole() != Constantvalues.Hexrole.Intervening) {targetHex.setCombatHexrole(Constantvalues.Hexrole.Target);}
             //result.addHextohexesInLOS(targetHex);
 
             range = range(sourceHex, targetHex, source.getHex().getMap().getMapConfiguration());
@@ -1679,7 +1679,7 @@ public class Map  {
             if (status.currentHex != status.sourceHex && status.currentHex != status.targetHex ) {
                 status.currentHex.setCombatHexrole(Constantvalues.Hexrole.Intervening);
                 result.addHextohexesInLOS(status.currentHex);
-            } else if(status.currentHex.equals(status.targetHex)) {
+            } else if(status.currentHex.equals(status.targetHex) && status.currentHex.getCombatHexrole() != Constantvalues.Hexrole.Intervening) {
                 status.currentHex.setCombatHexrole(Constantvalues.Hexrole.Target);
                 result.addHextohexesInLOS(status.currentHex);
             }

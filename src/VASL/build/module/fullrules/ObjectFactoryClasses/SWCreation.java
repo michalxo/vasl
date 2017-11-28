@@ -15,7 +15,6 @@ import java.util.LinkedList;
 
 public class SWCreation {
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
-    private DataC Linqdata = DataC.GetInstance() ; // use empty variables when know that instance already exists
 
     public SuppWeapi CreateExistingSW(OrderofBattleSW unititem) {
         // called by ASLXNA.Actions.SWActionsC which creates new suppweapi objects at startup
@@ -62,13 +61,13 @@ public class SWCreation {
             }
             if (SWOwner !=null ) {
                 PassLevelinHex = SWOwner.getbaseunit().getLevelinHex();
-                PassCX = SWOwner.getFiringunit().getIsCX();
+                PassCX = SWOwner.getbaseunit().getCX();
                 PassTurnArrives = SWOwner.getbaseunit().getTurnArrives();
                 PassCon_ID = SWOwner.getbaseunit().getCon_ID();
                 PassHexEntSideCrossed = SWOwner.getbaseunit().getHexEntSideCrossed();
-                PassSolID = SWOwner.getFiringunit().getSolID();
+                PassSolID = SWOwner.getbaseunit().getSolID();
                 PassMovementStatus = SWOwner.getbaseunit().getMovementStatus();
-                PassPinned = SWOwner.getFiringunit().getIsPinned();
+                PassPinned = SWOwner.getbaseunit().getPinned();
                 PassSW = 0;  // pretty sure not neeeded and can delete
                 PassCharacterStatus = SWOwner.getbaseunit().getCharacterStatus();
                 PassFortitudeStatus = SWOwner.getbaseunit().getFortitudeStatus();

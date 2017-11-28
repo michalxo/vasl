@@ -7,7 +7,6 @@ import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 
 public class ElimConcealC implements VisibilityChangei {
     //'Private MovUnitCon As DataClassLibrary.Concealment
-    private DataC Linqdata = DataC.GetInstance();
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private int pConToRemove;
     private String myRevealResults = "";

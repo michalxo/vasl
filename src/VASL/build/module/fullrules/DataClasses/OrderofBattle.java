@@ -116,7 +116,7 @@ public class  OrderofBattle {
         /*Dim Linqdata = ASLXNA.DataC.GetInstance()
         return If(CInt(Linqdata.GetLOBData(ConstantClassLibrary.ASLXNA.LOBItem.UnitType, CInt(Me.LOBLink))) >=
                 ConstantClassLibrary.ASLXNA.Utype.LdrHero And CInt(Linqdata.GetLOBData(ConstantClassLibrary.ASLXNA.LOBItem.UnitType,
-                CInt(Me.LOBLink))) <= ConstantClassLibrary.ASLXNA.Utype.Leader, True, False)*/
+                CInt(Me.LOBLink))) <= ConstantClassLibrary.ASLXNA.Utype.SMC, True, False)*/
         return false;
     }
     public boolean IsUnitASMC() {

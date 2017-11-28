@@ -40,7 +40,7 @@ public class Constantvalues {
     public enum SWStatus{None, GoodOrderSW, Brokendown, Dismantled, Dis_Broken, Malfunctioned, DCPlaced, Used, Eliminated}
     public enum SWtype{None, LMGun, MMGun, HMGun, H50cal, AnyMG, OBRadio, OBPhn, FThr, DemoC, BazK, Mortar, ATR, PIAT, PSK, Lahti, Rclr, InfG, MolP, SetDC}
     public enum IFTResult{KIA7, KIA6, KIA5, KIA4, KIA3, KIA2, KIA1, K4, K3, K2, K1, MC4, MC3, MC2, MC1, NMC, PTC, NR, Broken, KIA, CR}
-    public enum IFTdrm{FFMO, FFNAM, HA, Terrain, LOSH, HexHind, TargHasFT, Hexside, Feature, Leader, Hero, FirerCX, FirerEnc, TargLOSH, VisLoSH, VehWrkTEM, VehWrkLOSH}
+    public enum IFTdrm{FFMO, FFNAM, HA, Terrain, LOSH, HexHind, TargHasFT, Hexside, Feature, Leader, Hero, FirerCX, FirerEnc, TargLOSH, VisLoSH, VehWrkTEM, VehWrkLOSH, OBA}
     public enum LOS{HexGrain, AltHexGrain, VertHexGrain, NoHexGrain, HorizontalHexGrain, Is60}
     public enum Location {Ocean, OpenGround, River, Marsh, Brush, Streamshallow, Ford, PineWoods, Woods, Crag, Airfield, Mudflats, Orchard, OrchardPavedRoad, OrchardUnpavedRoad,
         PavedRoad, UnpavedRoad, TrailWoods, TrailBrush, TrailPineWoods, WoodsPavedRoad, WoodsUnpavedRoad, PineWoodsPavedRoad, PineWoodsUnpavedRoad, GullyBrush, GullyWoods,
@@ -69,7 +69,7 @@ public class Constantvalues {
     public enum Dust{None, Light, Moderate, Heavy, VHeavy, EHeavy}
     public enum VisHind{VehDust, GreyWP, Flame, HamperedFlame, BlazeWood, BlazeStone, InfWP, InfSmoke, OBASmoke, OBASmokeDisp, GunSmoke, GunSmokeDisp, GreyDisp, GunWP, GunWPDisp, GreyWPDisp, None}
     public enum Feature{None, Foxhole, Wire, entrenchment, FFE1, FFE2, FFEC, RSR, ArtR, AttObjective, DfnObjective, DCHPlaced, BOWreck, Wreck, Trench, Cave, Tunnel, Sanger, Panji, APMines,
-        ATMines, AP6, AP8, AP12, APDummy, AT1, AT2, AT3, AT4, AT5, Sniper}
+        ATMines, AP6, AP8, AP12, APDummy, AT1, AT2, AT3, AT4, AT5, Sniper, Smoke, Vehicle}
     public enum TerrFactor {None, TEM, LOSHind, Desc, MF, Image, HexsideTEM, Hexsidedesc, HexsideMFcost, HexsideImage, ScenFeature, ObstHeight, RemoveCounter}
     public enum Hexside{GullyUp, GullyDown, GullyUpSlope, GullyDownSlope, GullyUpWire, GullyDownWire, AttWoodsGullyUp, AttWoodsGullyDown, AttPWdsGullyUp, AttPWdsGullyDn, GullyUpHedge, GullyDownHedge,
         GullyUpWall, GullyDownWall, GullyUpTrail, GullyDownTrail, AttPwdsCrestUpGully, AttPWdsCrestDnGully, CrestUpGullyDown, CrestDownGullyUp,AttPWdsCrestUpGullyDn, AttPWdsCrestDnGullyUp, GullyUpSlopeWire,

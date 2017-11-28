@@ -53,7 +53,6 @@ public class UnitReducesc implements StatusChangei {
         while (NewName =="") {
             NewName = askforNewUnit(TargParent.getbaseunit().getUnitName());
         }
-        //GameModule.getGameModule().getChatter().send("Enter Name of New Half-Squad: " + TargParent.getbaseunit().getUnitName() + " is reduced to a Half-Squad");
         PersCreation UseObjectFactory = new PersCreation();
         PersUniti NewUnit = UseObjectFactory.CreateNewInstance(ReducesTo, NewName, TargParent);
         // update new HS with values of previous unit - Do we need all of this

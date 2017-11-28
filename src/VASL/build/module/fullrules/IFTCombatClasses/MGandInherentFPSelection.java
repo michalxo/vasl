@@ -192,7 +192,7 @@ public class MGandInherentFPSelection {
         Or Unititemtype = ConstantClassLibrary.ASLXNA.Utype.Hero
         Or Unititemtype = ConstantClassLibrary.ASLXNA.Utype.LdrHero Then
         If MGCount >=1 Then Return False
-        ElseIf Unititemtype >=ConstantClassLibrary.ASLXNA.Utype.Leader And
+        ElseIf Unititemtype >=ConstantClassLibrary.ASLXNA.Utype.SMC And
         Unititemtype <= ConstantClassLibrary.ASLXNA.Utype.Commissar Then
         Return False
         End If*/

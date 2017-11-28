@@ -3,8 +3,10 @@ package VASL.build.module.fullrules.ObjectChangeClasses;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
+import VASL.build.module.fullrules.UtilityClasses.CounterCreationC;
 import VASSAL.build.GameModule;
 
+import javax.swing.*;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -43,29 +45,30 @@ public class UnitHeroCreationc implements StatusChangei {
 
         // create the hero
         int Hero = 1102;
+        String NewName ="";
+        while (NewName =="") {
+            NewName = askforNewUnit(TargParent.getbaseunit().getUnitName());
+        }
         PersCreation UseObjectFactory = new PersCreation();
         PersUniti NewUnit = null;
-        GameModule.getGameModule().getChatter().send("Enter Name of New Hero: " + TargParent.getbaseunit().getUnitName() + " HOB: Hero Creation");
-        Scanner response = new Scanner(System.in);
-        if (response.toString() != null) {
-            String NewName = response.toString();
-            NewUnit = UseObjectFactory.CreateNewInstance(Hero, NewName, TargParent);
-            // update new Hero with values of previous unit - Do we need all of this
-            UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
-            if (TargParent.getTargetunit() != null) {
-                TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " HOB: creates Hero - " + NewUnit.getbaseunit().getUnitName());
-            }
-            // add new unit to Unitcol collection
-            Scencolls.Unitcol.add(NewUnit);
-            // Store values to update FireGroup and TargetGroup (maybe add movement?)
-            if (NewUnit.getTargetunit() != null) {
-                myNewTargs.add(NewUnit);
-            }
-            if (NewUnit.getFiringunit() != null) {
-                myNewFiring.add(NewUnit);
-            }
-            // NO HoB as this comes from HOBMC
+        NewUnit = UseObjectFactory.CreateNewInstance(Hero, NewName, TargParent);
+        // update new Hero with values of previous unit - Do we need all of this
+        UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
+        if (TargParent.getTargetunit() != null) {
+        TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " HOB: creates Hero - " + NewUnit.getbaseunit().getUnitName());
         }
+        // add new unit to Unitcol collection
+        Scencolls.Unitcol.add(NewUnit);
+        // Store values to update FireGroup and TargetGroup (maybe add movement?)
+        if (NewUnit.getTargetunit() != null) {
+            myNewTargs.add(NewUnit);
+        }
+        if (NewUnit.getFiringunit() != null) {
+            myNewFiring.add(NewUnit);
+        }
+        // create a VASL counter
+        createcounter();
+        // NO HoB as this comes from HOBMC
         return true;
     }
 
@@ -75,10 +78,24 @@ public class UnitHeroCreationc implements StatusChangei {
     public LinkedList<PersUniti> GetNewFirings () {
         return myNewFiring;
     }
-    /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
-            Get
+    /**
+     * Displays the input dialog and returns user input
+     */
+    public String askforNewUnit(String Oldname) {
 
-    End Get
-    End Property*/
+        // show confirmation dialog
+        JOptionPane pane = new JOptionPane();
+        String newname =  pane.showInputDialog(null,
+                "Enter Name of New Hero: ",
+                Oldname + " creates a Hero",
+                JOptionPane.QUESTION_MESSAGE
+        );
+        return newname;
+    }
+    public void createcounter() {
+        CounterCreationC createcounter = new CounterCreationC();
+        String countername = "VASSAL.build.module.PieceWindow:SQ/VASSAL.build.widget.ListWidget:ge/VASSAL.build.widget.PieceSlot:Hero";
+        createcounter.createCounter(countername);
+    }
 
 }

@@ -26,21 +26,13 @@ public class OpenSaveGame {
 
     public void OpenGame(String dataFilename) throws IOException {
 
-        String openfilename = "";
-        JFileChooser chooser = getFileChooser();
-        int retrival = chooser.showOpenDialog(null);
-        if (retrival == JFileChooser.APPROVE_OPTION) {
-            openfilename = chooser.getSelectedFile().getAbsolutePath();
-        }
         String readString = "";
         try {
-            BufferedReader br = new BufferedReader(new FileReader(openfilename));
+            BufferedReader br = new BufferedReader(new FileReader(dataFilename));
             while ((readString = br.readLine()) != null) {
                 if (!parseeachline(readString)) {System.out.println("Catch error!");}
-                //createunitdatafromunitstring(readString);
             }
             br.close();
-
         }
         catch (IOException e){
             System.out.println("Catch error!");
@@ -237,7 +229,7 @@ public class OpenSaveGame {
 
     private String createScenariostringfromscenariodata(){
         String savescenstring = "";
-        String[] tokens = new String[38];
+        String[] tokens = new String[39];
         ConversionC DoConversion = new ConversionC();
         ScenarioC scen = ScenarioC.getInstance();
 
@@ -281,8 +273,8 @@ public class OpenSaveGame {
         tokens[35] = Integer.toString(DoConversion.ConvertRulestoInt(scen.getScendet().getRules()));
         tokens[36] = Integer.toString(DoConversion.ConvertMaptoInt(scen.getScendet().getMap()));
         tokens[37] = Integer.toString(scen.getScendet().getWindHexGrain());
-
-        for (int x=0; x < 38; ++x) {
+        tokens[38] = Integer.toString(DoConversion.ConvertWhoCanDotoInt(scen.getScendet().getPTURN()));
+        for (int x=0; x < 39; ++x) {
             savescenstring += tokens[x] + " ";
         }
         return savescenstring;

@@ -199,14 +199,14 @@ public class Russian447Targc implements TargetPersUniti {
             } else if (FDR > (CurrentMoraleLevel - TargSTackLdrdrm)) {  // breaks
                 if (FDR > (CurrentMoraleLevel - TargSTackLdrdrm + myELR)) {  // ELR failure
                     myPersUnitImpact = Constantvalues.PersUnitResult.ReplacesReducesBreaks;
-                    Resultstring = " and breaks as it fails MC with " + Ldrstring + "Leader drm and a " + Integer.toString(ODR) + " dice roll";
+                    Resultstring = " and breaks as it fails MC with " + Ldrstring + "SMC drm and a " + Integer.toString(ODR) + " dice roll";
                 } else {                                                     // break; no ELR failure
                     myPersUnitImpact = Constantvalues.PersUnitResult.ReducesBreaks;
-                    Resultstring = " and breaks as it fails MC with " + Ldrstring + "Leader drm and a " + Integer.toString(ODR) + " dice roll";
+                    Resultstring = " and breaks as it fails MC with " + Ldrstring + "SMC drm and a " + Integer.toString(ODR) + " dice roll";
                 }
             } else if (FDR < (CurrentMoraleLevel - TargSTackLdrdrm)) {   // passes MC
                 myPersUnitImpact = Constantvalues.PersUnitResult.Reduces;
-                Resultstring = " and passes MC with " + Ldrstring + "Leader drm and a " + Integer.toString(ODR) + " dice roll";
+                Resultstring = " and passes MC with " + Ldrstring + "SMC drm and a " + Integer.toString(ODR) + " dice roll";
             }
         }
         if (myPersUnitImpact != Constantvalues.PersUnitResult.NoEffects) {

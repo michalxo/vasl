@@ -7,7 +7,7 @@ import VASL.build.module.fullrules.IFTCombatClasses.IFTC;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTTableResult;
 import VASL.build.module.fullrules.IFTCombatClasses.IIFTC;
 import VASL.build.module.fullrules.MovementClasses.MakeMoveC;
-import VASL.build.module.fullrules.ObjectClasses.Leader;
+import VASL.build.module.fullrules.ObjectClasses.SMC;
 import VASL.build.module.fullrules.ObjectClasses.Scenlisttype;
 import VASL.build.module.fullrules.OpenSaveGame;
 import VASL.build.module.fullrules.PhaseClasses.PhaseMVCPattern;
@@ -38,7 +38,7 @@ public class ScenarioC extends CampaignC {
     private OpenSaveGame GameinPlay;
     private HashMap<String, IFTTableResult> pIFTTableLookUp;
     private HashMap<String, LineofBattle> pLOBTableLookUp;
-    private HashMap<String, Leader> pLeaderTableLookUp;
+    private HashMap<String, SMC> pSMCTableLookUp;
     private HashMap<String, SupportWeapon> pSupportWeaponTableLookUp;
     // constructors
     private ScenarioC(String test) {
@@ -78,8 +78,8 @@ public class ScenarioC extends CampaignC {
     public void setIFTTableLookUp(HashMap<String, IFTTableResult> value){pIFTTableLookUp = value;}
     public void setLOBTableLookUp(HashMap<String, LineofBattle> value){pLOBTableLookUp = value;}
     public HashMap<String, LineofBattle> getLOBTableLookUp() {return pLOBTableLookUp;}
-    public HashMap<String, Leader> getLeaderTableLookUp(){return pLeaderTableLookUp;}
-    public void setLeaderTableLookUp(HashMap<String, Leader> value){pLeaderTableLookUp = value;}
+    public HashMap<String, SMC> getSMCTableLookUp(){return pSMCTableLookUp;}
+    public void setSMCTableLookUp(HashMap<String, SMC> value){pSMCTableLookUp = value;}
     public HashMap<String, SupportWeapon> getSupportWeaponTableLookUp(){return pSupportWeaponTableLookUp;}
     public void setSupportWeaponTableLookUp(HashMap<String, SupportWeapon> value){pSupportWeaponTableLookUp = value;}
 
@@ -164,7 +164,7 @@ public class ScenarioC extends CampaignC {
 
         GameinPlay = new OpenSaveGame();
         try {
-            GameinPlay.OpenGame("Fullrules");
+            GameinPlay.OpenGame(ScenName);
             // retrieve scenario data
             pScenario = GameinPlay.getScenario();
             pOBUnitcol = GameinPlay.unitsinplay();
@@ -452,8 +452,7 @@ public class ScenarioC extends CampaignC {
 //        TerrainActions.ShowTerrainCounters();
         UnitActions = new UnitActionsC(getOBUnitcol());
         //VehicleActions = new VehicleActionsC(Linqdata, this);
-        //SWActions = new SWActionsC(Linqdata, this);
-//        ConcealActions = new ConcealActionsC();
+        SWActions = new SWActionsC(getOBSWcol());  //        ConcealActions = new ConcealActionsC();
         return true;
     }
 

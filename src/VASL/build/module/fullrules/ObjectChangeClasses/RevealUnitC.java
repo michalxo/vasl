@@ -5,11 +5,11 @@ import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
+import VASSAL.build.GameModule;
 
 public class RevealUnitC implements VisibilityChangei {
     private PersUniti RevealUnit=null;
     private String myRevealResults = "";
-    private DataC Linqdata =DataC.GetInstance();
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
 
     public RevealUnitC(int RevealedUnitID) {
@@ -26,7 +26,7 @@ public class RevealUnitC implements VisibilityChangei {
             RevealUnit.getbaseunit().getVisibilityStatus() == Constantvalues.VisibilityStatus.Hidden) {
             RevealUnit.getbaseunit().setVisibilityStatus(Constantvalues.VisibilityStatus.Visible);
             RevealUnit.getbaseunit().setCon_ID(0);
-            myRevealResults = (RevealUnit.getbaseunit().getHexName());
+            myRevealResults = (RevealUnit.getbaseunit().getUnitName());
             // Need to add any SW associated with this unit
             if (RevealUnit.getbaseunit().getFirstSWLink() != 0) {   // 0 value means no SW
                 // retrieve SW and change visibility status
@@ -47,17 +47,17 @@ public class RevealUnitC implements VisibilityChangei {
                         if (RevealSW.getbaseSW().getVisibilityStatus() == Constantvalues.VisibilityStatus.Concealed ||
                                 RevealSW.getbaseSW().getVisibilityStatus() == Constantvalues.VisibilityStatus.Hidden) {
                             RevealSW.getbaseSW().setVisibilityStatus(Constantvalues.VisibilityStatus.Visible);
-                            myRevealResults += " & " + RevealSW.getbaseSW().getUnitName();
+                            myRevealResults += " + " + RevealSW.getbaseSW().getUnitName();
                         }
                     }
                 }
             }
-            //'MessageBox.Show(Revealstring & " revealed")
+            myRevealResults += " revealed in " + RevealUnit.getbaseunit().getHexName();
             RevealUnit.getbaseunit().UpdateBaseStatus(RevealUnit);
             return true;   // unit is revealed
         }
         // if here then something wrong
-        //MessageBox.Show(RevealUnit.OBName & " could not be revealed. Action fails")
+        GameModule.getGameModule().getChatter().send(RevealUnit.getbaseunit().getUnitName() + " could not be revealed. Action fails");
         return false;
     }
     public String getActionResult() {return myRevealResults;}

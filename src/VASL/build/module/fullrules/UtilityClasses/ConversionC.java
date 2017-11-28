@@ -4,22 +4,39 @@ import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
 
-
 public class ConversionC {
 
     // this class handles a variety of object type conversions; usually from int/string/etc stored in database to enums used in objects
 
     public ConversionC(){}
 
-    public Constantvalues.WhoCanDo ConverttoWhoCanDo(String databasevalue){
-        if (databasevalue == "A") {
+    public Constantvalues.WhoCanDo ConverttoWhoCanDo(int databasevalue){
+        if (databasevalue == 7996) {
             return Constantvalues.WhoCanDo.Attacker;
-        } else if (databasevalue == "B") {
+        } else if (databasevalue == 7997) {
             return Constantvalues.WhoCanDo.Defender;
+        }else if (databasevalue == 7998) {
+            return Constantvalues.WhoCanDo.Both;
+        }else if (databasevalue == 7999) {
+            return Constantvalues.WhoCanDo.None;
         } else {
-            return null;
+            return Constantvalues.WhoCanDo.None;
         }
     }
+    public int ConvertWhoCanDotoInt(Constantvalues.WhoCanDo WhoCanDovalue){
+        if (WhoCanDovalue == Constantvalues.WhoCanDo.Attacker) {
+            return 7996;
+        } else if (WhoCanDovalue == Constantvalues.WhoCanDo.Defender) {
+            return 7997;
+        }else if (WhoCanDovalue == Constantvalues.WhoCanDo.Both) {
+            return 7998;
+        }else if (WhoCanDovalue == Constantvalues.WhoCanDo.None) {
+            return 7999;
+        } else {
+            return 7999;
+        }
+    }
+
     public Constantvalues.DayNight ConverttoDayNight(int databasevalue) {
         switch(databasevalue) {
             case 1301:
@@ -3375,5 +3392,28 @@ public class ConversionC {
                 return 5120;
         }
     }
-
+    public String ConvertCombatStatustoCounterNameString(Constantvalues.CombatStatus combatstatusvalue){
+        switch (combatstatusvalue){
+            case Firing:
+                return null;
+            case PrepFirer:
+                return "Prep Fire";
+            case OppFirer:
+                return "Opp. Fire";
+            case FirstFirer:
+                return "First Fire";
+            case FinalFirer:
+                return "Final Fire";
+            case AdvFirer:
+                return "Adv. Fire";
+            case SubsequentFirstFiring:
+                return null;
+            case Melee:
+                return null;
+            case None:
+                return null;
+            default:
+                return null;
+        }
+    }
 }

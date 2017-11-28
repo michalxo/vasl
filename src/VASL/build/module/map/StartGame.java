@@ -7,12 +7,10 @@ This class is called by ActionsToolbar.addTo and initiates the full rules code f
 
 import VASL.LOS.Map.Hex;
 import VASL.build.module.ASLMap;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.Game.*;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTTable;
-import VASL.build.module.fullrules.IFTCombatClasses.IFTTableResult;
 import VASL.build.module.fullrules.IFTCombatClasses.LOBTable;
-import VASL.build.module.fullrules.ObjectClasses.LeaderTable;
+import VASL.build.module.fullrules.ObjectClasses.SMCTable;
 import VASL.build.module.fullrules.ObjectClasses.SupportWeaponTable;
 import VASSAL.build.AbstractConfigurable;
 import VASSAL.build.Buildable;
@@ -21,7 +19,6 @@ import VASSAL.build.module.GameComponent;
 import VASSAL.build.module.Map;
 import VASSAL.build.module.documentation.HelpFile;
 import VASSAL.build.module.map.Drawable;
-import VASSAL.build.module.map.PieceMover;
 import VASSAL.command.Command;
 import VASSAL.command.CommandEncoder;
 import VASSAL.counters.*;
@@ -32,17 +29,18 @@ import VASSAL.tools.io.IOUtils;
 import org.jdom2.JDOMException;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
 public class  StartGame extends AbstractConfigurable implements MouseListener, GameComponent, CommandEncoder, Drawable {
     private ScenarioC scen;
-    private DataC Linqdata;
     private VASL.LOS.Map.Map GameMap;
     protected Map map;
     private Clicki ProcessClick;
@@ -52,6 +50,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
     protected PieceFinder dragTargetSelector;
     protected PieceVisitorDispatcher selectionProcessor;
     protected Comparator<GamePiece> pieceSorter = new PieceSorter();
+    private JFileChooser pfilechooser;
 
     public void Initialize(boolean getgoing) {
 
@@ -65,12 +64,17 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
             initializeMap();
             // create classes required at start
             scen = ScenarioC.getInstance();
-            Linqdata = DataC.GetInstance();
-            Linqdata.InitializeData();
             CreateLookUpTables();
-            String PassScenID = "Fullrules"; // need to link this to VASL scenario name
-            if (scen.OpenScenario(PassScenID, pmap)) {
-                Linqdata.closeconnection();
+            // get fullrules savedgame file associated with VASL scenario
+            String openfilename = "";
+            JFileChooser chooser = getFileChooser();
+            int retrival = chooser.showOpenDialog(null);
+            if (retrival == JFileChooser.APPROVE_OPTION) {
+                openfilename = chooser.getSelectedFile().getAbsolutePath();
+            }
+
+            if (scen.OpenScenario(openfilename, pmap)) {
+
             }
         } else {
             scen.SaveScenario();
@@ -712,16 +716,16 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
             IOUtils.closeQuietly(inputStream);
         }
         scen.setLOBTableLookUp(lobtable.getLOBTableTypes());
-        // Leader Table
+        // SMC Table
         inputStream = null;
-        LeaderTable leadertable = new LeaderTable();
-        final String LeaderTableFileName = "fullrulesdata/LeaderTable.xml"; // name of the leader metadata file
+        SMCTable smctable = new SMCTable();
+        final String SMCTableFileName = "fullrulesdata/SMCTable.xml"; // name of the leader metadata file
         try {
             DataArchive archive = GameModule.getGameModule().getDataArchive();
-            // Leader Table metadata
-            inputStream = archive.getInputStream(LeaderTableFileName);
+            // SMC Table metadata
+            inputStream = archive.getInputStream(SMCTableFileName);
 
-            leadertable.parseLeaderTableFile(inputStream);
+            smctable.parseSMCTableFile(inputStream);
         } catch (IOException e){
 
         } catch (JDOMException e) {
@@ -730,7 +734,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
         }finally {
             IOUtils.closeQuietly(inputStream);
         }
-        scen.setLeaderTableLookUp(leadertable.getLeaderTableTypes());
+        scen.setSMCTableLookUp(smctable.getSMCTableTypes());
         // LOB SupportWeapon Table
         inputStream = null;
         SupportWeaponTable supportweapontable = new SupportWeaponTable();
@@ -751,6 +755,23 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
         }
         scen.setSupportWeaponTableLookUp(supportweapontable.getSuppWTableTypes());
     }
+    private JFileChooser getFileChooser(){
+        if (pfilechooser != null){
+            return pfilechooser;
+        } else {
+            pfilechooser = new JFileChooser();
+            Action details = pfilechooser.getActionMap().get("viewTypeDetails");
+            details.actionPerformed(null);
+            pfilechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            FileFilter newfilter = new FileFilter() {
 
+                public String getDescription() {return "Text Documents (*.txt)";}
+                public boolean accept(File f) {return f.getName().toLowerCase().endsWith(".txt");}
+            };
+            pfilechooser.addChoosableFileFilter(newfilter);
+            pfilechooser.setCurrentDirectory(GameModule.getGameModule().getGameState().getSavedGameDirectoryPreference().getFileValue());
+            return pfilechooser;
+        }
+    }
 
 }

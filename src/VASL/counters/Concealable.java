@@ -18,6 +18,13 @@
  */
 package VASL.counters;
 
+import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.ObjectChangeClasses.ConcealUnitC;
+import VASL.build.module.fullrules.ObjectChangeClasses.RevealUnitC;
+import VASL.build.module.fullrules.ObjectChangeClasses.VisibilityChangei;
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
 import VASSAL.build.Configurable;
 import VASSAL.build.GameModule;
 import VASSAL.build.module.ObscurableOptions;
@@ -131,6 +138,10 @@ public class Concealable extends Obscurable implements EditablePiece {
       c = super.myKeyEvent(stroke);
       boolean concealmentExists = false;
       GamePiece outer = Decorator.getOutermost(this);
+      // I think this is where concealment takes place so fire out to Fullrules
+      // fullrules addition
+      dofullrulesconcealment(true, outer);
+
       if (getParent() != null) {
         for (int i = getParent().indexOf(outer),j = getParent().getPieceCount(); i < j; ++i) {
           Concealment conceal = (Concealment) Decorator.getDecorator(getParent().getPieceAt(i), Concealment.class);
@@ -183,6 +194,7 @@ public class Concealable extends Obscurable implements EditablePiece {
    */
   public Command adjustConcealment() {
     if (isMaskable()) {
+      boolean concealing = false; // for full rules purposes
       GamePiece outer = Decorator.getOutermost(this);
       String state = outer.getState();
       setProperty(Properties.OBSCURED_BY, null);
@@ -191,11 +203,23 @@ public class Concealable extends Obscurable implements EditablePiece {
           Concealment p = (Concealment) Decorator.getDecorator(getParent().getPieceAt(i), Concealment.class);
           if (p != null && p.canConceal(this)) {
             setProperty(Properties.OBSCURED_BY, GameModule.getUserId());
+            concealing = true;  // fullrules
             break;
           }
         }
         getMap().repaint(getMap().boundingBoxOf(getParent()));
       }
+      // full rules addition
+      if(concealing) {
+        dofullrulesconcealment(true, outer);
+        /*VisibilityChangei addconcealment = new ConcealUnitC(Integer.parseInt(outer.getProperty("TextLabel").toString()));
+        addconcealment.TakeAction();
+        GameModule.getGameModule().getChatter().send(addconcealment.getActionResult());*/
+      } else {
+        dofullrulesconcealment(false, outer);
+
+      }
+      // end of full rules addition
       return outer.getState().equals(state) ? null
           : new ChangePiece(outer.getId(), state, outer.getState());
     }
@@ -419,6 +443,46 @@ public class Concealable extends Obscurable implements EditablePiece {
       se.append(nation2 != null ? nation2 : "");
       se.append(concealmentMarkerPath != null ? concealmentMarkerPath : "");
       return ID + se.getValue();
+    }
+  }
+
+  // method below is to trigger fullrules concealment update
+  private void dofullrulesconcealment(boolean concealing, GamePiece outer){
+    // need to handle situation where outer is not a unit but a SW
+    PersUniti ConcealUnit = null;
+    int concealunitid =0;
+    ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+    for (PersUniti UnittoConceal: Scencolls.Unitcol) {
+      if (UnittoConceal.getbaseunit().getUnit_ID() == Integer.parseInt(outer.getProperty("TextLabel").toString())) {
+        ConcealUnit = UnittoConceal;
+        concealunitid = ConcealUnit.getbaseunit().getUnit_ID();
+        break;
+      }
+    }
+    if (ConcealUnit == null) { //is a sw; get owner info
+      for (SuppWeapi OBSWitem : Scencolls.SWCol) {
+        if (OBSWitem.getbaseSW().getUnit_ID() == Integer.parseInt(outer.getProperty("TextLabel").toString())) {
+          int owner = OBSWitem.getbaseSW().getOwner();
+          for (PersUniti UnittoConceal: Scencolls.Unitcol) {
+            if (UnittoConceal.getbaseunit().getUnit_ID() == owner) {
+              ConcealUnit = UnittoConceal;
+              concealunitid= owner;
+              break;
+            }
+          }
+        }
+      }
+    }
+    if (ConcealUnit != null) {
+      if (concealing) {
+        VisibilityChangei addconcealment = new ConcealUnitC(concealunitid);
+        addconcealment.TakeAction();
+        GameModule.getGameModule().getChatter().send(addconcealment.getActionResult());
+      } else {
+        VisibilityChangei removeconcealment = new RevealUnitC(concealunitid);
+        removeconcealment.TakeAction();
+        GameModule.getGameModule().getChatter().send(removeconcealment.getActionResult());
+      }
     }
   }
 }

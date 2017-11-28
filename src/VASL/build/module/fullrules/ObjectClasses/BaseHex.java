@@ -20,11 +20,10 @@ public class BaseHex {
     private double prHexBaseLevelValue;  // readonly
     private int prlocindex;   // readonly
     private LinkedList<SmokeHolder> prSmokeList;   // readonly
-    private Constantvalues.Feature prOBA;   // readonly
 
     public BaseHex(Constantvalues.Location PasshexTerrtype, Constantvalues.Hexside PassHexside1, Constantvalues.Hexside PassHexside2, Constantvalues.Hexside PassHexside3,
                    Constantvalues.Hexside PassHexside4, Constantvalues.Hexside PassHexside5, Constantvalues.Hexside PassHexside6, String Passcontrol,
-                   LinkedList<SmokeHolder> PassSmokeList, Constantvalues.Feature PassOBA, Location PassLocation) {
+                   LinkedList<SmokeHolder> PassSmokeList, Location PassLocation) {
         prhexnamevalue = PassLocation.getHex().getName();
         //prHexIDvalue = PassHexID;
         prHextertypevalue = PasshexTerrtype;
@@ -38,12 +37,12 @@ public class BaseHex {
         prControlvalue = Passcontrol;
         prHexBaseLevelValue = PassLocation.getHex().getBaseHeight();
         prSmokeList = PassSmokeList;
-        prOBA = PassOBA;
+
     }
     // thread version
     public BaseHex(Constantvalues.Location PasshexTerrtype, Constantvalues.Hexside PassHexside1, Constantvalues.Hexside PassHexside2, Constantvalues.Hexside PassHexside3,
                    Constantvalues.Hexside PassHexside4, Constantvalues.Hexside PassHexside5, Constantvalues.Hexside PassHexside6, String Passcontrol,
-                   int PassThreadLOCIndex, LinkedList<SmokeHolder> PassSmokeList, Constantvalues.Feature PassOBA, Location PassLocation) {
+                   int PassThreadLOCIndex, LinkedList<SmokeHolder> PassSmokeList,  Location PassLocation) {
         prhexnamevalue = PassLocation.getHex().getName();
         //prHexIDvalue = PassHexID;
         prHextertypevalue = PasshexTerrtype;
@@ -58,7 +57,6 @@ public class BaseHex {
         prHexBaseLevelValue = PassLocation.getBaseHeight();
         prlocindex = PassThreadLOCIndex;
         prSmokeList = PassSmokeList;
-        prOBA = PassOBA;
     }
 
     public  String getHexName() {return prhexnamevalue;}
@@ -78,5 +76,5 @@ public class BaseHex {
     public void setStaircase(boolean value) {prStaircasevalue = value;}
     public int getLocIndex() {return prlocindex;}
     public LinkedList<SmokeHolder> getSmokeList() {return prSmokeList;}
-    public Constantvalues.Feature getOBA() {return prOBA;}
+
 }

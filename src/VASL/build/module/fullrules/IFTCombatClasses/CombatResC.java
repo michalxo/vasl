@@ -1,23 +1,20 @@
 package VASL.build.module.fullrules.IFTCombatClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.LineofBattle;
 import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectChangeClasses.*;
-import VASL.build.module.fullrules.ObjectClasses.Leader;
+import VASL.build.module.fullrules.ObjectClasses.SMC;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASSAL.build.GameModule;
-import org.mockito.internal.matchers.Same;
 
 import java.util.LinkedList;
 
 public class CombatResC implements CombatResi {
 
-    private DataC Linqdata = DataC.GetInstance();
     private boolean myNeedToResume;
     private boolean myNeedAPopup;
     // private myPopupItems As New List(Of Objectvalues.MenuItemObjectholderinteface)
@@ -96,7 +93,7 @@ public class CombatResC implements CombatResi {
                 }  // don' t process units twice -will stop replacement units from being processed again
                 LdrDRMforTargets = DetermineTargetLdrDRM(TargetList);
                 // need to do each time through as can change if leader killed, wounded, broken or pinned
-                //GameModule.getGameModule().getChatter().send("Leader DRM for " + TargetUnit.getbaseunit().getUnitName() + " is " + Integer.toString(LdrDRMforTargets));
+                //GameModule.getGameModule().getChatter().send("SMC DRM for " + TargetUnit.getbaseunit().getUnitName() + " is " + Integer.toString(LdrDRMforTargets));
                 // process impact on target
                 if (ProcessImpact(TargetUnit, LdrDRMforTargets, Resultstring)) {
                     Constantvalues.PersUnitResult CombatImpact = TargetUnit.getTargetunit().getPersUnitImpact();
@@ -252,33 +249,39 @@ public class CombatResC implements CombatResi {
     }
     private LinkedList<PersUniti> OrderSelectedUnits(LinkedList<PersUniti> SameTargets) {
         int j;
-        int i; boolean test1 = false; boolean Keepgoing = true;
+        int i;
+        boolean test1 = false;
+        boolean Keepgoing = true;
         int MoraleLevelTest1;
-        int LdrmTest1=0;
+        int LdrmTest1 = 0;
         PersUniti Unittocheck;
         PersUniti TestUnittoCheck;
         // Dim tempML As Integer, MoraleFlag As Integer
         boolean test2 = false;
         int MoraleLevelTest2;
-        int LdrmTest2=0;
+        int LdrmTest2 = 0;
         boolean Test3 = false; // : Dim TestUnittoget As Integer
         boolean swap = false;
         // Dim TempArray As Integer, TempType As Integer,
         int NumTargs;
         String msg;
         String msgtitle;
-        PersUniti TestToSwap1; PersUniti TestToSwap2;
+        PersUniti TestToSwap1;
+        PersUniti TestToSwap2;
+        LineofBattle lineofbattle;
+        SMC smc;
         CommonFunctionsC comfun = new CommonFunctionsC(SameTargets.get(0).getbaseunit().getScenario());
         NumTargs = SameTargets.size();
         do {
-            swap = false; Keepgoing=true;
-            for (i = 0; i < NumTargs; i++) {
+            swap = false;
+            Keepgoing = true;
+             for (i = 0; i < NumTargs; i++) {
                 for (j = (i + 1); j < NumTargs; j++) {
                     Unittocheck = SameTargets.get(i);
                     test1 = Unittocheck.getbaseunit().IsUnitALeader();
                     if (test1) {
-                        Leader TempLeader = comfun.Getleader(Integer.toString(Unittocheck.getbaseunit().getLOBLink()));
-                        LdrmTest1 = TempLeader.getLDRM();  // Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.LDRM, Unittocheck.getbaseunit().getLOBLink()));
+                        SMC tempSMC = comfun.GetSMC(Integer.toString(Unittocheck.getbaseunit().getLOBLink()));
+                        LdrmTest1 = tempSMC.getLDRM();  // Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.LDRM, Unittocheck.getbaseunit().getLOBLink()));
                         if ((Unittocheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Wounded ||
                                 Unittocheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Fan_Wnd ||
                                 Unittocheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Enc_Wnd ||
@@ -286,14 +289,19 @@ public class CombatResC implements CombatResi {
                             LdrmTest1 += 1;
                         }
                     }
-                    LineofBattle lineofBattle = comfun.Getlob(Integer.toString(Unittocheck.getbaseunit().getLOBLink()));
-                    MoraleLevelTest1 = lineofBattle.getMoraleLevel();
-                    //MoraleLevelTest1 = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.MORALELEVEL, Unittocheck.getbaseunit().getLOBLink()));
+                    // get unit morale - mmc or smc
+                    if (Unittocheck.getbaseunit().getLOBLink() < 1000) { // is mmc
+                        lineofbattle = comfun.Getlob(Integer.toString(Unittocheck.getbaseunit().getLOBLink()));
+                        MoraleLevelTest1 = lineofbattle.getMoraleLevel();
+                    } else {     // is SMC
+                        smc = comfun.GetSMC(Integer.toString(Unittocheck.getbaseunit().getLOBLink()));
+                        MoraleLevelTest1 = smc.getMoraleLevel();
+                    }
                     TestUnittoCheck = SameTargets.get(j);
                     test2 = TestUnittoCheck.getbaseunit().IsUnitALeader();
                     if (test2) {
-                        Leader TempLeader = comfun.Getleader(Integer.toString(TestUnittoCheck.getbaseunit().getLOBLink()));
-                        LdrmTest2 = TempLeader.getLDRM();  //.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.LDRM, (TestUnittoCheck.getbaseunit().getLOBLink())));
+                        SMC tempSMC = comfun.GetSMC(Integer.toString(TestUnittoCheck.getbaseunit().getLOBLink()));
+                        LdrmTest2 = tempSMC.getLDRM();  //.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.LDRM, (TestUnittoCheck.getbaseunit().getLOBLink())));
                         if ((TestUnittoCheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Wounded ||
                                 TestUnittoCheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Fan_Wnd ||
                                 TestUnittoCheck.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Enc_Wnd ||
@@ -301,9 +309,13 @@ public class CombatResC implements CombatResi {
                             LdrmTest2 += 1;
                         }
                     }
-                    lineofBattle = comfun.Getlob(Integer.toString(TestUnittoCheck.getbaseunit().getLOBLink()));
-                    MoraleLevelTest2 = lineofBattle.getMoraleLevel();
-                    //MoraleLevelTest2 = Integer.parseInt(Linqdata.GetLOBData(Constantvalues.LOBItem.MORALELEVEL, TestUnittoCheck.getbaseunit().getLOBLink()));
+                    if (TestUnittoCheck.getbaseunit().getLOBLink() < 1000) { // is mmc
+                        lineofbattle = comfun.Getlob(Integer.toString(TestUnittoCheck.getbaseunit().getLOBLink()));
+                        MoraleLevelTest2 = lineofbattle.getMoraleLevel();
+                    } else {  // is SMC
+                        smc = comfun.GetSMC(Integer.toString(TestUnittoCheck.getbaseunit().getLOBLink()));
+                        MoraleLevelTest2 = smc.getMoraleLevel();
+                    }
                     Test3 = (MoraleLevelTest2 >= MoraleLevelTest1);
                     if (test1 && test2 && Test3) {
                         if (LdrmTest2 < LdrmTest1) {
@@ -322,13 +334,13 @@ public class CombatResC implements CombatResi {
                 }
             }
             Keepgoing = false;
-        } while (Keepgoing==true);
-
-        msgtitle = "Checking Order of Units";
-        /*For Each checkitem As Objectvalues.PersUniti In SameTargets
-        msg &= Trim(checkitem.BasePersUnit.UnitName) & vbCrLf
-        Next
-        MsgBox(msg, , msgtitle)*/
+        } while (Keepgoing == true);
+        // test code
+        String orderedlistofunits = "";
+        for (PersUniti orderlist : SameTargets){
+            orderedlistofunits += orderlist.getbaseunit().getUnitName() + " ";
+        }
+        GameModule.getGameModule().getChatter().send("Ordered list: " + orderedlistofunits);
         return SameTargets;
     }
     private boolean PauseForSniper() {

@@ -26,7 +26,7 @@
         ReducesTo = OBLink value unit reduces to
         SubstitutesTo = OBLink value unit substitutes to
         HardensTo = OBLink value unit hardens to
-        UnitType = Constantvalues.UnitType value of unit (Squad, HalfSquad, Leader, etc)
+        UnitType = Constantvalues.UnitType value of unit (Squad, HalfSquad, SMC, etc)
 
     -->
     <LOBtype LOBname="ge658" Nationality="2003" OBLink="1" Firepower="6" Range="5" Morale="8" AssaultFire="FALSE" SprayingFire="TRUE" ELR5="TRUE" Class="2206" Smoke="2" BrokenML="9" BPV="15" RedTo="348" SubTo="348" HardTo="FAN" SelfRally="FALSE" ReducesTo="8" SubstitutesTo="8" HardensTo="-2" Unittype="2101"/>

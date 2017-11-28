@@ -18,15 +18,16 @@ public class LOSSolution extends BaseSolution {
     // constructor called by
     public LOSSolution(Hex PassSeehex, double PassSeelevelinhex, double PassTotalSeeLevel, Constantvalues.AltPos PassSeePositionInHex, Hex PassSeenhex,
                        double PassSeenlevelinhex, double PassTotalSeenLevel, Constantvalues.AltPos PassSeenPositionInHex, boolean PassSolWorks,
-                       Constantvalues.LOS PassLOSFollows, int PassID, VASL.LOS.Map.Map PassScenMap) {
+                       Constantvalues.LOS PassLOSFollows, int PassID, VASL.LOS.Map.Map PassScenMap, LinkedList<CombatTerrain> PassHexesinLOS) {
         super(PassSeehex, PassSeelevelinhex, PassSeePositionInHex, PassSeenhex, PassSeenlevelinhex,
                 PassSeenPositionInHex, PassSolWorks, PassScenMap);
         prSolIDvalue = PassID;
         setTotalSeeLevel(PassTotalSeeLevel);
         setTotalSeenLevel(PassTotalSeenLevel);
         setLOSFollows(PassLOSFollows);
-        //pHexesInLOS = New List(Of objectvalues.combatterrain)
-        // pAltHexesinLOS = New List(Of Objectvalues.AltHexGTerrain)
+        for (CombatTerrain PassComTerr: PassHexesinLOS){
+            prHexesinLOS.add(PassComTerr);
+        }
     }
 
     public int getID() {
@@ -97,7 +98,7 @@ public class LOSSolution extends BaseSolution {
     Trim(FeatureName)
     if FeatdrmAdj > 0 Then DoesScenLOSHApplytothisLOS = true
     End Function*/
-    public int CalcVisLOSH(boolean OBAAlreadyFound, CombatTerrain ComTer) {
+    /*public int CalcVisLOSH(boolean OBAAlreadyFound, CombatTerrain ComTer) {
         // called by IFTC.Combatdrm
         // determines if any visibility-LOSH exists in hex (only from OBA and/or Smoke coded so far ) - NEED TO ADD MIST AND DUST
         // NEED TO ADD CODE TO HANDLE DIFFERENT LEVEL TESTS
@@ -153,7 +154,7 @@ public class LOSSolution extends BaseSolution {
                     // NEED TO IMPORT VASL.LOS LOGIC FOR BLIND HEXES IN HERE
                     //'Dim AddSmoke As Boolean = false
                     //Hex FiringHex = scen.getGameMap().getHex(Firingunit.getbaseunit().getHexName());
-                    /*Hex TargetHex = scen.getGameMap().getHex(TargetUnit.getbaseunit().getHexName());
+                    *//*Hex TargetHex = scen.getGameMap().getHex(TargetUnit.getbaseunit().getHexName());
                     range = scen.getGameMap().range(FiringHex, TargetHex, scen.getGameMap().getMapConfiguration());
 
                     Dim ObsTargRange As Integer = MapGeo.CalcRange(ComTer.HexID, Me.SeenHexNum, true)
@@ -195,7 +196,7 @@ public class LOSSolution extends BaseSolution {
                                  AddSmoke =true :Smoketype =Smokeinstance.Smoke
                             End if
                         End if
-                    End if*/
+                    End if*//*
                 }
             }
         }
@@ -231,13 +232,13 @@ public class LOSSolution extends BaseSolution {
         }
         //  check for OBA
         if (!OBAAlreadyFound) { // OBA +1 only applies once no matter how many hexes crossed so if already added, don't add again
-            if (ComTer.getOBA() == Constantvalues.Feature.FFE1 || ComTer.getOBA() == Constantvalues.Feature.FFE2 || ComTer.getOBA() == Constantvalues.Feature.FFEC) {
+            *//*if (ComTer.getOBA() == Constantvalues.Feature.FFE1 || ComTer.getOBA() == Constantvalues.Feature.FFE2 || ComTer.getOBA() == Constantvalues.Feature.FFEC) {
                 pCalcVisLOSH += 1;
                 VisLOSHName += " OBA LOSH";
                 OBAAlreadyFound = true;
-            }
+            }*//*
         }
         ComTer.setVisLOSHName(VisLOSHName);
         return pCalcVisLOSH;
-    }
+    }*/
 }

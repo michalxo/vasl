@@ -30,25 +30,25 @@ public class CombatTerrain  extends BaseHex {
     private int prHexTEM;
     //private MapDataC Maptables = MapDataC.GetInstance("", 0);  // use null values for parameters when sure instance exists
     //private LinkedList<GameLocation> LocationCol = new LinkedList<GameLocation>();
-    private DataC Linqdata= DataC.GetInstance();
     private ScenarioC prscen;
     private Scenario prScendet;
     private Location prLocation;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private Hex prHex;
     private String prVisLOSHName="";
+    private LinkedList<HindInLOS> prhindInLOS;
     // Constructors
 
     public CombatTerrain(Constantvalues.Location PasshexTerrtype, Constantvalues.Hexside PassHexside1, Constantvalues.Hexside PassHexside2, Constantvalues.Hexside PassHexside3,
-                         Constantvalues.Hexside PassHexside4, Constantvalues.Hexside PassHexside5, Constantvalues.Hexside PassHexside6, int PassHexTEM, int PassHexHind,
+                         Constantvalues.Hexside PassHexside4, Constantvalues.Hexside PassHexside5, Constantvalues.Hexside PassHexside6, int PassHexHind,
                          Constantvalues.Hexrole PassHexrole, String Passcontrol, int PassTargetID,
-                         LinkedList<SmokeHolder> PassSmokelist, Constantvalues.Feature PassOBA, int PassSolID, Location PassLocation, boolean PassHexLOSHApplies) {
-        // called by Linqdata.AddtoCollection
+                         LinkedList<SmokeHolder> PassSmokelist, LinkedList<HindInLOS> PassHindInLOS, int PassSolID, Location PassLocation, boolean PassHexLOSHApplies) {
+        // called by
         // creates new CombatTerrain object for any hex involved in combat, passes Staircase and Control to base class constructor but does not use them
         super(PasshexTerrtype,
                 PassHexside1, PassHexside2, PassHexside3, PassHexside4,
-                PassHexside5, PassHexside6, Passcontrol, PassSmokelist, PassOBA, PassLocation);
-        prHexTEM = PassHexTEM;
+                PassHexside5, PassHexside6, Passcontrol, PassSmokelist, PassLocation);
+        prHexTEM = PassLocation.getTerrain().getTEM();
         prHexHindvalue = PassHexHind;
         prhexdescvalue = PassLocation.getTerrain().getName();
         prHexrolevalue = PassHexrole;
@@ -61,19 +61,20 @@ public class CombatTerrain  extends BaseHex {
         prScendet = prscen.getScendet();
         prLocation = PassLocation;
         prHex = PassLocation.getHex();
+        prhindInLOS = PassHindInLOS;
     }
 
     // thread version
     public CombatTerrain(Constantvalues.Location PasshexTerrtype, Constantvalues.Hexside PassHexside1, Constantvalues.Hexside PassHexside2, Constantvalues.Hexside PassHexside3,
-                         Constantvalues.Hexside PassHexside4, Constantvalues.Hexside PassHexside5, Constantvalues.Hexside PassHexside6, int PassHexTEM, int PassHexHind,
+                         Constantvalues.Hexside PassHexside4, Constantvalues.Hexside PassHexside5, Constantvalues.Hexside PassHexside6, int PassHexHind,
                          Constantvalues.Hexrole PassHexrole, String Passcontrol, double PassTargetID,
-                         int PassSolid, LinkedList<SmokeHolder> PassSmokelist, Constantvalues.Feature PassOBA, int PassScenID, Location PassLocation, boolean PassHexLOSHApplies) {
+                         int PassSolid, LinkedList<SmokeHolder> PassSmokelist, LinkedList<HindInLOS> PassHindInLOS, int PassScenID, Location PassLocation, boolean PassHexLOSHApplies) {
         // called by Linqdata.AddtoCollection
         // creates new CombatTerrain object for any hex involved in combat, passes Staircase and Control to base class constructor but does not use them
         super(PasshexTerrtype,
                 PassHexside1, PassHexside2, PassHexside3, PassHexside4,
-                PassHexside5, PassHexside6, Passcontrol, PassSmokelist, PassOBA, PassLocation);
-        prHexTEM = PassHexTEM;
+                PassHexside5, PassHexside6, Passcontrol, PassSmokelist, PassLocation);
+        prHexTEM = PassLocation.getTerrain().getTEM();
         prHexHindvalue = PassHexHind;
         prhexdescvalue = PassLocation.getTerrain().getName();
         prHexrolevalue = PassHexrole;
@@ -86,6 +87,7 @@ public class CombatTerrain  extends BaseHex {
         prScendet = prscen.getScendet();
         prLocation = PassLocation;
         prHex = PassLocation.getHex();
+        prhindInLOS = PassHindInLOS;
     }
 
     public Constantvalues.Hexrole getHexrole() {
@@ -150,6 +152,7 @@ public class CombatTerrain  extends BaseHex {
 
     public String getVisLOSHName(){return prVisLOSHName; }
     public void setVisLOSHName(String value){prVisLOSHName = value;}
+    public LinkedList<HindInLOS> gethindInLOS() {return prhindInLOS;}
 
     public Location getLocation() {return prLocation;}
     public void setLocation(Location value){prLocation=value;}
@@ -259,13 +262,13 @@ public class CombatTerrain  extends BaseHex {
         String TempFeatureName = "";
         boolean FirerHex = false;
         int ScenFeatTEM = 0;
-        if (Linqdata.getScenFeatcol().size() == 0) {
+        /*if (getScenFeatcol().size() == 0) {
             // no scenario features currently exist in this scenario
             ScenFeatTEM = 0;
             FeatureName = "";
             //GameModule.getGameModule().getChatter().send("No Scenario Terrain currently exists in the game: CombatTerrain.GetScenFeatTEM");
         } else {
-            for (ScenarioTerrain ScenFeat: Linqdata.getScenFeatcol()){
+            for (ScenarioTerrain ScenFeat: getScenFeatcol()){
                 // need to check each ScenFeat as more than one can
                 // exist per hex (ie foxhole and wire) - BUT TEM NOT CUMULATIVE
                 // reset temp variables
@@ -296,7 +299,7 @@ public class CombatTerrain  extends BaseHex {
                 
                 }
             }
-            /*'' check for Smoke
+            *//*'' check for Smoke
             ' Getlocs = New Terrainvalues.GetALocationFromMapTable(Game.Scenario.LocationCol)
             ' LocToUse As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromMaptable(this.LocIndex)
             'if LocToUse.Smoke > 0 Then '
@@ -321,8 +324,8 @@ public class CombatTerrain  extends BaseHex {
             '    GetScenFeatTEMLOSH += 1
             '    FeatureName &= "OBA LOSH"
             'End if
-            'Trim(FeatureName)*/
-        }
+            'Trim(FeatureName)*//*
+        }*/
         return ScenFeatTEM;
     }
 
@@ -635,6 +638,44 @@ public class CombatTerrain  extends BaseHex {
         return FinalTargetHexdrm;
     }
 
+    public int getTargetLOSHdrm(LinkedList<IFTMods> DRMList, PersUniti TargetUnit){
+        // first OBA
+        int OBALOSH = OBACheck();
+        IFTMods NEWDrm = null;
+        String Smokestring = "";
+        // now add visibility losh to drm list
+        if (OBALOSH > 0) {
+            if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.OBA)) {
+                NEWDrm = new IFTMods(OBALOSH, Constantvalues.IFTdrm.OBA, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), this.getLocation(), "OBA");
+                DRMList.add(NEWDrm);
+            } else {
+                OBALOSH = 0;
+                GameModule.getGameModule().getChatter().send(this.getVisLOSHName() + " in " + this.getHexName() + " already added to DRM");
+            }
+        }
+        // then Smoke
+        int Smokedrm=0;
+        if (prhindInLOS != null) {
+            for (HindInLOS testhind : prhindInLOS) {
+                //check for OBA hind
+                if (testhind.getHindtype() == Constantvalues.Feature.Smoke) {
+                    Smokedrm= testhind.getHindvalue() ;
+                }
+            }
+        }
+
+        if (Smokedrm > 0) {
+            if (this.NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.VisLoSH)) {
+                NEWDrm = new IFTMods(Smokedrm, Constantvalues.IFTdrm.VisLoSH, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), this.getLocation(), Smokestring);
+                DRMList.add(NEWDrm);
+            } else {
+                Smokedrm = 0;
+                GameModule.getGameModule().getChatter().send(this.getVisLOSHName() + " in " + this.getHexName() + " already added to DRM");
+            }
+        }
+        return OBALOSH + Smokedrm;
+
+    }
     public boolean NotAlreadyAddedToDRMList(LinkedList<IFTMods> ListtoCheck, PersUniti targetUnit, Constantvalues.IFTdrm Testdrmtype) {
         // called by CombatDRM
         // determines if LOSH or Terrain DRM already added by a unit in the same target hex
@@ -648,6 +689,12 @@ public class CombatTerrain  extends BaseHex {
             }
             for (IFTMods DRMTest : ListtoCheck) {
                 if (targetUnit.getbaseunit().gethexlocation().equals(DRMTest.getDRMLocation()) && this.getLocation().equals(targetUnit.getbaseunit().gethexlocation()) && DRMTest.getDRMType() == Testdrmtype) {
+                    return false;
+                }
+            }
+            // special test for OBA which can only be added once
+            for (IFTMods DRMTest: ListtoCheck){
+                if (DRMTest.getDRMType() == Constantvalues.IFTdrm.OBA && Testdrmtype == Constantvalues.IFTdrm.OBA) {
                     return false;
                 }
             }
@@ -837,23 +884,20 @@ public class CombatTerrain  extends BaseHex {
         }
 
     }
-    public int InterveningDRM(int VisLOSH, int FinalLOSHDRM, int LOSHdrm, VASL.LOS.Map.Map Map, String LOSHName, String TerrainName, int Featuredrm, String Featurename,
-            String FinalLOSHName, boolean LOSAlongHexside , int FinalVisLOSH,
-            int hexspinedrm, LinkedList<PersUniti> FireGroupThread, LinkedList<IFTMods> DRMList, PersUniti TargetUnit,
-            double TargetTotalLevel, int Lasthexloshdrm, Hex lasthex, String UseAltName, LinkedList<AltHexGTerrain> AltHexesInLoSLIst, int SolID,
-            LinkedList<CombatTerrain> CombatTerrCol, Hex SeeHex, Hex SeenHex) {
-        //int TotalLocationLOSHdrm=0;
-        CombatTerrain UsingComTer;
-        TerrainChecks TerrChk = new TerrainChecks();
-        IsTerrain IsTerrChk = new IsTerrain(prLocation.getTerrain());
-        //MapDataC Maptableinstance = MapDataC.GetInstance("", 0);  // use null values for parameters when sure instance exists
+    public int InterveningDRM(LinkedList<IFTMods> DRMList, PersUniti TargetUnit) {
+        int VisLOSH = 0;
+        int OBAHind =0;
+        int Featuredrm =0;
+        int LOSHdrm = 0;
+        int FinalLOSHDRM = 0;
+        String VisLOSHName = "";
+        String OBAHindName = "";
+        String Featurename = "";
+        String LOSHName = "";
         IFTMods NEWDrm;
-        int FinalFeatureDRM = 0;
-        //int Lastlocindex = 0; // holds value of last hex checked LocIndex
+
         // existence of hex Hindrance set in LOS routine; check for value now
-        FinalLOSHDRM = 0;
         if (this.getHexLOSHApplies()) {
-            // will not apply to Alternate Hex Grain hexes as .HexLOSHApplies is not set by LOS routine for such hexes
             LOSHdrm = this.getHexHind();
             // temporary while debugging UNDO
             /*if (Map == Constantvalues.Map.BloodReef) {
@@ -868,21 +912,32 @@ public class CombatTerrain  extends BaseHex {
                 LOSHName = this.gethexdesc();
             }*/
             LOSHName = this.gethexdesc();
-            TerrainName = "";
-        } else {
-            LOSHName = "";
         }
-        UsingComTer = this;
-        double TotalFirerlevel = 0; double TempInhex = 0; double Firerinhexlevel =99; double FirerBaseLevel=0;
-        for (PersUniti FiringUnit: FireGroupThread) {
-            TempInhex = FiringUnit.getbaseunit().getLevelinHex();
-            if (TempInhex <= Firerinhexlevel) {
-                Firerinhexlevel = TempInhex;
+
+        // Don't need to check alternate hexes if LOS is along hexside as VASL LOSCheck has already done so and determined where hindrances apply. TEST THIS
+        // check for non-terrain LOSH such as vehicles, OBA, Smoke
+        if (prhindInLOS != null) {
+            for (HindInLOS testhind : prhindInLOS) {
+                // need to check each item as more than one can exist per hex
+                // this routine only needs to check for LOSH; LOS blocks already done;
+
+                if (testhind.getHindtype() == Constantvalues.Feature.Smoke) {
+                    VisLOSH = testhind.getHindvalue();
+                    VisLOSHName = testhind.getHinddesc();
+                } else if (testhind.getHindtype() == Constantvalues.Feature.FFE1 ||
+                        testhind.getHindtype() == Constantvalues.Feature.FFE2 ||
+                        testhind.getHindtype() == Constantvalues.Feature.FFEC) {
+                    OBAHind = testhind.getHindvalue();
+                    OBAHindName = testhind.getHinddesc();
+                } else if (testhind.getHindtype() == Constantvalues.Feature.Wreck ||
+                    testhind.getHindtype() == Constantvalues.Feature.BOWreck ||
+                        testhind.getHindtype() == Constantvalues.Feature.Vehicle) {
+                    Featuredrm = testhind.getHindvalue();
+                    Featurename = testhind.getHinddesc();
+                }
             }
-            FirerBaseLevel = FiringUnit.getbaseunit().getHex().getBaseHeight();
         }
-        TotalFirerlevel = Firerinhexlevel + FirerBaseLevel;
-        // now see if althexgrain needs to be checked
+        /*// now see if althexgrain needs to be checked
         Constantvalues.Location hexterrtype; int GetAltLOSH; boolean AHGAlreadyDone = false;
         String AltHextoCheck=""; int AltFeatLOSH=0; String AltFeatName = ""; boolean OBALOSH = false;
         int WhichLOSHToUse = 0; int currenthexdrm = 0; int alternatehexdrm = 0;
@@ -914,25 +969,7 @@ public class CombatTerrain  extends BaseHex {
                         GetAltLOSH = 0;
                         hexterrtype = Constantvalues.Location.NA;
                     }
-                    // code adapted from Map.DoesScenarioTerrainBlockLoS
-                    if (Linqdata.getScenFeatcol() != null) {
-                        for (ScenarioTerrain ScenFeat : Linqdata.getScenFeatcol()) {
-                            // need to check each ScenFeat as more than one can exist per hex
-                            // this routine only needs to check for LOSH; LOS blocks already done;
-                            // check for hex match
-                            if (ScenFeat.getHexname() != AltHextoCheck) {
-                                continue;
-                            }
-                            // get type of terrain found; last two are passed by reference
-                            AltFeatLOSH = ScenFeat.GetLOSH(false, false, AltFeatName, OBALOSH);
-                            if (OBALOSH) {
-                                AltFeatLOSH += 1;
-                            }
-                        }
-                    } else {
-                    // no scenario features currently exist in this scenario
-                    // 'MsgBox("No Scenario Terrain currently exists in the game", , "IFT.CombatDRM")
-                    }
+
 
                     if (Featuredrm > 0) {
                         if (DoesScenLOSHApplytothisLOS(Featuredrm, Featurename, TotalFirerlevel, TargetTotalLevel)) {
@@ -989,7 +1026,7 @@ public class CombatTerrain  extends BaseHex {
                     Constantvalues.Hexside PassHexside5  = convert.ConverttoHexside((Baselocation.getHex().getHexsideLocation(5).getTerrain()));
                     Constantvalues.Hexside PassHexside6  = convert.ConverttoHexside((Baselocation.getHex().getHexsideLocation(0).getTerrain()));
                     CombatTerrain NextTempComTer = new CombatTerrain(hexterrtype, PassHexside1, PassHexside2, PassHexside3, PassHexside4, PassHexside5, PassHexside6, Baselocation.getTerrain().getTEM(),
-                        Baselocation.getTerrain().getLOSHindDRM(), Constantvalues.Hexrole.Intervening, "", SolID, Smokelist, getOBA(), prscen.getScenID(), PassNewLoc, PassHexLOSHApplies);
+                        Baselocation.getTerrain().getLOSHindDRM(), Constantvalues.Hexrole.Intervening, "", SolID, Smokelist, prhindInLOS, prscen.getScenID(), PassNewLoc, PassHexLOSHApplies);
                     if (NextTempComTer.getHexName() == AltHextoCheck) {
                         AltVisLOSH = CalcVisLOSH(AltVisName, AltOBAAlreadyFound, NextTempComTer, TotalFirerlevel, TargetTotalLevel, SeeHex, SeenHex);
                         if (AltVisLOSH == 0) {
@@ -1076,13 +1113,13 @@ public class CombatTerrain  extends BaseHex {
 
                 if (TestRange + 1 == LOSRange) {
                 // hexspine connects to Targethex vertex
-                /*String AltHexName = "";
+                *//*String AltHexName = "";
                 for (GameLocation testlocation: LocationCol) {
                     if (testlocation.getHexnum() == AltHextoCheck) {
                         AltHexName = testlocation.getHexname();
                     }
                     break;
-                }*/
+                }*//*
                     int SpineSide = SharedhexsideAdjacentHexes(AltHextoCheck, this.getHexName());
                     IsSide IsSideCheck = new IsSide(prLocation);
                     //GetALocationFromMap Getlocs = new GetALocationFromMap(LocationCol);
@@ -1091,35 +1128,30 @@ public class CombatTerrain  extends BaseHex {
                     Constantvalues.Hexside hexsideterrain  = DoConversion.ConverttoHexside(IsSideCheck.GethexsideTerrain(SpineSide));
 
                 // temporary while debugging UNDO
-                /*if (IsSideCheck.IsAWallHedgeRdBlk(SpineSide, this.getLocIndex())) {
+                *//*if (IsSideCheck.IsAWallHedgeRdBlk(SpineSide, this.getLocIndex())) {
                     hexspinedrm =Integer.parseInt((IsSideCheck.GetSideData(Constantvalues.TerrFactor.HexsideTEM, hexsideterrain)));
                  // MessageBox.Show("hexspine " & SpineSide.ToString & " has a drm of " & hexspinedrm.ToString)
-                }*/
+                }*//*
                 }
                 //'Else
                 //'    Featuredrm = 0 : LOSHdrm = 0
                 //'End if
-        } else {
-                // Los not along hexside
-                if (Featuredrm > 0) {
+        } else {*/
+        // don't need this check as VASL Loscheck has already assured LOSH applies TEST THIS
+        /*if (Featuredrm > 0) {
                     if (DoesScenLOSHApplytothisLOS(Featuredrm, Featurename, TotalFirerlevel, TargetTotalLevel)) {
                         TerrainName = "";
                     } else {
                         Featuredrm = 0;
                         Featurename = "";
                     }
-                }
-                FinalLOSHDRM = LOSHdrm + Featuredrm + VisLOSH;
-                FinalFeatureDRM = Featuredrm;
-                FinalVisLOSH = VisLOSH;
-        }
-
-
+        }*/
+        FinalLOSHDRM = LOSHdrm + Featuredrm + VisLOSH +OBAHind;
 
         // having calculated all possible drm and decided which ones to use, now add them to the DRMList
         boolean AddIsGood = true;
-        // need to do range test (A6.7) - two hexes of same range, add only one
-        if (lasthex != null) {
+        // need to do range test (A6.7) - two hexes of same range, add only one NO ALREADY DONE by VASL LOS check TEST
+        /*if (lasthex != null) {
             if (RangeIsEqual(this.getLocation().getHex(), lasthex, SeeHex)) {
                 if (Lasthexloshdrm >= FinalLOSHDRM) {
                     // don't add new mods
@@ -1138,52 +1170,49 @@ public class CombatTerrain  extends BaseHex {
                     }
                 }
             }
-        }
+        }*/
+        // NEED TO HANDLE situations with multiple of same type, which smoke to use - think vasl los has aready dealt with?
         // first hexhind and feature losh
         if (AddIsGood) {
             if (LOSHdrm != 0) {
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.HexHind)) {
-                    NEWDrm = new IFTMods(LOSHdrm, Constantvalues.IFTdrm.HexHind, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), UsingComTer.getLocation(), "HexHind");
+                    NEWDrm = new IFTMods(LOSHdrm, Constantvalues.IFTdrm.HexHind, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), this.getLocation(), LOSHName);
                     DRMList.add(NEWDrm);
                 } else {
                     LOSHdrm = 0;
-                    //'MessageBox.Show(LOSHName & " in " & UsingComTer.HexName & " already added to DRM")
                 }
             }
+            // at this point veh/wrk are only feature losh - should there be more?
             if (Featuredrm != 0) {
-                if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.LOSH)) {
-                    NEWDrm = new IFTMods(Featuredrm, Constantvalues.IFTdrm.LOSH, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), UsingComTer.getLocation(), "LOSH");
+
+                if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.VehWrkLOSH)) {
+                    NEWDrm = new IFTMods(Featuredrm, Constantvalues.IFTdrm.VehWrkLOSH, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), this.getLocation(), Featurename);
                     DRMList.add(NEWDrm);
                 } else {
                     Featuredrm = 0;
                     //'MessageBox.Show(FeatureName & " in " & UsingComTer.HexName & " already added to DRM")
                 }
             }
-            // 'now do Veh/Wreck LOSh
-            if (LOSHdrm <= 0 && Featuredrm <= 0) {
-                if (AFVIsPresent() && AFVInLOS()) {
-                    if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.VehWrkLOSH)) {
-                        NEWDrm = new IFTMods(1, Constantvalues.IFTdrm.VehWrkLOSH, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), UsingComTer.getLocation(), "VehWrkHind");
+            // now add OBA hindrance
+            if (OBAHind != 0) {
+                if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.OBA)) {
+                        NEWDrm = new IFTMods(1, Constantvalues.IFTdrm.OBA, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), this.getLocation(), OBAHindName);
                         DRMList.add(NEWDrm);
-                        FinalLOSHDRM += 1;
+                        //FinalLOSHDRM += 1;
                     }
-                }
+
             }
             // now add visibility losh
-            if (FinalVisLOSH > 0) {
+            if (VisLOSH > 0) {
                 if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.VisLoSH)) {
-                    NEWDrm = new IFTMods(FinalVisLOSH, Constantvalues.IFTdrm.VisLoSH, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), UsingComTer.getLocation(), "VisLOSH");
+                    NEWDrm = new IFTMods(VisLOSH, Constantvalues.IFTdrm.VisLoSH, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), this.getLocation(), VisLOSHName);
                     DRMList.add(NEWDrm);
                 } else {
-                    FinalVisLOSH = 0;
+                    //FinalVisLOSH = 0;
                     // MessageBox.Show(FinalVisLOSHName & " in " & UsingComTer.HexName & " already added to DRM")
                 }
             }
-            //TotalLocationLOSHdrm = FinalLOSHDRM;
-            if (FinalLOSHDRM != 0) {GameModule.getGameModule().getChatter().send("Total LOSH drm in " + UsingComTer.getHexName() + " is " + Integer.toString(FinalLOSHDRM));}
-
         }
-        Lasthexloshdrm = FinalLOSHDRM;
         return FinalLOSHDRM;
 
     }
@@ -1245,14 +1274,14 @@ public class CombatTerrain  extends BaseHex {
         return true;
     }
 
-    private int CalcVisLOSH(String VisLOSHName, boolean OBAAlreadyFound, CombatTerrain NextComTer, double SeeLevelinHex, double SeenLevelinhex, Hex Seehex, Hex seenhex) {
+    /*public int CalcVisLOSH() { //String VisLOSHName, boolean OBAAlreadyFound, CombatTerrain NextComTer, double SeeLevelinHex, double SeenLevelinhex, Hex Seehex, Hex seenhex) {
         // called by IFTC.Combatdrm
         //        'determines if any visibility-LOSH exists in hex (only from OBA and/or Smoke coded so far ) - NEED TO add MIST AND DUST
         //        'NEED TO add CODE TO HANDLE DIFFERENT LEVEL TESTS
         //        'BOTH ABOVE AND BELOW PLUS ONE UP AND ONE DOWN (USE BLIND HEX CHECK TO RESOLVE)
         Constantvalues.VisHind Smoketype = Constantvalues.VisHind.None; double SmokeBaselevel = 0; // used when checking presence of smoke elsewhere in hex
         int VisLOSH = 0; // return value
-        VisLOSHName = ""; boolean AddSmoke = false; boolean SmokeLosCheck = false;
+        String VisLOSHName = ""; boolean AddSmoke = false; boolean SmokeLosCheck = false;
         // check for Smoke
         //' Getlocs = New Terrainvalues.GetALocationFromMapTable(LocationCol)
         //        ' LocToUse As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromMaptable(ComTer.LocIndex)
@@ -1300,14 +1329,14 @@ public class CombatTerrain  extends BaseHex {
                     // determine range and height differences
                     //  AddSmoke As Boolean = false
                     String Seenhexname= seenhex.getName(); String Seehexname = Seehex.getName();
-                    /*for (GameLocation testlocation: LocationCol){
+                    for (GameLocation testlocation: LocationCol){
                         if (testlocation.getHexnum()== seenhexnum ){Seenhexname=testlocation.getHexname();}
                         break;
                     }
                     for (GameLocation testlocation: LocationCol){
                         if (testlocation.getHexnum()== Seehexnum ){Seehexname=testlocation.getHexname();}
                         break;
-                    }*/
+                    }
                     int ObsTargRange = prscen.getGameMap().range(prscen.getGameMap().getHex(NextComTer.getHexName()), prscen.getGameMap().getHex(Seenhexname), prscen.getGameMap().getMapConfiguration());
                     int FirerObsRange = prscen.getGameMap().range(prscen.getGameMap().getHex(NextComTer.getHexName()), prscen.getGameMap().getHex(Seehexname), prscen.getGameMap().getMapConfiguration());
                     double ObsTargElev = Smokelevel - Targetlevel;
@@ -1387,9 +1416,9 @@ public class CombatTerrain  extends BaseHex {
             }
         }
         return VisLOSH;
-    }
+    }*/
 
-    private boolean DoesScenLOSHApplytothisLOS(int FeatdrmAdj, String FeatureName, double TotalSeeLevel, double totalseenlevel) {
+    /*private boolean DoesScenLOSHApplytothisLOS(int FeatdrmAdj, String FeatureName, double TotalSeeLevel, double totalseenlevel) {
         // called by IFT.CombatDRM
         // determines if a Scenario Terrain feature effects LOS or if
         // height difference prevents it
@@ -1400,40 +1429,40 @@ public class CombatTerrain  extends BaseHex {
         String TempName = "";
         FeatureName = "";
 
-        if (Linqdata.getScenFeatcol() == null) {
-            // no scenario features currently exist in this scenario
-            FeatdrmAdj = 0;
-            return false;
-        }
-        for (ScenarioTerrain ScenFeat : Linqdata.getScenFeatcol()) {
-            // need to check each ScenFeat as more than one can exist per hex (ie smoke and wire)
-            FeatureHeight = 0;
-            // check for hex match
-            if (ScenFeat.getHexname() == this.getHexName()) {
-                // get height of feature found
-                // NEED A ROUTINE TO DO THIS
-                ScenFeatureTotalHeight = this.getHexBaseLevel() + FeatureHeight;
-                if (TotalSeeLevel >= ScenFeatureTotalHeight && totalseenlevel >= ScenFeatureTotalHeight) {
-                    // LOS goes over LOSH feature; no drm applies
-                } else if (((TotalSeeLevel < ScenFeatureTotalHeight && totalseenlevel <= ScenFeatureTotalHeight) || (TotalSeeLevel <= ScenFeatureTotalHeight && totalseenlevel < ScenFeatureTotalHeight)) ||
-                        (((TotalSeeLevel < ScenFeatureTotalHeight && totalseenlevel > ScenFeatureTotalHeight) || (TotalSeeLevel > ScenFeatureTotalHeight && totalseenlevel < ScenFeatureTotalHeight)) && (FeatureHeight > 0.5))) {
-                    // Tests for two conditions: (a)one is below and other is equal to or below and
-                    // (b) one is above and one is below and LOSH is not a half-level (ie grain)
-                    // in both cases LOS goes through LOSH feature; drm applies
-                    TempAdj += ScenFeat.GetLOSH(false, false, TempName, false);
-                    FeatureName += " " + TempName;
-                } else {
-                    // Once checked this can be simplified to just the elseif case once I know that it works
-                }
-            }
-        }
+//        if (getScenFeatcol() == null) {
+//            // no scenario features currently exist in this scenario
+//            FeatdrmAdj = 0;
+//            return false;
+//        }
+//        for (ScenarioTerrain ScenFeat : Linqdata.getScenFeatcol()) {
+//            // need to check each ScenFeat as more than one can exist per hex (ie smoke and wire)
+//            FeatureHeight = 0;
+//            // check for hex match
+//            if (ScenFeat.getHexname() == this.getHexName()) {
+//                // get height of feature found
+//                // NEED A ROUTINE TO DO THIS
+//                ScenFeatureTotalHeight = this.getHexBaseLevel() + FeatureHeight;
+//                if (TotalSeeLevel >= ScenFeatureTotalHeight && totalseenlevel >= ScenFeatureTotalHeight) {
+//                    // LOS goes over LOSH feature; no drm applies
+//                } else if (((TotalSeeLevel < ScenFeatureTotalHeight && totalseenlevel <= ScenFeatureTotalHeight) || (TotalSeeLevel <= ScenFeatureTotalHeight && totalseenlevel < ScenFeatureTotalHeight)) ||
+//                        (((TotalSeeLevel < ScenFeatureTotalHeight && totalseenlevel > ScenFeatureTotalHeight) || (TotalSeeLevel > ScenFeatureTotalHeight && totalseenlevel < ScenFeatureTotalHeight)) && (FeatureHeight > 0.5))) {
+//                    // Tests for two conditions: (a)one is below and other is equal to or below and
+//                    // (b) one is above and one is below and LOSH is not a half-level (ie grain)
+//                    // in both cases LOS goes through LOSH feature; drm applies
+//                    TempAdj += ScenFeat.GetLOSH(false, false, TempName, false);
+//                    FeatureName += " " + TempName;
+//                } else {
+//                    // Once checked this can be simplified to just the elseif case once I know that it works
+//                }
+//            }
+//        }
         FeatdrmAdj = TempAdj;
         if (FeatdrmAdj > 0) {
             return true;
         } else {
             return false;
         }
-    }
+    }*/
     // moved to TerrainChecks
     /*private LinkedList<SmokeHolder> SmokePresentinHex(Hex hextocheck) {
 
@@ -1491,5 +1520,55 @@ public class CombatTerrain  extends BaseHex {
             return prScendet.getATT2();
         }
         return Constantvalues.Nationality.None;
+    }
+    private int OBACheck () {
+        if (prhindInLOS != null) {
+            for (HindInLOS testhind : prhindInLOS) {
+                //check for OBA hind
+                if (testhind.getHindtype() == Constantvalues.Feature.FFE1 ||
+                        testhind.getHindtype() == Constantvalues.Feature.FFE2 ||
+                        testhind.getHindtype() == Constantvalues.Feature.FFEC) {
+                    return 1;
+                }
+            }
+        }
+        // no hindrances
+        return 0;
+    }
+    public int FiringDRM(LinkedList<IFTMods> DRMList, PersUniti TargetUnit){
+        // first OBA
+        int OBALOSH = OBACheck();
+        IFTMods NEWDrm = null;
+        // now add visibility losh to drm list
+        if (OBALOSH > 0) {
+            if (NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.OBA)) {
+                NEWDrm = new IFTMods(OBALOSH, Constantvalues.IFTdrm.OBA, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), this.getLocation(), "OBA");
+                DRMList.add(NEWDrm);
+            } else {
+                OBALOSH = 0;
+                GameModule.getGameModule().getChatter().send(this.getVisLOSHName() + " in " + this.getHexName() + " already added to DRM");
+            }
+        }
+        // then Smoke
+        int Smokedrm=0;
+        if (prhindInLOS != null) {
+            for (HindInLOS testhind : prhindInLOS) {
+                //check for OBA hind
+                if (testhind.getHindtype() == Constantvalues.Feature.Smoke) {
+                    Smokedrm= testhind.getHindvalue() +1; // +1 due to firing from hex
+                }
+            }
+        }
+
+        if (Smokedrm > 0) {
+            if (this.NotAlreadyAddedToDRMList(DRMList, TargetUnit, Constantvalues.IFTdrm.VisLoSH)) {
+                NEWDrm = new IFTMods(Smokedrm, Constantvalues.IFTdrm.VisLoSH, TargetUnit.getbaseunit().getUnit_ID(), TargetUnit.getbaseunit().getTypeType_ID(), TargetUnit.getbaseunit().gethexlocation(), this.getLocation(), "VisLOSH");
+                DRMList.add(NEWDrm);
+            } else {
+                Smokedrm = 0;
+                GameModule.getGameModule().getChatter().send(this.getVisLOSHName() + " in " + this.getHexName() + " already added to DRM");
+            }
+        }
+        return OBALOSH + Smokedrm;
     }
 }

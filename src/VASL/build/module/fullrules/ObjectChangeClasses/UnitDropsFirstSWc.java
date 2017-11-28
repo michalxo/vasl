@@ -10,7 +10,6 @@ import VASSAL.build.GameModule;
 import java.util.LinkedList;
 
 public class UnitDropsFirstSWc implements StatusChangei {
-    private DataC Linqdata = DataC.GetInstance();
     public UnitDropsFirstSWc (){}
 
 

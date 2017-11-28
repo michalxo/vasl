@@ -18,6 +18,12 @@
  */
 package VASL.counters;
 
+import VASL.build.module.fullrules.ObjectChangeClasses.ConcealUnitC;
+import VASL.build.module.fullrules.ObjectChangeClasses.RevealUnitC;
+import VASL.build.module.fullrules.ObjectChangeClasses.VisibilityChangei;
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
 import VASSAL.build.GameModule;
 import VASSAL.build.module.ObscurableOptions;
 import VASSAL.command.ChangePiece;
@@ -31,7 +37,7 @@ import java.awt.*;
 /**
  * A Concealment counter
  */
-public class Concealment extends Decorator implements EditablePiece {
+public class  Concealment extends Decorator implements EditablePiece {
   public static final String ID = "concealment;";
   private KeyCommand[] commands;
   private String nation;
@@ -137,6 +143,13 @@ public class Concealment extends Decorator implements EditablePiece {
     if (canConceal(p)) {
       String state = p.getState();
       p.setProperty(Properties.OBSCURED_BY, concealed ? GameModule.getUserId() : null);
+      //fullrules addition
+      if (concealed) {
+        dofullrulesconcealment(true, p);
+      }else {
+        dofullrulesconcealment(false, p);
+      }
+      // back to VASL code
       return new ChangePiece(p.getId(), state, p.getState());
     }
     else {
@@ -195,5 +208,44 @@ public class Concealment extends Decorator implements EditablePiece {
 
   public PieceEditor getEditor() {
     return new SimplePieceEditor(this);
+  }
+
+  private void dofullrulesconcealment(boolean concealing, GamePiece p){
+    // need to handle situation where outer is not a unit but a SW
+    PersUniti ConcealUnit = null;
+    int concealunitid =0;
+    ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+    for (PersUniti UnittoConceal: Scencolls.Unitcol) {
+      if (UnittoConceal.getbaseunit().getUnit_ID() == Integer.parseInt(p.getProperty("TextLabel").toString())) {
+        ConcealUnit = UnittoConceal;
+        concealunitid = ConcealUnit.getbaseunit().getUnit_ID();
+        break;
+      }
+    }
+    if (ConcealUnit == null) { //is a sw; get owner info
+      for (SuppWeapi OBSWitem : Scencolls.SWCol) {
+        if (OBSWitem.getbaseSW().getUnit_ID() == Integer.parseInt(p.getProperty("TextLabel").toString())) {
+          int owner = OBSWitem.getbaseSW().getOwner();
+          for (PersUniti UnittoConceal: Scencolls.Unitcol) {
+            if (UnittoConceal.getbaseunit().getUnit_ID() == owner) {
+              ConcealUnit = UnittoConceal;
+              concealunitid= owner;
+              break;
+            }
+          }
+        }
+      }
+    }
+    if (ConcealUnit != null) {
+      if (concealing) {
+        VisibilityChangei addconcealment = new ConcealUnitC(concealunitid);
+        addconcealment.TakeAction();
+        GameModule.getGameModule().getChatter().send(addconcealment.getActionResult());
+      } else {
+        VisibilityChangei removeconcealment = new RevealUnitC(concealunitid);
+        removeconcealment.TakeAction();
+        GameModule.getGameModule().getChatter().send(removeconcealment.getActionResult());
+      }
+    }
   }
 }

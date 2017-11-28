@@ -18,7 +18,7 @@ public class VehicleActionsC {
     // Creates the collection of vehicles in the scenario
 
     // constructor
-    public VehicleActionsC(DataC Linqdata, ScenarioC Scendet) {
+    public VehicleActionsC(ScenarioC Scendet) {
         // get all vehicles involved in a scenario
         LinkedList<OBVehicles> OBVehcol =  new LinkedList<OBVehicles>(); //Linqdata.RetrieveScenarioVehicles(Scendet.getScenID());
         if (OBVehcol.size() == 0) {

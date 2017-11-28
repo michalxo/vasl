@@ -22,7 +22,6 @@ public class Russian426c implements PersUniti{
         myBasePU = new BasePersunitc(PassHexname, PassScenario, PassHex, Passhexlocation, PasshexPosition, PassLevelinHex,  PassCX, PassELR, PassTurnArrives, PassNationality,
                 PassCon_ID, PassUnit_ID, PassTypeType_ID, PassFirstSWLink, PassSecondSWlink, PassHexEntSideCrossed, PassSolID, PassUnitName, PassLOBLink, PassCombatStatus,
                 PassVisibilityStatus, PassFortitudeStatus, PassOrderStatus, PassMovementStatus, PassPinned, PassSW, PassUnitClass, PassCharacterStatus, PassUtype, PassRoleStatus);
-        DataC Linqdata = DataC.GetInstance();  // use empty variables when know that instance already exist
         OrderofBattle NewOBUnit;
         if (PassUnit_ID == 0) {  // 'new unit, save to database and create unit ID
             // temporary while debugging UNDO
