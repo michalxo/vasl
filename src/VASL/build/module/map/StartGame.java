@@ -25,11 +25,13 @@ import VASSAL.counters.*;
 import VASSAL.counters.Properties;
 import VASSAL.counters.Stack;
 import VASSAL.tools.DataArchive;
+import VASSAL.tools.filechooser.FileChooser;
+import VASSAL.tools.filechooser.FileFilter;
 import VASSAL.tools.io.IOUtils;
 import org.jdom2.JDOMException;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
+//import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
@@ -50,7 +52,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
     protected PieceFinder dragTargetSelector;
     protected PieceVisitorDispatcher selectionProcessor;
     protected Comparator<GamePiece> pieceSorter = new PieceSorter();
-    private JFileChooser pfilechooser;
+    private FileChooser pfilechooser;
 
     public void Initialize(boolean getgoing) {
 
@@ -67,7 +69,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
             CreateLookUpTables();
             // get fullrules savedgame file associated with VASL scenario
             String openfilename = "";
-            JFileChooser chooser = getFileChooser();
+            FileChooser chooser = getFileChooser();
             int retrival = chooser.showOpenDialog(null);
             if (retrival == JFileChooser.APPROVE_OPTION) {
                 openfilename = chooser.getSelectedFile().getAbsolutePath();
@@ -755,23 +757,31 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
         }
         scen.setSupportWeaponTableLookUp(supportweapontable.getSuppWTableTypes());
     }
-    private JFileChooser getFileChooser(){
+    private FileChooser getFileChooser(){
         if (pfilechooser != null){
             return pfilechooser;
         } else {
-            pfilechooser = new JFileChooser();
-            Action details = pfilechooser.getActionMap().get("viewTypeDetails");
-            details.actionPerformed(null);
-            pfilechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            pfilechooser = getfilechooser();
             FileFilter newfilter = new FileFilter() {
 
                 public String getDescription() {return "Text Documents (*.txt)";}
                 public boolean accept(File f) {return f.getName().toLowerCase().endsWith(".txt");}
             };
-            pfilechooser.addChoosableFileFilter(newfilter);
+            pfilechooser.setFileFilter(newfilter);
             pfilechooser.setCurrentDirectory(GameModule.getGameModule().getGameState().getSavedGameDirectoryPreference().getFileValue());
             return pfilechooser;
         }
+    }
+    public FileChooser getfilechooser() {
+        FileChooser newfilechooser = null;
+        if (this.pfilechooser == null) {
+             newfilechooser = FileChooser.createFileChooser(GameModule.getGameModule().getFrame(), GameModule.getGameModule().getGameState().getSavedGameDirectoryPreference());
+        } else {
+            //this.pfilechooser.resetChoosableFileFilters();
+            //this.pfilechooser.rescanCurrentDirectory();
+        }
+
+        return newfilechooser;
     }
 
 }

@@ -278,8 +278,7 @@ public class German467Targc implements TargetPersUniti {
         }
         DiceC Dieclass = new DiceC();
         int ODR = Dieclass.Diceroll();
-        // test code
-        ODR=2;
+
         myCombatResultsString += myName + " rolls an original " + java.lang.Integer.toString(ODR);
         // sniper
         SANCheck(ODR);
@@ -290,7 +289,8 @@ public class German467Targc implements TargetPersUniti {
         } else {
             CurrentMoraleLevel = getMoraleLevel();
         }
-
+        // test code
+        ODR=2;
         if (ODR == 2) {myHOBFlag = true;}
         // FDR
         int FDR = ODR + MCNum;

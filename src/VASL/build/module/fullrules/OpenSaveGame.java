@@ -8,16 +8,16 @@ import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASSAL.build.GameModule;
+import VASSAL.tools.filechooser.FileChooser;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import java.io.*;
 import java.util.LinkedList;
 
 public class OpenSaveGame {
     private LinkedList<OrderofBattle> punitsinplay = new LinkedList<OrderofBattle>();
     private LinkedList<OrderofBattleSW> pswinplay = new LinkedList<OrderofBattleSW>();
-    private JFileChooser pfilechooser;
+    private FileChooser pfilechooser;
     private Scenario pscenario;
 
     public OpenSaveGame (){
@@ -43,7 +43,7 @@ public class OpenSaveGame {
         String savestring = null;
         String outfilename = "";
         JOptionPane choosefileaction = new JOptionPane();
-        JFileChooser chooser = getFileChooser();
+        FileChooser chooser = getFileChooser();
         int retrival = chooser.showSaveDialog(null);
         if (retrival == JFileChooser.APPROVE_OPTION) {
             if ((chooser.getSelectedFile().getName().contains(".txt"))) {
@@ -284,22 +284,30 @@ public class OpenSaveGame {
     }
     public LinkedList<OrderofBattleSW> swinplay() {return pswinplay;}
     public Scenario getScenario() {return pscenario;}
-    private JFileChooser getFileChooser(){
+    private FileChooser getFileChooser(){
         if (pfilechooser != null){
             return pfilechooser;
         } else {
-            pfilechooser = new JFileChooser();
-            Action details = pfilechooser.getActionMap().get("viewTypeDetails");
-            details.actionPerformed(null);
-            pfilechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            FileFilter newfilter = new FileFilter() {
+            pfilechooser = getfilechooser();
+            VASSAL.tools.filechooser.FileFilter newfilter = new VASSAL.tools.filechooser.FileFilter() {
 
                 public String getDescription() {return "Text Documents (*.txt)";}
                 public boolean accept(File f) {return f.getName().toLowerCase().endsWith(".txt");}
             };
-            pfilechooser.addChoosableFileFilter(newfilter);
+            pfilechooser.setFileFilter(newfilter);
             pfilechooser.setCurrentDirectory(GameModule.getGameModule().getGameState().getSavedGameDirectoryPreference().getFileValue());
             return pfilechooser;
         }
+    }
+    public FileChooser getfilechooser() {
+        FileChooser newfilechooser = null;
+        if (this.pfilechooser == null) {
+            newfilechooser = FileChooser.createFileChooser(GameModule.getGameModule().getFrame(), GameModule.getGameModule().getGameState().getSavedGameDirectoryPreference());
+        } else {
+            //this.pfilechooser.resetChoosableFileFilters();
+            //this.pfilechooser.rescanCurrentDirectory();
+        }
+
+        return newfilechooser;
     }
 }

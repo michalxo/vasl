@@ -352,7 +352,7 @@ public class CombatCalcC implements CombatCalci {
         LevelCheck = FirstTarget.getbaseunit().getLevelinHex();
         targethex = FirstTarget.getbaseunit().getHexName();
         for (PersUniti TargetUnit: TargetGroupToUse) {
-            if (targethex != TargetUnit.getbaseunit().getHexName() || (TargetUnit.getbaseunit().getLevelinHex() != LevelCheck)){
+            if (!(targethex.equals(TargetUnit.getbaseunit().getHexName())) || (TargetUnit.getbaseunit().getLevelinHex() != LevelCheck)){
                 // multilocation target group
                 return true;
                 //  Display the message box and save the response, Yes or No.

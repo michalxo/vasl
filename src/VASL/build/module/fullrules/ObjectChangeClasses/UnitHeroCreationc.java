@@ -94,7 +94,7 @@ public class UnitHeroCreationc implements StatusChangei {
     }
     public void createcounter() {
         CounterCreationC createcounter = new CounterCreationC();
-        String countername = "VASSAL.build.module.PieceWindow:SQ/VASSAL.build.widget.ListWidget:ge/VASSAL.build.widget.PieceSlot:Hero";
+        String countername = "VASSAL.build.module.PieceWindow:SMC/VASSAL.build.widget.ListWidget:ge/VASSAL.build.widget.PieceSlot:geHero";
         createcounter.createCounter(countername);
     }
 

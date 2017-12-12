@@ -18,6 +18,7 @@ public class CounterCreationC {
      * @return a new GamePiece that is a new counter of the desired type
      */
     public GamePiece createCounter(String countername) {
+        //countername = "VASSAL.build.module.PieceWindow:VASL Counters/VASSAL.build.widget.TabWidget/VASSAL.build.widget.BoxWidget:Axis OB/VASSAL.build.widget.TabWidget:German/VASSAL.build.widget.TabWidget:SMC";
         GamePiece p = null;
         if (countername != null) {
             try {
