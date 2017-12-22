@@ -117,7 +117,7 @@ public class ThreadedLOSCheckCommonc {
     }
     private Constantvalues.Location getLocationtypefromVASLLocation(Location SeeLOSLoc){
         ConversionC DoConversion = new ConversionC();
-         return DoConversion.getLocationtypefromVASLLocation(SeeLOSLoc);
+         return DoConversion.ConverttoLocationtypefromVASLLocation(SeeLOSLoc);
         // this routine turns a VASL Location (VASL.LOS.Map.Location) into a Constantvalues.Location value
         // eventually can be eliminated as SharedBoardMetadata.xml is expanded
     }

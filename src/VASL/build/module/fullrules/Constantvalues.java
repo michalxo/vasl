@@ -17,7 +17,7 @@ public class Constantvalues {
     public enum FortitudeStatus {Normal, Fanatic, Encircled, Wounded, Fan_Enc, Fan_Wnd, Fan_Wnd_Enc, Enc_Wnd, Heroic, HeroicFanatic, HeroicEncircled, HeroicWounded, HeroicFan_Enc,
         HeroicFan_Wnd, HeroicFan_Wnd_Enc, HeroicEnc_Wnd, None}
     public enum RoleStatus {GuardUnit, Passenger, Rider, None}
-    public enum Typetype{Personnel, Vehicle, Concealment, SW, Gun, WhiteC, Location, Feature, AltPos, VisHind}
+    public enum Typetype{Personnel, Vehicle, Concealment, SW, Gun, WhiteC, Location, Feature, AltPos, VisHind, None}
     public enum Utype{Squad, HalfSquad, Crew, Hero, LdrHero, Leader, THHero, PathFind, Commissar, MMC, SMC, Dummy, Units, None}
     public enum LOBItem{MORALELEVEL, UNITCLASS, BPV, SMOKE, FIREPOWER, GETRANGE, UNITTYPE, ASSAULTFIRE, REDUCESTO, REDTO, LOBCLSID, SUBSTITUTESTOTO, SUBTO,
         HARDENSTO, HARDTO, ELR5, LDRGRADE, LDRM, IMAGEUNIT, IMAGEBRKUNIT, PP, DMPP, SWIMAGE, BROKENSWIMAGE, DMSIMAGE, BROKENDMSWIMAGE, ROF}
@@ -95,6 +95,7 @@ public class Constantvalues {
         RevealAllDummy, HeroicLdrCreation, HeroicLdrHardens}
     public enum HOBResult{Hardens, HeroCreation, HardensAndHero, Berserk, Surrenders}
     public enum VClass {None}
+    public enum UnitCommandtype {baseunit, fireunit, moveunit, targunit}
 
 }
 

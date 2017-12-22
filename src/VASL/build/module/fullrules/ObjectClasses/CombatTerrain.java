@@ -960,7 +960,7 @@ public class CombatTerrain  extends BaseHex {
                     LevelChecks LevelChk = new LevelChecks(prLocation);
                     Location Baselocation = LevelChk.GetLocationatLevelInHex(AltHextoCheck, 0);
                     ConversionC DoConversion = new ConversionC();
-                    hexterrtype = DoConversion.getLocationtypefromVASLLocation(Baselocation);
+                    hexterrtype = DoConversion.ConverttoLocationtypefromVASLLocation(Baselocation);
                     if (IsTerrChk.IsLocationTerrainA(hexterrtype, Constantvalues.Location.HindranceHex)) {
                         altHexBAselevel = Baselocation.getBaseHeight();
                         althexobstaclelevel = Baselocation.getAbsoluteHeight();
@@ -984,7 +984,7 @@ public class CombatTerrain  extends BaseHex {
                     double hexobstaclelevel = 0;
                     double hexsidelevel = 0;
                     Location ComTerlocation = LevelChk.GetLocationatLevelInHex(this.getHexName(), 0);
-                    hexterrtype = DoConversion.getLocationtypefromVASLLocation(ComTerlocation);
+                    hexterrtype = DoConversion.ConverttoLocationtypefromVASLLocation(ComTerlocation);
                     altHexBAselevel = ComTerlocation.getBaseHeight();
                     hexobstaclelevel = ComTerlocation.getAbsoluteHeight();
                     Location Altlocation = LevelChk.GetLocationatLevelInHex(AltHextoCheck, 0);

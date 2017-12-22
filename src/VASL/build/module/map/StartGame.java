@@ -7,11 +7,16 @@ This class is called by ActionsToolbar.addTo and initiates the full rules code f
 
 import VASL.LOS.Map.Hex;
 import VASL.build.module.ASLMap;
+import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.Game.*;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTTable;
 import VASL.build.module.fullrules.IFTCombatClasses.LOBTable;
 import VASL.build.module.fullrules.ObjectClasses.SMCTable;
 import VASL.build.module.fullrules.ObjectClasses.SupportWeaponTable;
+import VASL.build.module.fullrules.UtilityClasses.UpdateBaseunitiCommand;
+import VASL.build.module.fullrules.UtilityClasses.UpdateFireunitiCommand;
+import VASL.build.module.fullrules.UtilityClasses.UpdateMoveunitiCommand;
+import VASL.build.module.fullrules.UtilityClasses.UpdateTargunitiCommand;
 import VASSAL.build.AbstractConfigurable;
 import VASSAL.build.Buildable;
 import VASSAL.build.GameModule;
@@ -25,6 +30,7 @@ import VASSAL.counters.*;
 import VASSAL.counters.Properties;
 import VASSAL.counters.Stack;
 import VASSAL.tools.DataArchive;
+import VASSAL.tools.SequenceEncoder;
 import VASSAL.tools.filechooser.FileChooser;
 import VASSAL.tools.filechooser.FileFilter;
 import VASSAL.tools.io.IOUtils;
@@ -53,6 +59,11 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
     protected PieceVisitorDispatcher selectionProcessor;
     protected Comparator<GamePiece> pieceSorter = new PieceSorter();
     private FileChooser pfilechooser;
+
+    private static final String UPDATEBASEUNIT_COMMAND_PREFIX = "UPDATE_BASE_UNIT:";
+    private static final String UPDATEFIREUNIT_COMMAND_PREFIX = "UPDATE_FIRE_UNIT:";
+    private static final String UPDATEMOVEUNIT_COMMAND_PREFIX = "UPDATE_MOVE_UNIT:";
+    private static final String UPDATETARGUNIT_COMMAND_PREFIX = "UPDATE_TARG_UNIT:";
 
     public void Initialize(boolean getgoing) {
 
@@ -633,10 +644,132 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
         ProcessClick.DetermineClickPossibilities(ClickedHex, SelectedCounters);
     }
     public Command decode(String command) {
-        return null;
+
+        SequenceEncoder.Decoder sdcr = null;
+        if(command.startsWith("UPDATE_BASE_UNIT:")) {
+            sdcr = new SequenceEncoder.Decoder(command, '\t');
+            sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
+            String pHexname = sdcr.nextToken();
+            int pScenario = Integer.parseInt(sdcr.nextToken());
+            int phexlocation = Integer.parseInt(sdcr.nextToken());
+            int phexPosition = Integer.parseInt(sdcr.nextToken());
+            int pLevelinHex = Integer.parseInt(sdcr.nextToken());
+            String pCX = sdcr.nextToken();
+            int pELR = Integer.parseInt(sdcr.nextToken());
+            int pTurnArrives = Integer.parseInt(sdcr.nextToken());
+            int pNationality = Integer.parseInt(sdcr.nextToken());
+            int pCon_ID = Integer.parseInt(sdcr.nextToken());
+            int pUnit_ID = Integer.parseInt(sdcr.nextToken());
+            int pTypeType_ID = Integer.parseInt(sdcr.nextToken());
+            int pSW = Integer.parseInt(sdcr.nextToken());
+            int pFirstSWLink = Integer.parseInt(sdcr.nextToken());
+            int pSecondSWlink = Integer.parseInt(sdcr.nextToken());
+            int pHexEntSideCrossed = Integer.parseInt(sdcr.nextToken());
+            int pSolID = Integer.parseInt(sdcr.nextToken());
+            String pUnitName = sdcr.nextToken();
+            int pLOBLink = Integer.parseInt(sdcr.nextToken());
+            int pMovementStatus = Integer.parseInt(sdcr.nextToken());
+            int pFortitudeStatus = Integer.parseInt(sdcr.nextToken());
+            int pOrderStatus = Integer.parseInt(sdcr.nextToken());
+            int pVisibilityStatus = Integer.parseInt(sdcr.nextToken());
+            int pCombatStatus = Integer.parseInt(sdcr.nextToken());
+            String pPinned = sdcr.nextToken();
+            int pUnitClass = Integer.parseInt(sdcr.nextToken());
+            int pCharacterStatus = Integer.parseInt(sdcr.nextToken());
+            int pUnitType = Integer.parseInt(sdcr.nextToken());
+            int pRoleStatus = Integer.parseInt(sdcr.nextToken());
+
+            return new UpdateBaseunitiCommand(pHexname, pScenario, phexlocation,
+                    phexPosition, pLevelinHex, pCX, pELR, pTurnArrives, pNationality,
+                    pCon_ID, pUnit_ID, pTypeType_ID, pSW, pFirstSWLink, pSecondSWlink,
+                    pHexEntSideCrossed, pSolID, pUnitName, pLOBLink, pMovementStatus,
+                    pFortitudeStatus, pOrderStatus, pVisibilityStatus, pCombatStatus,
+                    pPinned, pUnitClass, pCharacterStatus, pUnitType, pRoleStatus);
+
+        } else if(command.startsWith("UPDATE_FIRE_UNIT:")){
+            sdcr = new SequenceEncoder.Decoder(command, '\t');
+            sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
+            int myCombatStatus = Integer.parseInt(sdcr.nextToken());
+            String myIsEncirc = sdcr.nextToken();
+            String myCX = sdcr.nextToken();
+            String myIsPinned = sdcr.nextToken();
+            int myCombatFP = Integer.parseInt(sdcr.nextToken());
+            int mySolID = Integer.parseInt(sdcr.nextToken());
+            String myHasMG = sdcr.nextToken();
+            String myUsingInherentFP = sdcr.nextToken();
+            String myUsingfirstMG = sdcr.nextToken();
+            String myUsingsecondMG = sdcr.nextToken();
+            String myIsInCrestStatus = sdcr.nextToken();
+            int myhexposition = Integer.parseInt(sdcr.nextToken());
+            int myUseHeroOrLeader = Integer.parseInt(sdcr.nextToken());
+            int myOBLink = Integer.parseInt(sdcr.nextToken());
+            int MyLoc = Integer.parseInt(sdcr.nextToken());
+
+            return new UpdateFireunitiCommand(myCombatStatus, myIsEncirc, myCX, myIsPinned,
+                myCombatFP, mySolID, myHasMG, myUsingInherentFP, myUsingfirstMG, myUsingsecondMG,
+                myIsInCrestStatus, myhexposition, myUseHeroOrLeader, myOBLink, MyLoc);
+
+        } else if(command.startsWith("UPDATE_MOVE_UNIT:")){
+            sdcr = new SequenceEncoder.Decoder(command, '\t');
+            sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
+            // need to fully implement
+
+        } else if(command.startsWith("UPDATE_TARG_UNIT:")){
+            sdcr = new SequenceEncoder.Decoder(command, '\t');
+            sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
+        } else  {
+            return null;
+        }
+
     }
-    public String encode(Command var1) {
-        return null;
+
+    public String encode(Command c) {
+
+        if (c instanceof UpdateBaseunitiCommand) {
+            UpdateBaseunitiCommand ubuc = (UpdateBaseunitiCommand) c;
+            SequenceEncoder ubucencoder = new SequenceEncoder(ubuc.pHexname, '\t');
+            ubucencoder.append(ubuc.pScenario).append(ubuc.phexlocation).append(
+                ubuc.phexPosition).append(ubuc.pLevelinHex).append(ubuc.pCX).append(
+                ubuc.pELR).append(ubuc.pTurnArrives).append(ubuc.pNationality).append(
+                ubuc.pCon_ID).append(ubuc.pUnit_ID).append(ubuc.pTypeType_ID).append(
+                ubuc.pSW).append(ubuc.pFirstSWLink).append(ubuc.pSecondSWlink).append(
+                ubuc.pHexEntSideCrossed).append(ubuc.pSolID).append(ubuc.pUnitName).append(
+                ubuc.pLOBLink).append(ubuc.pMovementStatus).append(ubuc.pFortitudeStatus).append(
+                ubuc.pOrderStatus).append(ubuc.pVisibilityStatus).append(
+                ubuc.pCombatStatus).append(ubuc.pPinned).append(ubuc.pUnitClass).append(
+                ubuc.pCharacterStatus).append(ubuc.pUnitType).append(ubuc.pRoleStatus);
+            return UPDATEBASEUNIT_COMMAND_PREFIX +  "\t" + ubucencoder.getValue();
+        } else if (c instanceof UpdateFireunitiCommand) {
+            UpdateFireunitiCommand ufuc = (UpdateFireunitiCommand) c;
+            SequenceEncoder ufucencoder = new SequenceEncoder(Integer.toString(ufuc.myCombatStatus), '\t');
+            ufucencoder.append(ufuc.myIsEncirc).append(ufuc.myCX).append(ufuc.myIsPinned).append(
+                ufuc.myCombatFP).append(ufuc.mySolID).append(ufuc.myHasMG).append(ufuc.myUsingInherentFP).append(
+                ufuc.myUsingfirstMG).append(ufuc.myUsingsecondMG).append(ufuc.myIsInCrestStatus).append(
+                ufuc.myhexposition).append(ufuc.myUseHeroOrLeader).append(ufuc.myOBLink).append(
+                ufuc.MyLoc);
+            return UPDATEFIREUNIT_COMMAND_PREFIX + "\t" + ufucencoder.getValue();
+        } else if (c instanceof UpdateMoveunitiCommand) {
+            UpdateMoveunitiCommand umuc = (UpdateMoveunitiCommand) c;
+            // need to fully implement umuc
+            SequenceEncoder umucencoder = new SequenceEncoder("umuc.myCombatStatus", '\t');
+
+            return UPDATEMOVEUNIT_COMMAND_PREFIX + "\t" + umucencoder.getValue();
+        } else if (c instanceof UpdateTargunitiCommand) {
+            UpdateTargunitiCommand utuc = (UpdateTargunitiCommand) c;
+            SequenceEncoder utucencoder = new SequenceEncoder(utuc.myName, '\t');
+            utucencoder.append(utuc.myFirerSAN).append(utuc.myAttackedbydrm).append(utuc.myAttackedbyFP).append(
+                utuc.myELR5).append(utuc.myFortitudeStatus).append(utuc.myIFTResult).append(utuc.myIsConceal).append(
+                utuc.myMovementStatus).append(utuc.myOrderStatus).append(utuc.myPinned).append(utuc.myQualityStatus).append(
+                utuc.myRandomSelected).append(utuc.mySmoke).append(utuc.myVisibilityStatus).append(
+                utuc.myPersUnitImpact).append(utuc.mySanActivated).append(utuc.myIFTResolved).append(
+                utuc.myELR).append(utuc.myMCNum).append(utuc.myTargSTackLdrdrm).append(utuc.myHOBFlag).append(
+                utuc.myCombatResultsString)      ;
+
+            return UPDATETARGUNIT_COMMAND_PREFIX + "\t" + utucencoder.getValue();
+        } else {
+            return null;
+        }
+
     }
     public Class[] getAllowableConfigureComponents() {
         return new Class[0];

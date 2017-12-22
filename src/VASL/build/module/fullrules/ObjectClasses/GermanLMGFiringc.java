@@ -2,12 +2,10 @@ package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASSAL.build.GameModule;
-import org.apache.xpath.operations.Or;
 
 import java.util.LinkedList;
 
@@ -53,7 +51,7 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
         if (FGSize == 3) {  //Constantvalues.Utype.Squad) {
             boolean ReducedFP = false;
             ConversionC DoConversion = new ConversionC();
-            Constantvalues.Location myLoctype = DoConversion.getLocationtypefromVASLLocation(myLoc);
+            Constantvalues.Location myLoctype = DoConversion.ConverttoLocationtypefromVASLLocation(myLoc);
             if (myLoctype == Constantvalues.Location.StoneCellar || myLoctype == Constantvalues.Location.WoodCellar) {
                 ReducedFP = true;
                 if (targloc.getTerrain().isCellar()) {

@@ -271,7 +271,7 @@ public class German467Firec implements FiringPersUniti {
         if (FGSize >= 3) {
             boolean ReducedFP = false;
             ConversionC DoConversion = new ConversionC();
-            Constantvalues.Location myLoctype = DoConversion.getLocationtypefromVASLLocation(MyLoc);
+            Constantvalues.Location myLoctype = DoConversion.ConverttoLocationtypefromVASLLocation(MyLoc);
             if (myLoctype == Constantvalues.Location.StoneCellar || myLoctype == Constantvalues.Location.WoodCellar) {
                 ReducedFP = true;
                 if (targloc.getTerrain().isCellar()) {

@@ -80,7 +80,7 @@ public interface Basepersuniti {
     boolean CanGuard(Constantvalues.Utype Prisonertype);
     boolean AddPrisoner(PersUniti PassUnit);
     boolean DeletePrisoner(PersUniti PassUnit);
-    public boolean IsLocationAMatch(Location testLOCformatch);
+    boolean IsLocationAMatch(Location testLOCformatch);
     //public LocationType getLocationType(Constantvalues.Location phexlocation);
 
 }

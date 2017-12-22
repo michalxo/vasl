@@ -277,7 +277,7 @@ public class Russian447Firec implements FiringPersUniti {
         if (FGSize >= 3) {
             boolean ReducedFP = false;
             ConversionC DoConversion = new ConversionC();
-            Constantvalues.Location myLoctype = DoConversion.getLocationtypefromVASLLocation(myLoc);
+            Constantvalues.Location myLoctype = DoConversion.ConverttoLocationtypefromVASLLocation(myLoc);
             if (myLoctype == Constantvalues.Location.StoneCellar || myLoctype == Constantvalues.Location.WoodCellar) {
                 ReducedFP = true;
                 if (targloc.getTerrain().isCellar()) {

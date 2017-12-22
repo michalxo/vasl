@@ -154,7 +154,7 @@ public class TerrainChecks {
 
     public Constantvalues.Location getLocationtypefromVASLLocation(Location SeeLOSLoc){
         ConversionC DoConversion = new ConversionC();
-        return DoConversion.getLocationtypefromVASLLocation(SeeLOSLoc);
+        return DoConversion.ConverttoLocationtypefromVASLLocation(SeeLOSLoc);
         /*if ((SeeLOSLoc.getTerrain().getName()).equals("OpenGround")) {
             return Constantvalues.Location.OpenGround;
         } else if ((SeeLOSLoc.getTerrain().getName()).equals("Grain")) {
