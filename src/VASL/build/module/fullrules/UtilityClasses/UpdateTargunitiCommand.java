@@ -2,6 +2,7 @@ package VASL.build.module.fullrules.UtilityClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASSAL.command.Command;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class UpdateTargunitiCommand extends Command{
     public String myCombatResultsString = " ";
     public boolean getHoBFlag () {return myHOBFlag;}
 
-    UpdateTargunitiCommand(PersUniti PassObject){
+    public UpdateTargunitiCommand(PersUniti PassObject){
         ConversionC confrom = new ConversionC();
 
         myFirerSAN = PassObject.getTargetunit().getFirerSan();
@@ -60,11 +61,46 @@ public class UpdateTargunitiCommand extends Command{
         myCombatResultsString = PassObject.getTargetunit().getCombatResultsString();
     }
 
+    public UpdateTargunitiCommand(String passmyName, int passmyFirerSAN, int passmyAttackedbydrm, int passmyAttackedbyFP,
+        String passmyELR5, int passmyFortitudeStatus, int passmyIFTResult, String passmyIsConceal, int passmyMovementStatus,
+        int passmyOrderStatus, String passmyPinned, int passmyQualityStatus, int passmyRandomSelected,
+        int passmySmoke, int passmyVisibilityStatus, int passmyPersUnitImpact, String passmySanActivated,
+        String passmyIFTResolved, int passmyELR, int passmyMCNum, int passmyTargSTackLdrdrm, String passmyHOBFlag,
+        String passmyCombatResultsString){
+
+        ConversionC confrom = new ConversionC();
+        myFirerSAN = passmyFirerSAN;
+        myAttackedbydrm = passmyAttackedbydrm;
+        myAttackedbyFP = passmyAttackedbyFP;
+        myELR5 = confrom.ConverttoBoolean(passmyELR5);
+        myFortitudeStatus = passmyFortitudeStatus;
+        myIFTResult = passmyIFTResult;
+        myIsConceal = confrom.ConverttoBoolean(passmyIsConceal);
+        myMovementStatus = passmyMovementStatus;
+        myOrderStatus = passmyOrderStatus;
+        myPinned = confrom.ConverttoBoolean(passmyPinned);
+        myQualityStatus = passmyQualityStatus;
+        myRandomSelected = passmyRandomSelected;
+        mySmoke = passmySmoke;
+        myVisibilityStatus = passmyVisibilityStatus;
+        myPersUnitImpact = passmyPersUnitImpact;
+        mySanActivated = confrom.ConverttoBoolean(passmySanActivated);
+        myIFTResolved = confrom.ConverttoBoolean(passmyIFTResolved);
+        myELR = passmyELR;
+        myName = passmyName;
+        myHOBFlag = confrom.ConverttoBoolean(passmyHOBFlag);
+        myCombatResultsString = passmyCombatResultsString;
+        myMCNum = passmyMCNum;
+        myTargSTackLdrdrm = passmyTargSTackLdrdrm;
+
+    }
+
     protected void executeCommand() {
             /*this.target.setEndPointsandLevels(this.newAnchor, this.newArrow, this.sourceLevel, this.targetLevel);
             this.target.setPersisting(this.newPersisting);
             this.target.setMirroring(this.newMirroring);*/
-
+        ScenarioCollectionsc scencol = ScenarioCollectionsc.getInstance();
+        scencol.ProcessTargUnitUpdate(this);
 
 
     }

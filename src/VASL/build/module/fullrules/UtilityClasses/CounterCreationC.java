@@ -55,6 +55,7 @@ public class CounterCreationC {
             p = new Hideable("hide;H;HIP;255,255,255", p);
             p = new FreeRotator("rotate;6;88,130;90,130;CA cw;CA ccw;;;", p);
         }*/
+
         return p;
     }
 }

@@ -713,10 +713,40 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
             sdcr = new SequenceEncoder.Decoder(command, '\t');
             sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
             // need to fully implement
-
+            return null;
         } else if(command.startsWith("UPDATE_TARG_UNIT:")){
             sdcr = new SequenceEncoder.Decoder(command, '\t');
             sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
+            String myName = sdcr.nextToken();
+            int myFirerSAN =Integer.parseInt(sdcr.nextToken());
+            int myAttackedbydrm =Integer.parseInt(sdcr.nextToken());
+            int myAttackedbyFP =Integer.parseInt(sdcr.nextToken());
+            String myELR5 = sdcr.nextToken();
+            int myFortitudeStatus =Integer.parseInt(sdcr.nextToken());
+            int myIFTResult =Integer.parseInt(sdcr.nextToken());
+            String myIsConceal = sdcr.nextToken();
+            int myMovementStatus =Integer.parseInt(sdcr.nextToken());
+            int myOrderStatus =Integer.parseInt(sdcr.nextToken());
+            String myPinned = sdcr.nextToken();
+            int myQualityStatus =Integer.parseInt(sdcr.nextToken());
+            int myRandomSelected = Integer.parseInt(sdcr.nextToken());
+            int mySmoke =Integer.parseInt(sdcr.nextToken());
+            int myVisibilityStatus =Integer.parseInt(sdcr.nextToken());
+            int myPersUnitImpact =Integer.parseInt(sdcr.nextToken());
+            String mySanActivated = sdcr.nextToken();
+            String myIFTResolved = sdcr.nextToken();
+            int myELR = Integer.parseInt(sdcr.nextToken());
+            int myMCNum = Integer.parseInt(sdcr.nextToken());
+            int myTargSTackLdrdrm = Integer.parseInt(sdcr.nextToken());
+            String myHOBFlag = sdcr.nextToken();
+            String myCombatResultsString = sdcr.nextToken();
+
+            return new UpdateTargunitiCommand(myName, myFirerSAN, myAttackedbydrm, myAttackedbyFP,
+                myELR5, myFortitudeStatus, myIFTResult, myIsConceal, myMovementStatus, myOrderStatus,
+                myPinned, myQualityStatus, myRandomSelected, mySmoke, myVisibilityStatus,
+                myPersUnitImpact, mySanActivated, myIFTResolved, myELR, myMCNum, myTargSTackLdrdrm,
+                myHOBFlag, myCombatResultsString);
+
         } else  {
             return null;
         }

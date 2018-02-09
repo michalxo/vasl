@@ -3,6 +3,8 @@ package VASL.build.module.fullrules.UtilityClasses;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+import VASL.build.module.map.StartGame;
 import VASSAL.command.Command;
 
 public class UpdateFireunitiCommand extends Command{
@@ -69,7 +71,7 @@ public class UpdateFireunitiCommand extends Command{
         myUsingsecondMG = confrom.ConverttoBoolean(passmyUsingsecondMG);
         myIsInCrestStatus = confrom.ConverttoBoolean(passmyIsInCrestStatus);
         myhexposition = passmyhexposition;
-        myUseHeroOrLeader = confrom.ConverttoBoolean(passmyUseHeroOrLeader);
+        myUseHeroOrLeader = passmyUseHeroOrLeader;
         myOBLink = passmyOBLink;
         MyLoc = passMyLoc;
         
@@ -80,7 +82,8 @@ public class UpdateFireunitiCommand extends Command{
             /*this.target.setEndPointsandLevels(this.newAnchor, this.newArrow, this.sourceLevel, this.targetLevel);
             this.target.setPersisting(this.newPersisting);
             this.target.setMirroring(this.newMirroring);*/
-
+        ScenarioCollectionsc scencol = ScenarioCollectionsc.getInstance();
+        scencol.ProcessFireUnitUpdate(this);
 
 
     }

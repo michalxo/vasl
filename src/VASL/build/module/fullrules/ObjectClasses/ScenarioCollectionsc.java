@@ -1,6 +1,8 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.build.module.fullrules.DataClasses.Unpossessed;
+import VASL.build.module.fullrules.UtilityClasses.*;
+import VASSAL.command.Command;
 
 import java.util.LinkedList;
 
@@ -2642,5 +2644,50 @@ public class ScenarioCollectionsc {
             Colinstance = new ScenarioCollectionsc();
         }
         return Colinstance;
+    }
+
+    public void ProcessBaseUnitUpdate(UpdateBaseunitiCommand PassCommand ){
+
+    }
+
+    public void ProcessFireUnitUpdate(UpdateFireunitiCommand PassCommand){
+        ConversionC confrom = new ConversionC();
+        int UpdateUnitID = PassCommand.myOBLink;
+        PersUniti BaseUnit = FindInCollection (UpdateUnitID);
+        if (BaseUnit != null){
+            FiringPersUniti UpdateFirer = BaseUnit.getFiringunit();
+            UpdateFirer.setCombatStatus(confrom.ConverttoCombatStatus(PassCommand.myCombatStatus));
+        }
+    }
+
+    public void ProcessTargUnitUpdate(UpdateTargunitiCommand PassCommand){
+        ConversionC confrom = new ConversionC();
+        String UpdateUnitName = PassCommand.myName;
+        PersUniti BaseUnit = FindNameInCollection (UpdateUnitName);
+        if (BaseUnit != null){
+            TargetPersUniti UpdateTarget = BaseUnit.getTargetunit();
+            UpdateTarget.setCombatResultsString(PassCommand.myCombatResultsString);
+        }
+    }
+
+    public void ProcessMoveUnitUpdate(UpdateMoveunitiCommand PassCommand){
+
+    }
+
+    private PersUniti FindInCollection (int UpdateUnitID){
+        for (PersUniti FindBaseUnit: Unitcol) {
+            if (FindBaseUnit.getbaseunit().getUnit_ID() == UpdateUnitID) {
+                return FindBaseUnit;
+            }
+        }
+        return null;
+    }
+    private PersUniti FindNameInCollection (String UpdateUnitName){
+        for (PersUniti FindBaseUnit: Unitcol) {
+            if (FindBaseUnit.getbaseunit().getUnitName() == UpdateUnitName) {
+                return FindBaseUnit;
+            }
+        }
+        return null;
     }
 }
