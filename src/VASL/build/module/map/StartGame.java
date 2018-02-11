@@ -39,15 +39,15 @@ import org.jdom2.JDOMException;
 import javax.swing.*;
 //import javax.swing.filechooser.FileFilter;
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-public class  StartGame extends AbstractConfigurable implements MouseListener, GameComponent, CommandEncoder, Drawable {
+import static VASSAL.build.GameModule.getGameModule;
+
+public class  StartGame extends AbstractConfigurable implements KeyListener, MouseListener, GameComponent, CommandEncoder, Drawable {
     private ScenarioC scen;
     private VASL.LOS.Map.Map GameMap;
     protected Map map;
@@ -93,6 +93,7 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
             scen.SaveScenario();
         }
 
+
     }
     private void initializeMap() {
 
@@ -105,6 +106,17 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
         } else {
             GameMap = theMap.getVASLMap();
         }
+    }
+    public void keyReleased(KeyEvent e) {
+
+    }
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+
+    public void keyPressed(KeyEvent e) {
+
     }
     public void mousePressed(MouseEvent e) {
 
@@ -822,8 +834,15 @@ public class  StartGame extends AbstractConfigurable implements MouseListener, G
         // add this component to the game
         if (parent instanceof Map) {
             this.map = (Map) parent;
+            GameModule mod = GameModule.getGameModule();
+            mod.addCommandEncoder(this);
+            mod.getGameState().addGameComponent(this);
             map.addDrawComponent(this);
+            map.getView().addKeyListener(this);
         }
+
+        // hook for game opening/closing
+        getGameModule().getGameState().addGameComponent(this);
     }
     public void removeFrom(Buildable parent) {}
 
