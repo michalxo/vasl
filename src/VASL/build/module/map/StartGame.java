@@ -657,7 +657,7 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
     }
     public Command decode(String command) {
 
-        SequenceEncoder.Decoder sdcr = null;
+         SequenceEncoder.Decoder sdcr = null;
         if(command.startsWith("UPDATE_BASE_UNIT:")) {
             sdcr = new SequenceEncoder.Decoder(command, '\t');
             sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")

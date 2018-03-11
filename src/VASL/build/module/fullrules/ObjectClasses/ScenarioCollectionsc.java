@@ -1,9 +1,13 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.Unpossessed;
+import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.*;
 import VASSAL.command.Command;
+import VASSAL.counters.GamePiece;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 /**
@@ -2665,8 +2669,46 @@ public class ScenarioCollectionsc {
         String UpdateUnitName = PassCommand.myName;
         PersUniti BaseUnit = FindNameInCollection (UpdateUnitName);
         if (BaseUnit != null){
+            if (BaseUnit.getTargetunit() != null) {
+                // target unit already exists
+            } else {
+                // create Targetpersuniti property
+                PersCreation ObjCreate = new PersCreation();
+                BaseUnit = ObjCreate.CreateTargetUnitandProperty(BaseUnit, 0);
+            }
             TargetPersUniti UpdateTarget = BaseUnit.getTargetunit();
             UpdateTarget.setCombatResultsString(PassCommand.myCombatResultsString);
+            UpdateTarget.setFirerSan(PassCommand.myFirerSAN);
+            UpdateTarget.setAttackedbydrm(PassCommand.myAttackedbydrm);
+            UpdateTarget.setAttackedbyFP(PassCommand.myAttackedbyFP);
+            UpdateTarget.setELR5(PassCommand.myELR5);
+            UpdateTarget.setFortitudeStatus(confrom.ConverttoFortitudeStatus(PassCommand.myFortitudeStatus));
+            UpdateTarget.setIFTResult(confrom.ConverttoIFTResult(PassCommand.myIFTResult));
+            UpdateTarget.setIsConcealed(PassCommand.myIsConceal);
+            UpdateTarget.setMovementStatus(confrom.ConverttoMovementStatus(PassCommand.myMovementStatus));
+            UpdateTarget.setOrderStatus(confrom.ConverttoOrderStatus(PassCommand.myOrderStatus));
+            UpdateTarget.setPinned(PassCommand.myPinned);
+            UpdateTarget.setQualityStatus(PassCommand.myQualityStatus);
+            UpdateTarget.setRandomSelected(PassCommand.myRandomSelected);
+            UpdateTarget.setSmoke(PassCommand.mySmoke);
+            UpdateTarget.setVisibilityStatus(confrom.ConverttoVisibilityStatus(PassCommand.myVisibilityStatus));
+            UpdateTarget.setPersUnitImpact(confrom.ConverttoPersUnitResult(PassCommand.myPersUnitImpact));
+            UpdateTarget.setSANActivated(PassCommand.mySanActivated);
+            UpdateTarget.setIFTResolved(PassCommand.myIFTResolved);
+            //UpdateTarget.setELR(PassCommand.myELR);
+            //UpdateTarget.setName(PassCommand.myName);
+            UpdateTarget.setHoBFlag(PassCommand.myHOBFlag);
+            UpdateTarget.setMCNumber(PassCommand.myMCNum);
+            UpdateTarget.setTargStackLeaderDRM(PassCommand.myTargSTackLdrdrm);
+
+            CommonFunctionsC ToDO = new CommonFunctionsC(BaseUnit.getbaseunit().getScenario());
+            GamePiece ToBreak = ToDO.GetGamePieceFromID(BaseUnit.getbaseunit().getUnit_ID());
+            if (ToBreak != null) {
+                if(UpdateTarget.getPersUnitImpact() == Constantvalues.PersUnitResult.Breaks) {
+                    // flip counter and add DM
+                    ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+                }
+            }
         }
     }
 
@@ -2684,7 +2726,7 @@ public class ScenarioCollectionsc {
     }
     private PersUniti FindNameInCollection (String UpdateUnitName){
         for (PersUniti FindBaseUnit: Unitcol) {
-            if (FindBaseUnit.getbaseunit().getUnitName() == UpdateUnitName) {
+            if (FindBaseUnit.getbaseunit().getUnitName().equals(UpdateUnitName)) {
                 return FindBaseUnit;
             }
         }

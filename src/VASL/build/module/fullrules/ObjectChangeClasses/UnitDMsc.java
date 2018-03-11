@@ -52,10 +52,10 @@ public class UnitDMsc implements StatusChangei {
         TargParent.getTargetunit().UpdateTargetStatus(TargParent);
         TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() +  " DMs");
 
-        // flip counter and add DM
-        CommonFunctionsC ToDO = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
-        GamePiece ToBreak = ToDO.GetGamePieceFromID(TargParent.getbaseunit().getUnit_ID());
-        //if (ToBreak != null) {ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));}
+//        // flip counter and add DM
+//        CommonFunctionsC ToDO = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
+//        GamePiece ToBreak = ToDO.GetGamePieceFromID(TargParent.getbaseunit().getUnit_ID());
+//        if (ToBreak != null) {ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));}
 
         // HoB
         if (TargParent.getTargetunit().getHoBFlag()) { // rolled a 2

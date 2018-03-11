@@ -964,6 +964,7 @@ public class IFTC implements IIFTC {
         // create Targetpersunitproperty
         PersCreation ObjCreate = new PersCreation();
         Unititem = ObjCreate.CreateTargetUnitandProperty(Unititem, getFirerSan());
+
         // 'add to TempTarget
         try {
             TempTarget.add(Unititem);
@@ -1317,6 +1318,7 @@ public class IFTC implements IIFTC {
         boolean AlreadyAdded = false;
         LinkedList<PersUniti> RemoveList = new LinkedList<PersUniti>();
         int ODR = DR.Diceroll();
+
         // need to handle cowering and SW breakdown before obtaining ifT result - have to redo FP and drm calc - handled in ifTResultC
         // W Breakdown DR, ROF result, HitLocation Result all set by ifTResultC as accessible properties
 
