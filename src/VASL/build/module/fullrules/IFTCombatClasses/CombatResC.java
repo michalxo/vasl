@@ -241,7 +241,7 @@ public class CombatResC implements CombatResi {
                         Scendet.setattsanactivated(true);
                     }
                     PauseForSniper();
-                    return;
+                    //return;
                 }
                 // TargetUnit.TargetPersUnit = Nothing  ' can delete target info once resolved
             }

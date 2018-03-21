@@ -585,4 +585,5 @@ public class ASLMap extends Map {
       ShowMapAndOverlay,
       ShowMapOnly        
   }
+
 }

@@ -66,7 +66,14 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
     private static final String UPDATETARGUNIT_COMMAND_PREFIX = "UPDATE_TARG_UNIT:";
 
     public void Initialize(boolean getgoing) {
+        InitializeGame();
+        String startgamename = "test";
+        StartCommand  startopengame = new StartCommand(startgamename, this);
+        GameModule.getGameModule().sendAndLog(startopengame);
 
+
+    }
+    protected void InitializeGame(){
         startsavetoggle = !startsavetoggle;
 
         if (startsavetoggle) {
@@ -92,8 +99,6 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
         } else {
             scen.SaveScenario();
         }
-
-
     }
     private void initializeMap() {
 
@@ -726,25 +731,25 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
             sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
             // need to fully implement
             return null;
-        } else if(command.startsWith("UPDATE_TARG_UNIT:")){
+        } else if(command.startsWith("UPDATE_TARG_UNIT:")) {
             sdcr = new SequenceEncoder.Decoder(command, '\t');
             sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
             String myName = sdcr.nextToken();
-            int myFirerSAN =Integer.parseInt(sdcr.nextToken());
-            int myAttackedbydrm =Integer.parseInt(sdcr.nextToken());
-            int myAttackedbyFP =Integer.parseInt(sdcr.nextToken());
+            int myFirerSAN = Integer.parseInt(sdcr.nextToken());
+            int myAttackedbydrm = Integer.parseInt(sdcr.nextToken());
+            int myAttackedbyFP = Integer.parseInt(sdcr.nextToken());
             String myELR5 = sdcr.nextToken();
-            int myFortitudeStatus =Integer.parseInt(sdcr.nextToken());
-            int myIFTResult =Integer.parseInt(sdcr.nextToken());
+            int myFortitudeStatus = Integer.parseInt(sdcr.nextToken());
+            int myIFTResult = Integer.parseInt(sdcr.nextToken());
             String myIsConceal = sdcr.nextToken();
-            int myMovementStatus =Integer.parseInt(sdcr.nextToken());
-            int myOrderStatus =Integer.parseInt(sdcr.nextToken());
+            int myMovementStatus = Integer.parseInt(sdcr.nextToken());
+            int myOrderStatus = Integer.parseInt(sdcr.nextToken());
             String myPinned = sdcr.nextToken();
-            int myQualityStatus =Integer.parseInt(sdcr.nextToken());
+            int myQualityStatus = Integer.parseInt(sdcr.nextToken());
             int myRandomSelected = Integer.parseInt(sdcr.nextToken());
-            int mySmoke =Integer.parseInt(sdcr.nextToken());
-            int myVisibilityStatus =Integer.parseInt(sdcr.nextToken());
-            int myPersUnitImpact =Integer.parseInt(sdcr.nextToken());
+            int mySmoke = Integer.parseInt(sdcr.nextToken());
+            int myVisibilityStatus = Integer.parseInt(sdcr.nextToken());
+            int myPersUnitImpact = Integer.parseInt(sdcr.nextToken());
             String mySanActivated = sdcr.nextToken();
             String myIFTResolved = sdcr.nextToken();
             int myELR = Integer.parseInt(sdcr.nextToken());
@@ -754,11 +759,15 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
             String myCombatResultsString = sdcr.nextToken();
 
             return new UpdateTargunitiCommand(myName, myFirerSAN, myAttackedbydrm, myAttackedbyFP,
-                myELR5, myFortitudeStatus, myIFTResult, myIsConceal, myMovementStatus, myOrderStatus,
-                myPinned, myQualityStatus, myRandomSelected, mySmoke, myVisibilityStatus,
-                myPersUnitImpact, mySanActivated, myIFTResolved, myELR, myMCNum, myTargSTackLdrdrm,
-                myHOBFlag, myCombatResultsString);
-
+                    myELR5, myFortitudeStatus, myIFTResult, myIsConceal, myMovementStatus, myOrderStatus,
+                    myPinned, myQualityStatus, myRandomSelected, mySmoke, myVisibilityStatus,
+                    myPersUnitImpact, mySanActivated, myIFTResolved, myELR, myMCNum, myTargSTackLdrdrm,
+                    myHOBFlag, myCombatResultsString);
+        } else if (command.startsWith("Startgame")){
+            sdcr = new SequenceEncoder.Decoder(command, '\t');
+            sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
+            String opengamename = sdcr.nextToken();
+            return new StartCommand(opengamename, this);
         } else  {
             return null;
         }
@@ -800,14 +809,18 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
             UpdateTargunitiCommand utuc = (UpdateTargunitiCommand) c;
             SequenceEncoder utucencoder = new SequenceEncoder(utuc.myName, '\t');
             utucencoder.append(utuc.myFirerSAN).append(utuc.myAttackedbydrm).append(utuc.myAttackedbyFP).append(
-                utuc.myELR5).append(utuc.myFortitudeStatus).append(utuc.myIFTResult).append(utuc.myIsConceal).append(
-                utuc.myMovementStatus).append(utuc.myOrderStatus).append(utuc.myPinned).append(utuc.myQualityStatus).append(
-                utuc.myRandomSelected).append(utuc.mySmoke).append(utuc.myVisibilityStatus).append(
-                utuc.myPersUnitImpact).append(utuc.mySanActivated).append(utuc.myIFTResolved).append(
-                utuc.myELR).append(utuc.myMCNum).append(utuc.myTargSTackLdrdrm).append(utuc.myHOBFlag).append(
-                utuc.myCombatResultsString)      ;
+                    utuc.myELR5).append(utuc.myFortitudeStatus).append(utuc.myIFTResult).append(utuc.myIsConceal).append(
+                    utuc.myMovementStatus).append(utuc.myOrderStatus).append(utuc.myPinned).append(utuc.myQualityStatus).append(
+                    utuc.myRandomSelected).append(utuc.mySmoke).append(utuc.myVisibilityStatus).append(
+                    utuc.myPersUnitImpact).append(utuc.mySanActivated).append(utuc.myIFTResolved).append(
+                    utuc.myELR).append(utuc.myMCNum).append(utuc.myTargSTackLdrdrm).append(utuc.myHOBFlag).append(
+                    utuc.myCombatResultsString);
 
             return UPDATETARGUNIT_COMMAND_PREFIX + "\t" + utucencoder.getValue();
+        } else if (c instanceof StartCommand){
+            StartCommand sc = (StartCommand) c;
+            SequenceEncoder scencoder = new SequenceEncoder(sc.passOpengame, '\t');
+            return "Startgame" + "\t" + scencoder.getValue();
         } else {
             return null;
         }
@@ -964,6 +977,28 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
         }
 
         return newfilechooser;
+    }
+
+
+    // this command used by this.Initialize to start fullrules on both computers
+    public class StartCommand extends Command {
+        protected String passOpengame;
+        protected StartGame startgame;
+
+        public StartCommand(String opengame, StartGame passstartgame) {
+            this.passOpengame = opengame;
+            this.startgame = passstartgame;
+
+        }
+
+        protected void executeCommand() {
+            this.startgame.InitializeGame();
+
+        }
+
+        protected Command myUndoCommand() {
+            return null;
+        }
     }
 
 }

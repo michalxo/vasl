@@ -4535,13 +4535,13 @@ public class ConversionC {
             case PrepFirer:
                 return "Prep Fire";
             case OppFirer:
-                return "Opp. Fire";
+                return "Opp Fire";
             case FirstFirer:
                 return "First Fire";
             case FinalFirer:
                 return "Final Fire";
             case AdvFirer:
-                return "Adv. Fire";
+                return "Adv Fire";
             case SubsequentFirstFiring:
                 return null;
             case Melee:

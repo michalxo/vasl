@@ -1435,6 +1435,8 @@ public class IFTC implements IIFTC {
         } else {
             CombatRes = null;
         }
+
+        // NEED TO ADD RESID FP COUNTER PLACEMENT
     }
     protected void ResumeCombatResolution() {
         if (CombatRes== null) {return;}

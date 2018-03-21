@@ -31,7 +31,9 @@ import VASSAL.build.module.Map;
 import VASSAL.build.module.documentation.HelpFile;
 import VASSAL.build.module.map.Drawable;
 import VASSAL.command.Command;
+import VASSAL.command.CommandEncoder;
 import VASSAL.configure.HotKeyConfigurer;
+import VASSAL.tools.SequenceEncoder;
 import VASSAL.tools.imageop.Op;
 
 import javax.swing.*;
@@ -52,7 +54,7 @@ interface ActionsNeedRepaintEvent {
 enum ActionsToolBarPosition {TP_EAST, TP_WEST};
 
 
-public class ActionsToolbar extends AbstractConfigurable implements GameComponent, Drawable, ActionsNeedRepaintEvent {
+public class ActionsToolbar extends AbstractConfigurable implements GameComponent, CommandEncoder, Drawable, ActionsNeedRepaintEvent {
 
     private ASLMap m_objASLMap;
     private JToolBar m_Toolbar = null;
@@ -61,7 +63,7 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
     private boolean m_bToolbarActive = false;
     private final String ACTIONSTOOLBARPOS = "ActionsToolboxPos";
     private final String ACTIONSTOOLBARACTIVE = "ActionsToolboxActive";
-
+    private JToggleButton m_Startbutton = null;
     // this component is not configurable
     @Override
     public Class<?>[] getAttributeTypes() {return new Class<?>[] {};}
@@ -92,7 +94,10 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
         if (parent instanceof ASLMap) {
             m_objASLMap = (ASLMap) parent;
             m_objASLMap.addDrawComponent(this);
-
+            // is this necessary to fire Command?
+            GameModule mod = GameModule.getGameModule();
+            mod.addCommandEncoder(this);
+            mod.getGameState().addGameComponent(this);
             m_objASLMap.getPopupMenu().addSeparator();
             JMenuItem l_ToggleActiontoolbar = new JMenuItem("Action Toolbox");
             l_ToggleActiontoolbar.setBackground(new Color(255,255,255));
@@ -118,7 +123,9 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
 
             m_objASLMap.getPopupMenu().add(l_objActionToolbarVisibleChange);
 
+
         }
+
         GameModule.getGameModule().getGameState().addGameComponent(this);
     }
 
@@ -233,6 +240,7 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
 
             JToggleButton l_objTBtn = CreateChangePhaseActionsButton("Start", "Move to Next Phase");
             AddButton(l_objPanel, l_objTBtn, l_iRow++, 20);
+            m_Startbutton = l_objTBtn;
 
             l_objBtn = CreateActionButton("", "Prep", "Prep Fire", new ActionListener() {public void actionPerformed(ActionEvent e) {ProcessAction("Prep");}});
             AddButton(l_objPanel, l_objBtn, l_iRow++, 2);
@@ -368,7 +376,7 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
         l_btn.setPreferredSize(new Dimension(32, 32));
         l_btn.setFocusable(false);
         l_btn.setRolloverEnabled(false);
-
+        final ActionsToolbar passparent = this;
         ItemListener l_objIL = new ItemListener()
         {
             public void itemStateChanged(ItemEvent e)
@@ -376,11 +384,10 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
                 if(e.getStateChange() == ItemEvent.SELECTED)
                 {
                     if (l_btn.getText()=="Start") {
-                        ScenarioC scen = ScenarioC.getInstance();
-                        Constantvalues.Phase currentphase = scen.getPhase();
-                        String currentphasename = PhasetoString(currentphase);
-                        l_btn.setText(currentphasename);
-                        //scen.PhaseChangeNext();
+                        DoStartActions(l_btn);
+                        String startgamename = "test";
+                        StartbuttonCommand  startbtnc = new StartbuttonCommand(startgamename, passparent);
+                        GameModule.getGameModule().sendAndLog(startbtnc);
                     } else if (l_btn.getText()=="Prep") {
                         ScenarioC scen = ScenarioC.getInstance();
                         scen.PhaseChangeNext();
@@ -497,6 +504,101 @@ public class ActionsToolbar extends AbstractConfigurable implements GameComponen
                 return "Rally";
             default:
                 return "";
+        }
+    }
+
+    private void DoStartActions(JToggleButton l_btn){
+        ScenarioC scen = ScenarioC.getInstance();
+        Constantvalues.Phase currentphase = scen.getPhase();
+        String currentphasename = PhasetoString(currentphase);
+        getStartbutton().setText(currentphasename);
+        //scen.PhaseChangeNext();
+    }
+
+    public Command decode (String command){
+        SequenceEncoder.Decoder sdcr = null;
+        if (command.startsWith("StartbuttonC")){
+            sdcr = new SequenceEncoder.Decoder(command, '\t');
+            sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
+            String opengamename = sdcr.nextToken();
+            return new StartbuttonCommand(opengamename, this);
+        } else  {
+            return null;
+        }
+
+    }
+
+    public String encode (Command c){
+        if (c instanceof StartbuttonCommand) {
+            StartbuttonCommand sc = (StartbuttonCommand) c;
+            SequenceEncoder scencoder = new SequenceEncoder(sc.passOpengame, '\t');
+            return "StartbuttonC" + "\t" + scencoder.getValue();
+        } else {
+            return null;
+        }
+    }
+
+    private JToggleButton getStartbutton(){
+        return m_Startbutton;
+    }
+
+
+    // this command used by ItemListener in this.CreateChangePhaseActionsButton to set fullrules toolbar on remote computers
+    public class StartbuttonCommand extends Command {
+        protected String passOpengame;
+        protected ActionsToolbar atb;
+        protected JToggleButton l_btn;
+
+        public StartbuttonCommand(String opengame, ActionsToolbar passatb) {
+            this.passOpengame = opengame;
+            this.atb = passatb;
+            this.l_btn = passatb.getStartbutton();
+        }
+
+        protected void executeCommand() {
+
+            // can this all be replaced by l_btn.setSelected(true); ?
+            if (l_btn.getText()=="Start") {
+                DoStartActions(l_btn);
+            } else if (l_btn.getText()=="Prep") {
+                ScenarioC scen = ScenarioC.getInstance();
+                scen.PhaseChangeNext();
+                l_btn.setText("Move");
+            } else if (l_btn.getText()=="Move"){
+                l_btn.setText("DefF");
+                ScenarioC scen = ScenarioC.getInstance();
+                scen.PhaseChangeNext();
+            } else if (l_btn.getText()=="DefF"){
+                l_btn.setText("AdvF");
+                ScenarioC scen = ScenarioC.getInstance();
+                scen.PhaseChangeNext();
+            } else if (l_btn.getText()=="AdvF"){
+                l_btn.setText("Rout");
+                ScenarioC scen = ScenarioC.getInstance();
+                scen.PhaseChangeNext();
+            } else if (l_btn.getText()=="Rout"){
+                l_btn.setText("Adv");
+                ScenarioC scen = ScenarioC.getInstance();
+                scen.PhaseChangeNext();
+            } else if (l_btn.getText()=="Adv"){
+                l_btn.setText("CC");
+                ScenarioC scen = ScenarioC.getInstance();
+                scen.PhaseChangeNext();
+            } else if (l_btn.getText()=="CC"){
+                l_btn.setText("Rally");
+                ScenarioC scen = ScenarioC.getInstance();
+                scen.PhaseChangeNext();
+            } else if (l_btn.getText()=="Rally"){
+                l_btn.setText("Prep");
+                ScenarioC scen = ScenarioC.getInstance();
+                scen.PhaseChangeNext();
+            }
+            SetPhaseActions(l_btn.getText());
+            l_btn.setSelected(false);
+        }
+
+        protected Command myUndoCommand() {
+            return null;
         }
     }
 }

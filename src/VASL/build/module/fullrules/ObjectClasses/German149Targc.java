@@ -190,8 +190,7 @@ public class German149Targc implements TargetPersUniti {
         }
         DiceC Dieclass = new DiceC();
         int ODR = Dieclass.Diceroll();
-        // test code
-        ODR=2;
+
         myCombatResultsString += myName + " rolls an original " + java.lang.Integer.toString(ODR);
         // sniper
         SANCheck(ODR);
@@ -218,46 +217,24 @@ public class German149Targc implements TargetPersUniti {
         // MC
 
         // REDO as hero wounds not breaks
-        if (myOrderStatus == Constantvalues.OrderStatus.Broken || myOrderStatus == Constantvalues.OrderStatus.Broken_DM) {
-            if (FDR > (CurrentMoraleLevel - TargStackLdrdrm)) {  // fails MC
-                if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {   // ELR failure
-                    myPersUnitImpact = Constantvalues.PersUnitResult.ReplacesReducesBreaks;
-                    Resultstring = " and suffers Casualty Reduction and is Replaced with " ;
-                } else {                                         // no ELR failure
-                    myPersUnitImpact = Constantvalues.PersUnitResult.ReducesBreaks;
-                    Resultstring = " and suffers Casualty Reduction with " ;
-                }
-            } else if (FDR <= (CurrentMoraleLevel - TargStackLdrdrm)) {  // passes MC
-                if (myOrderStatus == Constantvalues.OrderStatus.Broken) { // already broken so DMs
-                    myPersUnitImpact = Constantvalues.PersUnitResult.DMs;
-                    Resultstring = " and passes a MC, is DM'd, with " ;
-                } else {                                                  // already DM so no effect
-                    myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
-                    Resultstring = " and passes a MC with " ;
-                }
+        String drmstring = Ldrstring + " SMC drm and a " + Integer.toString(FDR + TargStackLdrdrm) + " modified dice roll:";
+        if (FDR > (CurrentMoraleLevel - TargStackLdrdrm)) { // fails MC
+            int wdsevdr = Dieclass.Dieroll(); // takes wound severity dr
+            if (wdsevdr > 4) {  // 5,6 so dies
+                myPersUnitImpact = Constantvalues.PersUnitResult.Dies;
+                Resultstring = " fails its MC, then rolls a " + Integer.toString(wdsevdr) + ", fails its Wound Severity dr and dies";
+            } else
+                myPersUnitImpact = Constantvalues.PersUnitResult.Wounds;
+                Resultstring = " fails its MC, then rolls a " + Integer.toString(wdsevdr) + ", passes its Wound Severity dr and is wounded";
+        } else {   // passes MC
+            myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
+            Resultstring = " passes its MC" ;
             }
-        } else {    // unit is good order
-            if (FDR == (CurrentMoraleLevel - TargStackLdrdrm)) { // 'pin result
-                myPersUnitImpact = Constantvalues.PersUnitResult.Pins;
-            } else if (FDR > (CurrentMoraleLevel - TargStackLdrdrm)) { // fails MC
-                if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {   // ELR failure
-                    myPersUnitImpact = Constantvalues.PersUnitResult.ReplacesDMs;
-                    Resultstring = " and suffers a MC ELR failure with " ;
-                } else {                                                     // no ELR failure
-                    myPersUnitImpact = Constantvalues.PersUnitResult.Breaks;
-                    Resultstring = " and suffers a MC failure with " ;
-                }
-            } else if (FDR < (CurrentMoraleLevel - TargStackLdrdrm)) {   // passes MC
-                myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
-                Resultstring = " and passes a MC with " ;
-            }
-        }
-        myCombatResultsString += Resultstring + Ldrstring + "SMC drm and a " + Integer.toString(FDR + TargStackLdrdrm) + " modified dice roll:";
-        //if (myPersUnitImpact != Constantvalues.PersUnitResult.NoEffects) {
+
+        myCombatResultsString += drmstring + Resultstring ;
+
         return true;
-        //} else {
-        //    return false;
-        //}
+
     }
 
 

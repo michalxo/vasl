@@ -293,7 +293,7 @@ public class German467Targc implements TargetPersUniti {
             CurrentMoraleLevel = getMoraleLevel();
         }
         // test code
-        ODR=10;
+        //ODR=10;
         if (ODR == 2) {myHOBFlag = true;}
         // FDR
         int FDR = ODR + MCNum;

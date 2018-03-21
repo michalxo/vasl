@@ -79,9 +79,6 @@ public class UpdateFireunitiCommand extends Command{
     }
 
     protected void executeCommand() {
-            /*this.target.setEndPointsandLevels(this.newAnchor, this.newArrow, this.sourceLevel, this.targetLevel);
-            this.target.setPersisting(this.newPersisting);
-            this.target.setMirroring(this.newMirroring);*/
         ScenarioCollectionsc scencol = ScenarioCollectionsc.getInstance();
         scencol.ProcessFireUnitUpdate(this);
 

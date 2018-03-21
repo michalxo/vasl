@@ -389,20 +389,29 @@ public class Russian447Firec implements FiringPersUniti {
         myCombatFP = 0;
     }
 
-    public void UpdateCombatStatus(Constantvalues.CombatStatus NewCombatStatus, int ROFdr){
+    public void UpdateCombatStatus(Constantvalues.CombatStatus NewCombatStatus, int ROFdr) {
         // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL FIRING CLASSES
-        myCombatStatus =NewCombatStatus;
+        myCombatStatus = NewCombatStatus;
         myUnit.getbaseunit().setCombatStatus(NewCombatStatus);
         ConversionC DoConversion = new ConversionC();
         String InfoName = DoConversion.ConvertCombatStatustoCounterNameString(NewCombatStatus);
-        // add counter
+
+        // add fire counter - this needs to be tied to current phase
+        // NEED TO FIX FOR FINAL AND ADV FIRE
         ScenarioC scen = ScenarioC.getInstance();
         ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
         CommonFunctionsC ToDO = new CommonFunctionsC(scen.getScenID());
         GamePiece ToPrep = ToDO.GetGamePieceFromID(myUnit.getbaseunit().getUnit_ID());
-
         if (ToPrep != null && !ToDO.CheckIfInfoCounterExistsFromID(myUnit.getbaseunit().getUnit_ID(), InfoName)) {
-            ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
+            if (InfoName.equals("Prep Fire")) {
+                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
+            } else if (InfoName.equals("First Fire")) {
+                ToPrep.keyEvent(KeyStroke.getKeyStroke('J', java.awt.event.InputEvent.CTRL_MASK));
+            } else if (InfoName.equals("Final Fire")) {
+                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
+            } else if (InfoName.equals("Adv Fire")){
+                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
+            }
         }
 
         SuppWeapi FiringMG = null;
