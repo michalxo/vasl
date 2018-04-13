@@ -20,6 +20,6 @@ public interface IFTResulti {
     void setCowers(boolean value);
     LinkedList<TargetType> getFPdrmCombos();
 
-    LinkedList<PersUniti> getSWBrkDwnCowerAdj(LinkedList<PersUniti> TargGroup, DiceC DR, LinkedList<PersUniti> FireGroup) ;
-
+    LinkedList<PersUniti> getSWBrkDwn(LinkedList<PersUniti> TargGroup, DiceC DR, LinkedList<PersUniti> FireGroup) ;
+    LinkedList<PersUniti> getCoweringAdj(LinkedList<PersUniti> TargGroup, DiceC DR, LinkedList<PersUniti> FireGroup) ;
 }

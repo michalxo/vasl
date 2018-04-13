@@ -16,32 +16,29 @@ public class RandomSelection {
         return (NumberofItems > NumberImpacted ? true: false);
     }
     public boolean[] RandomSel(int NumberImpacted, int NumberofItems) {
-        // called by FireResolvle.Resolve
-        // performs random selection of X items from Y number of items
-        // returns an array of boolean values which indcates which items have been selected
-        // can be more than NumberOfItems due to dieroll ties
+        // called by
+        // performs random selection of X items from Y number of items - for SWbreakdown and similar, NumberImpacted should be 1
+        // returns an array of boolean values which indicates which items have been selected
+        // can be more than NumberImpacted due to dieroll ties
         DiceC Dice = new DiceC();
-        int[] TestArray = new int[NumberofItems - 1]; int[] Test2Array = new int[NumberofItems - 1]; boolean [] Test3Array = new boolean[NumberofItems - 1];
+        int[] TestArray = new int[NumberofItems];  boolean [] Test3Array = new boolean[NumberofItems];
         if (NumberImpacted >= NumberofItems) {
             for (int x = 0; x < NumberofItems; x++) {
                 Test3Array[x] = true;
             }
         } else {
             for (int x = 0; x < NumberofItems; x++) {
-                //TestArray[x] = Dice.Dieroll; temporary while debugging UNDO
-                //'MsgBox("Array item " & x.ToString & " is a " & TestArray(x).ToString)
-                Test2Array[x] = TestArray[x];
+                TestArray[x] = Dice.Dieroll();
                 Test3Array[x] = false;
             }
-            // order array from highest to lowest
-            //Array.Sort(TestArray)  temporary while debugging UNDO
-            //Array.Reverse(TestArray)
-            // determine which ones to switch( - handles dieroll ties
-            int Lowestnumbertotake = TestArray[NumberImpacted - 1];
+            // determine which ones to select - handles dieroll ties
+            int Lowestnumbertotake = 0;
             for (int x = 0; x < NumberofItems; x++) {
-                if (Test2Array[x] >= Lowestnumbertotake) {
+                if (TestArray[x] > Lowestnumbertotake){Lowestnumbertotake = TestArray[x];}
+            }
+            for (int x = 0; x < NumberofItems; x++) {
+                if (TestArray[x] == Lowestnumbertotake) {
                     Test3Array[x] = true;
-                    //'MsgBox("Array item " & x.ToString & " is a " & Test2Array(x).ToString & " and is true")
                 }
             }
         }

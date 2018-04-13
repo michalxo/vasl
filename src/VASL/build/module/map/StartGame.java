@@ -710,7 +710,7 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
             String myIsEncirc = sdcr.nextToken();
             String myCX = sdcr.nextToken();
             String myIsPinned = sdcr.nextToken();
-            int myCombatFP = Integer.parseInt(sdcr.nextToken());
+            double myCombatFP = Double.parseDouble(sdcr.nextToken());
             int mySolID = Integer.parseInt(sdcr.nextToken());
             String myHasMG = sdcr.nextToken();
             String myUsingInherentFP = sdcr.nextToken();

@@ -4,8 +4,11 @@ import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
 import VASL.build.module.map.StartGame;
 import VASSAL.command.Command;
+
+import java.util.LinkedList;
 
 public class UpdateFireunitiCommand extends Command{
 
@@ -25,6 +28,7 @@ public class UpdateFireunitiCommand extends Command{
     public int myOBLink;
     public int MyLoc;
     public PersUniti myUnit;
+    private LinkedList<SuppWeapi> myFiringMGs = new LinkedList<SuppWeapi>();
 
     public UpdateFireunitiCommand(PersUniti PassObject){
 
@@ -54,7 +58,7 @@ public class UpdateFireunitiCommand extends Command{
     }
 
     public UpdateFireunitiCommand(int passmyCombatStatus, String passmyIsEncirc, String passmyCX, String passmyIsPinned,
-        int passmyCombatFP, int passmySolID, String passmyHasMG, String passmyUsingInherentFP,
+        double passmyCombatFP, int passmySolID, String passmyHasMG, String passmyUsingInherentFP,
         String passmyUsingfirstMG, String passmyUsingsecondMG, String passmyIsInCrestStatus,
         int passmyhexposition, int passmyUseHeroOrLeader, int passmyOBLink, int passMyLoc) {
 
@@ -74,19 +78,45 @@ public class UpdateFireunitiCommand extends Command{
         myUseHeroOrLeader = passmyUseHeroOrLeader;
         myOBLink = passmyOBLink;
         MyLoc = passMyLoc;
-        
+        setFiringMGs();
 
     }
 
     protected void executeCommand() {
         ScenarioCollectionsc scencol = ScenarioCollectionsc.getInstance();
         scencol.ProcessFireUnitUpdate(this);
-
-
     }
 
     protected Command myUndoCommand() {
         //return new VASLThread.VASLLOSCommand(this.target, this.oldAnchor, this.oldArrow, this.oldPersisting, this.oldMirroring, this.target.sourcelevel, this.target.targetlevel);
         return null;
+    }
+    protected void setFiringMGs(){
+        ScenarioCollectionsc scencol = ScenarioCollectionsc.getInstance();
+
+        if (myUsingfirstMG == true) {
+            for (PersUniti findUnit : scencol.Unitcol) {
+                if (findUnit.getbaseunit().getUnit_ID() == myOBLink) {
+                    for (SuppWeapi findSW : scencol.SWCol) {
+                        if (findSW.getbaseSW().getSW_ID() == findUnit.getbaseunit().getFirstSWLink()) {
+                            myFiringMGs.add(findSW);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (myUsingsecondMG == true){
+            for (PersUniti findUnit : scencol.Unitcol) {
+                if (findUnit.getbaseunit().getUnit_ID() == myOBLink) {
+                    for (SuppWeapi findSW : scencol.SWCol) {
+                        if (findSW.getbaseSW().getSW_ID() == findUnit.getbaseunit().getSecondSWLink()) {
+                            myFiringMGs.add(findSW);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

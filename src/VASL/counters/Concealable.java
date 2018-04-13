@@ -18,7 +18,6 @@
  */
 package VASL.counters;
 
-import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.ObjectChangeClasses.ConcealUnitC;
 import VASL.build.module.fullrules.ObjectChangeClasses.RevealUnitC;
 import VASL.build.module.fullrules.ObjectChangeClasses.VisibilityChangei;
@@ -461,7 +460,7 @@ public class Concealable extends Obscurable implements EditablePiece {
     }
     if (ConcealUnit == null) { //is a sw; get owner info
       for (SuppWeapi OBSWitem : Scencolls.SWCol) {
-        if (OBSWitem.getbaseSW().getUnit_ID() == Integer.parseInt(outer.getProperty("TextLabel").toString())) {
+        if (OBSWitem.getbaseSW().getSW_ID() == Integer.parseInt(outer.getProperty("TextLabel").toString())) {
           int owner = OBSWitem.getbaseSW().getOwner();
           for (PersUniti UnittoConceal: Scencolls.Unitcol) {
             if (UnittoConceal.getbaseunit().getUnit_ID() == owner) {

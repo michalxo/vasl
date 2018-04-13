@@ -4,6 +4,8 @@ import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
+import VASL.build.module.fullrules.UtilityClasses.ManageUpdateUnitCommand;
+import VASSAL.command.Command;
 
 import java.util.List;
 
@@ -206,26 +208,25 @@ public class German149Targc implements TargetPersUniti {
         // FDR
         int FDR = ODR + MCNum;
         // 12
-        if (ODR == 12) {
-            if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {  // fails MC by > ELR
+        if (ODR == 12) {  // has no impact on Hero; either fails MC or doesn't
+           /* if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {  // fails MC by > ELR
                 myPersUnitImpact = Constantvalues.PersUnitResult.ReplacesReducesBreaks;
             } else {                                                     // fails MC <= ELR
                 myPersUnitImpact = Constantvalues.PersUnitResult.ReducesBreaks;
             }
-            return true;
+            return true;*/
         }
-        // MC
-
-        // REDO as hero wounds not breaks
+        // MC - hero wounds not breaks
         String drmstring = Ldrstring + " SMC drm and a " + Integer.toString(FDR + TargStackLdrdrm) + " modified dice roll:";
         if (FDR > (CurrentMoraleLevel - TargStackLdrdrm)) { // fails MC
             int wdsevdr = Dieclass.Dieroll(); // takes wound severity dr
-            if (wdsevdr > 4) {  // 5,6 so dies
+            if (wdsevdr >= 5) {  // 5,6 so dies
                 myPersUnitImpact = Constantvalues.PersUnitResult.Dies;
-                Resultstring = " fails its MC, then rolls a " + Integer.toString(wdsevdr) + ", fails its Wound Severity dr and dies";
-            } else
+                Resultstring = " fails its MC, then rolls a " + Integer.toString(wdsevdr) + ", fails its Wound Severity dr and ";
+            } else {
                 myPersUnitImpact = Constantvalues.PersUnitResult.Wounds;
-                Resultstring = " fails its MC, then rolls a " + Integer.toString(wdsevdr) + ", passes its Wound Severity dr and is wounded";
+            Resultstring = " fails its MC, then rolls a " + Integer.toString(wdsevdr) + ", passes its Wound Severity dr and is wounded";
+            }
         } else {   // passes MC
             myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
             Resultstring = " passes its MC" ;
@@ -353,6 +354,10 @@ public class German149Targc implements TargetPersUniti {
     public boolean UpdateTargetStatus(PersUniti PassTarget) {
         // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL TARGET CLASSES
         // get Order of Battle unit that matches the PersUniti
+        ManageUpdateUnitCommand manageupdateunitcommand = new ManageUpdateUnitCommand();
+        Command newcommand = manageupdateunitcommand.CreateCommand(PassTarget, Constantvalues.UnitCommandtype.targunit);
+        manageupdateunitcommand.ProcessCommand(newcommand);
+        // this may no longer be needed as above may handle for both local and remote
         CommonFunctionsC comfun = new CommonFunctionsC(PassTarget.getbaseunit().getScenario());
         OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(PassTarget.getbaseunit().getUnit_ID());
 

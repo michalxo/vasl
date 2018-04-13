@@ -66,7 +66,7 @@ public class UnitSubstitutesc implements StatusChangei{
                 int SWItem = TargParent.getbaseunit().getFirstSWLink();
                 SuppWeapi SWtoChange = null;
                 for (SuppWeapi TestSW: Scencolls.SWCol){
-                    if (TestSW.getbaseSW().getUnit_ID() == SWItem) {
+                    if (TestSW.getbaseSW().getSW_ID() == SWItem) {
                         SWtoChange = TestSW;
                         break;
                     }
@@ -82,7 +82,7 @@ public class UnitSubstitutesc implements StatusChangei{
                 int SWItem = TargParent.getbaseunit().getSecondSWLink();
                 SuppWeapi SWtoChange = null;
                 for (SuppWeapi TestSW: Scencolls.SWCol){
-                    if (TestSW.getbaseSW().getUnit_ID() == SWItem) {
+                    if (TestSW.getbaseSW().getSW_ID() == SWItem) {
                         SWtoChange = TestSW;
                         break;
                     }

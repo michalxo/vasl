@@ -26,6 +26,7 @@ public interface FiringSuppWeapi {
     boolean getSprayFire();
     void setSprayFire(boolean value);
     boolean getIsMG();
+    void setCombatFP(double value);
 
     void RangeModification(double range, double LevelDifference, PersUniti TargetU);
     void PinnedModification();

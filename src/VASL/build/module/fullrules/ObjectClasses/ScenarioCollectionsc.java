@@ -2655,12 +2655,44 @@ public class ScenarioCollectionsc {
     }
 
     public void ProcessFireUnitUpdate(UpdateFireunitiCommand PassCommand){
-        ConversionC confrom = new ConversionC();
+
+         ConversionC confrom = new ConversionC();
         int UpdateUnitID = PassCommand.myOBLink;
         PersUniti BaseUnit = FindInCollection (UpdateUnitID);
         if (BaseUnit != null){
             FiringPersUniti UpdateFirer = BaseUnit.getFiringunit();
+            if (UpdateFirer != null) {
+                // firer unit already exists
+            } else {
+                // create Firerpersuniti property
+                PersCreation ObjCreate = new PersCreation();
+                BaseUnit = ObjCreate.CreatefiringUnitandProperty(BaseUnit);
+                UpdateFirer = BaseUnit.getFiringunit();
+                UpdateFirer.setUseHeroOrLeader(confrom.ConverttoUnitType(PassCommand.myUseHeroOrLeader));
+                UpdateFirer.setIsPinned(PassCommand.myIsPinned);
+                UpdateFirer.setUsingInherentFP(PassCommand.myUsingInherentFP);
+                UpdateFirer.setUsingfirstMG(PassCommand.myUsingfirstMG);
+                UpdateFirer.setUsingsecondMG(PassCommand.myUsingsecondMG);
+                UpdateFirer.setIsCX(PassCommand.myCX);
+                UpdateFirer.setIsEncirc(PassCommand.myIsEncirc);
+                UpdateFirer.setCombatFP(PassCommand.myCombatFP);
+                UpdateFirer.setHasMG(PassCommand.myHasMG);
+                //UpdateFirer.FiringMGs = PassCommand.myF
+            }
             UpdateFirer.setCombatStatus(confrom.ConverttoCombatStatus(PassCommand.myCombatStatus));
+            BaseUnit.getbaseunit().setCombatStatus(confrom.ConverttoCombatStatus(PassCommand.myCombatStatus));
+
+            CounterActions counteractions = new CounterActions();
+            counteractions.placefirecounter(BaseUnit);
+
+            /*CommonFunctionsC ToDO = new CommonFunctionsC(BaseUnit.getbaseunit().getScenario());
+            GamePiece ToBreak = ToDO.GetGamePieceFromID(BaseUnit.getbaseunit().getUnit_ID());
+            if (ToBreak != null) {
+                if (UpdateFirer.getPersUnitImpact() == Constantvalues.PersUnitResult.Breaks) {
+                    // flip counter and add DM
+                    ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+                }
+            }*/
         }
     }
 
@@ -2707,6 +2739,15 @@ public class ScenarioCollectionsc {
                 if(UpdateTarget.getPersUnitImpact() == Constantvalues.PersUnitResult.Breaks) {
                     // flip counter and add DM
                     ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+                } else if(UpdateTarget.getPersUnitImpact() == Constantvalues.PersUnitResult.Pins) {
+                    // add Pin counter
+                    ToBreak.keyEvent(KeyStroke.getKeyStroke('P', java.awt.event.InputEvent.CTRL_MASK));
+                } else if(UpdateTarget.getPersUnitImpact() == Constantvalues.PersUnitResult.Wounds) {
+                    // flip counter
+                    ToBreak.keyEvent(KeyStroke.getKeyStroke('W', java.awt.event.InputEvent.CTRL_MASK));
+                } else if(UpdateTarget.getPersUnitImpact() == Constantvalues.PersUnitResult.Dies) {
+                    // delete counter
+                    ToBreak.keyEvent(KeyStroke.getKeyStroke('D', java.awt.event.InputEvent.CTRL_MASK));
                 }
             }
         }

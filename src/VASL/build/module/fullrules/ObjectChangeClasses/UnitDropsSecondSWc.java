@@ -1,7 +1,6 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
@@ -24,7 +23,7 @@ public class UnitDropsSecondSWc implements StatusChangei {
         }
         if (FindSW == 0) {return false;}  // no SW found
         for (SuppWeapi findSW: Scencolls.SWCol) {
-            if (findSW.getbaseSW().getUnit_ID() == FindSW) {
+            if (findSW.getbaseSW().getSW_ID() == FindSW) {
                 SWtoCheck = findSW;
                 break;
             }
@@ -32,7 +31,7 @@ public class UnitDropsSecondSWc implements StatusChangei {
         if (SWtoCheck == null) {return false;}   // no SW found
         String OBSWname = SWtoCheck.getbaseSW().getUnitName();
         ActiveUnit.getbaseunit().setnumSW(ActiveUnit.getbaseunit().getnumSW()- 1);
-        if (ActiveUnit.getbaseunit().getnumSW() == SWtoCheck.getbaseSW().getUnit_ID()) {ActiveUnit.getbaseunit().setSecondSWLink(0);}
+        if (ActiveUnit.getbaseunit().getnumSW() == SWtoCheck.getbaseSW().getSW_ID()) {ActiveUnit.getbaseunit().setSecondSWLink(0);}
         GameModule.getGameModule().getChatter().send(ActiveUnit.getbaseunit().getUnitName() + " drops " + SWtoCheck.getbaseSW().getUnitName());
 //        Dim SWHexloc = New
 //        CombatTerrainClassLibrary.ASLXNA.HexAndLocHolder(CInt(SWtoCheck.BaseSW.Hexnum), CInt(SWtoCheck.BaseSW.hexlocation))

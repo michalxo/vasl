@@ -8,7 +8,7 @@ public class ChangeSWOwnerc {
     public ChangeSWOwnerc(int SWItem, int NewOwner) {
         ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
         for (SuppWeapi SWtoChange : Scencolls.SWCol) {
-            if (SWtoChange.getbaseSW().getUnit_ID() == SWItem) {
+            if (SWtoChange.getbaseSW().getSW_ID() == SWItem) {
                 SWtoChange.getbaseSW().setOwner(NewOwner);
             }
         }

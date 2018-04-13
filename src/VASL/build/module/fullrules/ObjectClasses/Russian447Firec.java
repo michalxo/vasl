@@ -6,6 +6,9 @@ import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
+import VASL.build.module.fullrules.UtilityClasses.CounterActions;
+import VASL.build.module.fullrules.UtilityClasses.ManageUpdateUnitCommand;
+import VASSAL.command.Command;
 import VASSAL.counters.GamePiece;
 
 import javax.swing.*;
@@ -160,6 +163,14 @@ public class Russian447Firec implements FiringPersUniti {
     public void setUsingsecondMG(boolean value) {
         myUsingsecondMG = value;
     }
+
+    public void setIsCX(boolean value) {myCX = value;}
+
+    public void setIsEncirc(boolean value) {myIsEncirc = value;}
+
+    public void setCombatFP(double value) {myCombatFP = value;}
+
+    public void setHasMG(boolean value) {myHasMG = value;}
 
     public void RangeModification(double range, double LevelDifference, PersUniti TargetU) {
         // called by ifT.CalcFP
@@ -389,44 +400,24 @@ public class Russian447Firec implements FiringPersUniti {
         myCombatFP = 0;
     }
 
-    public void UpdateCombatStatus(Constantvalues.CombatStatus NewCombatStatus, int ROFdr) {
+    public void UpdateCombatStatus(PersUniti firer, Constantvalues.CombatStatus NewCombatStatus, int ROFdr) {
         // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL FIRING CLASSES
         myCombatStatus = NewCombatStatus;
         myUnit.getbaseunit().setCombatStatus(NewCombatStatus);
-        ConversionC DoConversion = new ConversionC();
-        String InfoName = DoConversion.ConvertCombatStatustoCounterNameString(NewCombatStatus);
 
-        // add fire counter - this needs to be tied to current phase
-        // NEED TO FIX FOR FINAL AND ADV FIRE
         ScenarioC scen = ScenarioC.getInstance();
         ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
-        CommonFunctionsC ToDO = new CommonFunctionsC(scen.getScenID());
-        GamePiece ToPrep = ToDO.GetGamePieceFromID(myUnit.getbaseunit().getUnit_ID());
-        if (ToPrep != null && !ToDO.CheckIfInfoCounterExistsFromID(myUnit.getbaseunit().getUnit_ID(), InfoName)) {
-            if (InfoName.equals("Prep Fire")) {
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
-            } else if (InfoName.equals("First Fire")) {
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('J', java.awt.event.InputEvent.CTRL_MASK));
-            } else if (InfoName.equals("Final Fire")) {
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
-            } else if (InfoName.equals("Adv Fire")){
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
-            }
-        }
-
         SuppWeapi FiringMG = null;
-        OrderofBattle UpdateUnit = null;
-        for(OrderofBattle testOBunit: scen.getOBUnitcol() ) {
-            if (testOBunit.getOBUnit_ID() == myUnit.getbaseunit().getUnit_ID()) {
-                UpdateUnit = testOBunit;
-                break;
-            }
-        }
+        // this may no longer be needed as below  may handle for both local and remote
+        CommonFunctionsC comfun = new CommonFunctionsC(firer.getbaseunit().getScenario());
+        OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(firer.getbaseunit().getUnit_ID());
+
+
         if (UpdateUnit != null) {
             UpdateUnit.setCombatStatus(myCombatStatus);
             if (this.getUsingfirstMG()) {
                 for(SuppWeapi testOBSWunit: Scencolls.SWCol ) {
-                    if (testOBSWunit.getbaseSW().getUnit_ID() == myUnit.getbaseunit().getFirstSWLink()) {
+                    if (testOBSWunit.getbaseSW().getSW_ID() == myUnit.getbaseunit().getFirstSWLink()) {
                         FiringMG = testOBSWunit;
                         break;
                     }
@@ -435,7 +426,7 @@ public class Russian447Firec implements FiringPersUniti {
             }
             if (this.getUsingsecondMG()) {
                 for(SuppWeapi testOBSWunit: Scencolls.SWCol ) {
-                    if (testOBSWunit.getbaseSW().getUnit_ID() == myUnit.getbaseunit().getSecondSWLink()) {
+                    if (testOBSWunit.getbaseSW().getSW_ID() == myUnit.getbaseunit().getSecondSWLink()) {
                         FiringMG = testOBSWunit;
                         break;
                     }
@@ -443,6 +434,20 @@ public class Russian447Firec implements FiringPersUniti {
                 FiringMG.getFiringSW().UpdateCombatStatus(NewCombatStatus,ROFdr);
             }
         }
+
+        // get Order of Battle unit that matches the PersUniti
+        ManageUpdateUnitCommand manageupdateunitcommand = new ManageUpdateUnitCommand();
+        Command newcommand = manageupdateunitcommand.CreateCommand(firer, Constantvalues.UnitCommandtype.fireunit);
+        manageupdateunitcommand.ProcessCommand(newcommand);
+
+
+        if (UpdateUnit != null) {
+
+
+        }
+
+        //CounterActions counteractions = new CounterActions();
+        //counteractions.placefirecounter(myUnit);
 
     }
 

@@ -1,26 +1,19 @@
 package VASL.build.module.fullrules.IFTCombatClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
-import VASL.build.module.fullrules.DataClasses.OrderofBattle;
-import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
-import VASL.build.module.fullrules.DataClasses.SupportWeapon;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectChangeClasses.ElimConcealC;
 import VASL.build.module.fullrules.ObjectChangeClasses.RevealUnitC;
 import VASL.build.module.fullrules.ObjectChangeClasses.VisibilityChangei;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
-import VASL.build.module.fullrules.UtilityClasses.CombatUtil;
-import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
-import VASL.build.module.fullrules.UtilityClasses.DiceC;
-import VASL.build.module.fullrules.UtilityClasses.RandomSelection;
-import VASL.build.module.map.StartGame;
+import VASL.build.module.fullrules.UtilityClasses.*;
+import VASSAL.build.GameModule;
 import VASSAL.counters.GamePiece;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -62,21 +55,11 @@ public class IFTResultC implements IFTResulti {
         return FPdrmList;
     }
 
-    public LinkedList<PersUniti> getSWBrkDwnCowerAdj(LinkedList<PersUniti> TargGroup, DiceC DR, LinkedList<PersUniti> FireGroup) {
+    public LinkedList<PersUniti> getSWBrkDwn(LinkedList<PersUniti> TargGroup, DiceC DR, LinkedList<PersUniti> FireGroup) {
         // called by IFTC.ProcessIFTCombat
-        // process dice roll against the stack, handling any cowering or SW breakdown
+        // process dice roll against the stack, handling any SW breakdown
+        // removes SW from FireGroup, FP recalc is done in IFTC.ProcessIFTCombat
 
-        // fp is already rounded down by IFTC.CalcFPandDRM routine
-        // cowering
-        int DoubleDrop = 0;
-        if (DR.getWhite() == DR.getColored()) {
-            if (FireGroupCowers(FireGroup, DoubleDrop)) {
-                for (PersUniti TargetUnit : TargGroup) {
-                    int newAttackedbyFP = ApplyCowering(TargetUnit.getTargetunit().getAttackedbyFP(), DoubleDrop);
-                    TargetUnit.getTargetunit().setAttackedbyFP(newAttackedbyFP);
-                }
-            }
-        }
         // Malfunction
         if (DR.getWhite() + DR.getColored() == 12) {
             pBreakdown12 = true;
@@ -86,6 +69,32 @@ public class IFTResultC implements IFTResulti {
         // need to do here as could effect AttackedbyFP
         if (pBreakdown12 && FireGrouphasMG(FireGroup)) {
             MGBreakdown(FireGroup); // removes broken weapon from FireGroup
+
+        }
+
+        return FireGroup;
+    }
+
+    public LinkedList<PersUniti> getCoweringAdj(LinkedList<PersUniti> TargGroup, DiceC DR, LinkedList<PersUniti> FireGroup) {
+        // called by IFTC.ProcessIFTCombat
+        // process dice roll against the stack, handling any cowering
+        // FP recalc is handled here
+
+        // fp is already rounded down by IFTC.CalcFPandDRM routine
+
+        // cowering
+        int DoubleDrop = 0;
+        if (DR.getWhite() == DR.getColored()) {
+            if (FireGroupCowers(FireGroup, DoubleDrop)) {
+                String cowerstring ="Firer cowers: ";
+                for (PersUniti TargetUnit : TargGroup) {
+                    int newAttackedbyFP = ApplyCowering(TargetUnit.getTargetunit().getAttackedbyFP(), DoubleDrop);
+                    TargetUnit.getTargetunit().setAttackedbyFP(newAttackedbyFP);
+                    cowerstring += TargetUnit.getbaseunit().getUnitName() + " is now attacked by " + Integer.toString(newAttackedbyFP) + " FP; ";
+                }
+                GameModule.getGameModule().getChatter().send(cowerstring);
+                // need to add routine to determine which units get FinalFire
+            }
         }
         return FireGroup;
     }
@@ -124,7 +133,7 @@ public class IFTResultC implements IFTResulti {
             }
             FDR = DR.getColored() + DR.getWhite() + SameTarget.get(0).getTargetunit().getAttackedbydrm();
             //test code
-            FDR=7;
+            //FDR=7;
             if (FDR > 15) {
                 IFTTableResult = Constantvalues.IFTResult.NR;
             } else {
@@ -412,46 +421,64 @@ public class IFTResultC implements IFTResulti {
         }
     }
     private boolean FireGrouphasMG(LinkedList<PersUniti> FireGroup) {
-        ScenarioC scen = ScenarioC.getInstance();
-
         for (PersUniti FiringUnit: FireGroup) {
-
-            //NEED TO ADD CODE TO LOOK FOR MG - BELOW DOES NOT WORK AS FIRINGUNIT IS NEVER A SW; IT IS PERSUNITI BY DEF
-            /*if (Constantvalues.Typetype.SW == FiringUnit.getbaseunit().getTypeType_ID()) {
-                if (FiringUnit.getbaseunit().IsMG().ISATypeOf(Constantvalues.SWtype.AnyMG)) {
-                    return true;
-                } // sw is a MG
-            }*/
+            if (FiringUnit.getFiringunit().getUsingfirstMG()) {
+                for (SuppWeapi CheckMG: FiringUnit.getFiringunit().FiringMGs) {
+                    if (CheckMG.getbaseSW().getSW_ID()== FiringUnit.getbaseunit().getFirstSWLink()) {return true;}
+                }
+            }
+            if (FiringUnit.getFiringunit().getUsingsecondMG()) {
+                for (SuppWeapi CheckMG : FiringUnit.getFiringunit().FiringMGs) {
+                    if (CheckMG.getbaseSW().getSW_ID() == FiringUnit.getbaseunit().getSecondSWLink()) {return true;}
+                }
+            }
         }
         // if here then no MG
         return false;
     }
 
     private boolean MGBreakdown(LinkedList<PersUniti> FireGroup) {
-        int[] MGCount; OrderofBattleSW SWToCheck;
+        int MGCount=0; SuppWeapi[] FiringMG = new SuppWeapi[100] ;
         // determine how many MG
         for (PersUniti FiringUnit: FireGroup) {
-
-        /*'' if TypeCheck.IsThingATypeOf(Constantvalues.Typetype.SW, FiringUnit.BasePersUnit.Type_ID) Then
-        '' SWToCheck = Linqdata.GetOBSWRecord(FiringUnit.OBLink)
-        '' if SWToCheck.ISATypeOf(Constantvalues.SWtype.AnyMG) Then 'sw is a MG
-        '' MGCount.Add(FiringUnit.OBLink)
-        '' End if
-        '' End if*/
+            if (FiringUnit.getFiringunit().getUsingfirstMG()) {
+                for (SuppWeapi CheckMG: FiringUnit.getFiringunit().FiringMGs) {
+                    if (CheckMG.getbaseSW().getSW_ID()== FiringUnit.getbaseunit().getFirstSWLink()) {
+                        MGCount=+1;
+                        FiringMG[MGCount] = CheckMG;
+                        break;
+                    }
+                }
+            }
+            if (FiringUnit.getFiringunit().getUsingsecondMG()) {
+                for (SuppWeapi CheckMG : FiringUnit.getFiringunit().FiringMGs) {
+                    if (CheckMG.getbaseSW().getSW_ID() == FiringUnit.getbaseunit().getSecondSWLink()) {
+                        MGCount +=1;
+                        FiringMG[MGCount] = CheckMG;
+                        break;
+                    }
+                }
+            }
         }
         // do random selection
         RandomSelection RndSel = new RandomSelection();
-        /*Dim SelItems As Boolean () :Dim y As Integer = 0
-        '' SelItems = RndSel.RandomSel(1, MGCount.Count)
-        '' Do Until y = MGCount.Count
-        '' if SelItems (y) = true Then 'random selected
-        '' 'break MG && remove from FireGroup
-        '' SWToCheck = Linqdata.GetOBSWRecord(FireGroup.Item(y).OBLink)
-        '' SWToCheck.Breaksdown()
-        '' FireGroup.RemoveAt(y)
-        '' End if
-        '' y += 1
-        '' Loop*/
+        boolean[] SelItems = new boolean[100];
+        SelItems = RndSel.RandomSel(1, MGCount);
+        for (int x = 0; x < MGCount; x++) {
+            if (SelItems[x] == true) { //random selected
+                // break MG
+                SuppWeapi SWToBreak = FiringMG[x + 1];  // +1 is needed because FiringMG are added starting at 1 and SelItems is zero-based
+                SWToBreak.getbaseSW().setSWStatus(Constantvalues.SWStatus.Brokendown);
+                // remove from FG
+                for (PersUniti FiringUnit: FireGroup){
+                    if (FiringUnit.getbaseunit().getFirstSWLink() == SWToBreak.getbaseSW().getSW_ID()) {FiringUnit.getFiringunit().setUsingfirstMG(false);}
+                    if (FiringUnit.getbaseunit().getSecondSWLink() == SWToBreak.getbaseSW().getSW_ID()) {FiringUnit.getFiringunit().setUsingsecondMG(false);}
+                }
+                // trigger counter action
+                CounterActions counteractions = new CounterActions();
+                counteractions.flipcounter(SWToBreak);
+            }
+        }
         return true;
     }
     private void RecalcFP(LinkedList<PersUniti> FireGroup, LinkedList<PersUniti> TargGroup) {

@@ -92,7 +92,7 @@ public class BaseSuppWeapc {
     public Constantvalues.Nationality getNationality() {return myNationality;}
     public int getCon_ID() {return myCon_ID;}
     public void setCon_ID(int value) {myCon_ID = value;}
-    public int getUnit_ID() {return myUnit_ID;}
+    public int getSW_ID() {return myUnit_ID;}
     public Constantvalues.Typetype getType_ID() {return myTypeType_ID;}
     public void setType_ID(Constantvalues.Typetype value) {myTypeType_ID = value;}
     public int getHexEntSideCrossed() {return myHexEntSideCrossed;}

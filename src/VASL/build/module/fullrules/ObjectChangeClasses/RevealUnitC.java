@@ -1,7 +1,6 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
@@ -31,7 +30,7 @@ public class RevealUnitC implements VisibilityChangei {
             if (RevealUnit.getbaseunit().getFirstSWLink() != 0) {   // 0 value means no SW
                 // retrieve SW and change visibility status
                 for (SuppWeapi RevealSW : Scencolls.SWCol) {
-                    if (RevealSW.getbaseSW().getUnit_ID() == RevealUnit.getbaseunit().getFirstSWLink()) {
+                    if (RevealSW.getbaseSW().getSW_ID() == RevealUnit.getbaseunit().getFirstSWLink()) {
                         if (RevealSW.getbaseSW().getVisibilityStatus() == Constantvalues.VisibilityStatus.Concealed ||
                                 RevealSW.getbaseSW().getVisibilityStatus() == Constantvalues.VisibilityStatus.Hidden) {
                             RevealSW.getbaseSW().setVisibilityStatus(Constantvalues.VisibilityStatus.Visible);
@@ -43,7 +42,7 @@ public class RevealUnitC implements VisibilityChangei {
             if (RevealUnit.getbaseunit().getSecondSWLink() != 0) {   // 0 value means no SW
                 // retrieve SW and change visibility status
                 for (SuppWeapi RevealSW : Scencolls.SWCol) {
-                    if (RevealSW.getbaseSW().getUnit_ID() == RevealUnit.getbaseunit().getSecondSWLink()) {
+                    if (RevealSW.getbaseSW().getSW_ID() == RevealUnit.getbaseunit().getSecondSWLink()) {
                         if (RevealSW.getbaseSW().getVisibilityStatus() == Constantvalues.VisibilityStatus.Concealed ||
                                 RevealSW.getbaseSW().getVisibilityStatus() == Constantvalues.VisibilityStatus.Hidden) {
                             RevealSW.getbaseSW().setVisibilityStatus(Constantvalues.VisibilityStatus.Visible);

@@ -41,7 +41,6 @@ public class DiceC {
     public int Diceroll() {
         // called all over; returns value of 2 dice roll and sets Colored and White values
         pColored = Dieroll();
-        //Thread.Sleep(1500)
         pWhite = Dieroll();
 
             // test dode

@@ -420,7 +420,7 @@ public class IFTC implements IIFTC {
     protected boolean AddFirerUnit(PersUniti Unititem) {
         // called by ifT.Clickonnewparticipants
         // determines what unit and/or MG should be added and sends to ProcessAddFirer (some via context popup click)
-        Constantvalues.CombatSel Selectionmade = Constantvalues.CombatSel.InhOnly;
+        Constantvalues.CombatSel Selectionmade = Constantvalues.CombatSel.InhandFirstMG;
         boolean result;
         // do status checks - SHOULD THIS BE HERE OR ELSEWHERE?
         if (Unititem.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.Broken &&
@@ -429,12 +429,13 @@ public class IFTC implements IIFTC {
                 Unititem.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.DisruptedDM) {
             if (Unititem.getbaseunit().getnumSW() != 0) {// need to add SW if part of fire and determine impact on inherent FP
                 MGandInherentFPSelection MGifPSel = new MGandInherentFPSelection();
-                Selectionmade = MGifPSel.ShowChoices(Unititem);
+                // Selectionmade = MGifPSel.ShowChoices(Unititem); undo NEED TO COME BACK TO
                 // determine which combo of Inherent and MG are being added - via popup and send result to ProcessAddFirer
-                if (Selectionmade == Constantvalues.CombatSel.None ||
+                // remmed out while debugging - undo    NEED TO COME BACK TO
+                /*if (Selectionmade == Constantvalues.CombatSel.None ||
                         Selectionmade == Constantvalues.CombatSel.ShowMenu) {
                     return false;
-                }
+                }*/
             }
             String CheckFire = CheckFireEligibility(Unititem);
             if (CheckFire != null) {
@@ -819,42 +820,55 @@ public class IFTC implements IIFTC {
             case None:
                 break;
             case InhandFirstMG:
-                UsingMG = null; //(From selsw As Objectvalues.SuppWeapi In Scencolls.SWCol Where selsw.BaseSW.Unit_ID = Unititem.BasePersUnit.FirstSWLink Select selsw).First;
+                Unititem.getFiringunit().setUsingInherentFP(true);
+                UsingMG = getFiringSW(Unititem.getbaseunit().getFirstSWLink());
+                if (UsingMG !=null) {
                 UsingMG = SWCreate.CreatefiringSwandProperty(UsingMG);
                 Unititem.getFiringunit().FiringMGs.add(UsingMG);
-                Unititem.getFiringunit().setUsingInherentFP(true);
                 Unititem.getFiringunit().setUsingfirstMG(true);
+                }
                 break;
             case InhandSecondMG:
-                UsingMG = null; //(From selsw As Objectvalues.SuppWeapi In Scencolls.SWCol Where selsw.BaseSW.Unit_ID = Unititem.BasePersUnit.SecondSWlink Select selsw).First;
+                Unititem.getFiringunit().setUsingInherentFP(true);
+                UsingMG = getFiringSW(Unititem.getbaseunit().getSecondSWLink());
+                if (UsingMG !=null){
                 UsingMG = SWCreate.CreatefiringSwandProperty(UsingMG);
                 Unititem.getFiringunit().FiringMGs.add(UsingMG);
-                Unititem.getFiringunit().setUsingInherentFP(true);
                 Unititem.getFiringunit().setUsingsecondMG(true);
+                }
                 break;
             case BothMG:
-                UsingMG = null; //(From selsw As Objectvalues.SuppWeapi In Scencolls.SWCol Where selsw.BaseSW.Unit_ID = Unititem.BasePersUnit.FirstSWLink Select selsw).First;
+                Unititem.getFiringunit().setUsingInherentFP(false);
+                UsingMG = getFiringSW(Unititem.getbaseunit().getFirstSWLink());
+                if (UsingMG !=null) {
                 UsingMG = SWCreate.CreatefiringSwandProperty(UsingMG);
                 Unititem.getFiringunit().FiringMGs.add(UsingMG);
-                Unititem.getFiringunit().setUsingInherentFP(false);
                 Unititem.getFiringunit().setUsingfirstMG(true);
-                UsingMG = null; //(From selsw As Objectvalues.SuppWeapi In Scencolls.SWCol Where selsw.BaseSW.Unit_ID = Unititem.BasePersUnit.SecondSWlink Select selsw).First;
+                }
+                UsingMG = getFiringSW(Unititem.getbaseunit().getSecondSWLink());
+                if (UsingMG !=null) {
+                    UsingMG = SWCreate.CreatefiringSwandProperty(UsingMG);
                 Unititem.getFiringunit().FiringMGs.add(UsingMG);
                 Unititem.getFiringunit().setUsingsecondMG(true);
+                }
                 break;
             case FirstMG:
-                UsingMG = null; //(From selsw As Objectvalues.SuppWeapi In Scencolls.SWCol Where selsw.BaseSW.Unit_ID = Unititem.BasePersUnit.FirstSWLink Select selsw).First;
+                Unititem.getFiringunit().setUsingInherentFP(false);
+                UsingMG = getFiringSW(Unititem.getbaseunit().getFirstSWLink());
+                if (UsingMG !=null) {
                 UsingMG = SWCreate.CreatefiringSwandProperty(UsingMG);
                 Unititem.getFiringunit().FiringMGs.add(UsingMG);
-                Unititem.getFiringunit().setUsingInherentFP(false);
                 Unititem.getFiringunit().setUsingfirstMG(true);
+                }
                 break;
             case SecondMG:
-                UsingMG = null; //(From selsw As  Objectvalues.SuppWeapi In Scencolls.SWCol Where selsw.BaseSW.Unit_ID = Unititem.BasePersUnit.SecondSWlink Select selsw).First;
+                Unititem.getFiringunit().setUsingInherentFP(false);
+                UsingMG = getFiringSW(Unititem.getbaseunit().getSecondSWLink());
+                if (UsingMG !=null) {
                 UsingMG = SWCreate.CreatefiringSwandProperty(UsingMG);
                 Unititem.getFiringunit().FiringMGs.add(UsingMG);
-                Unititem.getFiringunit().setUsingInherentFP(false);
                 Unititem.getFiringunit().setUsingsecondMG(true);
+                }
                 break;
             case InhOnly:
                 Unititem.getFiringunit().setUsingInherentFP(true);
@@ -872,7 +886,17 @@ public class IFTC implements IIFTC {
             return false;
         }
     }
-
+    private SuppWeapi getFiringSW(int swtofind){
+        SuppWeapi SWtoCheck= null;
+        if (swtofind == 0) {return null;}  // no SW found
+        for (SuppWeapi findSW: Scencolls.SWCol) {
+            if (findSW.getbaseSW().getSW_ID() == swtofind) {
+                SWtoCheck = findSW;
+                break;
+            }
+        }
+        return SWtoCheck;
+    }
 
     protected boolean AddtoFireGroupandTargetGroup(int SolUsedID) {
         // called by ifT.DetermineFireSolution
@@ -906,8 +930,9 @@ public class IFTC implements IIFTC {
                             int myLdrdrm = 0;
                             int myHeroDRM = 0;
                             int WhichtoUse = 0;
-                            LineofBattle TempFiringLOBRecord = comfun.Getlob(Integer.toString(TempFiringUnit.getbaseunit().getLOBLink()));
-                            Constantvalues.Utype myType = TempFiringLOBRecord.getUnitType();
+
+                            //LineofBattle TempFiringLOBRecord = comfun.Getlob(Integer.toString(TempFiringUnit.getbaseunit().getLOBLink()));
+                            Constantvalues.Utype myType = TempFiringUnit.getbaseunit().getUnittype();
                             if (myType == Constantvalues.Utype.Leader || myType == Constantvalues.Utype.LdrHero) {
                                 SMC tempSMC = comfun.GetSMC(Integer.toString(TempFiringUnit.getbaseunit().getLOBLink()));
                                 myLdrdrm = tempSMC.getLDRM();
@@ -1056,6 +1081,7 @@ public class IFTC implements IIFTC {
                         WhichOne = Constantvalues.CombatStatus.Firing;
                     }
                     Addunit = findunit;
+                    break;
                 }
             }
             // add unit or ? to Target or Firer (? not added to firer)
@@ -1194,7 +1220,7 @@ public class IFTC implements IIFTC {
                             }
                         }
                     } else {
-                        GameModule.getGameModule().getChatter().send("No Need to add Hexes to HexesInLOS; already there: IFTC.ManageCombatSolutionDetermination");
+                        //GameModule.getGameModule().getChatter().send("No Need to add Hexes to HexesInLOS; already there: IFTC.ManageCombatSolutionDetermination");
                     }
                     if (Validsol.getAltHexesInLOS().size() == 0) {
                         for (AltHexGTerrain Althex : ThreadManager.AltHexLOSGroup) {
@@ -1231,7 +1257,8 @@ public class IFTC implements IIFTC {
                 }
                 String drmstring = "";
                 for (IFTMods combatdrm: FinalDRMLIst) {
-                    drmstring += Integer.toString(combatdrm.getDRM()) + " " + combatdrm.getDRMdesc() + " in " + combatdrm.getDRMLocation().getHex().getName() + " ";
+                    if (combatdrm.getDRMLocation() != null) {drmstring = " in " + combatdrm.getDRMLocation().getHex().getName() + " ";}
+                    drmstring += Integer.toString(combatdrm.getDRM()) + " " + combatdrm.getDRMdesc() + drmstring;
                 }
                 PersUniti testTarg = TargGroup.getFirst();
                 combatstring += "with  " + Integer.toString(testTarg.getTargetunit().getAttackedbyFP()) +
@@ -1356,7 +1383,7 @@ public class IFTC implements IIFTC {
         // returns same stack but with ifT result added for each thing in the stack - concealed units are revealed and OBUnit replaces them in TargGroup
         IFTRes = new IFTResultC();
         // check cowering and breakdown - final FP adjustements
-        FireGroup = IFTRes.getSWBrkDwnCowerAdj(TargGroup, DR, FireGroup);
+        FireGroup = IFTRes.getSWBrkDwn(TargGroup, DR, FireGroup);
         if (FireGroup.size() == 0) { // no FP left so result is NR
             for (PersUniti TargetUnit : TargGroup) {
                 TargetUnit.getTargetunit().setIFTResult(Constantvalues.IFTResult.NR);
@@ -1369,6 +1396,7 @@ public class IFTC implements IIFTC {
                 CombatCalc.CalcCombatFPandDRM(FireGroup, TargGroup, scendet, -1);
             }
         }
+        FireGroup = IFTRes.getCoweringAdj(TargGroup, DR, FireGroup);
         // now determine IFT results
         TargGroup = IFTRes.GetIFTResult(TargGroup, DR, FireGroup);
 
@@ -1424,7 +1452,7 @@ public class IFTC implements IIFTC {
         // need to manage firing and target sprites here: changes due to revealing, breaking, reducing, prep fire, etc
         Constantvalues.CombatStatus NewCombatStatus = GetCombatStatus();
         for (PersUniti firer: FireGroup) {
-            firer.getFiringunit().UpdateCombatStatus(NewCombatStatus, IFTRes.getROFdr());
+            firer.getFiringunit().UpdateCombatStatus(firer, NewCombatStatus, IFTRes.getROFdr());
         }
 
         if (CombatRes.NeedToResume()) {
@@ -1445,7 +1473,7 @@ public class IFTC implements IIFTC {
         // 'need to manage firing and target sprites here: changes due to revealing, breaking, reducing, prep fire, etc
         Constantvalues.CombatStatus NewCombatStatus = GetCombatStatus();
         for (PersUniti firer: FireGroup) {
-            firer.getFiringunit().UpdateCombatStatus(NewCombatStatus, IFTRes.getROFdr());
+            firer.getFiringunit().UpdateCombatStatus(firer, NewCombatStatus, IFTRes.getROFdr());
         }
         // best way is to recreate all sprites in the hex based on final status at this point
         // NEED A NEW WAY TO IMPLEMENT
@@ -1510,7 +1538,7 @@ public class IFTC implements IIFTC {
         // need to manage firing and target sprites here: changes due to revealing, breaking, reducing, prep fire, etc
         Constantvalues.CombatStatus NewCombatStatus = GetCombatStatus();
         for (PersUniti firer: FireGroup) {
-            firer.getFiringunit().UpdateCombatStatus(NewCombatStatus, IFTRes.getROFdr());
+            firer.getFiringunit().UpdateCombatStatus(firer, NewCombatStatus, IFTRes.getROFdr());
         }
         // best way is to recreate all sprites in the hex based on final status at this point
         /*For Each Firehex As Integer In FirerHexes

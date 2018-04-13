@@ -343,7 +343,7 @@ public class German467Targc implements TargetPersUniti {
         }
         myCombatResultsString += Resultstring + Ldrstring + "SMC drm and a " + Integer.toString(FDR + TargStackLdrdrm) + " modified dice roll:";
         //if (myPersUnitImpact != Constantvalues.PersUnitResult.NoEffects) {
-            return true;
+        return true;
         //} else {
         //    return false;
         //}

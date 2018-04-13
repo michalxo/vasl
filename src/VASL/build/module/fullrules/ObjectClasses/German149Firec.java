@@ -14,7 +14,7 @@ import VASSAL.command.Command;
 
 import java.util.LinkedList;
 
-public class German467Firec implements FiringPersUniti {
+public class German149Firec implements FiringPersUniti {
     // Holds units and sw - selected fields for combat only
     // object held in FireGroup ArrayList
     private boolean myIsEncirc = false;
@@ -36,7 +36,7 @@ public class German467Firec implements FiringPersUniti {
     private GetALocationFromMap Getlocs;
     //MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
 
-    public German467Firec(boolean PassIsCX, boolean PassIsPinned, boolean PassHasMG, boolean PassUsingInherentFP, boolean PassUsingfirstMG, boolean PassUsingsecondMG, PersUniti PassUnit) {
+    public German149Firec(boolean PassIsCX, boolean PassIsPinned, boolean PassHasMG, boolean PassUsingInherentFP, boolean PassUsingfirstMG, boolean PassUsingsecondMG, PersUniti PassUnit) {
 
         if (PassUnit.getbaseunit().getFortitudeStatus() == VASL.build.module.fullrules.Constantvalues.FortitudeStatus.Encircled ||
                 PassUnit.getbaseunit().getFortitudeStatus() == VASL.build.module.fullrules.Constantvalues.FortitudeStatus.Enc_Wnd ||
@@ -65,11 +65,11 @@ public class German467Firec implements FiringPersUniti {
     }
 
     public Constantvalues.Utype getType() {
-        return VASL.build.module.fullrules.Constantvalues.Utype.Squad;
+        return Constantvalues.Utype.Hero;
     }
 
     public int getLOBLink() {
-        return 5;
+        return 1102;
     }
 
     public Constantvalues.CombatStatus getCombatStatus() {
@@ -89,11 +89,11 @@ public class German467Firec implements FiringPersUniti {
     }
 
     public int getBaseFP() {
-        return 4;
+        return 1;
     }
 
     public int getBaseRange() {
-        return 6;
+        return 4;
     }
 
     public boolean getAssF() {
@@ -125,7 +125,7 @@ public class German467Firec implements FiringPersUniti {
     }
 
     public int getHeroDRM() {
-        return 0;
+        return -1;
     }
 
     public boolean getHasMG() {
@@ -398,7 +398,7 @@ public class German467Firec implements FiringPersUniti {
     }
 
     public void UpdateCombatStatus(PersUniti firer, Constantvalues.CombatStatus NewCombatStatus, int ROFdr){
-        // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL FIRING CLASSES
+// MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL FIRING CLASSES
         myCombatStatus = NewCombatStatus;
         myUnit.getbaseunit().setCombatStatus(NewCombatStatus);
 
@@ -445,7 +445,6 @@ public class German467Firec implements FiringPersUniti {
 
         //CounterActions counteractions = new CounterActions();
         //counteractions.placefirecounter(myUnit);
-
     }
 
         /*'public Function CanStillUseInherentFP(ByVal MGCount As Integer) As Boolean Implements FiringPersUniti.CanStillUseInherentFP

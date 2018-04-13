@@ -3,8 +3,6 @@ package VASL.build.module.fullrules.ObjectFactoryClasses;
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
-import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.DataClasses.SupportWeapon;
 import VASL.build.module.fullrules.Game.ScenarioC;
@@ -42,6 +40,7 @@ public class SWCreation {
         String PassUnitName = unititem.getOBWeapon();
         int PassLOBLink = unititem.getWeaponType();
         Constantvalues.CombatStatus PassCombatStatus = unititem.getCombatStatus();
+        if (PassCombatStatus == null){PassCombatStatus = Constantvalues.CombatStatus.None;}
         Constantvalues.VisibilityStatus PassVisibilityStatus = unititem.getVisibilityStatus();
         Constantvalues.FortitudeStatus PassFortitudeStatus;;
         Constantvalues.SWStatus PassSWStatus = unititem.getStatus();
@@ -177,8 +176,8 @@ public class SWCreation {
         if (Constantvalues.Typetype.SW == SWitem.getbaseSW().getType_ID() ) { // item is sw
             LinkedList<OrderofBattleSW> TempSWCol = scen.getOBSWcol();
             for (OrderofBattleSW testOBSW : TempSWCol) {
-                if (testOBSW.getOBSW_ID() == SWitem.getbaseSW().getUnit_ID()) {
-                    //OrderofBattleSW PassSW = Linqdata.GetOBSWRecord(SWitem.getbaseSW().getUnit_ID());
+                if (testOBSW.getOBSW_ID() == SWitem.getbaseSW().getSW_ID()) {
+                    //OrderofBattleSW PassSW = Linqdata.GetOBSWRecord(SWitem.getbaseSW().getSW_ID());
                     SWitem.setFiringSW(createfiringswproperty(SWitem));
                 }
             }

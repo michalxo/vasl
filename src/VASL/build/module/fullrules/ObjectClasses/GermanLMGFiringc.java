@@ -2,9 +2,11 @@ package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
+import VASL.build.module.fullrules.UtilityClasses.CounterActions;
 import VASSAL.build.GameModule;
 
 import java.util.LinkedList;
@@ -15,21 +17,13 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
     private Constantvalues.CombatStatus myCombatStatus;
     private double myCombatFP;
     private Location myLoc;
-    private SuppWeapi myBaseUnit;
+    private SuppWeapi mySW;
 
     public GermanLMGFiringc(SuppWeapi PassSW) {
 
-        /*try {
-            MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
-            MapCol = MapData.getLocationCol();
-        } catch (Exception ex) {
-
-        }
-        GetALocationFromMap Getlocs = new GetALocationFromMap(MapCol);
-        myLoc = Getlocs.RetrieveLocationfromMaptable(PassSW.getbaseSW().getLOCIndex());
-        myBaseUnit = PassSW;*/
-
         this.myLoc = PassSW.getbaseSW().gethexlocation();
+        this.myCombatStatus = PassSW.getbaseSW().getCombatStatus();
+        this.mySW = PassSW;
     }
 
     public void AdvancingFireModification(Constantvalues.Phase phase) {
@@ -88,10 +82,12 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
     public Constantvalues.CombatStatus getCombatStatus () {return myCombatStatus;}
     public void setCombatStatus(Constantvalues.CombatStatus value) {myCombatStatus =value;}
 
+    public void setCombatFP(double value) {myCombatFP = value;}
+
     public void  CrestStatusModification(int Targethexnum) {
         // called by EnemyValuesConcreteC.CalcFPandDRM_thread
         // amends inherent FP for unit in CrestStatus - handles blocked by wall and  firing outside crest CA
-        if (!myBaseUnit.getbaseSW().IsInCrestStatus()) {return;}  // if not in crest status should not be here
+        if (!mySW.getbaseSW().IsInCrestStatus()) {return;}  // if not in crest status should not be here
         int[] hexsidescrossed =new int[5];  // NEED TO CODE As List (Of Integer) =MapGeo.LOSSideEntry(Targethexnum, myLoc.getHexnum()); // use reversed order for hexes to get exit hexsides
             boolean IsCrossingWHR = false;
             for (int nexthexside: hexsidescrossed) {
@@ -113,12 +109,12 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
                         IsCrossingWHR = false;
                 }
                 if (IsCrossingWHR) {
-                    if (myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus1 ||
-                            myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus2 ||
-                            myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus3 ||
-                            myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus4 ||
-                            myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus5 ||
-                            myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus6) {
+                    if (mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus1 ||
+                            mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus2 ||
+                            mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus3 ||
+                            mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus4 ||
+                            mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus5 ||
+                            mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus6) {
                         myCombatFP = 0; // wall/hedge blocks LOS by entrenched unit
                         return;
                     }
@@ -127,15 +123,15 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
             // Dim CrestTest = New Utilvalues.ConversionC temporary while debugging UNDO
             int CrestCA  = 0;
             boolean UsingCrestCA = false;
-            if (myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus1 ||
-                    myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus2 ||
-                    myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus3 ||
-                    myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus4 ||
-                    myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus5 ||
-                    myBaseUnit.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus6) {
-                // CrestCA = CrestTest.CrestSideToSide(myBaseUnit.getBaseSW().gethexPosition());   temporary while debugging UNDO
+            if (mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus1 ||
+                    mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus2 ||
+                    mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus3 ||
+                    mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus4 ||
+                    mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus5 ||
+                    mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus6) {
+                // CrestCA = CrestTest.CrestSideToSide(mySW.getBaseSW().gethexPosition());   temporary while debugging UNDO
             } else {
-                // CrestCA = CrestTest.WACrestSideToSide(myBaseUnit.getBaseSW().gethexPosition());  temporary while debugging UNDO
+                // CrestCA = CrestTest.WACrestSideToSide(mySW.getBaseSW().gethexPosition());  temporary while debugging UNDO
             }
             int MinusCrestCA = 0;
             int PlusCrestCA = 0;
@@ -177,12 +173,12 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
 
     public int getHeroDRM() {return 0;}  // NEED TO CODE
 
-    public boolean getIsCX() {return myBaseUnit.getbaseSW().getCX();}
+    public boolean getIsCX() {return mySW.getbaseSW().getCX();}
 
 
-    public boolean getIsEncirc() {return myBaseUnit.getbaseSW().IsUnitEncircled();}
+    public boolean getIsEncirc() {return mySW.getbaseSW().IsUnitEncircled();}
 
-    public boolean getIsPinned() {return myBaseUnit.getbaseSW().getPinned();}
+    public boolean getIsPinned() {return mySW.getbaseSW().getPinned();}
     public void setIsPinned(boolean value) {} // NEED TO CODE
 
     public int getLdrDRM () {return 0;} // NEED TO CODE
@@ -291,16 +287,24 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
     }
 
     public void UpdateCombatStatus(Constantvalues.CombatStatus NewCombatStatus, int ROFdr) {
-        ScenarioC scen = ScenarioC.getInstance();
+        // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL FIRING CLASSES
+
+        // update SuppWeapi
         myCombatStatus = NewCombatStatus;
+        mySW.getbaseSW().setCombatStatus(NewCombatStatus);
+        ScenarioC scen = ScenarioC.getInstance();
+        // now update OBSW - IS THIS NEEDED HERE?
         LinkedList<OrderofBattleSW> TempSWCol = scen.getOBSWcol();
         for (OrderofBattleSW testOBSW : TempSWCol) {
-            if (testOBSW.getOBSW_ID() == myBaseUnit.getbaseSW().getUnit_ID()) {
+            if (testOBSW.getOBSW_ID() == mySW.getbaseSW().getSW_ID()) {
                 testOBSW.setCombatStatus(myCombatStatus);
-                myBaseUnit.getbaseSW().setCombatStatus(myCombatStatus);
+                mySW.getbaseSW().setCombatStatus(myCombatStatus);
                 break;
             }
         }
+        // handle counter action here
+        CounterActions counteractions = new CounterActions();
+        counteractions.placefirecounter(mySW);
     }
 
     public Constantvalues.Utype getUseHeroOrLeader() {return null;} // NEED TO CODE

@@ -6,6 +6,8 @@ import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 import VASL.build.module.fullrules.UtilityClasses.HOBCheckC;
+import VASL.build.module.fullrules.UtilityClasses.ManageUpdateUnitCommand;
+import VASSAL.command.Command;
 
 import java.util.List;
 
@@ -531,6 +533,11 @@ public class German247Targc implements TargetPersUniti {
 
     public boolean UpdateTargetStatus(PersUniti PassTarget) {
         // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL TARGET CLASSES
+        // get Order of Battle unit that matches the PersUniti
+        ManageUpdateUnitCommand manageupdateunitcommand = new ManageUpdateUnitCommand();
+        Command newcommand = manageupdateunitcommand.CreateCommand(PassTarget, Constantvalues.UnitCommandtype.targunit);
+        manageupdateunitcommand.ProcessCommand(newcommand);
+        // this may no longer be needed as above may handle for both local and remote
         CommonFunctionsC comfun = new CommonFunctionsC(PassTarget.getbaseunit().getScenario());
         OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(PassTarget.getbaseunit().getUnit_ID());
 

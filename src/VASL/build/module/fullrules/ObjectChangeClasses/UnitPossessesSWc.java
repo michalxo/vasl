@@ -1,6 +1,5 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.Unpossessed;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
@@ -28,7 +27,7 @@ public class UnitPossessesSWc implements StatusChangei {
             return false;
         }  // no SW found
         for (SuppWeapi TestSW: Scencolls.SWCol){
-            if (TestSW.getbaseSW().getUnit_ID() == mySWtoPossess) {
+            if (TestSW.getbaseSW().getSW_ID() == mySWtoPossess) {
                 SWtoCheck = TestSW;
                 break;
             }

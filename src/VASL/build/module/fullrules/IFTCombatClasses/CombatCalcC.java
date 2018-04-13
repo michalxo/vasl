@@ -1,7 +1,6 @@
 package VASL.build.module.fullrules.IFTCombatClasses;
 
 import VASL.LOS.Map.Hex;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.IFTMods;
 import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.Game.ScenarioC;
@@ -157,7 +156,7 @@ public class CombatCalcC implements CombatCalci {
             // end of Firer-based mods
 
             // Now do FP
-            int i = 0;  // used to determine which line in lbfp to use
+            TotalFP=0; // reset TotalFP for each target
             if (Usingsol == -1) {  // using all validsols
                 for (LOSSolution Validsol : ValidSolutions) {
                     TotalFP += DoFPCalc(TargetUnit, Validsol.getID(), FireGroupToUse, UsingSprayFire, firingdrms.getFGSize());
@@ -541,6 +540,7 @@ public class CombatCalcC implements CombatCalci {
                 // crest fire modification (no FP if behind wall; 1/2 FP if out of Crest CA) - behind wall will show NOLOS unless other units in location have LOS so need to set FP to zero
                 if (FiringSuppW.getbaseSW().IsInCrestStatus()) {
                     FiringSuppW.getFiringSW().CrestStatusModification(targethex);
+                }
                 } else {    // Firer is ineligible
                     switch (FirerStatus) {
                         case PrepFirer:
@@ -557,7 +557,7 @@ public class CombatCalcC implements CombatCalci {
                             msg = " is Broken";
                     }
                     GameModule.getGameModule().getChatter().send(FiringSuppW.getbaseSW().getUnitName() + msg + " No FP Added");
-                }
+
             }
         }
     }
@@ -769,7 +769,7 @@ public class CombatCalcC implements CombatCalci {
         LOSSolution ValidSol= null;
         CombatTerrain TargetComTer=null;
         String msg = "";
-        int i  = 0 ; // used to determine which line in lbfp to use
+
         for (LOSSolution CheckSol: ValidSolutions) {
             if (CheckSol.getID() == Usingsol) {
                 ValidSol = CheckSol;
@@ -798,7 +798,7 @@ public class CombatCalcC implements CombatCalci {
                 SuppWeapi FiringMG=null;
                 if (FiringUnit.getFiringunit().getUsingfirstMG()) {
                     for (SuppWeapi CheckMG: FiringUnit.getFiringunit().FiringMGs) {
-                        if (CheckMG.getbaseSW().getUnit_ID()== FiringUnit.getbaseunit().getFirstSWLink());
+                        if (CheckMG.getbaseSW().getSW_ID()== FiringUnit.getbaseunit().getFirstSWLink());
                             FiringMG=CheckMG;
                             break;
                     }
@@ -808,7 +808,7 @@ public class CombatCalcC implements CombatCalci {
                 }
                 if (FiringUnit.getFiringunit().getUsingsecondMG()) {
                     for (SuppWeapi CheckMG: FiringUnit.getFiringunit().FiringMGs) {
-                        if (CheckMG.getbaseSW().getUnit_ID()== FiringUnit.getbaseunit().getSecondSWLink());
+                        if (CheckMG.getbaseSW().getSW_ID()== FiringUnit.getbaseunit().getSecondSWLink());
                         FiringMG=CheckMG;
                         break;
                     }

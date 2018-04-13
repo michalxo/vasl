@@ -172,7 +172,7 @@ public class Map  {
 
         if(isCropping && this.cropconfiguration.contains("Offset") && !(this.cropconfiguration.contains("FullHex"))) { A1CenterX=0;}
         hexGrid = new Hex[this.width][];
-        if (this.A1CenterY==32.25 || this.A1CenterY == -612.75) {
+        if (this.A1CenterY==32.25 || this.A1CenterY == -612.75 || this.A1CenterY == 97.1) {   //adding configuration for BFP1 and BFP2
             for (int col = 0; col < this.width; col++) {
                 hexGrid[col] = new Hex[this.height + (col % 2)]; // add 1 if odd
                 for (int row = 0; row < this.height + (col % 2); row++) {
@@ -1651,12 +1651,14 @@ public class Map  {
         HashSet<Integer> hexsides;
         // code added by  DR to enable RB rr embankments
         hexsides = status.getHexsideCrossed(status.tempHex);
+        boolean RBrrembankmentsexist = false; // set flag to avoid unnecessary calls to CheckRBrrembankments()
         // code added by DR to enable roofless factory hexes
         Terrain previousTerrain = null;
         // are we in a new hex?
         if (!status.tempHex.equals(status.currentHex)) {
             //store terrain in previous hex (needed when checking depression hexsides; added by DR)
             boolean newequalsprevioushex=false;
+            RBrrembankmentsexist=false; // set every time new hex entered
             previousTerrain = status.currentHex.getCenterLocation().getTerrain();
             if(status.previousHex ==null) {
                 // no previous hex set in this LOS test
@@ -1819,6 +1821,20 @@ public class Map  {
 
             // set the hillocks status
             status.setHillockStatus();
+
+            // do RR Embankment terrain check here
+            Terrain checkhexside;
+            for (Integer hexside : hexsides) {
+                // get Terrain for hexside
+                checkhexside = status.currentHex.getHexsideTerrain(hexside);
+                if (checkhexside != null) {
+                    // if Terrain is RB rrembankment then set flag
+                    if (checkhexside.isHexsideTerrain() && checkhexside.getName().contains("Rrembankment")) {
+                        RBrrembankmentsexist = true;
+                        break;
+                    }
+                }
+            }
         }
 
         // check the LOS rules
@@ -1834,7 +1850,7 @@ public class Map  {
             }
         }
         // code added by DR to handle RB rrembankments
-        else {
+        else if (RBrrembankmentsexist) {
             if (checkRBrrembankments(status, result, hexsides)) {
                 return true;
             }
@@ -1852,9 +1868,12 @@ public class Map  {
 
         // We can ignore the current hex if we're in source/target and LOS is from center location
         // (non-center location implies bypass and LOS may be blocked)
-        if ((!status.currentHex.equals(status.sourceHex) && !status.currentHex.equals(status.targetHex)) ||
-                (status.currentHex.equals(status.sourceHex) && !status.currentTerrain.isOpen() && !status.source.isCenterLocation()) ||
-                (status.currentHex.equals(status.targetHex) && !status.currentTerrain.isOpen() && !status.target.isCenterLocation())
+        // if ((!status.currentHex.equals(status.sourceHex) && !status.currentHex.equals(status.targetHex)) ||
+        if (((!status.currentHex.equals(status.sourceHex) && (status.range != status.rangeToTarget)) && (!status.currentHex.equals(status.targetHex) && (status.range != status.rangeToSource))) ||
+                (status.currentHex.equals(status.sourceHex) && !status.currentTerrain.isOpen() && !status.currentTerrain.isHexsideTerrain() && !status.source.isCenterLocation()) ||
+                (status.currentHex.equals(status.targetHex) && !status.currentTerrain.isOpen() && !status.currentTerrain.isHexsideTerrain() && !status.target.isCenterLocation()) ||
+                // DR added this Jan 2017 to correct error in bypass check when LOS is along the hexside in the targethex
+                ((status.range == status.rangeToSource && (status.LOSis60Degree || status.LOSisHorizontal)) & !status.currentTerrain.isOpen() && !status.currentTerrain.isHexsideTerrain() && !status.target.isCenterLocation())
                 ) {
 
             // ignore inherent terrain that "spills" into adjacent hex
@@ -2900,6 +2919,10 @@ public class Map  {
         if(status.targetHex.isDepressionTerrain() && !status.target.isCenterLocation()) {
             targetadj=+1;
         }
+        // code to fix groundlevel when checking LOS to/from vertex
+        if (!(status.sourceHex.getNearestLocation(status.currentCol, status.currentRow).equals(status.sourceHex.getCenterLocation())) && !status.sourceHex.isDepressionTerrain() && status.sourceHex.equals(status.tempHex)){status.groundLevel = status.sourceHex.getBaseHeight();}
+        if (!(status.targetHex.getNearestLocation(status.currentCol, status.currentRow).equals(status.targetHex.getCenterLocation())) && !status.targetHex.isDepressionTerrain() && status.targetHex.equals(status.tempHex)){status.groundLevel = status.targetHex.getBaseHeight();}
+
         if ( (status.groundLevel + status.currentTerrainHgt + obstacleadj== Math.max(status.sourceElevation + sourceadj, status.targetElevation + targetadj)) &&
                 (status.groundLevel + status.currentTerrainHgt+obstacleadj > Math.min(status.sourceElevation+ sourceadj, status.targetElevation + targetadj))) {
             // add a B10.2 EXC test; ignore same level terrain in lower level adj hex and vice versa
@@ -3072,7 +3095,7 @@ public class Map  {
                 status.groundLevel + status.currentTerrainHgt + obstacleadj > status.targetElevation + targetadj) {
 
             // terrain blocks LOS?
-            if (status .currentTerrain.isLOSObstacle()) {
+            if (status .currentTerrain.isLOSObstacle() && !status.currentTerrain.getName().contains("Light Woods")) {
                 status.reason = "Terrain is higher than both the source and target (A6.2)";
                 status.blocked = true;
                 result.setBlocked(status.currentCol, status.currentRow, status.reason);
@@ -3865,6 +3888,9 @@ public class Map  {
                         }
                     }
 
+                }
+                else if(status.currentTerrain.getName().contains("Light Woods")){
+                    hindrancevalue = 2;
                 }
                 else {
                     // roofless factory debris

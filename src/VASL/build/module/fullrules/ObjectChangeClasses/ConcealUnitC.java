@@ -64,7 +64,7 @@ public class ConcealUnitC implements VisibilityChangei {
                 if (ConcealUnit.getbaseunit().getFirstSWLink() != 0) {  // 0 value means no SW
                     // retrieve SW and change visibility status
                     for (SuppWeapi OBSWitem : Scencolls.SWCol) {
-                        if (OBSWitem.getbaseSW().getUnit_ID() == ConcealUnit.getbaseunit().getFirstSWLink()) {
+                        if (OBSWitem.getbaseSW().getSW_ID() == ConcealUnit.getbaseunit().getFirstSWLink()) {
                             if (OBSWitem.getbaseSW().getVisibilityStatus() == Constantvalues.VisibilityStatus.Visible ||
                                     OBSWitem.getbaseSW().getVisibilityStatus() == Constantvalues.VisibilityStatus.Hidden) {
                                 OBSWitem.getbaseSW().setVisibilityStatus(Constantvalues.VisibilityStatus.Concealed);
@@ -76,7 +76,7 @@ public class ConcealUnitC implements VisibilityChangei {
                 if (ConcealUnit.getbaseunit().getSecondSWLink() != 0) {  // 0 value means no SW
                     // retrieve SW and change visibility status
                     for (SuppWeapi OBSWitem : Scencolls.SWCol) {
-                        if (OBSWitem.getbaseSW().getUnit_ID() == ConcealUnit.getbaseunit().getSecondSWLink()) {
+                        if (OBSWitem.getbaseSW().getSW_ID() == ConcealUnit.getbaseunit().getSecondSWLink()) {
                             if (OBSWitem.getbaseSW().getVisibilityStatus() == Constantvalues.VisibilityStatus.Visible ||
                                 OBSWitem.getbaseSW().getVisibilityStatus() == Constantvalues.VisibilityStatus.Hidden) {
                                 OBSWitem.getbaseSW().setVisibilityStatus(Constantvalues.VisibilityStatus.Concealed);

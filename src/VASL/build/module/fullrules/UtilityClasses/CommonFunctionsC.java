@@ -92,7 +92,7 @@ public class CommonFunctionsC {
                     for (PieceIterator pi2 = new PieceIterator(((Stack) piece).getPiecesIterator()); pi2.hasMoreElements(); ) {
                         GamePiece p2 = pi2.nextPiece();
                         try {
-                            if (isDBUnitCounter(p2) && p2.getProperty("TextLabel").toString() != null) {
+                            if (p2.getProperty("TextLabel").toString() != null) {
                                 int ObjIDlink = Integer.parseInt(p2.getProperty("TextLabel").toString());
                                 if (ObjIDlink == IDtoMatch) {
                                     ToUse = p2;
