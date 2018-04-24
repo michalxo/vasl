@@ -206,11 +206,11 @@ public class CombatResC implements CombatResi {
                     }
                     TargetUnit.getTargetunit().setIFTResolved(true);
                     TargetUnit.getbaseunit().setOrderStatus(TargetUnit.getTargetunit().getOrderStatus());
-                    if (RunStatusChange.GetNewTargs != null) {
-                        NewTargs = RunStatusChange.GetNewTargs;
+                    if (RunStatusChange.getNewTargs() != null) {
+                        NewTargs = RunStatusChange.getNewTargs();
                     }
-                    if (RunStatusChange.GetNewFirings != null) {
-                        NewFirers = RunStatusChange.GetNewFirings;
+                    if (RunStatusChange.getNewFirings() != null) {
+                        NewFirers = RunStatusChange.getNewFirings();
                     }
                     //if (RunStatusChange.NewPopupitems) Then Me.PopupItems = RunStatusChange.NewPopupitems
                     //If Me.PopupItems.Count > 0 Then myNeedAPopup = true
@@ -375,8 +375,8 @@ public class CombatResC implements CombatResi {
         RunStatusChange.Takeaction(PassTarget);
         PassTarget.getTargetunit().setIFTResolved(true);
         PassTarget.getbaseunit().setOrderStatus(PassTarget.getTargetunit().getOrderStatus());
-        if (RunStatusChange.GetNewTargs != null) {NewTargs = RunStatusChange.GetNewTargs;}
-        if (RunStatusChange.GetNewFirings != null) { NewFirers = RunStatusChange.GetNewFirings;}
+        if (RunStatusChange.getNewTargs() != null) {NewTargs = RunStatusChange.getNewTargs();}
+        if (RunStatusChange.getNewFirings()!= null) { NewFirers = RunStatusChange.getNewFirings();}
         // update Target && Firing lists with new units
         if (NewTargs.size() > 0) {
             for (PersUniti AddUnit : NewTargs) {

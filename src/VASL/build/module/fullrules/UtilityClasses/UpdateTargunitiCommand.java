@@ -35,7 +35,7 @@ public class UpdateTargunitiCommand extends Command{
     public String myCombatResultsString = " ";
     public boolean getHoBFlag () {return myHOBFlag;}
 
-    public UpdateTargunitiCommand(PersUniti PassObject){
+    public  UpdateTargunitiCommand(PersUniti PassObject){
         ConversionC confrom = new ConversionC();
 
         myFirerSAN = PassObject.getTargetunit().getFirerSan();

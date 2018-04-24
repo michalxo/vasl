@@ -47,6 +47,7 @@ public class UnitUpdateNewOldc {
             NewUnit.getTargetunit().setHoBFlag(OldUnit.getTargetunit().getHoBFlag());
             NewUnit.getTargetunit().setMCNumber(OldUnit.getTargetunit().getMCNumber());
             NewUnit.getTargetunit().setTargStackLeaderDRM(OldUnit.getTargetunit().getTargStackLeaderDRM());
+            NewUnit.getTargetunit().setPersUnitImpact(OldUnit.getTargetunit().getPersUnitImpact());
             NewUnit.getTargetunit().UpdateTargetStatus(NewUnit);
         }
 

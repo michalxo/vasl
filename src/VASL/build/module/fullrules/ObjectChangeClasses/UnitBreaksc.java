@@ -61,14 +61,6 @@ public class UnitBreaksc implements StatusChangei {
         TargParent.getTargetunit().UpdateTargetStatus(TargParent);
         TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " breaks; is DM");
 
-        /*// flip counter and add DM
-        CommonFunctionsC ToDO = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
-        GamePiece ToBreak = ToDO.GetGamePieceFromID(TargParent.getbaseunit().getUnit_ID());
-        if (ToBreak != null) {
-            ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
-            // Need to push counter action to other computer
-        }*/
-
         // HoB
         if (TargParent.getTargetunit().getHoBFlag()) {   // rolled a 2
             Constantvalues.PersUnitResult HobChange = TargParent.getTargetunit().HOBMC();
@@ -83,16 +75,16 @@ public class UnitBreaksc implements StatusChangei {
             }
             TargParent.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
             // update Target and Firing lists with new units
-            if (RunStatusChange.GetNewTargs != null) {myNewTargs = RunStatusChange.GetNewTargs;}
+            if (RunStatusChange.getNewTargs() != null) {myNewTargs = RunStatusChange.getNewTargs();}
         }
         return true;
     }
 
 
-    public LinkedList<PersUniti> GetNewTargs () {
+    public LinkedList<PersUniti> getNewTargs () {
         return myNewTargs;
     }
-    public LinkedList<PersUniti> GetNewFirings () {
+    public LinkedList<PersUniti> getNewFirings () {
         // no code required; no new unit
         return null;
     }

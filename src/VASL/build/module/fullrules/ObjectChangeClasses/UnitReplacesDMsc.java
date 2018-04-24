@@ -43,21 +43,21 @@ public class UnitReplacesDMsc implements StatusChangei{
         boolean PassHoBCHeck = false;  // Hob test done by last unitchange
         StatusChangei RunFirstChange = new UnitReplacesc(PassHoBCHeck);
         RunFirstChange.Takeaction(TargParent);
-        // myNewTargs = RunFirstChange.GetNewTargs
-        TargParent = RunFirstChange.GetNewTargs.get(0);
+        LinkedList<PersUniti> myNewUnits = RunFirstChange.getNewTargs();
+        TargParent = myNewUnits.get(0);  //.GetNewTargs().get(0);
         myResultstring = TargParent.getTargetunit().getCombatResultsString();
-        StatusChangei RunnextChange = new UnitDMsc();
+        StatusChangei RunnextChange = new UnitBreaksc();
         RunnextChange.Takeaction(TargParent);
         // the following needs to be done to ensure proper display and target management
         myNewTargs.add(TargParent);
         //'If Not IsNothing(RunnextChange.GetNewTargs) AndAlso RunnextChange.GetNewTargs.Count > 0 Then myNewTargs = RunnextChange.GetNewTargs
-        myNewFiring = RunnextChange.GetNewFirings;
+        myNewFiring = RunnextChange.getNewFirings();
         // No HoB - done in UnitDMs
         return true;
     }
 
-    public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
-    public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+    public LinkedList<PersUniti> getNewTargs() {return myNewTargs;}
+    public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
     /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get

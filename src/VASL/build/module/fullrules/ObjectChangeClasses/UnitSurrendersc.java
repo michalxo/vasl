@@ -133,7 +133,7 @@ public class UnitSurrendersc implements StatusChangei {
             '        'Game.contextshowing = True
         '    End If
                 'End Sub*/
-    public LinkedList<PersUniti> GetNewTargs () {return myNewTargs;}
-    public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+    public LinkedList<PersUniti> getNewTargs () {return myNewTargs;}
+    public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
 }

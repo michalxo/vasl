@@ -8,6 +8,7 @@ import VASSAL.command.Command;
 import VASSAL.counters.GamePiece;
 
 import javax.swing.*;
+import java.awt.event.InputEvent;
 import java.util.LinkedList;
 
 /**
@@ -2700,7 +2701,7 @@ public class ScenarioCollectionsc {
         ConversionC confrom = new ConversionC();
         String UpdateUnitName = PassCommand.myName;
         PersUniti BaseUnit = FindNameInCollection (UpdateUnitName);
-        if (BaseUnit != null){
+        if (BaseUnit != null){  // NOT WORKING FOR WOUNDED SMC AS KEEP SAME NAME
             if (BaseUnit.getTargetunit() != null) {
                 // target unit already exists
             } else {
@@ -2734,21 +2735,11 @@ public class ScenarioCollectionsc {
             UpdateTarget.setTargStackLeaderDRM(PassCommand.myTargSTackLdrdrm);
 
             CommonFunctionsC ToDO = new CommonFunctionsC(BaseUnit.getbaseunit().getScenario());
-            GamePiece ToBreak = ToDO.GetGamePieceFromID(BaseUnit.getbaseunit().getUnit_ID());
-            if (ToBreak != null) {
-                if(UpdateTarget.getPersUnitImpact() == Constantvalues.PersUnitResult.Breaks) {
-                    // flip counter and add DM
-                    ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
-                } else if(UpdateTarget.getPersUnitImpact() == Constantvalues.PersUnitResult.Pins) {
-                    // add Pin counter
-                    ToBreak.keyEvent(KeyStroke.getKeyStroke('P', java.awt.event.InputEvent.CTRL_MASK));
-                } else if(UpdateTarget.getPersUnitImpact() == Constantvalues.PersUnitResult.Wounds) {
-                    // flip counter
-                    ToBreak.keyEvent(KeyStroke.getKeyStroke('W', java.awt.event.InputEvent.CTRL_MASK));
-                } else if(UpdateTarget.getPersUnitImpact() == Constantvalues.PersUnitResult.Dies) {
-                    // delete counter
-                    ToBreak.keyEvent(KeyStroke.getKeyStroke('D', java.awt.event.InputEvent.CTRL_MASK));
-                }
+            GamePiece CounterToUse = ToDO.GetGamePieceFromID(BaseUnit.getbaseunit().getUnit_ID());
+            if (CounterToUse != null) {
+                // trigger counter action
+                CounterActions counteractions = new CounterActions();
+                counteractions.processcounter(UpdateTarget.getPersUnitImpact(), BaseUnit);
             }
         }
     }
@@ -2759,7 +2750,7 @@ public class ScenarioCollectionsc {
 
     private PersUniti FindInCollection (int UpdateUnitID){
         for (PersUniti FindBaseUnit: Unitcol) {
-            if (FindBaseUnit.getbaseunit().getUnit_ID() == UpdateUnitID) {
+            if (FindBaseUnit.getbaseunit().getUnit_ID() == UpdateUnitID && FindBaseUnit.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.NotInPlay) {
                 return FindBaseUnit;
             }
         }
@@ -2767,7 +2758,7 @@ public class ScenarioCollectionsc {
     }
     private PersUniti FindNameInCollection (String UpdateUnitName){
         for (PersUniti FindBaseUnit: Unitcol) {
-            if (FindBaseUnit.getbaseunit().getUnitName().equals(UpdateUnitName)) {
+            if (FindBaseUnit.getbaseunit().getUnitName().equals(UpdateUnitName) && FindBaseUnit.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.NotInPlay) {
                 return FindBaseUnit;
             }
         }

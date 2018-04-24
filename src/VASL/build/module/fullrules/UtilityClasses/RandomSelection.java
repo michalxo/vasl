@@ -78,8 +78,11 @@ public class RandomSelection {
             case KIA1:
                 return Constantvalues.IFTResult.KIA;
             case K4:
+                return ifttableresult;
             case K2:
+                return ifttableresult;
             case K3:
+                return ifttableresult;
             case K1:
                 return ifttableresult;
             default: // should never be called as no results below K1 shoudl be passed in

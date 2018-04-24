@@ -89,6 +89,8 @@ public class BasePersunitc implements Basepersuniti {
         return pUnitName;
     }
 
+    public void setUnitName(String value) {pUnitName = value;}
+
     public String getHexName() {
         return pHexname;
     }

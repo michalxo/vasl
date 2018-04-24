@@ -71,23 +71,20 @@ public class UnitWoundsc implements StatusChangei{
                 }
                 TargParent.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
                 // update Target and Firing lists with new units
-                if (RunStatusChange.GetNewTargs != null) {
-                    myNewTargs = RunStatusChange.GetNewTargs;
+                if (RunStatusChange.getNewTargs() != null) {
+                    myNewTargs = RunStatusChange.getNewTargs();
                 }
             }
             return true;
         } else {  // is a hero
             // create the new 138 unit
             int WoundsTo = 1101; // 138 hero
-            String NewName = null;
-            GameModule.getGameModule().getChatter().send("Enter Name of New Unit: " + TargParent.getbaseunit().getUnitName() + " wounds");
             PersCreation UseObjectFactory = new PersCreation();
-            PersUniti NewUnit = UseObjectFactory.CreateNewInstance(WoundsTo, NewName, TargParent);
+            PersUniti NewUnit = UseObjectFactory.CreateNewInstance(WoundsTo, TargParent.getbaseunit().getUnitName(), TargParent);
             // update new unit with values of previous unit - Do we need all of this
             UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
             if (TargParent.getTargetunit() != null) {
-                // NewUnit = UseObjectFactory.CreateTargetUnitandProperty(NewUnit)
-                NewUnit.getTargetunit().setCombatResultsString(TargParent.getbaseunit().getUnitName() + ": " + TargParent.getTargetunit().getCombatResultsString() + " is wounded " + NewUnit.getbaseunit().getUnitName());
+                NewUnit.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString());
                 // TargetPersUnit already created by UnitUpdateNewWithOldc
             }
 
@@ -106,16 +103,20 @@ public class UnitWoundsc implements StatusChangei{
             TargParent.getbaseunit().setFirstSWLink(0);
             TargParent.getbaseunit().setSecondSWLink(0);
             TargParent.getbaseunit().setnumSW(0);
+            TargParent.getbaseunit().setUnitName(TargParent.getbaseunit().getUnitName() + "(wnd)");
             TargParent.getTargetunit().UpdateTargetStatus(TargParent);
 
             // remove old unit from moving list TOO EARLY - DO THIS LATER
             if (TargParent.getMovingunit() != null) {Scencolls.SelMoveUnits.remove(TargParent);}
             // add new unit to Unitcol collection
             Scencolls.Unitcol.add(NewUnit);
+            // need to run again for SMC as not caught by previous
+            NewUnit.getTargetunit().UpdateTargetStatus(NewUnit);
             // Store values to update FireGroup and TargetGroup (maybe add movement?)
             if (NewUnit.getTargetunit() != null) {myNewTargs.add(NewUnit);}
             if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
-
+            // remove oldunit from Unitcol - same id value is causing problems. May undo this once a new id scheme is in place
+            Scencolls.Unitcol.remove(TargParent);
             // update SW values
             ChangeSWOwnerc SWChange = null;
             if(NewUnit.getbaseunit().getFirstSWLink() > 0) {SWChange = new ChangeSWOwnerc(NewUnit.getbaseunit().getFirstSWLink(), NewUnit.getbaseunit().getUnit_ID());}
@@ -126,8 +127,8 @@ public class UnitWoundsc implements StatusChangei{
         }
     }
 
-    public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
-    public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+    public LinkedList<PersUniti> getNewTargs() {return myNewTargs;}
+    public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
     /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get

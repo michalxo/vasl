@@ -12,6 +12,7 @@ import java.util.LinkedList;
 // Second level interface implemented by personnel unit instances
 public interface Basepersuniti {
     String getUnitName();
+    void setUnitName(String value);
     String getHexName();
     void setHexname(String value);
     int getScenario();

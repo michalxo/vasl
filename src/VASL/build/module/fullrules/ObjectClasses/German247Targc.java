@@ -97,11 +97,11 @@ public class German247Targc implements TargetPersUniti {
     }
 
     public int getBPV() {
-        return 10;
+        return 6;
     }
 
     public int getBrokenML() {
-        return 7;
+        return 6;
     }
 
     public int getMCNumber() {
@@ -137,7 +137,7 @@ public class German247Targc implements TargetPersUniti {
     }
 
     public int getHardensTo() {
-        return 3;
+        return 10;
     }
 
     public Constantvalues.IFTResult getIFTResult() {
@@ -212,7 +212,7 @@ public class German247Targc implements TargetPersUniti {
     }
 
     public int getReducesTo() {
-        return 12;
+        return 0;
     }
 
     public int getSmoke() {
@@ -224,7 +224,7 @@ public class German247Targc implements TargetPersUniti {
     }
 
     public int getSubstitutesTo() {
-        return 6;
+        return 13;
     }
 
     public int getFirerSan() {

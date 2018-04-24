@@ -41,6 +41,7 @@ public class German149Targc implements TargetPersUniti {
     private String myCombatResultsString = " ";
     public boolean getHoBFlag () {return myHOBFlag;}
     public void setHoBFlag(boolean value ) {myHOBFlag = value;}
+    private DiceC Dieclass = new DiceC();
 
     public German149Targc(Constantvalues.IFTResult PassIFTResult, int TargStackLdrdrm, int PassFirerSan, int PassAttackedbydrm, int PassAttackedbyFP, boolean PassELR5, boolean PassIsConceal, boolean PassIsDummy,
                           boolean PassPinned, int PassQualityStatus, int PassRandomSelected, int PassSmoke, PersUniti PassUnit) {
@@ -125,10 +126,17 @@ public class German149Targc implements TargetPersUniti {
 
     public boolean CRMC(int KNum, int TargSTackLdrdrm, String Resultstring) {
 
-        // THIS NEEDS TO BE CODED
-        myMCNum = KNum;
         myTargSTackLdrdrm = TargSTackLdrdrm;
-
+        // good order hero wounds
+        int wdsevdr = Dieclass.Dieroll(); // takes wound severity dr
+        if (wdsevdr >= 5) {  // 5,6 so dies
+            myPersUnitImpact = Constantvalues.PersUnitResult.Dies;
+            Resultstring += " wounds, then rolls a " + Integer.toString(wdsevdr) + ", fails its Wound Severity dr and ";
+        } else {
+            myPersUnitImpact = Constantvalues.PersUnitResult.Wounds;
+            Resultstring += " wounds, then rolls a " + Integer.toString(wdsevdr) + ", passes its Wound Severity dr and is wounded";
+        }
+        myCombatResultsString += Resultstring ;
         return true;
     }
 
@@ -162,7 +170,7 @@ public class German149Targc implements TargetPersUniti {
 
                     Post conditions
         1.*/
-
+        myCombatResultsString = myName + " ";
         myPersUnitImpact = VASL.build.module.fullrules.Constantvalues.PersUnitResult.Dies;
         return true;
     }
@@ -190,7 +198,7 @@ public class German149Targc implements TargetPersUniti {
         } else {
             Ldrstring = java.lang.Integer.toString(TargStackLdrdrm);
         }
-        DiceC Dieclass = new DiceC();
+
         int ODR = Dieclass.Diceroll();
 
         myCombatResultsString += myName + " rolls an original " + java.lang.Integer.toString(ODR);
@@ -207,6 +215,7 @@ public class German149Targc implements TargetPersUniti {
         if (ODR == 2) {myHOBFlag = false;}  // heros dont take hob
         // FDR
         int FDR = ODR + MCNum;
+        //FDR=10;
         // 12
         if (ODR == 12) {  // has no impact on Hero; either fails MC or doesn't
            /* if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {  // fails MC by > ELR
@@ -222,7 +231,7 @@ public class German149Targc implements TargetPersUniti {
             int wdsevdr = Dieclass.Dieroll(); // takes wound severity dr
             if (wdsevdr >= 5) {  // 5,6 so dies
                 myPersUnitImpact = Constantvalues.PersUnitResult.Dies;
-                Resultstring = " fails its MC, then rolls a " + Integer.toString(wdsevdr) + ", fails its Wound Severity dr and ";
+                Resultstring = " fails its MC, then rolls a " + Integer.toString(wdsevdr) + ", fails its Wound Severity dr and";
             } else {
                 myPersUnitImpact = Constantvalues.PersUnitResult.Wounds;
             Resultstring = " fails its MC, then rolls a " + Integer.toString(wdsevdr) + ", passes its Wound Severity dr and is wounded";
@@ -297,8 +306,9 @@ public class German149Targc implements TargetPersUniti {
                     Post conditions (List the state(s) the system can be in when this use case ends)
                     1.*/
 
-
-        if (myOrderStatus == Constantvalues.OrderStatus.GoodOrder) {  //  only GoodOrder units can take IFT PTCs
+        myCombatResultsString += myName + " is not subject to PTC: ";
+        myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
+        /*if (myOrderStatus == Constantvalues.OrderStatus.GoodOrder) {  //  only GoodOrder units can take IFT PTCs
             DiceC Dieclass = new DiceC();
             int ODR = Dieclass.Diceroll();
 
@@ -315,40 +325,24 @@ public class German149Targc implements TargetPersUniti {
             myPersUnitImpact = Constantvalues.PersUnitResult.DMs;
         } else {
             myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
-        }
+        }*/
         return true;
     }
 
 
 
     public boolean Break() {
-            /*Name:       TargetKIABreak()
-
-                    Identifier UC 107
-
-                                Preconditions()
-                    1.	An eligible IFT fire solution has produced a result
-
-                                Basic Course
-                    1.	Use case begins when Randon Selection on a #KIA result produces a break result for a unit
-                    2.	Breaks and is DM?d (UC205-TargetBreaks and UC208-TargetDMs) unless broken then Reduces [Alternate Course of Action: UC203-TargetReduces] or broken and HS/Crew then Dies [Alternate Course of Action: UC201-TargetDies].
-
-                    Alternate Course A: UC203-TargetReduces
-                    Condition: Target is broken
-                    Alternate Course B: UC201-TargetDies
-                    Condition: Target is broken HS or Crew
-
-                    Inheritance:
-                    Condition:
-
-                    Post conditions (List the state(s) the system can be in when this use case ends)
-                    1.*/
-
-        if (myOrderStatus == Constantvalues.OrderStatus.Broken || myOrderStatus == Constantvalues.OrderStatus.Broken_DM) {  // unit is already broken so is reduced
-            myPersUnitImpact = Constantvalues.PersUnitResult.Reduces;
-        } else {                                                                                                            // good order unit is broken and DM
-            myPersUnitImpact = Constantvalues.PersUnitResult.DMs;
+        // good order hero wounds
+        String Resultstring = null;
+        int wdsevdr = Dieclass.Dieroll(); // takes wound severity dr
+        if (wdsevdr >= 5) {  // 5,6 so dies
+            myPersUnitImpact = Constantvalues.PersUnitResult.Dies;
+            Resultstring = " wounds, then rolls a " + Integer.toString(wdsevdr) + ", fails its Wound Severity dr and ";
+        } else {
+            myPersUnitImpact = Constantvalues.PersUnitResult.Wounds;
+            Resultstring = " wounds, then rolls a " + Integer.toString(wdsevdr) + ", passes its Wound Severity dr and is wounded";
         }
+        myCombatResultsString += Resultstring ;
         return true;
     }
     public boolean UpdateTargetStatus(PersUniti PassTarget) {

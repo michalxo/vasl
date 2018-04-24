@@ -46,7 +46,19 @@ public class UnitReducesBreaksc implements StatusChangei {
                     '2.
                     'create the new HS*/
 
-        int ReducesTo = TargParent.getTargetunit().getReducesTo();
+        boolean PassHoBCHeck = false; // Hob test done by last unitchange
+        StatusChangei RunFirstChange = new UnitReducesc(myResultstring, PassHoBCHeck);
+        RunFirstChange.Takeaction(TargParent);
+        TargParent = (RunFirstChange.getNewTargs()).get(0);
+        myResultstring = TargParent.getTargetunit().getCombatResultsString();
+        StatusChangei RunnextChange = new UnitBreaksc();
+        RunnextChange.Takeaction(TargParent);
+        myNewFiring = RunnextChange.getNewFirings();
+        myNewTargs = RunnextChange.getNewTargs();
+        // No HoB - done in UnitReducesBreaksC
+        return true;
+
+        /*int ReducesTo = TargParent.getTargetunit().getReducesTo();
         String NewName ="";
         while (NewName =="") {
             NewName = askforNewUnit(TargParent.getbaseunit().getUnitName());
@@ -57,7 +69,7 @@ public class UnitReducesBreaksc implements StatusChangei {
         UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
         if (TargParent.getTargetunit() != null) {  // TargetPersUnit already created by UnitUpdateNewWithOldc
             //NewUnit = UseObjectFactory.CreateTargetUnitandProperty(NewUnit)
-            NewUnit.getTargetunit().setCombatResultsString(TargParent.getbaseunit().getUnitName() + ": " + TargParent.getTargetunit().getCombatResultsString() + " Reduces to " + NewUnit.getbaseunit().getUnitName());
+            NewUnit.getTargetunit().setCombatResultsString(TargParent.getbaseunit().getUnitName() + ": " + TargParent.getTargetunit().getCombatResultsString() + " reduces to " + NewUnit.getbaseunit().getUnitName());
         }
         // 'now break the HS
         if (NewUnit.getTargetunit() != null) {
@@ -99,7 +111,8 @@ public class UnitReducesBreaksc implements StatusChangei {
         //'Store values to update FireGroup and TargetGroup (maybe add movement?)
         if (NewUnit.getTargetunit() !=null) {myNewTargs.add(NewUnit);}
         if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
-
+        // remove oldunit from Unitcol - same id value is causing problems. May undo this once a new id scheme is in place
+        Scencolls.Unitcol.remove(TargParent);
         //update SW values
         ChangeSWOwnerc SWChange = null;
         if(NewUnit.getbaseunit().getFirstSWLink() > 0) {SWChange = new ChangeSWOwnerc(NewUnit.getbaseunit().getFirstSWLink(), NewUnit.getbaseunit().getUnit_ID());}
@@ -119,28 +132,17 @@ public class UnitReducesBreaksc implements StatusChangei {
             }
             NewUnit.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
             // update Target and Firing lists with new units
-            if (RunStatusChange.GetNewTargs != null) {myNewTargs = RunStatusChange.GetNewTargs;}
+            if (RunStatusChange.getNewTargs() != null) {myNewTargs = RunStatusChange.getNewTargs();}
         }
-        return true;
+        return true;*/
     }
-    public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
-    public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+    public LinkedList<PersUniti> getNewTargs() {return myNewTargs;}
+    public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
     /**
      * Displays the input dialog and returns user input
      */
     public String askforNewUnit(String Oldname) {
-
-        // show confirmation dialog
-        /*String dialogResult = JOptionPane.s (
-                null,
-                "Are you sure you want to convert this game to 6.2 format?",
-                "Warning",
-                JOptionPane.YES_NO_OPTION);
-
-        if(dialogResult == JOptionPane.YES_OPTION){
-            execute();
-        }*/
 
         //JFrame frame = new JFrame("Unit Reduces");
         JOptionPane pane = new JOptionPane();

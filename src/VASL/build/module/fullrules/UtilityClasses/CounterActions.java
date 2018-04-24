@@ -6,6 +6,7 @@ package VASL.build.module.fullrules.UtilityClasses;
 All of these actions are those that are currently handled by key combos in VASL and this class simply
 triggers the key combo action*/
 
+import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
@@ -15,9 +16,21 @@ import VASSAL.counters.GamePiece;
 import javax.swing.*;
 
 public class CounterActions {
-
+    ScenarioC scen = ScenarioC.getInstance();
+    ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+    CommonFunctionsC ToDO = new CommonFunctionsC(scen.getScenID());
     public CounterActions() {
 
+    }
+    public GamePiece getcounter (PersUniti usingunit){
+
+        GamePiece touse = ToDO.GetGamePieceFromID(usingunit.getbaseunit().getUnit_ID());
+        return touse;
+    }
+    public GamePiece getcounter (SuppWeapi usingunit){
+
+        GamePiece touse = ToDO.GetGamePieceFromID(usingunit.getbaseSW().getSW_ID());
+        return touse;
     }
 
     public void placefirecounter(PersUniti firingunit){
@@ -27,19 +40,16 @@ public class CounterActions {
 
         // add fire counter - this needs to be tied to current phase
         // NEED TO FIX FOR FINAL AND ADV FIRE
-        ScenarioC scen = ScenarioC.getInstance();
-        ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
-        CommonFunctionsC ToDO = new CommonFunctionsC(scen.getScenID());
-        GamePiece ToPrep = ToDO.GetGamePieceFromID(firingunit.getbaseunit().getUnit_ID());
-        if (ToPrep != null && !ToDO.CheckIfInfoCounterExistsFromID(firingunit.getbaseunit().getUnit_ID(), InfoName)) {
+        GamePiece usecounter = getcounter(firingunit);
+        if (usecounter != null && !ToDO.CheckIfInfoCounterExistsFromID(firingunit.getbaseunit().getUnit_ID(), InfoName)) {
             if (InfoName.equals("Prep Fire")) {
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
+                usecounter.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
             } else if (InfoName.equals("First Fire")) {
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('J', java.awt.event.InputEvent.CTRL_MASK));
+                usecounter.keyEvent(KeyStroke.getKeyStroke('J', java.awt.event.InputEvent.CTRL_MASK));
             } else if (InfoName.equals("Final Fire")) {
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
+                usecounter.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
             } else if (InfoName.equals("Adv Fire")){
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
+                usecounter.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
             }
         }
     }
@@ -51,32 +61,54 @@ public class CounterActions {
 
         // add fire counter - this needs to be tied to current phase
         // NEED TO FIX FOR FINAL AND ADV FIRE
-        ScenarioC scen = ScenarioC.getInstance();
-        ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
-        CommonFunctionsC ToDO = new CommonFunctionsC(scen.getScenID());
-        GamePiece ToPrep = ToDO.GetGamePieceFromID(firingunit.getbaseSW().getSW_ID());
-        if (ToPrep != null && !ToDO.CheckIfInfoCounterExistsFromID(firingunit.getbaseSW().getSW_ID(), InfoName)) {
+        GamePiece usecounter = getcounter(firingunit);
+        if (usecounter != null && !ToDO.CheckIfInfoCounterExistsFromID(firingunit.getbaseSW().getSW_ID(), InfoName)) {
             if (InfoName.equals("Prep Fire")) {
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
+                usecounter.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
             } else if (InfoName.equals("First Fire")) {
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('J', java.awt.event.InputEvent.CTRL_MASK));
+                usecounter.keyEvent(KeyStroke.getKeyStroke('J', java.awt.event.InputEvent.CTRL_MASK));
             } else if (InfoName.equals("Final Fire")) {
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
+                usecounter.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
             } else if (InfoName.equals("Adv Fire")){
-                ToPrep.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
+                usecounter.keyEvent(KeyStroke.getKeyStroke('G', java.awt.event.InputEvent.CTRL_MASK));
             }
         }
     }
     public void flipcounter(PersUniti countertoflip){
-
+        GamePiece usecounter = getcounter(countertoflip);
+        if (usecounter != null) {
+            usecounter.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+        }
     }
     public void flipcounter (SuppWeapi countertoflip){
-        ScenarioC scen = ScenarioC.getInstance();
-        ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
-        CommonFunctionsC ToDO = new CommonFunctionsC(scen.getScenID());
-        GamePiece toflip = ToDO.GetGamePieceFromID(countertoflip.getbaseSW().getSW_ID());
-        if (toflip != null) {
-            toflip.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+        GamePiece usecounter = getcounter(countertoflip);
+        if (usecounter != null) {
+            usecounter.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+        }
+    }
+    public void processcounter (Constantvalues.PersUnitResult actiontotake, PersUniti countertouse){
+        GamePiece usecounter = getcounter(countertouse);
+        if(actiontotake == Constantvalues.PersUnitResult.Breaks) {
+            // flip counter and add DM
+            usecounter.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+        } else if(actiontotake == Constantvalues.PersUnitResult.Pins) {
+            // add Pin counter
+            usecounter.keyEvent(KeyStroke.getKeyStroke('P', java.awt.event.InputEvent.CTRL_MASK));
+        } else if(actiontotake == Constantvalues.PersUnitResult.Wounds) {
+            // flip counter
+            usecounter.keyEvent(KeyStroke.getKeyStroke('W', java.awt.event.InputEvent.CTRL_MASK));
+        } else if(actiontotake == Constantvalues.PersUnitResult.Dies) {
+            // delete counter
+            usecounter.keyEvent(KeyStroke.getKeyStroke('D', java.awt.event.InputEvent.CTRL_MASK));
+        } else if(actiontotake == Constantvalues.PersUnitResult.ReplacesDMs) {
+            // replace unit counter and flip, add DM
+            usecounter.keyEvent(KeyStroke.getKeyStroke('E', java.awt.event.InputEvent.CTRL_MASK));
+            usecounter.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+        } else if(actiontotake == Constantvalues.PersUnitResult.ReplacesReducesBreaks){
+            // replace unit counter, reduce it and flip, add DM
+            usecounter.keyEvent(KeyStroke.getKeyStroke('E', java.awt.event.InputEvent.CTRL_MASK));
+            usecounter.keyEvent(KeyStroke.getKeyStroke('V', java.awt.event.InputEvent.CTRL_MASK));
+            usecounter.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
         }
     }
 }

@@ -48,21 +48,11 @@ public class UnitPinsc implements StatusChangei {
             TargParent = UseObjectFactory.CreateTargetUnitandProperty(TargParent, FirerSan);
         }
 
-                /*'If Not IsNothing(.TargetPersUnit) Then .TargetPersUnit.OrderStatus = ConstantClassLibrary.ASLXNA.OrderStatus.
-                        '.BasePersUnit.CX = False
-                        .BasePersUnit.Pinned = True
-                '.BasePersUnit.CombatStatus = ConstantClassLibrary.ASLXNA.CombatStatus.None*/
         TargParent.getTargetunit().setPinned(true);
         TargParent.getbaseunit().setPinned(true);
         TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
         TargParent.getTargetunit().UpdateTargetStatus(TargParent);
         TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " Pins");
-
-        // add counter
-        ScenarioC scen = ScenarioC.getInstance();
-        CommonFunctionsC ToDO = new CommonFunctionsC(scen.getScenID());
-        GamePiece ToPin = ToDO.GetGamePieceFromID(TargParent.getbaseunit().getUnit_ID());
-        if (ToPin != null) {ToPin.keyEvent(KeyStroke.getKeyStroke('P', java.awt.event.InputEvent.CTRL_MASK));}
 
         // HoB
         if (TargParent.getTargetunit().getHoBFlag()) {   // rolled a 2
@@ -78,16 +68,16 @@ public class UnitPinsc implements StatusChangei {
             }
             TargParent.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
             // update Target and Firing lists with new units
-            if (RunStatusChange.GetNewTargs != null) {myNewTargs = RunStatusChange.GetNewTargs;}
+            if (RunStatusChange.getNewTargs() != null) {myNewTargs = RunStatusChange.getNewTargs();}
         }
         return true;
     }
 
 
-    public LinkedList<PersUniti> GetNewTargs () {
+    public LinkedList<PersUniti> getNewTargs () {
         return myNewTargs;
     }
-    public LinkedList<PersUniti> GetNewFirings () {
+    public LinkedList<PersUniti> getNewFirings () {
         // no code required; no new unit
         return null;
     }

@@ -66,10 +66,10 @@ public class UnitPossessesSWc implements StatusChangei {
         return true;
     }
 
-    public LinkedList<PersUniti> GetNewTargs () {
+    public LinkedList<PersUniti> getNewTargs () {
             return myNewTargs;
     }
-    public LinkedList<PersUniti> GetNewFirings () {
+    public LinkedList<PersUniti> getNewFirings () {
         // no code required; no new unit
         return null;
     }

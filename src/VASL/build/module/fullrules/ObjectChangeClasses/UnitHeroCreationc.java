@@ -72,10 +72,10 @@ public class UnitHeroCreationc implements StatusChangei {
         return true;
     }
 
-    public LinkedList<PersUniti> GetNewTargs() {
+    public LinkedList<PersUniti> getNewTargs() {
         return myNewTargs;
     }
-    public LinkedList<PersUniti> GetNewFirings () {
+    public LinkedList<PersUniti> getNewFirings () {
         return myNewFiring;
     }
     /**

@@ -43,18 +43,18 @@ public class UnitReplacesReducesBreaksc implements StatusChangei {
         boolean PassHoBCHeck = false; // Hob test done by last unitchange
         StatusChangei RunFirstChange = new UnitReplacesc(PassHoBCHeck);
         RunFirstChange.Takeaction(TargParent);
-        TargParent = RunFirstChange.GetNewTargs.get(0);
+        TargParent = (RunFirstChange.getNewTargs()).get(0);
         myResultstring = TargParent.getTargetunit().getCombatResultsString();
         StatusChangei RunnextChange = new UnitReducesBreaksc(myResultstring);
         RunnextChange.Takeaction(TargParent);
-        myNewFiring = RunnextChange.GetNewFirings;
-        myNewTargs = RunnextChange.GetNewTargs;
+        myNewFiring = RunnextChange.getNewFirings();
+        myNewTargs = RunnextChange.getNewTargs();
         // No HoB - done in UnitReducesBreaksC
         return true;
     }
 
-    public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
-    public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+    public LinkedList<PersUniti> getNewTargs() {return myNewTargs;}
+    public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
     /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get

@@ -62,9 +62,9 @@ public class UnitReducesDies implements StatusChangei {
         boolean PassHoBCHeck  = false; // Hob test done by last unitchange
         StatusChangei RunFirstChange = new UnitReducesc(myResultstring, PassHoBCHeck);
         RunFirstChange.Takeaction(TargParent);
-        myNewFiring = RunFirstChange.GetNewFirings;
-        myNewTargs = RunFirstChange.GetNewTargs;
-        TargParent = RunFirstChange.GetNewTargs.get(0);  // not sure this is right??
+        myNewFiring = RunFirstChange.getNewFirings();
+        myNewTargs = RunFirstChange.getNewTargs();
+        TargParent = RunFirstChange.getNewTargs().get(0);  // not sure this is right??
         myResultstring = TargParent.getTargetunit().getCombatResultsString();
         StatusChangei RunnextChange = new UnitDiesC();
         RunnextChange.Takeaction(TargParent);
@@ -72,8 +72,8 @@ public class UnitReducesDies implements StatusChangei {
         return true;
     }
 
-    public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
-    public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+    public LinkedList<PersUniti> getNewTargs() {return myNewTargs;}
+    public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
     /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get

@@ -99,10 +99,10 @@ public class UnitHeroHardensc  implements  StatusChangei{
         return true;
     }
 
-    public LinkedList<PersUniti> GetNewTargs () {
+    public LinkedList<PersUniti> getNewTargs () {
         return myNewTargs;
     }
-    public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+    public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
     /*public ReadOnly Property NewPopupitems As List(Of Objectvalues.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get

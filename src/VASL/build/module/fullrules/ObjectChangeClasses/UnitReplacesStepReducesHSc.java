@@ -49,7 +49,7 @@ public class UnitReplacesStepReducesHSc implements StatusChangei{
         boolean PassHoBCHeck = false; // Hob test done by last unitchange
         StatusChangei RunFirstChange = new UnitReplacesc(PassHoBCHeck);
         RunFirstChange.Takeaction(TargParent);
-        TargParent = RunFirstChange.GetNewTargs.get(0);
+        TargParent = RunFirstChange.getNewTargs().get(0);
         myResultstring = TargParent.getTargetunit().getCombatResultsString();
         int ReducesTo = TargParent.getTargetunit().getReducesTo();
         String NewName = "";
@@ -107,13 +107,13 @@ public class UnitReplacesStepReducesHSc implements StatusChangei{
             }
             NewUnit.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
             // update Target and Firing lists with new units
-            if (RunStatusChange.GetNewTargs != null) {myNewTargs = RunStatusChange.GetNewTargs;}
+            if (RunStatusChange.getNewTargs() != null) {myNewTargs = RunStatusChange.getNewTargs();}
         }
         return true;
     }
 
-        public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
-        public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+        public LinkedList<PersUniti> getNewTargs() {return myNewTargs;}
+        public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
     /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get

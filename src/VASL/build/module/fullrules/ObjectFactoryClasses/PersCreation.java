@@ -19,6 +19,7 @@ import VASL.build.module.fullrules.ObjectClasses.*;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASL.counters.Concealment;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +71,13 @@ public class PersCreation {
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                         5, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
-
+            case 6:
+                return new German447c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        6, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.SECONDLINE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 9:
                 return new German338c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                     unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
@@ -227,6 +234,13 @@ public class PersCreation {
                                 (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                                 1101, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                                 unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Hero, unititem.getRoleStatus());
+                    case Germans:
+                        return new German138c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                                unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
+                                (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                                (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                                1101, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                                unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Hero, unititem.getRoleStatus());
                 }
             case 1102:
                 switch (unititem.getNationality()) {
@@ -316,7 +330,9 @@ public class PersCreation {
         int PassSW  = 0;
         int PassTurnArrives  = BirthingUnit.getbaseunit().getTurnArrives();
         Constantvalues.VisibilityStatus PassVisibilityStatus = Constantvalues.VisibilityStatus.Visible;
-        int PassOBUnit_ID = BirthingUnit.getbaseunit().getUnit_ID() + 1000;  //this will do for now but needs to be redone
+        int PassOBUnit_ID = BirthingUnit.getbaseunit().getUnit_ID();  //this will do for now but needs to be redone
+        BirthingUnit.getbaseunit().SetID(0);
+        BirthingUnit.getbaseunit().setOrderStatus(Constantvalues.OrderStatus.NotInPlay);
         PersUniti NewUnit= null;
 
         // temporary while debugging UNDO
@@ -528,6 +544,8 @@ public class PersCreation {
                 //return new German548Firec(PassIsCX, PassIsPinned, PassHasMG, PassUsingInherentFP, PassUsingfirstMG, PassUsingsecondMG, FiringUnit);
             case 5:
                 return new German467Firec(PassIsCX, PassIsPinned, PassHasMG, PassUsingInherentFP, PassUsingfirstMG, PassUsingsecondMG, FiringUnit);
+            case 6:
+                return new German447Firec(PassIsCX, PassIsPinned, PassHasMG, PassUsingInherentFP, PassUsingfirstMG, PassUsingsecondMG, FiringUnit);
             case 9:
                 //return new German338Firec(PassIsCX, PassIsPinned, PassHasMG, PassUsingInherentFP, PassUsingfirstMG, PassUsingsecondMG, FiringUnit);
             case 11:
@@ -651,6 +669,9 @@ public class PersCreation {
             case 5:
                 return new German467Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
                         PassSmoke, TargetUnit);
+            case 6:
+                return new German447Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
+                        PassSmoke, TargetUnit);
             case 9:
             /*return new German338Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
                 PassSmoke, TargetUnit);*/
@@ -718,8 +739,8 @@ public class PersCreation {
             case 1101:
                 switch (TargetUnit.getbaseunit().getNationality()) {
                     case Germans:
-                        // return new ObjectClassLibrary.ASLXNA.German138Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
-                        // PassSmoke, TargetUnit)
+                        return new German138Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
+                        PassSmoke, TargetUnit);
                     case Russians:
                         //return new Russian138Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
                         //        PassSmoke, TargetUnit);

@@ -1413,10 +1413,7 @@ public class IFTC implements IIFTC {
             myNeedToResumeResolution = true;
             return;
         }*/
-// test code
-        for (PersUniti eachTarget: TargGroup){
-            GameModule.getGameModule().getChatter().send(eachTarget.getTargetunit().getCombatResultsString());
-        }
+
         // Update Target Group
         for (PersUniti TargUnit: TargGroup) {
             if (TargUnit.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.NotInPlay) {
@@ -1429,13 +1426,15 @@ public class IFTC implements IIFTC {
         for (PersUniti AddNewUnit: CombatRes.getNewTargets()) {
             if (AddNewUnit.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.Prisoner) {
                 // NEED A DIFFERERNT IMPLEMENTATION
-                /*Dim OH As VisibleOccupiedhexes
-                OH = CType(Game.Scenario.HexesWithCounter(AddNewUnit.BasePersUnit.Hexnum), VisibleOccupiedhexes)
-                OH.GetAllSpritesInHex()
-                OH.RedoDisplayOrder()*/
+
             }
             TargGroup.add(AddNewUnit);
         }
+        // test code
+        for (PersUniti eachTarget: TargGroup){
+            GameModule.getGameModule().getChatter().send(eachTarget.getTargetunit().getCombatResultsString());
+        }
+
         RemoveList.clear();
         // Update Fire Group
         for (PersUniti FireUnit: FireGroup) {
@@ -1449,7 +1448,7 @@ public class IFTC implements IIFTC {
         for (PersUniti AddNewUnit: CombatRes.getNewFirings()) {
             FireGroup.add(AddNewUnit);
         }
-        // need to manage firing and target sprites here: changes due to revealing, breaking, reducing, prep fire, etc
+        // need to manage firing counters here: changes due to revealing, breaking, reducing, prep fire, etc
         Constantvalues.CombatStatus NewCombatStatus = GetCombatStatus();
         for (PersUniti firer: FireGroup) {
             firer.getFiringunit().UpdateCombatStatus(firer, NewCombatStatus, IFTRes.getROFdr());

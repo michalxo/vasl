@@ -50,7 +50,7 @@ public class UnitDiesC implements StatusChangei {
             //'.BasePersUnit.LOCIndex = 0
             //'.BasePersUnit.hexlocation = 0
             //'.BasePersUnit.hexPosition = 0
-        TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " Dies");
+        TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " dies");
         if (TargParent.getbaseunit().getnumSW() > 0) {
             if (TargParent.getbaseunit().getFirstSWLink() > 0) {
                 StatusChangei Dropit = new UnitDropsFirstSWc();
@@ -66,11 +66,11 @@ public class UnitDiesC implements StatusChangei {
         return true;
     }
 
-    public LinkedList<PersUniti> GetNewTargs () {
+    public LinkedList<PersUniti> getNewTargs () {
         // no code required; no new unit
         return null;
     }
-    public LinkedList<PersUniti> GetNewFirings () {
+    public LinkedList<PersUniti> getNewFirings () {
         // no code required; no new unit
         return null;
     }

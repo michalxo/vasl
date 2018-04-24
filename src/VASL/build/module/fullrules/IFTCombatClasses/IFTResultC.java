@@ -169,7 +169,6 @@ public class IFTResultC implements IFTResulti {
             CombatUtil CombatInfo = new CombatUtil();
             MSG += "result is " + CombatInfo.IFTResultstring(Targtest.getTargetunit().getIFTResult()) + ": ";
             Targtest.getTargetunit().setCombatResultsString(MSG);
-            //GameModule.getGameModule().getChatter().send(MSG);
         }
 
         // ROF

@@ -8,6 +8,7 @@ import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASSAL.build.GameModule;
 import ch.qos.logback.core.status.Status;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 public class UnitReplacesc implements StatusChangei{
@@ -48,15 +49,17 @@ public class UnitReplacesc implements StatusChangei{
 
         // create the new unit
         int ReplacesTo = TargParent.getTargetunit().getSubstitutesTo();
-        String NewName = "111a";  //null;  TEST CODE - need to add dialogue box
-        GameModule.getGameModule().getChatter().send("Enter Name of New Unit: " + TargParent.getbaseunit().getUnitName() + " replaces");
+        String NewName ="";
+        while (NewName =="") {
+            NewName = askforNewUnit(TargParent.getbaseunit().getUnitName());
+        }
         PersCreation UseObjectFactory = new PersCreation();
         PersUniti NewUnit = UseObjectFactory.CreateNewInstance(ReplacesTo, NewName, TargParent);
         // update new unit with values of previous unit - Do we need all of this
         UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
         if (TargParent.getTargetunit() != null) {
             // NewUnit = UseObjectFactory.CreateTargetUnitandProperty(NewUnit)
-            NewUnit.getTargetunit().setCombatResultsString(TargParent.getbaseunit().getUnitName() + ": " + TargParent.getTargetunit().getCombatResultsString() + " is replaced by " + NewUnit.getbaseunit().getUnitName());
+            NewUnit.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " is replaced by " + NewUnit.getbaseunit().getUnitName());
             // TargetPersUnit already created by UnitUpdateNewWithOldc
         }
 
@@ -84,7 +87,8 @@ public class UnitReplacesc implements StatusChangei{
         // Store values to update FireGroup and TargetGroup (maybe add movement?)
         if (NewUnit.getTargetunit() != null) {myNewTargs.add(NewUnit);}
         if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
-
+        // remove oldunit from Unitcol - same id value is causing problems. May undo this once a new id scheme is in place
+        Scencolls.Unitcol.remove(TargParent);
         // update SW values
         ChangeSWOwnerc SWChange = null;
         if(NewUnit.getbaseunit().getFirstSWLink() > 0) {SWChange = new ChangeSWOwnerc(NewUnit.getbaseunit().getFirstSWLink(), NewUnit.getbaseunit().getUnit_ID());}
@@ -104,17 +108,30 @@ public class UnitReplacesc implements StatusChangei{
             }
             NewUnit.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
             // update Target and Firing lists with new units
-            if (RunStatusChange.GetNewTargs != null) {myNewTargs = RunStatusChange.GetNewTargs;}
+            if (RunStatusChange.getNewTargs() != null) {myNewTargs = RunStatusChange.getNewTargs();}
         }
         return true;
     }
 
-    public LinkedList<PersUniti> GetNewTargs() {return myNewTargs;}
-    public LinkedList<PersUniti> GetNewFirings () {return myNewFiring;}
+    public LinkedList<PersUniti> getNewTargs() {return myNewTargs;}
+    public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
     /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
             Get
 
     End Get
     End Property*/
+
+    /**
+     * Displays the input dialog and returns user input
+     */
+    public String askforNewUnit(String Oldname) {
+        JOptionPane pane = new JOptionPane();
+        String newname =  pane.showInputDialog(null,
+                "Enter Name of New Squad: ",
+                "ELR Failure: " + Oldname + " is replaced",
+                JOptionPane.QUESTION_MESSAGE
+        );
+        return newname;
+    }
 }

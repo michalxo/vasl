@@ -160,10 +160,10 @@ public class UnitHeroicLdrCreationc implements StatusChangei {
         return true;
     }
 
-    public LinkedList<PersUniti> GetNewTargs() {
+    public LinkedList<PersUniti> getNewTargs() {
         return myNewTargs;
     }
-    public LinkedList<PersUniti> GetNewFirings () {
+    public LinkedList<PersUniti> getNewFirings () {
         return myNewFiring;
     }
     /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems

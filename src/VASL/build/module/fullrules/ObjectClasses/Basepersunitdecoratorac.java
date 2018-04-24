@@ -16,6 +16,7 @@ public abstract class Basepersunitdecoratorac implements Basepersuniti {
         this.decoratedbasePersUnit = decoratedbasePersUnit;
     }
     public String getUnitName() {return decoratedbasePersUnit.getUnitName();}
+    public void setUnitName(String value) {decoratedbasePersUnit.setUnitName(value);}
     public String getHexName() {return decoratedbasePersUnit.getHexName();}
     public void setHexname(String value) {decoratedbasePersUnit.setHexname(value);}
     public int getScenario(){return decoratedbasePersUnit.getScenario();}

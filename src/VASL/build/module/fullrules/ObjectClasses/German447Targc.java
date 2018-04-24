@@ -1,9 +1,7 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
-import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
 import VASL.build.module.fullrules.UtilityClasses.HOBCheckC;
@@ -12,7 +10,7 @@ import VASSAL.command.Command;
 
 import java.util.List;
 
-public class German467Targc implements TargetPersUniti {
+public class German447Targc implements TargetPersUniti {
     private int myFirerSAN;
     private int myAttackedbydrm;
     private int myAttackedbyFP;
@@ -44,8 +42,8 @@ public class German467Targc implements TargetPersUniti {
     public boolean getHoBFlag () {return myHOBFlag;}
     public void setHoBFlag(boolean value ) {myHOBFlag = value;}
 
-    public German467Targc(Constantvalues.IFTResult PassIFTResult, int TargStackLdrdrm, int PassFirerSan, int PassAttackedbydrm, int PassAttackedbyFP, boolean PassELR5, boolean PassIsConceal, boolean PassIsDummy, 
-            boolean PassPinned, int PassQualityStatus, int PassRandomSelected, int PassSmoke, PersUniti PassUnit) {
+    public German447Targc(Constantvalues.IFTResult PassIFTResult, int TargStackLdrdrm, int PassFirerSan, int PassAttackedbydrm, int PassAttackedbyFP, boolean PassELR5, boolean PassIsConceal, boolean PassIsDummy,
+                          boolean PassPinned, int PassQualityStatus, int PassRandomSelected, int PassSmoke, PersUniti PassUnit) {
         myFirerSAN = PassFirerSan;
         myAttackedbydrm = PassAttackedbydrm;
         myAttackedbyFP = PassAttackedbyFP;
@@ -76,7 +74,7 @@ public class German467Targc implements TargetPersUniti {
     public void setAttackedbydrm(int value) {myAttackedbydrm = value;}
     public int getAttackedbyFP () {return myAttackedbyFP;}
     public void setAttackedbyFP(int value) {myAttackedbyFP = value;}
-    public int getBPV () {return 10;}
+    public int getBPV () {return 7;}
     public int getBrokenML () {return 7;}
     public int getMCNumber () {return myMCNum;}
     public void setMCNumber(int value) {myMCNum = value;}
@@ -86,7 +84,7 @@ public class German467Targc implements TargetPersUniti {
     public void setELR5(boolean value) {myELR5 = value;}
     public Constantvalues.FortitudeStatus getFortitudeStatus () {return myFortitudeStatus;}
     public void setFortitudeStatus(Constantvalues.FortitudeStatus value) {myFortitudeStatus = value;}
-    public int getHardensTo () {return 3;}
+    public int getHardensTo () {return 5;}
     public Constantvalues.IFTResult getIFTResult () {return myIFTResult;}
     public void setIFTResult(Constantvalues.IFTResult value) {myIFTResult = value;}
     public boolean getIsConcealed () {return myIsConceal;}
@@ -105,10 +103,10 @@ public class German467Targc implements TargetPersUniti {
     public void setQualityStatus(int value) {myQualityStatus = value;}
     public int getRandomSelected () {return myRandomSelected;}
     public void setRandomSelected(int value) {myRandomSelected = value;}
-    public int getReducesTo () {return 12;}
+    public int getReducesTo () {return 13;}
     public int getSmoke () {return mySmoke;}
     public void setSmoke (int value) {mySmoke = value;}
-    public int getSubstitutesTo () {return 6;}
+    public int getSubstitutesTo () {return 7;}
     public int getFirerSan () {return myFirerSAN;}
     public void setFirerSan(int value) {myFirerSAN = value;}
     public Constantvalues.UClass getUnitClass () {return VASL.build.module.fullrules.Constantvalues.UClass.FIRSTLINE;}
@@ -215,7 +213,7 @@ public class German467Targc implements TargetPersUniti {
         }
         myCombatResultsString += Resultstring + Ldrstring + "SMC drm and a " + Integer.toString(FDR + TargSTackLdrdrm) + " modified dice roll:";
         //if (myPersUnitImpact != Constantvalues.PersUnitResult.NoEffects) {
-            return true;
+        return true;
         //} else {
         //    return false;
         //}
@@ -251,7 +249,7 @@ public class German467Targc implements TargetPersUniti {
 
                     Post conditions
         1.*/
-
+        myCombatResultsString = myName + " ";
         myPersUnitImpact = VASL.build.module.fullrules.Constantvalues.PersUnitResult.Dies;
         return true;
     }
@@ -297,7 +295,7 @@ public class German467Targc implements TargetPersUniti {
         if (ODR == 2) {myHOBFlag = true;}
         // FDR
         int FDR = ODR + MCNum;
-        //FDR= 11 +MCNum;
+        FDR= 11 +MCNum;
         if (ODR == 12) {
             if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {  // fails MC by > ELR
                 myPersUnitImpact = Constantvalues.PersUnitResult.ReplacesReducesBreaks;
@@ -442,7 +440,7 @@ public class German467Targc implements TargetPersUniti {
 
                                 Basic Course
                     1.	Use case begins when Randon Selection on a #KIA result produces a break result for a unit
-                    2.	Breaks and is DM�d (UC205-TargetBreaks and UC208-TargetDMs) unless broken then Reduces [Alternate Course of Action: UC203-TargetReduces] or broken and HS/Crew then Dies [Alternate Course of Action: UC201-TargetDies].
+                    2.	Breaks and is DM?d (UC205-TargetBreaks and UC208-TargetDMs) unless broken then Reduces [Alternate Course of Action: UC203-TargetReduces] or broken and HS/Crew then Dies [Alternate Course of Action: UC201-TargetDies].
 
                     Alternate Course A: UC203-TargetReduces
                     Condition: Target is broken
@@ -454,11 +452,11 @@ public class German467Targc implements TargetPersUniti {
 
                     Post conditions (List the state(s) the system can be in when this use case ends)
                     1.*/
-
+        myCombatResultsString = myName + " ";
         if (myOrderStatus == Constantvalues.OrderStatus.Broken || myOrderStatus == Constantvalues.OrderStatus.Broken_DM) {  // unit is already broken so is reduced
             myPersUnitImpact = Constantvalues.PersUnitResult.Reduces;
         } else {                                                                                                            // good order unit is broken and DM
-            myPersUnitImpact = Constantvalues.PersUnitResult.DMs;
+            myPersUnitImpact = Constantvalues.PersUnitResult.Breaks;
         }
         return true;
     }
