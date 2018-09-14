@@ -46,7 +46,24 @@ public class UnitReplacesStepReducesHSc implements StatusChangei{
                     '2.
 
                     'create the new unit*/
-        boolean PassHoBCHeck = false; // Hob test done by last unitchange
+        boolean PassHoBCHeck = false;  // Hob test done by last unitchange
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.Replaces);
+        StatusChangei RunFirstChange = new UnitReplacesc(PassHoBCHeck);
+        RunFirstChange.Takeaction(TargParent);
+        LinkedList<PersUniti> myNewUnits = RunFirstChange.getNewTargs();
+        TargParent = myNewUnits.get(0);  //.GetNewTargs().get(0);
+        myResultstring = TargParent.getTargetunit().getCombatResultsString();
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.StepReducesHS);
+        StatusChangei RunnextChange = new UnitStepReducesHSc();
+        RunnextChange.Takeaction(TargParent);
+        // the following needs to be done to ensure proper display and target management
+        myNewTargs.add(TargParent);
+        //'If Not IsNothing(RunnextChange.GetNewTargs) AndAlso RunnextChange.GetNewTargs.Count > 0 Then myNewTargs = RunnextChange.GetNewTargs
+        myNewFiring = RunnextChange.getNewFirings();
+        // No HoB - done in UnitDMs
+        return true;
+
+        /*boolean PassHoBCHeck = false; // Hob test done by last unitchange
         StatusChangei RunFirstChange = new UnitReplacesc(PassHoBCHeck);
         RunFirstChange.Takeaction(TargParent);
         TargParent = RunFirstChange.getNewTargs().get(0);
@@ -109,7 +126,7 @@ public class UnitReplacesStepReducesHSc implements StatusChangei{
             // update Target and Firing lists with new units
             if (RunStatusChange.getNewTargs() != null) {myNewTargs = RunStatusChange.getNewTargs();}
         }
-        return true;
+        return true;*/
     }
 
         public LinkedList<PersUniti> getNewTargs() {return myNewTargs;}

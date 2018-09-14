@@ -402,7 +402,7 @@ public class BasePersunitc implements Basepersuniti {
             'UpdateUnit.VisibilityStatus = VisibilityStatus*/
         } else {
             for (OrderofBattle UpdateUnit: scen.getOBUnitcol()){
-                if (UpdateUnit.getOBUnit_ID() == PassUnit.getbaseunit().getUnit_ID()){
+                if (UpdateUnit.getOBUnit_ID() == PassUnit.getbaseunit().getUnit_ID() && UpdateUnit.getOBName().equals(PassUnit.getbaseunit().getUnitName())){
                     // found unit to update
                     UpdateUnit.setCX(PassUnit.getbaseunit().getCX());
                     UpdateUnit.setELR(PassUnit.getbaseunit().getELR());
@@ -427,8 +427,8 @@ public class BasePersunitc implements Basepersuniti {
                     // these may not need to be updated. Can they change during scenario?
                     UpdateUnit.setTurnArrives(PassUnit.getbaseunit().getTurnArrives());
                     UpdateUnit.setNationality(PassUnit.getbaseunit().getNationality());
-                    UpdateUnit.setOBName(PassUnit.getbaseunit().getUnitName());
-                    UpdateUnit.setOBUnit_ID(PassUnit.getbaseunit().getUnit_ID());
+                    //UpdateUnit.setOBName(PassUnit.getbaseunit().getUnitName());
+                    //UpdateUnit.setOBUnit_ID(PassUnit.getbaseunit().getUnit_ID());
                     //UpdateUnit.setGuard_ID(PassUnit.getbaseunit().getG);
                     break;
                 }

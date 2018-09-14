@@ -1,5 +1,6 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
+import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 
@@ -60,12 +61,14 @@ public class UnitReducesDies implements StatusChangei {
         '            Post conditions
         '1.*/
         boolean PassHoBCHeck  = false; // Hob test done by last unitchange
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.Reduces);
         StatusChangei RunFirstChange = new UnitReducesc(myResultstring, PassHoBCHeck);
         RunFirstChange.Takeaction(TargParent);
         myNewFiring = RunFirstChange.getNewFirings();
         myNewTargs = RunFirstChange.getNewTargs();
         TargParent = RunFirstChange.getNewTargs().get(0);  // not sure this is right??
         myResultstring = TargParent.getTargetunit().getCombatResultsString();
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.Dies);
         StatusChangei RunnextChange = new UnitDiesC();
         RunnextChange.Takeaction(TargParent);
         // No HoB as unit dead

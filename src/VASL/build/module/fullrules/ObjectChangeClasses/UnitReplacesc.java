@@ -5,7 +5,9 @@ import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import VASL.build.module.fullrules.UtilityClasses.CounterActions;
 import VASSAL.build.GameModule;
+import VASSAL.counters.GamePiece;
 import ch.qos.logback.core.status.Status;
 
 import javax.swing.*;
@@ -55,6 +57,10 @@ public class UnitReplacesc implements StatusChangei{
         }
         PersCreation UseObjectFactory = new PersCreation();
         PersUniti NewUnit = UseObjectFactory.CreateNewInstance(ReplacesTo, NewName, TargParent);
+        // add new unit to Unitcol collection
+        Scencolls.Unitcol.add(NewUnit);
+        // update ID value of counter to match new unit
+        setcounterID(NewUnit.getbaseunit().getUnit_ID(), TargParent);
         // update new unit with values of previous unit - Do we need all of this
         UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
         if (TargParent.getTargetunit() != null) {
@@ -82,8 +88,6 @@ public class UnitReplacesc implements StatusChangei{
 
         //'remove old unit from moving list TOO EARLY - DO THIS LATER
         if (TargParent.getMovingunit() != null) {Scencolls.SelMoveUnits.remove(TargParent);}
-        // add new unit to Unitcol collection
-        Scencolls.Unitcol.add(NewUnit);
         // Store values to update FireGroup and TargetGroup (maybe add movement?)
         if (NewUnit.getTargetunit() != null) {myNewTargs.add(NewUnit);}
         if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
@@ -133,5 +137,16 @@ public class UnitReplacesc implements StatusChangei{
                 JOptionPane.QUESTION_MESSAGE
         );
         return newname;
+    }
+    // move this out to a common function as it will be the same in all classes
+    private void setcounterID(int newunitID, PersUniti FormerUnit){
+        CommonFunctionsC ToDO = new CommonFunctionsC(FormerUnit.getbaseunit().getScenario());
+        GamePiece CounterToUse = ToDO.GetGamePieceFromID(FormerUnit.getbaseunit().getUnit_ID());
+
+        if (CounterToUse != null) {
+            // trigger counter action
+            CounterActions counteractions = new CounterActions();
+            counteractions.updatecounterID(newunitID, FormerUnit);
+        }
     }
 }

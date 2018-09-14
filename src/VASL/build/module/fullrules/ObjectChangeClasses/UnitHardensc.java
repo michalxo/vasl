@@ -5,8 +5,11 @@ import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import VASL.build.module.fullrules.UtilityClasses.CounterActions;
 import VASSAL.build.GameModule;
+import VASSAL.counters.GamePiece;
 
+import javax.swing.*;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -46,24 +49,27 @@ public class UnitHardensc  implements  StatusChangei {
         
         // create the new unit
         int HardensTo = TargParent.getTargetunit().getHardensTo();
+        String NewName ="";
+        while (NewName =="") {
+            NewName = askforNewUnit(TargParent.getbaseunit().getUnitName());
+        }
         PersCreation UseObjectFactory = new PersCreation();
-        PersUniti NewUnit = null;
-        GameModule.getGameModule().getChatter().send("Enter Name of New Squad: " + TargParent.getbaseunit().getUnitName() + " battle hardens");
-        Scanner response = new Scanner(System.in);
-        if (response.toString() != null) {
-            String NewName = response.toString();
-            NewUnit = UseObjectFactory.CreateNewInstance(HardensTo, NewName, TargParent);
-            // update new unit with values of previous unit - Do we need all of this
-            UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
-            NewUnit.getTargetunit().setOrderStatus(Constantvalues.OrderStatus.GoodOrder);
-            // BH restores unit to GO A15.3
-            NewUnit.getTargetunit().UpdateTargetStatus(NewUnit);
-            if (TargParent.getTargetunit() != null) {
+        PersUniti NewUnit = UseObjectFactory.CreateNewInstance(HardensTo, NewName, TargParent);
+        // add new unit to Unitcol collection
+        Scencolls.Unitcol.add(NewUnit);
+        // update ID value of counter to match new unit
+        setcounterID(NewUnit.getbaseunit().getUnit_ID(), TargParent);
+        // update new unit with values of previous unit - Do we need all of this
+        UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
+        NewUnit.getTargetunit().setOrderStatus(Constantvalues.OrderStatus.GoodOrder);
+        // BH restores unit to GO A15.3
+        NewUnit.getTargetunit().UpdateTargetStatus(NewUnit);
+        if (TargParent.getTargetunit() != null) {
                 // NewUnit = UseObjectFactory.CreateTargetUnitandProperty(NewUnit)
                 // TargetPersUnit already created by UnitUpdateNewWithOldc
-                TargParent.getTargetunit().setCombatResultsString(TargParent.getbaseunit().getUnitName() + ": " + TargParent.getTargetunit().getCombatResultsString() + "HOB: Hardens to " + NewUnit.getbaseunit().getUnitName());
-            }
+           TargParent.getTargetunit().setCombatResultsString(TargParent.getbaseunit().getUnitName() + ": " + TargParent.getTargetunit().getCombatResultsString() + "HOB: Hardens to " + NewUnit.getbaseunit().getUnitName());
         }
+
         // change values for former unit
         if (TargParent.getTargetunit() == null) {
             CommonFunctionsC ComFunc = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
@@ -83,8 +89,7 @@ public class UnitHardensc  implements  StatusChangei {
 
         //'remove old unit from moving list TOO EARLY - DO THIS LATER
         //If Not IsNothing(TargParent.MovingPersUnit) Then Scencolls.SelMoveUnits.Remove(TargParent)
-        // 'add new unit to Unitcol collection
-        Scencolls.Unitcol.add(NewUnit);
+
         // Store values to update FireGroup and TargetGroup (maybe add movement?)
         if (NewUnit.getTargetunit() != null ) {myNewTargs.add(NewUnit);}
         if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
@@ -105,9 +110,27 @@ public class UnitHardensc  implements  StatusChangei {
         // no code required; no new unit
         return null;
     }
-    /*public ReadOnly Property NewPopupitems As List(Of Objectvalues.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
-            Get
+    /**
+     * Displays the input dialog and returns user input
+     */
+    public String askforNewUnit(String Oldname) {
+        JOptionPane pane = new JOptionPane();
+        String newname =  pane.showInputDialog(null,
+                "Enter Name of New Squad: ",
+                "Battle Hardens: " + Oldname + " hardens",
+                JOptionPane.QUESTION_MESSAGE
+        );
+        return newname;
+    }
+    // move this out to a common function as it will be the same in all classes
+    private void setcounterID(int newunitID, PersUniti FormerUnit){
+        CommonFunctionsC ToDO = new CommonFunctionsC(FormerUnit.getbaseunit().getScenario());
+        GamePiece CounterToUse = ToDO.GetGamePieceFromID(FormerUnit.getbaseunit().getUnit_ID());
 
-    End Get
-    End Property*/
+        if (CounterToUse != null) {
+            // trigger counter action
+            CounterActions counteractions = new CounterActions();
+            counteractions.updatecounterID(newunitID, FormerUnit);
+        }
+    }
 }

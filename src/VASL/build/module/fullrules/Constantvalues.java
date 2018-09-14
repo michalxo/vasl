@@ -92,7 +92,7 @@ public class Constantvalues {
     public enum HitLocation{Turret, Hull}
     public enum PersUnitResult{Breaks, Dies, Pins, Reduces, ReducesBreaks, DMs, Fanatics, Hardens, Berserks, Surrenders, Replaces, ReplacesReducesBreaks, Wounds, Substitutues, ReplacesDMs, Disrupts, HeroCreation,
         HeroHardens, NoEffects, ReducesHOB, ReducesDies, ReducesPins, ReducesReplaces, DisruptDMs, StepReduces, StepReducesHS, ReplacesStepReduces, ReplacesStepReducesHS, RevealDummy, RevealConUnitbySniper,
-        RevealAllDummy, HeroicLdrCreation, HeroicLdrHardens}
+        RevealAllDummy, HeroicLdrCreation, HeroicLdrHardens, ReducesDMs}
     public enum HOBResult{Hardens, HeroCreation, HardensAndHero, Berserk, Surrenders}
     public enum VClass {None}
     public enum UnitCommandtype {baseunit, fireunit, moveunit, targunit}

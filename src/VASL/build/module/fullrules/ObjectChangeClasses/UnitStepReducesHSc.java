@@ -5,8 +5,11 @@ import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import VASL.build.module.fullrules.UtilityClasses.CounterActions;
 import VASSAL.build.GameModule;
+import VASSAL.counters.GamePiece;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 public class UnitStepReducesHSc implements StatusChangei{
@@ -46,11 +49,18 @@ public class UnitStepReducesHSc implements StatusChangei{
                     '2.
 
                     'create the new unit*/
+        // create the new unit
         int ReducesTo = TargParent.getTargetunit().getReducesTo();
-        String NewName = "";
-        GameModule.getGameModule().getChatter().send("Enter Name of New Unit: " + TargParent.getbaseunit().getUnitName() + " step-reduces");
+        String NewName ="";
+        while (NewName =="") {
+            NewName = askforNewUnit(TargParent.getbaseunit().getUnitName());
+        }
         PersCreation UseObjectFactory = new PersCreation();
         PersUniti NewUnit = UseObjectFactory.CreateNewInstance(ReducesTo, NewName, TargParent);
+        // add new unit to Unitcol collection
+        Scencolls.Unitcol.add(NewUnit);
+        // update ID value of counter to match new unit
+        setcounterID(NewUnit.getbaseunit().getUnit_ID(), TargParent);
         // update new unit with values of previous unit - Do we need all of this
         UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
         if (TargParent.getTargetunit() != null) {
@@ -78,8 +88,6 @@ public class UnitStepReducesHSc implements StatusChangei{
 
         // remove old unit from moving list TOO EARLY - DO THIS LATER
         if (TargParent.getMovingunit() != null) {Scencolls.SelMoveUnits.remove(TargParent);}
-        // add new unit to Unitcol collection
-        Scencolls.Unitcol.add(NewUnit);
         // Store values to update FireGroup and TargetGroup (maybe add movement?)
         if (NewUnit.getTargetunit() != null) {myNewTargs.add(NewUnit);}
         if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
@@ -111,9 +119,27 @@ public class UnitStepReducesHSc implements StatusChangei{
         public LinkedList<PersUniti> getNewTargs() {return myNewTargs;}
         public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
-    /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
-            Get
+    /**
+     * Displays the input dialog and returns user input
+     */
+    public String askforNewUnit(String Oldname) {
+        JOptionPane pane = new JOptionPane();
+        String newname =  pane.showInputDialog(null,
+                "Enter Name of New Half-Squad: ",
+                "Step-Reduction: " + Oldname + " Striped squad becomes HS",
+                JOptionPane.QUESTION_MESSAGE
+        );
+        return newname;
+    }
+    // move this out to a common function as it will be the same in all classes
+    private void setcounterID(int newunitID, PersUniti FormerUnit){
+        CommonFunctionsC ToDO = new CommonFunctionsC(FormerUnit.getbaseunit().getScenario());
+        GamePiece CounterToUse = ToDO.GetGamePieceFromID(FormerUnit.getbaseunit().getUnit_ID());
 
-    End Get
-    End Property*/
+        if (CounterToUse != null) {
+            // trigger counter action
+            CounterActions counteractions = new CounterActions();
+            counteractions.updatecounterID(newunitID, FormerUnit);
+        }
+    }
 }

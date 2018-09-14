@@ -46,10 +46,12 @@ public class  UnitStepReducesc implements StatusChangei{
                     '2.
 
                     'create the new unit*/
-        int ReplacesTo = TargParent.getbaseunit().getLOBLink() + 1;
+
+
+        /*int ReplacesTo = TargParent.getbaseunit().getLOBLink() + 1;
         String NewName = "";
         GameModule.getGameModule().getChatter().send("Enter Name of New Unit: " + TargParent.getbaseunit().getUnitName() + " replaces");
-        PersCreation UseObjectFactory = new PersCreation();
+
         PersUniti NewUnit = UseObjectFactory.CreateNewInstance(ReplacesTo, NewName, TargParent);
         // update new unit with values of previous unit - Do we need all of this
         UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
@@ -57,10 +59,9 @@ public class  UnitStepReducesc implements StatusChangei{
             // NewUnit = UseObjectFactory.CreateTargetUnitandProperty(NewUnit)
             NewUnit.getTargetunit().setCombatResultsString(TargParent.getbaseunit().getUnitName() + ": " + TargParent.getTargetunit().getCombatResultsString() + " is step-reduced to " + NewUnit.getbaseunit().getUnitName());
             // TargetPersUnit already created by UnitUpdateNewWithOldc
-        }
+        }*/
 
-        // change values for former unit
-        // change values for former unit
+        PersCreation UseObjectFactory = new PersCreation();
         if (TargParent.getTargetunit() == null) {
             CommonFunctionsC ComFunc = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
             int FirerSan = ComFunc.GetEnemySan(TargParent.getbaseunit().getNationality());
@@ -75,12 +76,12 @@ public class  UnitStepReducesc implements StatusChangei{
         TargParent.getbaseunit().setFirstSWLink(0);
         TargParent.getbaseunit().setSecondSWLink(0);
         TargParent.getbaseunit().setnumSW(0);
+        TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " stripes; is Step-Reduced");
         TargParent.getTargetunit().UpdateTargetStatus(TargParent);
 
-        // remove old unit from moving list TOO EARLY - DO THIS LATER
+        /*// remove old unit from moving list TOO EARLY - DO THIS LATER
         if (TargParent.getMovingunit() != null) {Scencolls.SelMoveUnits.remove(TargParent);}
-        // add new unit to Unitcol collection
-        Scencolls.Unitcol.add(NewUnit);
+
         // Store values to update FireGroup and TargetGroup (maybe add movement?)
         if (NewUnit.getTargetunit() != null) {myNewTargs.add(NewUnit);}
         if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
@@ -88,21 +89,21 @@ public class  UnitStepReducesc implements StatusChangei{
         // update SW values
         ChangeSWOwnerc SWChange = null;
         if(NewUnit.getbaseunit().getFirstSWLink() > 0) {SWChange = new ChangeSWOwnerc(NewUnit.getbaseunit().getFirstSWLink(), NewUnit.getbaseunit().getUnit_ID());}
-        if(NewUnit.getbaseunit().getSecondSWLink() > 0) {SWChange = new ChangeSWOwnerc(NewUnit.getbaseunit().getSecondSWLink(), NewUnit.getbaseunit().getUnit_ID());}
+        if(NewUnit.getbaseunit().getSecondSWLink() > 0) {SWChange = new ChangeSWOwnerc(NewUnit.getbaseunit().getSecondSWLink(), NewUnit.getbaseunit().getUnit_ID());}*/
 
         // HoB
-        if (NewUnit.getTargetunit().getHoBFlag()) {   // rolled a 2
-            Constantvalues.PersUnitResult HobChange = NewUnit.getTargetunit().HOBMC();
+        if (TargParent.getTargetunit().getHoBFlag()) {   // rolled a 2
+            Constantvalues.PersUnitResult HobChange = TargParent.getTargetunit().HOBMC();
             StatusChangei RunStatusChange;
             SelectStatusChangec GetStatusChange = new SelectStatusChangec();
-            RunStatusChange = GetStatusChange.HoBStatusChange(HobChange, NewUnit);  //VS uses TargParent here?
+            RunStatusChange = GetStatusChange.HoBStatusChange(HobChange, TargParent);
             if (RunStatusChange != null ) {
-                RunStatusChange.Takeaction(NewUnit);   //VS uses TargParent here?
+                RunStatusChange.Takeaction(TargParent);
             } else {
                 //myPopUpList = GetStatusChange.PopUpItems; temporary while debugging UNDO
                 return false;
             }
-            NewUnit.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
+            TargParent.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
             // update Target and Firing lists with new units
             if (RunStatusChange.getNewTargs() != null) {myNewTargs = RunStatusChange.getNewTargs();}
         }

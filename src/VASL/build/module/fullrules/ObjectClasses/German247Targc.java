@@ -539,7 +539,7 @@ public class German247Targc implements TargetPersUniti {
         manageupdateunitcommand.ProcessCommand(newcommand);
         // this may no longer be needed as above may handle for both local and remote
         CommonFunctionsC comfun = new CommonFunctionsC(PassTarget.getbaseunit().getScenario());
-        OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(PassTarget.getbaseunit().getUnit_ID());
+        OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(PassTarget.getbaseunit().getUnit_ID(),  PassTarget.getbaseunit().getUnitName());
 
         if (UpdateUnit != null) {
             UpdateUnit.setOrderStatus(getOrderStatus());

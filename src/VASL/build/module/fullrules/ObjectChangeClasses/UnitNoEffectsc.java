@@ -21,9 +21,11 @@ public class UnitNoEffectsc implements StatusChangei {
             TargParent = UseObjectFactory.CreateTargetUnitandProperty(TargParent, FirerSan);
         }
         if (TargParent.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.Broken) {
-            TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " becomes DM");
+            TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " is already broken; becomes DM");
             TargParent.getTargetunit().setOrderStatus(Constantvalues.OrderStatus.Broken_DM);
             TargParent.getbaseunit().setOrderStatus(Constantvalues.OrderStatus.Broken_DM);
+        } else if (TargParent.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.Broken_DM) {
+            TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " is already DM: no effect");
         } else {
             TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " survives: no effect");
         }

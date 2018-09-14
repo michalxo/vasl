@@ -47,14 +47,16 @@ public class UnitReducesBreaksc implements StatusChangei {
                     'create the new HS*/
 
         boolean PassHoBCHeck = false; // Hob test done by last unitchange
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.Reduces);
         StatusChangei RunFirstChange = new UnitReducesc(myResultstring, PassHoBCHeck);
         RunFirstChange.Takeaction(TargParent);
         TargParent = (RunFirstChange.getNewTargs()).get(0);
         myResultstring = TargParent.getTargetunit().getCombatResultsString();
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.Breaks);
         StatusChangei RunnextChange = new UnitBreaksc();
         RunnextChange.Takeaction(TargParent);
-        myNewFiring = RunnextChange.getNewFirings();
-        myNewTargs = RunnextChange.getNewTargs();
+        myNewFiring = RunFirstChange.getNewFirings();
+        myNewTargs = RunFirstChange.getNewTargs();
         // No HoB - done in UnitReducesBreaksC
         return true;
 

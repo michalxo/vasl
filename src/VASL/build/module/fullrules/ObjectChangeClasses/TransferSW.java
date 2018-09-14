@@ -1,75 +1,118 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
-public class TransferSW {
-    /*Implements UnitChange
-    Private Gettingunit As ObjectClassLibrary.ASLXNA.PersUniti
-    Private TransSW As ObjectClassLibrary.ASLXNA.SuppWeapi
-    Private GivingUnit As ObjectClassLibrary.ASLXNA.PersUniti
-    Private linqdata As DataClassLibrary.ASLXNA.DataC
-    Private Scencolls As ObjectClassLibrary.ASLXNA.ScenarioCollectionsc = ObjectClassLibrary.ASLXNA.ScenarioCollectionsc.GetInstance
-    Public Sub New(ByVal Addingunit As ObjectClassLibrary.ASLXNA.PersUniti, ByVal LosingUnit As ObjectClassLibrary.ASLXNA.PersUniti)
-    linqdata = DataClassLibrary.ASLXNA.DataC.GetInstance()
-    GivingUnit = LosingUnit
-            Gettingunit = Addingunit
-    End Sub
-    Public Function TransferSW() As Boolean Implements UnitChange.TakeAction
-            'called by
-                    'transfers SW from one unit to another
-                    'GivingUnit drops SW
-    Dim FirstTransfer As Integer = GivingUnit.BasePersUnit.FirstSWLink : Dim SecondTransfer As Integer = GivingUnit.BasePersUnit.SecondSWlink
-    If GivingUnit.BasePersUnit.FirstSWLink > 0 Then GivingUnit.BasePersUnit.FirstSWLink = 0
-    If GivingUnit.BasePersUnit.SecondSWlink > 0 Then GivingUnit.BasePersUnit.SecondSWlink = 0
-    GivingUnit.BasePersUnit.SW = 0
-            'GettingUnit picks it up
-    If Gettingunit.BasePersUnit.FirstSWLink = 0 And FirstTransfer <> 0 Then
-    Gettingunit.BasePersUnit.FirstSWLink = FirstTransfer
-            FirstTransfer = -1
-    Gettingunit.BasePersUnit.SW += 1
-    ElseIf Gettingunit.BasePersUnit.FirstSWLink = 0 And SecondTransfer <> 0 Then
-    Gettingunit.BasePersUnit.FirstSWLink = SecondTransfer
-            SecondTransfer = -1
-    Gettingunit.BasePersUnit.SW += 1
-    End If
-    If Gettingunit.BasePersUnit.SecondSWlink = 0 And FirstTransfer <> 0 Then
-    Gettingunit.BasePersUnit.SecondSWlink = FirstTransfer
-            FirstTransfer = -1
-    Gettingunit.BasePersUnit.SW += 1
-    ElseIf Gettingunit.BasePersUnit.SecondSWlink = 0 And SecondTransfer <> 0 Then
-    Gettingunit.BasePersUnit.SecondSWlink = SecondTransfer
-            SecondTransfer = -1
-    Gettingunit.BasePersUnit.SW += 1
-    End If
-            'update SW ownership and info
-    If FirstTransfer = -1 Then
-            TransSW = (From selsw As ObjectClassLibrary.ASLXNA.SuppWeapi In Scencolls.SWCol Where selsw.BaseSW.Unit_ID = Gettingunit.BasePersUnit.FirstSWLink).First
-    TransSW.BaseSW.Owner = Gettingunit.BasePersUnit.Unit_ID
-    TransSW.BaseSW.hexlocation = CShort(Gettingunit.BasePersUnit.hexlocation)
-    TransSW.BaseSW.hexPosition = Gettingunit.BasePersUnit.hexPosition
-    If TransSW.BaseSW.Nationality = Gettingunit.BasePersUnit.Nationality Then TransSW.BaseSW.Captured = False Else TransSW.BaseSW.Captured = True
-                MessageBox.Show(Trim(GivingUnit.BasePersUnit.UnitName) & " transfers " & Trim(TransSW.BaseSW.UnitName) & " to " & Trim(Gettingunit.BasePersUnit.UnitName))
-    End If
-    If SecondTransfer = -1 Then
-            TransSW = (From selsw As ObjectClassLibrary.ASLXNA.SuppWeapi In Scencolls.SWCol Where selsw.BaseSW.Unit_ID = Gettingunit.BasePersUnit.SecondSWlink).First
-    TransSW.BaseSW.Owner = Gettingunit.BasePersUnit.Unit_ID
-    TransSW.BaseSW.hexlocation = CShort(Gettingunit.BasePersUnit.hexlocation)
-    TransSW.BaseSW.hexPosition = Gettingunit.BasePersUnit.hexPosition
-    If TransSW.BaseSW.Nationality = Gettingunit.BasePersUnit.Nationality Then TransSW.BaseSW.Captured = False Else TransSW.BaseSW.Captured = True
-                MessageBox.Show(Trim(GivingUnit.BasePersUnit.UnitName) & " transfers " & Trim(TransSW.BaseSW.UnitName) & " to " & Trim(Gettingunit.BasePersUnit.UnitName))
-    End If
-            'unpossess
-    Dim UnpossSWcreate = New CreateUnpossessedSW
-    If FirstTransfer > 0 Then
-                'need to create unpossessed
-    TransSW = (From selsw As ObjectClassLibrary.ASLXNA.SuppWeapi In Scencolls.SWCol Where selsw.BaseSW.Unit_ID = FirstTransfer).First
-                UnpossSWcreate.CreateNewUnpossessed(TransSW, CInt(GivingUnit.BasePersUnit.Hexnum))
-    TransSW.BaseSW.Owner = 0
-    End If
-    If SecondTransfer > 0 Then
-                'need to create unpossessed
-    TransSW = (From selsw As ObjectClassLibrary.ASLXNA.SuppWeapi In Scencolls.SWCol Where selsw.BaseSW.Unit_ID = SecondTransfer).First
-                UnpossSWcreate.CreateNewUnpossessed(TransSW, CInt(GivingUnit.BasePersUnit.Hexnum))
-    TransSW.BaseSW.Owner = 0
-    End If
-    Return True
-    End Function*/
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
+import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
+import VASSAL.build.GameModule;
+
+public class TransferSW implements UnitChange {
+    private PersUniti Gettingunit;
+    private SuppWeapi TransSW;
+    private PersUniti GivingUnit;
+    private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+
+    public TransferSW(PersUniti Addingunit, PersUniti LosingUnit) {
+        GivingUnit = LosingUnit;
+        Gettingunit = Addingunit;
+    }
+
+    public boolean TakeAction(){
+        //transfers SW from one unit to another
+        // set transfer variables
+        int FirstTransfer = GivingUnit.getbaseunit().getFirstSWLink();
+        int SecondTransfer = GivingUnit.getbaseunit().getSecondSWLink();
+        int FirstSW = 0; int SecondSW = 0;
+        //GivingUnit drops SW
+        if (FirstTransfer > 0) {
+            GivingUnit.getbaseunit().setFirstSWLink(0);
+            GivingUnit.getbaseunit().setnumSW(GivingUnit.getbaseunit().getnumSW() - 1);
+        }
+        if (SecondTransfer > 0) {
+            GivingUnit.getbaseunit().setSecondSWLink(0);
+            GivingUnit.getbaseunit().setnumSW(GivingUnit.getbaseunit().getnumSW() - 1);
+        }
+        // GettingUnit picks it up
+        if (Gettingunit.getbaseunit().getFirstSWLink() == 0 && FirstTransfer > 0) {
+            Gettingunit.getbaseunit().setFirstSWLink(FirstTransfer);
+            FirstSW = FirstTransfer;
+            FirstTransfer = -1;
+            Gettingunit.getbaseunit().setnumSW(Gettingunit.getbaseunit().getnumSW() + 1);
+        } else if (Gettingunit.getbaseunit().getFirstSWLink() == 0 && SecondTransfer > 0) {
+            Gettingunit.getbaseunit().setFirstSWLink(SecondTransfer);
+            SecondSW = SecondTransfer;
+            SecondTransfer = -1;
+            Gettingunit.getbaseunit().setnumSW(Gettingunit.getbaseunit().getnumSW() + 1);
+        }
+        if (Gettingunit.getbaseunit().getSecondSWLink() == 0 && FirstTransfer > 0) {
+            Gettingunit.getbaseunit().setSecondSWLink(FirstTransfer);
+            FirstSW = FirstTransfer;
+            FirstTransfer = -1;
+            Gettingunit.getbaseunit().setnumSW(Gettingunit.getbaseunit().getnumSW() + 1);
+        } else if (Gettingunit.getbaseunit().getSecondSWLink() == 0 && SecondTransfer > 0) {
+            Gettingunit.getbaseunit().setSecondSWLink(SecondTransfer);
+            SecondSW = SecondTransfer;
+            SecondTransfer = -1;
+            Gettingunit.getbaseunit().setnumSW(Gettingunit.getbaseunit().getnumSW() + 1);
+        }
+        // update SW ownership and info
+        if (FirstSW > 0) {
+            for (SuppWeapi findSW : Scencolls.SWCol) {
+                if (findSW.getbaseSW().getSW_ID() == FirstSW) {
+                    TransSW = findSW;
+                    TransSW.getbaseSW().setOwner(Gettingunit.getbaseunit().getUnit_ID());
+                    TransSW.getbaseSW().sethexlocation(Gettingunit.getbaseunit().gethexlocation());
+                    TransSW.getbaseSW().sethexposition(Gettingunit.getbaseunit().gethexPosition());
+                    if (TransSW.getbaseSW().getNationality() == Gettingunit.getbaseunit().getNationality()) {
+                        TransSW.getbaseSW().setCaptured(false);
+                    } else {
+                        TransSW.getbaseSW().setCaptured(true);
+                    }
+                    GameModule.getGameModule().getChatter().send (GivingUnit.getbaseunit().getUnitName() + " transfers " +
+                            TransSW.getbaseSW().getUnitName() + " to " + Gettingunit.getbaseunit().getUnitName());
+                }
+            }
+        }
+        if (SecondSW > 0) {
+            for (SuppWeapi findSW : Scencolls.SWCol) {
+                if (findSW.getbaseSW().getSW_ID() == SecondSW) {
+                    TransSW = findSW;
+                    TransSW.getbaseSW().setOwner(Gettingunit.getbaseunit().getUnit_ID());
+                    TransSW.getbaseSW().sethexlocation(Gettingunit.getbaseunit().gethexlocation());
+                    TransSW.getbaseSW().sethexposition(Gettingunit.getbaseunit().gethexPosition());
+                    if (TransSW.getbaseSW().getNationality() == Gettingunit.getbaseunit().getNationality()) {
+                        TransSW.getbaseSW().setCaptured(false);
+                    } else {
+                        TransSW.getbaseSW().setCaptured(true);
+                    }
+                    GameModule.getGameModule().getChatter().send (GivingUnit.getbaseunit().getUnitName() + " transfers " +
+                            TransSW.getbaseSW().getUnitName() + " to " + Gettingunit.getbaseunit().getUnitName());
+                }
+            }
+        }
+
+        // check transfers worked
+        if (FirstTransfer <= 0 && SecondTransfer <= 0) {return true;}
+        // if here, transfer didn't work
+        // unpossess  - is this necessary or should just return false?
+        CreateUnpossessedSW UnpossSWcreate = new CreateUnpossessedSW();
+        if (FirstTransfer > 0 ) {
+            for (SuppWeapi findSW : Scencolls.SWCol) {
+                if (findSW.getbaseSW().getSW_ID() == FirstTransfer) {
+                    TransSW = findSW;
+                    UnpossSWcreate.CreateNewUnpossessed(TransSW, GivingUnit.getbaseunit().getHex());
+                    TransSW.getbaseSW().setOwner(0);
+                }
+            }
+        }
+        if (SecondTransfer > 0 ) {
+            for (SuppWeapi findSW : Scencolls.SWCol) {
+                if (findSW.getbaseSW().getSW_ID() == SecondTransfer) {
+                    TransSW = findSW;
+                    UnpossSWcreate.CreateNewUnpossessed(TransSW, GivingUnit.getbaseunit().getHex());
+                    TransSW.getbaseSW().setOwner(0);
+                }
+            }
+        }
+        return false;  // should it be true or false?
+    }
 }

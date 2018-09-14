@@ -2736,6 +2736,7 @@ public class ScenarioCollectionsc {
 
             CommonFunctionsC ToDO = new CommonFunctionsC(BaseUnit.getbaseunit().getScenario());
             GamePiece CounterToUse = ToDO.GetGamePieceFromID(BaseUnit.getbaseunit().getUnit_ID());
+
             if (CounterToUse != null) {
                 // trigger counter action
                 CounterActions counteractions = new CounterActions();
@@ -2758,7 +2759,7 @@ public class ScenarioCollectionsc {
     }
     private PersUniti FindNameInCollection (String UpdateUnitName){
         for (PersUniti FindBaseUnit: Unitcol) {
-            if (FindBaseUnit.getbaseunit().getUnitName().equals(UpdateUnitName) && FindBaseUnit.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.NotInPlay) {
+            if (FindBaseUnit.getbaseunit().getUnitName().equals(UpdateUnitName)) {
                 return FindBaseUnit;
             }
         }

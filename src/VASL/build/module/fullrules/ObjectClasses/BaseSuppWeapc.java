@@ -120,6 +120,7 @@ public class BaseSuppWeapc {
     public void setPP(int value) {myPP = value;}
     public int getRepair() {return myRepair;}
     public boolean isCaptured() {return myCaptured;}
+    public void setCaptured (boolean captured){myCaptured = captured;}
     public int getOwner() {return myOwner;}
     public void setOwner(int value) {myOwner = value;}
     public boolean IsMG() {return myIsMG;}

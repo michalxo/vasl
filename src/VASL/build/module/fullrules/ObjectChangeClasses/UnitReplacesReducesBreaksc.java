@@ -1,5 +1,6 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
+import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 
@@ -41,10 +42,12 @@ public class UnitReplacesReducesBreaksc implements StatusChangei {
                     '            Post conditions
                     '2.*/
         boolean PassHoBCHeck = false; // Hob test done by last unitchange
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.Replaces);
         StatusChangei RunFirstChange = new UnitReplacesc(PassHoBCHeck);
         RunFirstChange.Takeaction(TargParent);
         TargParent = (RunFirstChange.getNewTargs()).get(0);
         myResultstring = TargParent.getTargetunit().getCombatResultsString();
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.ReducesBreaks);
         StatusChangei RunnextChange = new UnitReducesBreaksc(myResultstring);
         RunnextChange.Takeaction(TargParent);
         myNewFiring = RunnextChange.getNewFirings();

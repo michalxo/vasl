@@ -10,6 +10,8 @@ import java.util.LinkedList;
 public class UnitDisruptsDMsc implements StatusChangei{
 
     private LinkedList<PersUniti> myNewTargs = new LinkedList<PersUniti>();
+    private LinkedList<PersUniti> myNewFiring = new LinkedList<PersUniti>();
+    private String myResultstring;
 
     //Private myPopUpList As New List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface)
     public UnitDisruptsDMsc() {
@@ -37,37 +39,21 @@ public class UnitDisruptsDMsc implements StatusChangei{
         '            Post conditions
         '2.*/
 
-        if (TargParent.getTargetunit() == null) {
-            CommonFunctionsC ComFunc = new CommonFunctionsC(TargParent.getbaseunit().getScenario());
-            int FirerSan = ComFunc.GetEnemySan(TargParent.getbaseunit().getNationality());
-            PersCreation UseObjectFactory = new PersCreation();
-            TargParent = UseObjectFactory.CreateTargetUnitandProperty(TargParent, FirerSan);
-        }
-        TargParent.getTargetunit().setOrderStatus(Constantvalues.OrderStatus.DisruptedDM);
-        TargParent.getbaseunit().setOrderStatus(Constantvalues.OrderStatus.DisruptedDM);
-        TargParent.getbaseunit().setCX(false);
-        TargParent.getbaseunit().setPinned(false);
-        TargParent.getbaseunit().setCombatStatus(Constantvalues.CombatStatus.None);
-        TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
-        TargParent.getTargetunit().UpdateTargetStatus(TargParent);
-        TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " is disrupted and DM");
-
-        //'HoB
-        if (TargParent.getTargetunit().getHoBFlag()) { // rolled a 2
-            Constantvalues.PersUnitResult HobChange = TargParent.getTargetunit().HOBMC();
-            StatusChangei RunStatusChange;
-            SelectStatusChangec GetStatusChange = new SelectStatusChangec();
-            RunStatusChange = GetStatusChange.HoBStatusChange(HobChange, TargParent);
-            if (RunStatusChange != null ) {
-                RunStatusChange.Takeaction(TargParent);
-            } else {
-                //myPopUpList = GetStatusChange.PopUpItems; temporary while debugging UNDO
-                return false;
-            }
-            TargParent.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
-            // update Target and Firing lists with new units
-            if (RunStatusChange.getNewTargs() != null) {myNewTargs = RunStatusChange.getNewTargs();}
-        }
+        boolean PassHoBCHeck = false;  // Hob test done by last unitchange
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.Disrupts);
+        StatusChangei RunFirstChange = new UnitDisruptsc();
+        RunFirstChange.Takeaction(TargParent);
+        LinkedList<PersUniti> myNewUnits = RunFirstChange.getNewTargs();
+        TargParent = myNewUnits.get(0);  //.GetNewTargs().get(0);
+        myResultstring = TargParent.getTargetunit().getCombatResultsString();
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.Breaks);
+        StatusChangei RunnextChange = new UnitBreaksc();
+        RunnextChange.Takeaction(TargParent);
+        // the following needs to be done to ensure proper display and target management
+        myNewTargs.add(TargParent);
+        //'If Not IsNothing(RunnextChange.GetNewTargs) AndAlso RunnextChange.GetNewTargs.Count > 0 Then myNewTargs = RunnextChange.GetNewTargs
+        myNewFiring = RunnextChange.getNewFirings();
+        // No HoB - done in UnitBreaks
         return true;
     }
 

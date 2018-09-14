@@ -30,7 +30,7 @@ public class UnitBreaksc implements StatusChangei {
         Identifier UC 205
 
                     Preconditions()
-        1.	Unbroken MMC Target is alive and fails a MC by <= its ELR
+        1.	Unbroken MMC Target is alive and fails a MC  if by >= its ELR, replacement happens in UnitReplaces
 
                     Basic Course
         1.	Use case begins when a Target fails a MC [several possible causes: UC102-TargetCRMCResult; UC103-TargetMCResult]
@@ -58,9 +58,8 @@ public class UnitBreaksc implements StatusChangei {
         TargParent.getbaseunit().setPinned(false);
         TargParent.getbaseunit().setCombatStatus(Constantvalues.CombatStatus.None);
         TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
-        TargParent.getTargetunit().UpdateTargetStatus(TargParent);
         TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " breaks; is DM");
-
+        TargParent.getTargetunit().UpdateTargetStatus(TargParent);
         // HoB
         if (TargParent.getTargetunit().getHoBFlag()) {   // rolled a 2
             Constantvalues.PersUnitResult HobChange = TargParent.getTargetunit().HOBMC();

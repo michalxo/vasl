@@ -4,7 +4,11 @@ import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import VASL.build.module.fullrules.UtilityClasses.CounterActions;
+import VASSAL.counters.GamePiece;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 public class UnitSurrendersc implements StatusChangei {
@@ -62,12 +66,17 @@ public class UnitSurrendersc implements StatusChangei {
             NewPrisoner = 138;
         }
         String NewName =" ";
-        //NewName = InputBox("Enter Name of New Prisoner: ", Trim(TargParent.BasePersUnit.UnitName) & " surrenders", )
+        while (NewName =="") {
+            NewName = askforNewUnit(TargParent.getbaseunit().getUnitName());
+        }
         PersCreation UseObjectFactory = new PersCreation();
-        PersUniti NewUnit  = UseObjectFactory.CreateNewInstance(NewPrisoner, NewName, TargParent);
-        // update new unit with values of previous unit - Do we need all of this
-        // temporary while debugging UnDO
-        //UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
+        PersUniti NewUnit = UseObjectFactory.CreateNewInstance(NewPrisoner, NewName, TargParent);
+        // add new unit to Unitcol collection
+        Scencolls.Unitcol.add(NewUnit);
+        // update ID value of counter to match new unit
+        setcounterID(NewUnit.getbaseunit().getUnit_ID(), TargParent);
+        // update new HS with values of previous unit - Do we need all of this
+        UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
         NewUnit.getTargetunit().setOrderStatus(myPrisionerStatus);  //Prisoner or unarmed as per parameter
         // set Guard
         if (myPrisionerStatus == Constantvalues.OrderStatus.Prisoner) {
@@ -111,8 +120,7 @@ public class UnitSurrendersc implements StatusChangei {
 
         // remove old unit from moving list TOO EARLY - DO THIS LATER
         //If Not IsNothing(TargParent.MovingPersUnit) Then Scencolls.SelMoveUnits.Remove(TargParent)
-        // add new unit to Unitcol collection
-        Scencolls.Unitcol.add(NewUnit);
+
         // Store values to update FireGroup and TargetGroup (maybe add movement?)
         if (NewUnit.getTargetunit() != null) {myNewTargs.add(NewUnit);}
         if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
@@ -135,5 +143,28 @@ public class UnitSurrendersc implements StatusChangei {
                 'End Sub*/
     public LinkedList<PersUniti> getNewTargs () {return myNewTargs;}
     public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
+    /**
+     * Displays the input dialog and returns user input
+     */
+    public String askforNewUnit(String Oldname) {
+        JOptionPane pane = new JOptionPane();
+        String newname =  pane.showInputDialog(null,
+                "Enter Name of New Prisoner Unit: ",
+                Oldname + " surrenders",
+                JOptionPane.QUESTION_MESSAGE
+        );
+        return newname;
+    }
+    // move this out to a common function as it will be the same in all classes
+    private void setcounterID(int newunitID, PersUniti FormerUnit){
+        CommonFunctionsC ToDO = new CommonFunctionsC(FormerUnit.getbaseunit().getScenario());
+        GamePiece CounterToUse = ToDO.GetGamePieceFromID(FormerUnit.getbaseunit().getUnit_ID());
+
+        if (CounterToUse != null) {
+            // trigger counter action
+            CounterActions counteractions = new CounterActions();
+            counteractions.updatecounterID(newunitID, FormerUnit);
+        }
+    }
 
 }

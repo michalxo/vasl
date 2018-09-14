@@ -232,11 +232,11 @@ public class CommonFunctionsC {
         return supportWeapon;
     }
 
-    public OrderofBattle getUnderlyingOBunitforPersUniti(int OBUnit_ID) {
+    public OrderofBattle getUnderlyingOBunitforPersUniti(int OBUnit_ID, String OBName) {
         // returns the matching OrderofBattle unit for a PersUniti
         ScenarioC scen = ScenarioC.getInstance();
         for(OrderofBattle testOBunit: scen.getOBUnitcol() ) {
-            if (testOBunit.getOBUnit_ID() == OBUnit_ID) {
+            if (testOBunit.getOBUnit_ID() == OBUnit_ID && testOBunit.getOBName().equals(OBName) ) {
                 return testOBunit;
             }
         }

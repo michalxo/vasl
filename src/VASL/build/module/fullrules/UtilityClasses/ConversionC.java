@@ -4037,6 +4037,8 @@ public class ConversionC {
                 return Constantvalues.PersUnitResult.HeroicLdrCreation;
             case 7034:
                 return Constantvalues.PersUnitResult.HeroicLdrHardens;
+            case 7035:
+                return Constantvalues.PersUnitResult.ReducesDMs;
             default:
                 return null;
         }
@@ -4109,6 +4111,8 @@ public class ConversionC {
                 return 7033;
             case HeroicLdrHardens:
                 return 7034;
+            case ReducesDMs:
+                return 7035;
             default:
                 return 0;
         }

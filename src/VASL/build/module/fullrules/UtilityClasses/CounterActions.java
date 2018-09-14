@@ -11,7 +11,12 @@ import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
+import VASSAL.build.GameModule;
 import VASSAL.counters.GamePiece;
+import VASSAL.counters.PieceIterator;
+import VASSAL.counters.Properties;
+import VASSAL.counters.Stack;
+import VASSAL.property.Property;
 
 import javax.swing.*;
 
@@ -100,15 +105,33 @@ public class CounterActions {
         } else if(actiontotake == Constantvalues.PersUnitResult.Dies) {
             // delete counter
             usecounter.keyEvent(KeyStroke.getKeyStroke('D', java.awt.event.InputEvent.CTRL_MASK));
-        } else if(actiontotake == Constantvalues.PersUnitResult.ReplacesDMs) {
-            // replace unit counter and flip, add DM
-            usecounter.keyEvent(KeyStroke.getKeyStroke('E', java.awt.event.InputEvent.CTRL_MASK));
+        } else if(actiontotake == Constantvalues.PersUnitResult.DMs) {
+            //  add DM
             usecounter.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
-        } else if(actiontotake == Constantvalues.PersUnitResult.ReplacesReducesBreaks){
-            // replace unit counter, reduce it and flip, add DM
+            usecounter.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+        } else if(actiontotake == Constantvalues.PersUnitResult.Replaces){
+            // replace unit counter
             usecounter.keyEvent(KeyStroke.getKeyStroke('E', java.awt.event.InputEvent.CTRL_MASK));
+        } else if(actiontotake == Constantvalues.PersUnitResult.Reduces){
+            // reduce unit counter
             usecounter.keyEvent(KeyStroke.getKeyStroke('V', java.awt.event.InputEvent.CTRL_MASK));
-            usecounter.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
+
+            // need to add
+        } else if(actiontotake == Constantvalues.PersUnitResult.Disrupts){
+            // disrupt unit counter
+
+        } else if(actiontotake == Constantvalues.PersUnitResult.StepReduces){
+            // reduce unit counter
+
+        } else if(actiontotake == Constantvalues.PersUnitResult.StepReducesHS){
+            // reduce unit counter
+
         }
+    }
+    public void updatecounterID (int newID, PersUniti countertouse){
+        String passID = String.valueOf(newID);
+        GamePiece usecounter = getcounter(countertouse);
+        //usecounter.setProperty(Properties., passID);
+        usecounter.keyEvent(KeyStroke.getKeyStroke('L', java.awt.event.InputEvent.CTRL_MASK));
     }
 }

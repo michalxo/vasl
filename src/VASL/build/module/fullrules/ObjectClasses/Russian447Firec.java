@@ -410,7 +410,7 @@ public class Russian447Firec implements FiringPersUniti {
         SuppWeapi FiringMG = null;
         // this may no longer be needed as below  may handle for both local and remote
         CommonFunctionsC comfun = new CommonFunctionsC(firer.getbaseunit().getScenario());
-        OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(firer.getbaseunit().getUnit_ID());
+        OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(firer.getbaseunit().getUnit_ID(),  firer.getbaseunit().getUnitName());
 
 
         if (UpdateUnit != null) {

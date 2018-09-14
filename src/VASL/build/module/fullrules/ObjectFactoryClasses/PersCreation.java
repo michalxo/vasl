@@ -330,8 +330,9 @@ public class PersCreation {
         int PassSW  = 0;
         int PassTurnArrives  = BirthingUnit.getbaseunit().getTurnArrives();
         Constantvalues.VisibilityStatus PassVisibilityStatus = Constantvalues.VisibilityStatus.Visible;
-        int PassOBUnit_ID = BirthingUnit.getbaseunit().getUnit_ID();  //this will do for now but needs to be redone
-        BirthingUnit.getbaseunit().SetID(0);
+        // int PassOBUnit_ID = BirthingUnit.getbaseunit().getUnit_ID();  //this will do for now but needs to be redone
+        int PassOBUnit_ID = scen.getOBUnitcol().getLast().getOBUnit_ID() + 1;
+        //BirthingUnit.getbaseunit().SetID(0);
         BirthingUnit.getbaseunit().setOrderStatus(Constantvalues.OrderStatus.NotInPlay);
         PersUniti NewUnit= null;
 
@@ -602,7 +603,7 @@ public class PersCreation {
                         // create FiringUnit property for base unit then decorate it
                         // get base unit
                         CommonFunctionsC comfun = new CommonFunctionsC(FiringUnit.getbaseunit().getScenario());
-                        OrderofBattle BaseOBUnit = comfun.getUnderlyingOBunitforPersUniti(FiringUnit.getbaseunit().getUnit_ID());
+                        OrderofBattle BaseOBUnit = comfun.getUnderlyingOBunitforPersUniti(FiringUnit.getbaseunit().getUnit_ID(),  FiringUnit.getbaseunit().getUnitName());
                         // Constantvalues.UClass PassClass = (Linqdata.GetLOBData(Constantvalues.LOBItem.UNITCLASS, (int) (BaseOBUnit.getLOBLink())));
                         PersUniti BaseUnit = CreateExistingInstance(BaseOBUnit);
                         BaseUnit.getbaseunit().setSolID(FiringUnit.getbaseunit().getSolID());
@@ -682,8 +683,8 @@ public class PersCreation {
                 return new German247Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
                         PassSmoke, TargetUnit);
             case 13:
-            /*return new German237Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
-                PassSmoke, TargetUnit);*/
+                return new German237Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
+                        PassSmoke, TargetUnit);
             case 25:
             /*return new Russian628Targc(PassIFTResult, TargStackLdrdrm, PassFirerSan, PassAttackedbydrm, PassAttackedbyFP, PassELR5, PassIsConceal, PassIsDummy, PassPinned, PassQualityStatus, PassRandomSelected,
                 PassSmoke, TargetUnit);*/
@@ -762,7 +763,7 @@ public class PersCreation {
                         // create TargetUnit property for base unit then decorate it
                         // get base unit
                         CommonFunctionsC comfun = new CommonFunctionsC(TargetUnit.getbaseunit().getScenario());
-                        OrderofBattle BaseOBUnit = comfun.getUnderlyingOBunitforPersUniti(TargetUnit.getbaseunit().getUnit_ID());
+                        OrderofBattle BaseOBUnit = comfun.getUnderlyingOBunitforPersUniti(TargetUnit.getbaseunit().getUnit_ID(),  TargetUnit.getbaseunit().getUnitName());
                         LineofBattle lineofBattle = comfun.Getlob(Integer.toString(BaseOBUnit.getLOBLink()));
                         int PassClass = lineofBattle.getUClass();
                         PersUniti BaseUnit = CreateExistingInstance(BaseOBUnit);
