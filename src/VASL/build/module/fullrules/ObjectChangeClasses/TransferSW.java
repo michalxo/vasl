@@ -67,6 +67,7 @@ public class TransferSW implements UnitChange {
                     } else {
                         TransSW.getbaseSW().setCaptured(true);
                     }
+                    TransSW.getbaseSW().UpdateSWStatus(TransSW);
                     GameModule.getGameModule().getChatter().send (GivingUnit.getbaseunit().getUnitName() + " transfers " +
                             TransSW.getbaseSW().getUnitName() + " to " + Gettingunit.getbaseunit().getUnitName());
                 }
@@ -84,6 +85,7 @@ public class TransferSW implements UnitChange {
                     } else {
                         TransSW.getbaseSW().setCaptured(true);
                     }
+                    TransSW.getbaseSW().UpdateSWStatus(TransSW);
                     GameModule.getGameModule().getChatter().send (GivingUnit.getbaseunit().getUnitName() + " transfers " +
                             TransSW.getbaseSW().getUnitName() + " to " + Gettingunit.getbaseunit().getUnitName());
                 }

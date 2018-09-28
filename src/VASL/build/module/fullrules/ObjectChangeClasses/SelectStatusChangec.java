@@ -33,6 +33,8 @@ public class SelectStatusChangec {
         switch (HoBChange) {
             case Hardens:
                 return new UnitHardensc();
+            case Fanatics:
+                return new UnitFanaticsc();
             case HeroCreation:
                 return new UnitHeroCreationc();
             case HeroicLdrCreation:

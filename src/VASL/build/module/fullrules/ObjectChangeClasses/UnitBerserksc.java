@@ -50,7 +50,7 @@ public class UnitBerserksc implements StatusChangei {
         //'.BasePersUnit.CombatStatus = ConstantClassLibrary.ASLXNA.CombatStatus.None
         //'.BasePersUnit.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.NotMoving
         TargParent.getTargetunit().UpdateTargetStatus(TargParent);
-        TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + "HOB: goes Berserk");
+        TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " HOB: goes Berserk");
         // No HoB roll as berserk units not subject to HOB
         return true;
     }

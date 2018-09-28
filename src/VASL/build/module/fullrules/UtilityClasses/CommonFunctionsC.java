@@ -242,7 +242,16 @@ public class CommonFunctionsC {
         }
         return null;
     }
-
+    public OrderofBattleSW getUnderlyingOBSWunitforSuppWeapi(int OBSW_ID, String SWName) {
+        // returns the matching OrderofBattleSW unit for a SuppWeapi
+        ScenarioC scen = ScenarioC.getInstance();
+        for(OrderofBattleSW testSWOBunit: scen.getOBSWcol() ) {
+            if (testSWOBunit.getOBSW_ID() == OBSW_ID && testSWOBunit.getOBWeapon().equals(SWName) ) {
+                return testSWOBunit;
+            }
+        }
+        return null;
+    }
     /*public GamePiece GetNewGamePiece(int Counterlink) {
         GamePiece newpiece = new GamePiece() {
             public void setMap(Map map) {

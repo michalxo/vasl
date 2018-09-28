@@ -46,29 +46,11 @@ public class UnitFanaticsc implements StatusChangei {
         if (TargParent.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Encircled) {TargParent.getbaseunit().setFortitudeStatus(Constantvalues.FortitudeStatus.Fan_Enc);}
         if (TargParent.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Wounded) {TargParent.getbaseunit().setFortitudeStatus(Constantvalues.FortitudeStatus.Fan_Wnd);}
         if (TargParent.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Enc_Wnd) {TargParent.getbaseunit().setFortitudeStatus(Constantvalues.FortitudeStatus.Fan_Wnd_Enc);}
-//                '.BasePersUnit.CX = False
-//                        '.BasePersUnit.Pinned = False
-//                        '.BasePersUnit.CombatStatus = ConstantClassLibrary.ASLXNA.CombatStatus.None
-//                        '.BasePersUnit.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.NotMoving
         TargParent.getTargetunit().UpdateTargetStatus(TargParent);
-        TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " becomes Fanatic");
+        TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() + " HOB: becomes Fanatic");
 
-        //'HoB
-        if (TargParent.getTargetunit().getHoBFlag()) { // rolled a 2
-            Constantvalues.PersUnitResult HobChange = TargParent.getTargetunit().HOBMC();
-            StatusChangei RunStatusChange;
-            SelectStatusChangec GetStatusChange = new SelectStatusChangec();
-            RunStatusChange = GetStatusChange.HoBStatusChange(HobChange, TargParent);
-            if (RunStatusChange != null ) {
-                RunStatusChange.Takeaction(TargParent);
-            } else {
-                //myPopUpList = GetStatusChange.PopUpItems; temporary while debugging UNDO
-                return false;
-            }
-            TargParent.getbaseunit().setOrderStatus(TargParent.getTargetunit().getOrderStatus());
-            // update Target and Firing lists with new units
-            if (RunStatusChange.getNewTargs() != null) {myNewTargs = RunStatusChange.getNewTargs();}
-        }
+        // No HoB - Fanaticism is caused by HOB
+
         return true;
     }
 
@@ -80,9 +62,4 @@ public class UnitFanaticsc implements StatusChangei {
         return null;
     }
 
-    /*Public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
-            Get
-    Return myPopUpList
-    End Get
-    End Property*/
 }

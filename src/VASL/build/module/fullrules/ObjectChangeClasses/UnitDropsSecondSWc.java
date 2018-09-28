@@ -43,6 +43,7 @@ public class UnitDropsSecondSWc implements StatusChangei {
             SWtoCheck.getbaseSW().setOwner(0);
             SWtoCheck.getbaseSW().setSWStatus(Constantvalues.SWStatus.Malfunctioned);
         }
+        SWtoCheck.getbaseSW().UpdateSWStatus(SWtoCheck);
         return true;
     }
 

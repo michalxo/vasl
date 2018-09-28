@@ -10,7 +10,7 @@ public class ChangeSWOwnerc {
         for (SuppWeapi SWtoChange : Scencolls.SWCol) {
             if (SWtoChange.getbaseSW().getSW_ID() == SWItem) {
                 SWtoChange.getbaseSW().setOwner(NewOwner);
-
+                SWtoChange.getbaseSW().UpdateSWStatus(SWtoChange);
             }
         }
     }

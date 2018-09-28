@@ -5,14 +5,14 @@ import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 
-public class German467c implements PersUniti {
+public class German468c implements PersUniti {
     // encapsulation variables
     private Basepersuniti myBasePU;
     private MovingPersuniti myMovingPU;
     private FiringPersUniti myFiringPU;
     private TargetPersUniti myTargetPU;
 
-    public German467c (String PassHexname, int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex,  boolean PassCX,
+    public German468c (String PassHexname, int PassScenario, Hex PassHex, Location Passhexlocation, Constantvalues.AltPos PasshexPosition, double PassLevelinHex, boolean PassCX,
                        int PassELR , int PassTurnArrives, Constantvalues.Nationality PassNationality, int PassCon_ID, int PassUnit_ID, Constantvalues.Typetype PassTypeType_ID, int PassFirstSWLink, int PassSecondSWlink,
                        int PassHexEntSideCrossed, int PassSolID, String PassUnitName, int PassLOBLink, Constantvalues.CombatStatus PassCombatStatus, Constantvalues.VisibilityStatus PassVisibilityStatus,
                        Constantvalues.FortitudeStatus PassFortitudeStatus, Constantvalues.OrderStatus PassOrderStatus, Constantvalues.MovementStatus PassMovementStatus, boolean PassPinned, int PassSW,

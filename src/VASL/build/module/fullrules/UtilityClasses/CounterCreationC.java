@@ -28,6 +28,7 @@ public class CounterCreationC {
                 }
             }
             catch (ComponentPathBuilder.PathFormatException e) {
+                boolean reg = true;
             }
         }
 

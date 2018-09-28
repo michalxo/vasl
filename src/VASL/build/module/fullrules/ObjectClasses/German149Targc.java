@@ -128,6 +128,7 @@ public class German149Targc implements TargetPersUniti {
 
         myTargSTackLdrdrm = TargSTackLdrdrm;
         // good order hero wounds
+        myCombatResultsString += myName;
         int wdsevdr = Dieclass.Dieroll(); // takes wound severity dr
         if (wdsevdr >= 5) {  // 5,6 so dies
             myPersUnitImpact = Constantvalues.PersUnitResult.Dies;
@@ -150,13 +151,10 @@ public class German149Targc implements TargetPersUniti {
 
     public boolean KIA() {
          /*Name:       TargetKIAResult()
-
         Identifier UC 101
-
-                    Preconditions()
+        Preconditions()
         1.	An eligible IFT fire solution has produced a result
-
-                    Basic Course
+        Basic Course
         1.	Use case begins when a KIA result is obtained from the IFT
         2.	The Target drops its support weapons [UC209-TargetDropsSW]
         3.	The Target adds CVP/CP to scenario totals [UC210-TargetAddsCVP]
@@ -169,8 +167,8 @@ public class German149Targc implements TargetPersUniti {
         Condition: Target is an SMC
 
                     Post conditions
-        1.*/
-        myCombatResultsString = myName + " ";
+        */
+        myCombatResultsString += myName + " is KIA'd: ";
         myPersUnitImpact = VASL.build.module.fullrules.Constantvalues.PersUnitResult.Dies;
         return true;
     }
@@ -215,7 +213,7 @@ public class German149Targc implements TargetPersUniti {
         if (ODR == 2) {myHOBFlag = false;}  // heros dont take hob
         // FDR
         int FDR = ODR + MCNum;
-        //FDR=10;
+        FDR=10;
         // 12
         if (ODR == 12) {  // has no impact on Hero; either fails MC or doesn't
            /* if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {  // fails MC by > ELR
@@ -278,33 +276,27 @@ public class German149Targc implements TargetPersUniti {
 
     public boolean PTC(int TargSTackLdrdrm ) {
         /*UC implemented
+        Name:       TargetPTCResult()
+        Identifier UC 104
+        Preconditions()
+        1.	An eligible IFT fire solution has produced a result
+        Basic Course
+        1.	Use case begins when PTC result is obtained on the IFT
+        2.	Determine ML, ldr drm, other TC drm
+        3:          .Dice Roll & Snipercheck
+        4.	Determine Result ( pass, fail)
+        6.	If Passes then no effect
+           	unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
+        7.	If Pins then Target Pins [UC206-TargetPins]
+           	unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
 
-                    Name:       TargetPTCResult()
+        Alternate Course A: UC208-TargetDMs
+        Condition:  Target is Broken
 
-                    Identifier UC 104
+        Inheritance:
+        Condition:
 
-                                Preconditions()
-                    1.	An eligible IFT fire solution has produced a result
-
-                                Basic Course
-                    1.	Use case begins when PTC result is obtained on the IFT
-                    2.	Determine ML, ldr drm, other TC drm
-                    3:          .Dice Roll & Snipercheck
-                    4.	Determine Result ( pass, fail)
-                    5.
-                    6.	If Passes then no effect
-                    	unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
-                    7.	If Pins then Target Pins [UC206-TargetPins]
-                    	unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
-
-                    Alternate Course A: UC208-TargetDMs
-                    Condition:  Target is Broken
-
-                    Inheritance:
-                    Condition:
-
-                    Post conditions (List the state(s) the system can be in when this use case ends)
-                    1.*/
+        */
 
         myCombatResultsString += myName + " is not subject to PTC: ";
         myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;

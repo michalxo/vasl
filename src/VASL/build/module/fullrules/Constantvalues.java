@@ -95,7 +95,7 @@ public class Constantvalues {
         RevealAllDummy, HeroicLdrCreation, HeroicLdrHardens, ReducesDMs}
     public enum HOBResult{Hardens, HeroCreation, HardensAndHero, Berserk, Surrenders}
     public enum VClass {None}
-    public enum UnitCommandtype {baseunit, fireunit, moveunit, targunit}
+    public enum UnitCommandtype {baseunit, fireunit, moveunit, targunit, basesw, firesw}
 
 }
 

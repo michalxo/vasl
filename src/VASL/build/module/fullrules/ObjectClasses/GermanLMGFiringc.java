@@ -302,9 +302,9 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
                 break;
             }
         }
-        // handle counter action here
-        CounterActions counteractions = new CounterActions();
-        counteractions.placefirecounter(mySW);
+        // handle counter action here - no, handle in command
+        //CounterActions counteractions = new CounterActions();
+        //counteractions.placefirecounter(mySW);
     }
 
     public Constantvalues.Utype getUseHeroOrLeader() {return null;} // NEED TO CODE

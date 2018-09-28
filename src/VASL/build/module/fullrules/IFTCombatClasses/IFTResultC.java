@@ -133,7 +133,7 @@ public class IFTResultC implements IFTResulti {
             }
             FDR = DR.getColored() + DR.getWhite() + SameTarget.get(0).getTargetunit().getAttackedbydrm();
             //test code
-            //FDR=7;
+            //FDR=2;
             if (FDR > 15) {
                 IFTTableResult = Constantvalues.IFTResult.NR;
             } else {
@@ -164,8 +164,7 @@ public class IFTResultC implements IFTResulti {
         for (PersUniti Targtest: TargGroup) {
             FDR = DR.getColored() + DR.getWhite() + Targtest.getTargetunit().getAttackedbydrm();
             // report combat result
-            //FDR=9;
-            String MSG =  "FDR = " + Integer.toString(FDR) + ", ";
+            String MSG =  " IFT FDR = " + Integer.toString(FDR) + ", ";
             CombatUtil CombatInfo = new CombatUtil();
             MSG += "result is " + CombatInfo.IFTResultstring(Targtest.getTargetunit().getIFTResult()) + ": ";
             Targtest.getTargetunit().setCombatResultsString(MSG);

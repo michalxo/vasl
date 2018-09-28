@@ -67,7 +67,7 @@ public class UnitHardensc  implements  StatusChangei {
         if (TargParent.getTargetunit() != null) {
                 // NewUnit = UseObjectFactory.CreateTargetUnitandProperty(NewUnit)
                 // TargetPersUnit already created by UnitUpdateNewWithOldc
-           TargParent.getTargetunit().setCombatResultsString(TargParent.getbaseunit().getUnitName() + ": " + TargParent.getTargetunit().getCombatResultsString() + "HOB: Hardens to " + NewUnit.getbaseunit().getUnitName());
+            NewUnit.getTargetunit().setCombatResultsString(": " + TargParent.getTargetunit().getCombatResultsString()  + " HOB: Hardens to " + NewUnit.getbaseunit().getUnitName());
         }
 
         // change values for former unit

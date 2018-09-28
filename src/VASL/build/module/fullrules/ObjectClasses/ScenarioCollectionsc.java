@@ -3,6 +3,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.Unpossessed;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
+import VASL.build.module.fullrules.ObjectFactoryClasses.SWCreation;
 import VASL.build.module.fullrules.UtilityClasses.*;
 import VASSAL.command.Command;
 import VASSAL.counters.GamePiece;
@@ -2657,7 +2658,7 @@ public class ScenarioCollectionsc {
 
     public void ProcessFireUnitUpdate(UpdateFireunitiCommand PassCommand){
 
-         ConversionC confrom = new ConversionC();
+        ConversionC confrom = new ConversionC();
         int UpdateUnitID = PassCommand.myOBLink;
         PersUniti BaseUnit = FindInCollection (UpdateUnitID);
         if (BaseUnit != null){
@@ -2686,14 +2687,6 @@ public class ScenarioCollectionsc {
             CounterActions counteractions = new CounterActions();
             counteractions.placefirecounter(BaseUnit);
 
-            /*CommonFunctionsC ToDO = new CommonFunctionsC(BaseUnit.getbaseunit().getScenario());
-            GamePiece ToBreak = ToDO.GetGamePieceFromID(BaseUnit.getbaseunit().getUnit_ID());
-            if (ToBreak != null) {
-                if (UpdateFirer.getPersUnitImpact() == Constantvalues.PersUnitResult.Breaks) {
-                    // flip counter and add DM
-                    ToBreak.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
-                }
-            }*/
         }
     }
 
@@ -2761,6 +2754,90 @@ public class ScenarioCollectionsc {
         for (PersUniti FindBaseUnit: Unitcol) {
             if (FindBaseUnit.getbaseunit().getUnitName().equals(UpdateUnitName)) {
                 return FindBaseUnit;
+            }
+        }
+        return null;
+    }
+    public void ProcessFireSwUpdate(UpdateFireSWiCommand PassCommand){
+
+        ConversionC confrom = new ConversionC();
+        int UpdateSWID = PassCommand.mySWID;
+        SuppWeapi swtoupdate = FindSWInCollection (UpdateSWID);
+        if (swtoupdate != null){
+            FiringSuppWeapi UpdateSWFirer = swtoupdate.getFiringSW();
+            if (UpdateSWFirer != null) {
+                // firer unit already exists
+            } else {
+                // create Firerpersuniti property
+                SWCreation ObjCreate = new SWCreation();
+                swtoupdate = ObjCreate.CreatefiringSwandProperty(swtoupdate);
+                UpdateSWFirer = swtoupdate.getFiringSW();
+                //UpdateSWFirer.set(PassCommand.myUseHeroOrLeader););
+
+                // does this do everything necessary? May need to add more properties
+            }
+            UpdateSWFirer.setCombatStatus(confrom.ConverttoCombatStatus(PassCommand.myCombatStatus));
+            swtoupdate.getbaseSW().setCombatStatus(confrom.ConverttoCombatStatus(PassCommand.myCombatStatus));
+
+            CounterActions counteractions = new CounterActions();
+            counteractions.placefirecounter(swtoupdate);
+
+        }
+    }
+    public void ProcessBaseSWUpdate(UpdateBaseSWiCommand PassCommand){
+
+        ConversionC confrom = new ConversionC();
+        int UpdateSWID = PassCommand.myUnit_ID;
+        SuppWeapi swtoupdate = FindSWInCollection (UpdateSWID);
+        if (swtoupdate != null){
+            BaseSuppWeapc UpdateBaseSW = swtoupdate.getbaseSW(); // BaseSuppWeapc MUST always exist
+
+             // does this update all the necessary properties?
+
+            //UpdateBaseSW.sethexlocation();
+            //myScenario = PassObject.getbaseSW().getScenario();
+            //myHexName = PassObject.getbaseSW().getHex().getName();
+            //Constantvalues.Location locvalue = confrom.ConverttoLocationtypefromVASLLocation(PassObject.getbaseSW().gethexlocation());
+            //myhexlocation = confrom.ConvertLocationTypetoint(locvalue);
+            //myhexPosition = confrom.ConvertAltPosTypetoInt(PassObject.getbaseSW().gethexPosition());
+            //myLevelinHex = PassObject.getbaseSW().getLevelinHex();
+            //myCX = PassObject.getbaseSW().getCX();
+            //myTurnArrives = PassObject.getbaseSW().getTurnArrives();
+            //myNationality = confrom.ConvertNationalitytoInt(PassObject.getbaseSW().getNationality());
+            //myCon_ID = PassObject.getbaseSW().getCon_ID();
+            //myUnit_ID = PassObject.getbaseSW().getSW_ID();
+            //myTypeType_ID = confrom.ConvertTypetypetoint(PassObject.getbaseSW().getType_ID());
+            //myHexEntSideCrossed = PassObject.getbaseSW().getHexEntSideCrossed();
+            //mySolID = PassObject.getbaseSW().getSolID();
+            //myUnitName = PassObject.getbaseSW().getUnitName();
+            //myLOBLink = PassObject.getbaseSW().getLOBLink();
+            UpdateBaseSW.setMovementStatus((confrom.ConverttoMovementStatus(PassCommand.myMovementStatus)));
+            UpdateBaseSW.setFortitudeStatus((confrom.ConverttoFortitudeStatus(PassCommand.myFortitudeStatus)));
+            UpdateBaseSW.setSWStatus((confrom.ConverttoSWStatus(PassCommand.mySWStatus)));
+            UpdateBaseSW.setVisibilityStatus((confrom.ConverttoVisibilityStatus(PassCommand.myVisibilityStatus)));
+            UpdateBaseSW.setPinned(confrom.ConverttoBoolean(PassCommand.myPinned));
+            UpdateBaseSW.setPP(PassCommand.myPP);
+            UpdateBaseSW.setCharacterStatus((confrom.ConverttoCharacterStatus(PassCommand.myCharacterStatus)));
+            //myRepair = PassObject.getbaseSW().getRepair();
+            UpdateBaseSW.setDisPP(PassCommand.myDisPP);
+            UpdateBaseSW.setCaptured(confrom.ConverttoBoolean(PassCommand.myCaptured));
+            UpdateBaseSW.setOwner(PassCommand.myOwner);
+            //myIsDC = PassObject.getbaseSW().IsDC();
+            //myIsFT = PassObject.getbaseSW().IsFT();
+            //myIsMG = PassObject.getbaseSW().IsMG();
+
+            UpdateBaseSW.setCombatStatus(confrom.ConverttoCombatStatus(PassCommand.myCombatStatus));
+            swtoupdate.getbaseSW().setCombatStatus(confrom.ConverttoCombatStatus(PassCommand.myCombatStatus));
+
+            //CounterActions counteractions = new CounterActions();
+            //counteractions.placefirecounter(swtoupdate);
+
+        }
+    }
+    private SuppWeapi FindSWInCollection (int UpdateSWID){
+        for (SuppWeapi FindSW: SWCol) {
+            if (FindSW.getbaseSW().getSW_ID() == UpdateSWID && FindSW.getbaseSW().getSWStatus() != Constantvalues.SWStatus.Eliminated) {
+                return FindSW;
             }
         }
         return null;

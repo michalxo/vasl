@@ -5,7 +5,9 @@ import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import VASL.build.module.fullrules.UtilityClasses.CounterActions;
 import VASSAL.build.GameModule;
+import VASSAL.counters.GamePiece;
 
 import java.util.LinkedList;
 
@@ -81,6 +83,11 @@ public class UnitWoundsc implements StatusChangei{
             int WoundsTo = 1101; // 138 hero
             PersCreation UseObjectFactory = new PersCreation();
             PersUniti NewUnit = UseObjectFactory.CreateNewInstance(WoundsTo, TargParent.getbaseunit().getUnitName(), TargParent);
+            NewUnit.getbaseunit().setUnitName(TargParent.getbaseunit().getUnitName() + "(wnd)");
+            // add new unit to Unitcol collection
+            Scencolls.Unitcol.add(NewUnit);
+            // update ID value of counter to match new unit
+            setcounterID(NewUnit.getbaseunit().getUnit_ID(), TargParent);
             // update new unit with values of previous unit - Do we need all of this
             UnitUpdateNewOldc UnitUpdateNewWithOld = new UnitUpdateNewOldc(NewUnit, TargParent);
             if (TargParent.getTargetunit() != null) {
@@ -103,15 +110,14 @@ public class UnitWoundsc implements StatusChangei{
             TargParent.getbaseunit().setFirstSWLink(0);
             TargParent.getbaseunit().setSecondSWLink(0);
             TargParent.getbaseunit().setnumSW(0);
-            TargParent.getbaseunit().setUnitName(TargParent.getbaseunit().getUnitName() + "(wnd)");
+            TargParent.getbaseunit().setUnitName(TargParent.getbaseunit().getUnitName());
             TargParent.getTargetunit().UpdateTargetStatus(TargParent);
 
             // remove old unit from moving list TOO EARLY - DO THIS LATER
             if (TargParent.getMovingunit() != null) {Scencolls.SelMoveUnits.remove(TargParent);}
-            // add new unit to Unitcol collection
-            Scencolls.Unitcol.add(NewUnit);
+
             // need to run again for SMC as not caught by previous
-            NewUnit.getTargetunit().UpdateTargetStatus(NewUnit);
+            //NewUnit.getTargetunit().UpdateTargetStatus(NewUnit);
             // Store values to update FireGroup and TargetGroup (maybe add movement?)
             if (NewUnit.getTargetunit() != null) {myNewTargs.add(NewUnit);}
             if (NewUnit.getFiringunit() != null) {myNewFiring.add(NewUnit);}
@@ -130,9 +136,15 @@ public class UnitWoundsc implements StatusChangei{
     public LinkedList<PersUniti> getNewTargs() {return myNewTargs;}
     public LinkedList<PersUniti> getNewFirings () {return myNewFiring;}
 
-    /*public ReadOnly Property NewPopupitems As List(Of ObjectClassLibrary.ASLXNA.MenuItemObjectholderinteface) Implements StatusChangei.NewPopupitems
-            Get
+    // move this out to a common function as it will be the same in all classes
+    private void setcounterID(int newunitID, PersUniti FormerUnit){
+        CommonFunctionsC ToDO = new CommonFunctionsC(FormerUnit.getbaseunit().getScenario());
+        GamePiece CounterToUse = ToDO.GetGamePieceFromID(FormerUnit.getbaseunit().getUnit_ID());
 
-    End Get
-    End Property*/
+        if (CounterToUse != null) {
+            // trigger counter action
+            CounterActions counteractions = new CounterActions();
+            counteractions.updatecounterID(newunitID, FormerUnit);
+        }
+    }
 }

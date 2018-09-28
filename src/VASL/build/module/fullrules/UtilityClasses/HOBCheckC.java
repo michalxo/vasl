@@ -14,7 +14,7 @@ public class HOBCheckC {
         int HOBODR = Dice.Diceroll();
         int FinalHOBDR = HOBODR + HOBdrm;
         // test code
-        FinalHOBDR =3;
+        FinalHOBDR =7;
         if (FinalHOBDR == 5 || FinalHOBDR == 6) {
             return Constantvalues.HOBResult.HardensAndHero;
         } else if (FinalHOBDR < 5) {

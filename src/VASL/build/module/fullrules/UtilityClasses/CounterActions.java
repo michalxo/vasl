@@ -115,7 +115,15 @@ public class CounterActions {
         } else if(actiontotake == Constantvalues.PersUnitResult.Reduces){
             // reduce unit counter
             usecounter.keyEvent(KeyStroke.getKeyStroke('V', java.awt.event.InputEvent.CTRL_MASK));
-
+        } else if(actiontotake == Constantvalues.PersUnitResult.Hardens){
+            // harden unit counter
+            usecounter.keyEvent(KeyStroke.getKeyStroke('Q', java.awt.event.InputEvent.CTRL_MASK));
+        } else if(actiontotake == Constantvalues.PersUnitResult.Berserks){
+            // berserk unit counter
+            usecounter.keyEvent(KeyStroke.getKeyStroke('R', java.awt.event.InputEvent.CTRL_MASK));
+        } else if(actiontotake == Constantvalues.PersUnitResult.Fanatics){
+            // harden unit counter
+            usecounter.keyEvent(KeyStroke.getKeyStroke('T', java.awt.event.InputEvent.CTRL_MASK));
             // need to add
         } else if(actiontotake == Constantvalues.PersUnitResult.Disrupts){
             // disrupt unit counter

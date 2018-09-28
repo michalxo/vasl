@@ -3,10 +3,15 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.DataClasses.OrderofBattle;
+import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.DataClasses.SupportWeapon;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import VASL.build.module.fullrules.UtilityClasses.ManageUpdateSWCommand;
+import VASL.build.module.fullrules.UtilityClasses.ManageUpdateUnitCommand;
 import VASSAL.build.GameModule;
+import VASSAL.command.Command;
 
 public class BaseSuppWeapc {
     private int myScenario;
@@ -236,5 +241,26 @@ public class BaseSuppWeapc {
                 myIsDC=false;
                 break;
         }
+    }
+    public boolean UpdateSWStatus(SuppWeapi PassSW) {
+        // as part of BaseSuppWeapc this will be common across all SW
+        // get SupportWeapon that matches the SuppWeapi
+        ManageUpdateSWCommand manageupdateswcommand = new ManageUpdateSWCommand();
+        Command newcommand = manageupdateswcommand.CreateCommand(PassSW, Constantvalues.UnitCommandtype.basesw);
+        manageupdateswcommand.ProcessCommand(newcommand);
+
+        // this may no longer be needed as above may handle for both local and remote
+        CommonFunctionsC comfun = new CommonFunctionsC(PassSW.getbaseSW().getScenario());
+        OrderofBattleSW UpdateUnit = comfun.getUnderlyingOBSWunitforSuppWeapi(PassSW.getbaseSW().getSW_ID(),  PassSW.getbaseSW().getUnitName());
+
+        if (UpdateUnit != null) {
+            UpdateUnit.setOwner(PassSW.getbaseSW().getOwner());
+            UpdateUnit.setCaptured(PassSW.getbaseSW().myCaptured);
+            UpdateUnit.setCombatStatus(PassSW.getbaseSW().getCombatStatus());
+            UpdateUnit.setStatus(PassSW.getbaseSW().getSWStatus());
+            UpdateUnit.setVisibilityStatus(PassSW.getbaseSW().getVisibilityStatus());
+            return true;
+        }
+        return false;
     }
 }
