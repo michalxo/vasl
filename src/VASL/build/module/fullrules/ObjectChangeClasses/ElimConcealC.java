@@ -5,7 +5,7 @@ import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 
-public class ElimConcealC implements VisibilityChangei {
+public class   ElimConcealC implements VisibilityChangei {
     //'Private MovUnitCon As DataClassLibrary.Concealment
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private int pConToRemove;

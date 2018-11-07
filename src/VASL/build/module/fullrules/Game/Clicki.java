@@ -29,7 +29,7 @@ public interface Clicki {
     Dim OH As VisibleOccupiedhexes
     OH = CType(Game.Scenario.HexesWithCounter(Hexnumber), VisibleOccupiedhexes)
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 1 Then
                 'only one location so select everything in hex
@@ -64,7 +64,7 @@ public interface Clicki {
     Dim OH As VisibleOccupiedhexes
     OH = CType(Game.Scenario.HexesWithCounter(Hexnumber), VisibleOccupiedhexes)
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 1 Then
                 'only one location so select everything in hex
@@ -102,7 +102,7 @@ public interface Clicki {
     Dim OH As VisibleOccupiedhexes
     OH = CType(Game.Scenario.HexesWithCounter(Hexnumber), VisibleOccupiedhexes)
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 1 Then
                 'only one location so select everything in hex
@@ -142,7 +142,7 @@ public interface Clicki {
     Dim OH As VisibleOccupiedhexes
     OH = CType(Game.Scenario.HexesWithCounter(Hexnumber), VisibleOccupiedhexes)
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 1 Then
                 'only one location so select everything in hex
@@ -178,7 +178,7 @@ public interface Clicki {
     Dim OH As VisibleOccupiedhexes
     OH = CType(Game.Scenario.HexesWithCounter(Hexnumber), VisibleOccupiedhexes)
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 1 Then
                 'only one location so select everything in hex
@@ -213,7 +213,7 @@ public interface Clicki {
     Dim OH As VisibleOccupiedhexes
     OH = CType(Game.Scenario.HexesWithCounter(Hexnumber), VisibleOccupiedhexes)
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 1 Then
                 'only one location so select everything in hex
@@ -249,7 +249,7 @@ public interface Clicki {
     Dim OH As VisibleOccupiedhexes
     OH = CType(Game.Scenario.HexesWithCounter(Hexnumber), VisibleOccupiedhexes)
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 1 Then
                 'only one location so select everything in hex
@@ -285,7 +285,7 @@ public interface Clicki {
     Dim OH As VisibleOccupiedhexes
     OH = CType(Game.Scenario.HexesWithCounter(Hexnumber), VisibleOccupiedhexes)
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 1 Then
                 'only one location so select everything in hex
@@ -321,7 +321,7 @@ public interface Clicki {
     Dim OH As VisibleOccupiedhexes
     OH = CType(Game.Scenario.HexesWithCounter(Hexnumber), VisibleOccupiedhexes)
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 1 Then
                 'only one location so select everything in hex
@@ -1400,7 +1400,7 @@ public interface Clicki {
     Showpoint = MapGeo.SetPoint(Hexnumber)
 
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 0 Then
                 'only one location so show everything in hex
@@ -1438,7 +1438,7 @@ public interface Clicki {
     Showpoint = MapGeo.SetPoint(Hexnumber)
 
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 0 Then
                 'only one location so show everything in hex
@@ -1476,7 +1476,7 @@ public interface Clicki {
     Showpoint = MapGeo.SetPoint(Hexnumber)
 
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 0 Then
                 'only one location so show everything in hex
@@ -1514,7 +1514,7 @@ public interface Clicki {
     Showpoint = MapGeo.SetPoint(Hexnumber)
 
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 0 Then
                 'only one location so show everything in hex
@@ -1553,7 +1553,7 @@ public interface Clicki {
     Showpoint = MapGeo.SetPoint(Hexnumber)
 
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 0 Then
                 'only one location so show everything in hex
@@ -1591,7 +1591,7 @@ public interface Clicki {
     Showpoint = MapGeo.SetPoint(Hexnumber)
 
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 0 Then
                 'only one location so show everything in hex
@@ -1629,7 +1629,7 @@ public interface Clicki {
     Showpoint = MapGeo.SetPoint(Hexnumber)
 
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 0 Then
                 'only one location so show everything in hex
@@ -1667,7 +1667,7 @@ public interface Clicki {
     Showpoint = MapGeo.SetPoint(Hexnumber)
 
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 0 Then
                 'only one location so show everything in hex
@@ -1705,7 +1705,7 @@ public interface Clicki {
     Showpoint = MapGeo.SetPoint(Hexnumber)
 
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 0 Then
                 'only one location so show everything in hex
@@ -1743,7 +1743,7 @@ public interface Clicki {
     Showpoint = MapGeo.SetPoint(Hexnumber)
 
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    Dim hexlocationsvalue As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     Dim hexlocationslist As New List(Of MapDataClassLibrary.GameLocation)
     If hexlocationsvalue.Count = 0 Then
                 'only one location so show everything in hex
@@ -2323,7 +2323,7 @@ public interface Clicki {
     Dim LevelinHex As Integer = 0
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim LocsToTest As IQueryable(Of MapDataClassLibrary.GameLocation) : Dim PassTestLOSIndex As Single = 0
-    LocsToTest = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    LocsToTest = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     If LocsToTest.Count > 1 Then
             LevelinHex = CInt(InputBox("Enter Level to Test:", "Setting Up LOS Check"))
     End If
@@ -2343,7 +2343,7 @@ public interface Clicki {
     Dim LevelinHex As Integer = 0
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim LocsToTest As IQueryable(Of MapDataClassLibrary.GameLocation) : Dim PassTestLOSIndex As Single = 0
-    LocsToTest = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    LocsToTest = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     If LocsToTest.Count > 1 Then
             LevelinHex = CInt(InputBox("Enter Level to Test:", "Setting Up LOS Check"))
     End If
@@ -2363,7 +2363,7 @@ public interface Clicki {
     Dim LevelinHex As Integer = 0
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim LocsToTest As IQueryable(Of MapDataClassLibrary.GameLocation) : Dim PassTestLOSIndex As Single = 0
-    LocsToTest = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    LocsToTest = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     If LocsToTest.Count > 1 Then
             LevelinHex = CInt(InputBox("Enter Level to Test:", "Setting Up LOS Check"))
     End If
@@ -2382,7 +2382,7 @@ public interface Clicki {
     Dim LevelinHex As Integer = 0
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim LocsToTest As IQueryable(Of MapDataClassLibrary.GameLocation) : Dim PassTestLOSIndex As Single = 0
-    LocsToTest = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    LocsToTest = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     If LocsToTest.Count > 1 Then
             LevelinHex = CInt(InputBox("Enter Level to Test:", "Setting Up LOS Check"))
     End If
@@ -2402,7 +2402,7 @@ public interface Clicki {
     Dim LevelinHex As Integer = 0
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim LocsToTest As IQueryable(Of MapDataClassLibrary.GameLocation) : Dim PassTestLOSIndex As Single = 0
-    LocsToTest = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    LocsToTest = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     If LocsToTest.Count > 1 Then
             LevelinHex = CInt(InputBox("Enter Level to Test:", "Setting Up LOS Check"))
     End If
@@ -2422,7 +2422,7 @@ public interface Clicki {
     Dim LevelinHex As Integer = 0
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim LocsToTest As IQueryable(Of MapDataClassLibrary.GameLocation) : Dim PassTestLOSIndex As Single = 0
-    LocsToTest = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    LocsToTest = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     If LocsToTest.Count > 1 Then
             LevelinHex = CInt(InputBox("Enter Level to Test:", "Setting Up LOS Check"))
     End If
@@ -2442,7 +2442,7 @@ public interface Clicki {
     Dim LevelinHex As Integer = 0
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim LocsToTest As IQueryable(Of MapDataClassLibrary.GameLocation) : Dim PassTestLOSIndex As Single = 0
-    LocsToTest = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    LocsToTest = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     If LocsToTest.Count > 1 Then
             LevelinHex = CInt(InputBox("Enter Level to Test:", "Setting Up LOS Check"))
     End If
@@ -2462,7 +2462,7 @@ public interface Clicki {
     Dim LevelinHex As Integer = 0
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim LocsToTest As IQueryable(Of MapDataClassLibrary.GameLocation) : Dim PassTestLOSIndex As Single = 0
-    LocsToTest = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    LocsToTest = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     If LocsToTest.Count > 1 Then
             LevelinHex = CInt(InputBox("Enter Level to Test:", "Setting Up LOS Check"))
     End If
@@ -2482,7 +2482,7 @@ public interface Clicki {
     Dim LevelinHex As Integer = 0
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim LocsToTest As IQueryable(Of MapDataClassLibrary.GameLocation) : Dim PassTestLOSIndex As Single = 0
-    LocsToTest = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    LocsToTest = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     If LocsToTest.Count > 1 Then
             LevelinHex = CInt(InputBox("Enter Level to Test:", "Setting Up LOS Check"))
     End If
@@ -2502,7 +2502,7 @@ public interface Clicki {
     Dim LevelinHex As Integer = 0
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim LocsToTest As IQueryable(Of MapDataClassLibrary.GameLocation) : Dim PassTestLOSIndex As Single = 0
-    LocsToTest = Getlocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+    LocsToTest = Getlocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
     If LocsToTest.Count > 1 Then
             LevelinHex = CInt(InputBox("Enter Level to Test:", "Setting Up LOS Check"))
     End If

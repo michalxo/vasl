@@ -133,7 +133,7 @@ public class IFTResultC implements IFTResulti {
             }
             FDR = DR.getColored() + DR.getWhite() + SameTarget.get(0).getTargetunit().getAttackedbydrm();
             //test code
-            //FDR=2;
+            FDR=10;
             if (FDR > 15) {
                 IFTTableResult = Constantvalues.IFTResult.NR;
             } else {
@@ -352,7 +352,7 @@ public class IFTResultC implements IFTResulti {
                             }
                         }
                         for (PersUniti RevealUnit : Revealedlist) {
-                            VisibilityChangei UnittoChange = new RevealUnitC(RevealUnit.getbaseunit().getUnit_ID());
+                            VisibilityChangei UnittoChange = new RevealUnitC(RevealUnit);
                             int RevealID = CheckItem.getbaseunit().getCon_ID();
                             // must be set before Unit is revealed && Con_ID set to 0
                             if (UnittoChange.TakeAction()) { // this will add sprite

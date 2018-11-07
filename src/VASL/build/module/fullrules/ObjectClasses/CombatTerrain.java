@@ -2,10 +2,8 @@ package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.LOS.Map.*;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.IFTMods;
 import VASL.build.module.fullrules.DataClasses.Scenario;
-import VASL.build.module.fullrules.DataClasses.ScenarioTerrain;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.IFTCombatClasses.CombatCalcC;
 import VASL.build.module.fullrules.TerrainClasses.*;
@@ -187,7 +185,7 @@ public class CombatTerrain  extends BaseHex {
 
         // determine which hexside crossed (0-5)
         int  hexsidecrossedvalue= SharedhexsideAdjacentHexes(Firsthexname, lasthexname);
-        IsSide SideTest = new IsSide(prLocation);
+        IsSide SideTest = new IsSide();
         Terrain hexsideterrain = SideTest.GethexsideTerrain(hexsidecrossedvalue);
         ConversionC DoConversion = new ConversionC();
         Constantvalues.Hexside hexsidecrossedtype= DoConversion.ConverttoHexside(hexsideterrain);
@@ -257,7 +255,7 @@ public class CombatTerrain  extends BaseHex {
         // along with description
         // THIS NEEDS TO BE REWORKED AS MORE SCEN FEATURES GET MOVED INTO MAP TABLE (Smoke etc)
 
-        IsTerrain IsTerrChk = new IsTerrain(prLocation.getTerrain());
+        IsTerrain IsTerrChk = new IsTerrain();
         int TempScenFeatTEM = 0;  // temp variables used to store deta
         String TempFeatureName = "";
         boolean FirerHex = false;
@@ -301,7 +299,7 @@ public class CombatTerrain  extends BaseHex {
             }
             *//*'' check for Smoke
             ' Getlocs = New Terrainvalues.GetALocationFromMapTable(Game.Scenario.LocationCol)
-            ' LocToUse As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromMaptable(this.LocIndex)
+            ' LocToUse As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromHex(this.LocIndex)
             'if LocToUse.Smoke > 0 Then '
             Smoke in
             location
@@ -771,12 +769,12 @@ public class CombatTerrain  extends BaseHex {
         // Now deal with hex itself: position is more specfic so takes precedence over Location if >0
         if (TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WallAdv ||
                 TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WallAdv ||
+                TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus0 ||
                 TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus1 ||
                 TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus2 ||
                 TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus3 ||
                 TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus4 ||
-                TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus5 ||
-                TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus6) {
+                TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.WACrestStatus5) {
             if (losstatus.sourceHex != losstatus.targetHex) {
                 TargUsingWA = true;
                 if (hexsideterrain != null && hexsideterrain.isHexsideTerrain() ) {
@@ -793,12 +791,12 @@ public class CombatTerrain  extends BaseHex {
             }
         } else if (TargetUnit.getbaseunit().gethexPosition() != null && TargetUnit.getbaseunit().gethexPosition() != Constantvalues.AltPos.None) {
             // use position TEM
-            if (TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest1 ||
+            if (TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest0 ||
+                    TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest1 ||
                     TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest2 ||
                     TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest3 ||
                     TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest4 ||
-                    TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest5 ||
-                    TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest6) {
+                    TargetUnit.getbaseunit().gethexPosition() == Constantvalues.AltPos.ExitedCrest5) {
                 // if exitedcrest then use location TEM
                 targetvar.setTEMdrm(HexTEM);
             } else {
@@ -1123,7 +1121,7 @@ public class CombatTerrain  extends BaseHex {
                     int SpineSide = SharedhexsideAdjacentHexes(AltHextoCheck, this.getHexName());
                     IsSide IsSideCheck = new IsSide(prLocation);
                     //GetALocationFromMap Getlocs = new GetALocationFromMap(LocationCol);
-                    //GameLocation hexsidehex = Getlocs.RetrieveLocationfromMaptable(this.getLocIndex());
+                    //GameLocation hexsidehex = Getlocs.RetrieveLocationfromHex(this.getLocIndex());
                     ConversionC DoConversion = new ConversionC();
                     Constantvalues.Hexside hexsideterrain  = DoConversion.ConverttoHexside(IsSideCheck.GethexsideTerrain(SpineSide));
 
@@ -1284,7 +1282,7 @@ public class CombatTerrain  extends BaseHex {
         String VisLOSHName = ""; boolean AddSmoke = false; boolean SmokeLosCheck = false;
         // check for Smoke
         //' Getlocs = New Terrainvalues.GetALocationFromMapTable(LocationCol)
-        //        ' LocToUse As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromMaptable(ComTer.LocIndex)
+        //        ' LocToUse As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromHex(ComTer.LocIndex)
         double FirerLevel = SeeLevelinHex + NextComTer.getHexBaseLevel();
         double Targetlevel = SeenLevelinhex + NextComTer.getHexBaseLevel();
         if (NextComTer.getSmokeList().size() > 0) {  // Smoke in hex
@@ -1468,7 +1466,7 @@ public class CombatTerrain  extends BaseHex {
 
 
         LinkedList<SmokeHolder> Smokelist = new LinkedList<SmokeHolder>();
-        LinkedList<GameLocation> AllLOCs  = GetLocs.RetrieveLocationsfromMapTable(hexnum, "Hexnum");
+        LinkedList<GameLocation> AllLOCs  = GetLocs.RetrieveLocationsinHex(hexnum, "Hexnum");
         for (GameLocation LookforSmoke: AllLOCs) {
             // test for smoke, if found then set values and return
             if (LookforSmoke.getSmoke() != Constantvalues.VisHind.None) {

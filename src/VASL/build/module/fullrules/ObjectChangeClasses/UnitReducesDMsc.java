@@ -6,7 +6,7 @@ import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import javax.swing.*;
 import java.util.LinkedList;
 
-public class UnitReducesDMsc {
+public class UnitReducesDMsc implements StatusChangei {
     private LinkedList<PersUniti> myNewTargs = new LinkedList<PersUniti>();
     private LinkedList<PersUniti> myNewFiring = new LinkedList<PersUniti>();
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();

@@ -24,6 +24,7 @@ public class Terrain {
     private LOSCategories LOSCategory   = LOSCategories.OPEN;
     private int     TEM                 = 0;
     private int     LOSHind             = 0;
+    private double  MFCost              = 0;
 
     /**
      * The LOS categories
@@ -374,4 +375,6 @@ public class Terrain {
     public void setTEM(int value) {TEM = value;}
     public int getLOSHindDRM() {return LOSHind;}
     public void setLOSHind(int value) {LOSHind = value;}
+    public double getMF() {return MFCost;}
+    public void setMF(double value) {MFCost = value;}
 }

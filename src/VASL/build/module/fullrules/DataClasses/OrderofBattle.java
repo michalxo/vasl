@@ -159,8 +159,8 @@ public class  OrderofBattle {
     }
     public boolean HasWallAdvantage() {
         /*If Me.Position = ConstantClassLibrary.ASLXNA.AltPos.WallAdv
-        Or(Me.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And
-                Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then return True Else return False*/
+        Or(Me.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And
+                Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then return True Else return False*/
                 return false;
     }
     public boolean IsOccupyingFeature() {
@@ -186,9 +186,9 @@ public class  OrderofBattle {
     }
     public boolean IsInCrestStatus() {
         /*'determine if unit in crest
-        If(Me.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6)
+        If(Me.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5)
         Or
-                (Me.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6)
+                (Me.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5)
         Then return True Else return False*/
                 return false;
     }

@@ -1,60 +1,61 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationc;
+import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationi;
+import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 
 public class IsSide {
     // This class handles various methods to return value of boolean test accesssing one or more hexsides for specified location(s)
     Location pLocation;
 
-    public IsSide(Location PassLocation) {
-        pLocation = PassLocation;
+    public IsSide() {
+        //pLocation = PassLocation;
     }
 
-    public boolean IsARoad(int hexsidetouse, int LOCIndextouse) {
+    public boolean IsARoad(int hexsidetouse, Hex enteringhex) {
         // called by movement.Enternewhex.MoveAllOK
         // checks if side crossed is some kind of road hexside
 
-        /*'Create reference to required hexside attribute field
-        Dim Hexside As String = "Side" & hexsidetouse.ToString & "IsRoad"
-        'query using Dynamic Linq
-        Dim SideisRoad = MapData.Where("locindex=" & LOCIndextouse.ToString).Select(Hexside)
-        'SideisRoad is an Iqyuerable so need to select first instance
-        For Each RoadCheck As Boolean In SideisRoad
-        If RoadCheck Then Return True Else Return False
-        Next
-        End Function
-        Public Function IsADepression(ByVal hexsidetype As Integer) As Boolean
-        'called by movement.DetermineMenuItems
-        'checks if side is a depression, meaning crest status allowed
-        Select case hexsidetype
-        case ConstantClassLibrary.ASLXNA.Hexside.GullyUp,
-        ConstantClassLibrary.ASLXNA.Hexside.GullyDown, ConstantClassLibrary.ASLXNA.Hexside.GullyUpSlope, ConstantClassLibrary.ASLXNA.Hexside.GullyDownSlope,
-                ConstantClassLibrary.ASLXNA.Hexside.GullyUpWire, ConstantClassLibrary.ASLXNA.Hexside.GullyDownWire, ConstantClassLibrary.ASLXNA.Hexside.AttWoodsGullyUp, ConstantClassLibrary.ASLXNA.Hexside.AttWoodsGullyDown,
-                ConstantClassLibrary.ASLXNA.Hexside.AttPWdsGullyUp, ConstantClassLibrary.ASLXNA.Hexside.AttPWdsGullyDn, ConstantClassLibrary.ASLXNA.Hexside.GullyUpHedge, ConstantClassLibrary.ASLXNA.Hexside.GullyDownHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.GullyUpWall, ConstantClassLibrary.ASLXNA.Hexside.GullyDownWall, ConstantClassLibrary.ASLXNA.Hexside.GullyUpTrail, ConstantClassLibrary.ASLXNA.Hexside.GullyDownTrail,
-                ConstantClassLibrary.ASLXNA.Hexside.AttPwdsCrestUpGully, ConstantClassLibrary.ASLXNA.Hexside.AttPWdsCrestDnGully, ConstantClassLibrary.ASLXNA.Hexside.CrestUpGullyDown, ConstantClassLibrary.ASLXNA.Hexside.CrestDownGullyUp,
-                ConstantClassLibrary.ASLXNA.Hexside.AttPWdsCrestUpGullyDn, ConstantClassLibrary.ASLXNA.Hexside.AttPWdsCrestDnGullyUp, ConstantClassLibrary.ASLXNA.Hexside.GullyUpSlopeWire, ConstantClassLibrary.ASLXNA.Hexside.GullyDownSlopeWire,
-                ConstantClassLibrary.ASLXNA.Hexside.GullyUpUnPvRd, ConstantClassLibrary.ASLXNA.Hexside.GullyDnUnPvRd, ConstantClassLibrary.ASLXNA.Hexside.GullyUpSlopeHedge, ConstantClassLibrary.ASLXNA.Hexside.GullyDnSlopeHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.GullyUpGullyDown, ConstantClassLibrary.ASLXNA.Hexside.GullyUpGullyDownHedge, ConstantClassLibrary.ASLXNA.Hexside.CrestUpGullyHedge, ConstantClassLibrary.ASLXNA.Hexside.CrestDnGullyHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.GullyDnCLUpHedge, ConstantClassLibrary.ASLXNA.Hexside.GullyUpCLDnHedge, ConstantClassLibrary.ASLXNA.Hexside.CLUpGullySlopehedge, ConstantClassLibrary.ASLXNA.Hexside.CLDnGullySlopeHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.AttWdsCrestUpGullyDn, ConstantClassLibrary.ASLXNA.Hexside.AttWdsCrestDnGullyUp, ConstantClassLibrary.ASLXNA.Hexside.CrestUpGullyWire, ConstantClassLibrary.ASLXNA.Hexside.CrestDnGullyWire,
-                ConstantClassLibrary.ASLXNA.Hexside.AttWoodsCrestUpGully, ConstantClassLibrary.ASLXNA.Hexside.AttWoodsCrestDnGully, ConstantClassLibrary.ASLXNA.Hexside.CrestUpGully, ConstantClassLibrary.ASLXNA.Hexside.CrestDnGully
-        IsADepression = True
-        case Else
-        IsADepression = False
-        End Select*/
-        return false;
+        Terrain hexsideTerrain = enteringhex.getHexsideTerrain(hexsidetouse);
+        return hexsideTerrain.isRoad();
     }
 
+
+    public boolean IsADepression(Constantvalues.Hexside hexsidetype) {
+        //called by movement.DetermineMenuItems
+        // checks if side is a depression, meaning crest status allowed
+        switch (hexsidetype) {
+            case GullyUp: case GullyDown: case GullyUpSlope: case GullyDownSlope: case GullyUpWire: case GullyDownWire: case AttWoodsGullyUp: case AttWoodsGullyDown:
+            case AttPWdsGullyUp: case AttPWdsGullyDn: case GullyUpHedge: case GullyDownHedge: case GullyUpWall: case GullyDownWall: case GullyUpTrail: case GullyDownTrail:
+            case AttPwdsCrestUpGully: case AttPWdsCrestDnGully: case CrestUpGullyDown: case CrestDownGullyUp: case AttPWdsCrestUpGullyDn: case AttPWdsCrestDnGullyUp:
+            case GullyUpSlopeWire: case GullyDownSlopeWire: case GullyUpUnPvRd: case GullyDnUnPvRd: case GullyUpSlopeHedge: case GullyDnSlopeHedge: case GullyUpGullyDown:
+            case GullyUpGullyDownHedge: case CrestUpGullyHedge: case CrestDnGullyHedge: case GullyDnCLUpHedge: case GullyUpCLDnHedge: case CLUpGullySlopehedge: case CLDnGullySlopeHedge:
+            case AttWdsCrestUpGullyDn: case AttWdsCrestDnGullyUp: case CrestUpGullyWire: case CrestDnGullyWire: case AttWoodsCrestUpGully: case AttWoodsCrestDnGully:
+            case CrestUpGully: case CrestDnGully:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean IsATrenchside(Constantvalues.Hexside hexsidetype){
+        return (hexsidetype.equals(Constantvalues.Hexside.Trench) ||
+                hexsidetype.equals(Constantvalues.Hexside.TrenchCrestDown) ||
+                hexsidetype.equals(Constantvalues.Hexside.TrenchCrestUp) ||
+                hexsidetype.equals(Constantvalues.Hexside.TrenchHedge) ||
+                hexsidetype.equals(Constantvalues.Hexside.TrenchWall));
+    }
     public boolean IsACliff(int hexsidetype) {
         // called by Terractions.AllADJACENTLocations
 
         /*Select case hexsidetype
-        case ConstantClassLibrary.ASLXNA.Hexside.Cliff,ConstantClassLibrary.ASLXNA.Hexside.CliffDoubleDownHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.CliffDoubleUPHedge, ConstantClassLibrary.ASLXNA.Hexside.CliffDownHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.CliffUpHedge
+        case Cliff,CliffDoubleDownHedge,
+                CliffDoubleUPHedge, CliffDownHedge,
+                CliffUpHedge
         Return True
         case Else
         Return False
@@ -66,10 +67,10 @@ public class IsSide {
         //'called by movement.DetermineMenuItems
         //        'checks if side is a gully or stream side, meaning creststatus NA
         /*Select case hexsidetype
-        case ConstantClassLibrary.ASLXNA.Hexside.Gully,
-        ConstantClassLibrary.ASLXNA.Hexside.CrestUpStream, ConstantClassLibrary.ASLXNA.Hexside.CrestDownStream,
-                ConstantClassLibrary.ASLXNA.Hexside.AttWdsCrestDnStream, ConstantClassLibrary.ASLXNA.Hexside.AttWdsCrestUpStream,
-                ConstantClassLibrary.ASLXNA.Hexside.Stream, ConstantClassLibrary.ASLXNA.Hexside.WoodsStream, ConstantClassLibrary.ASLXNA.Hexside.River, ConstantClassLibrary.ASLXNA.Hexside.PineWStream
+        case Gully,
+        CrestUpStream, CrestDownStream,
+                AttWdsCrestDnStream, AttWdsCrestUpStream,
+                Stream, WoodsStream, River, PineWStream
         Return True
         case Else
         Return False
@@ -77,24 +78,15 @@ public class IsSide {
         return false;
     }
 
-    public boolean IsACrossableBuilding(int hexsidetype) {
-
-            //'called by UpperLevelLegalC.IsMovementLegal, EnterNewHex.enteringlocation
-
-    /*Select case hexsidetype
-    case ConstantClassLibrary.ASLXNA.Hexside.AttachedBldg,ConstantClassLibrary.ASLXNA.Hexside.IntFactside
-    Return True
-    case Else
-    Return False
-    End Select*/
-    return false;
+    public boolean IsACrossableBuilding(Constantvalues.Hexside hexsidetype) {
+        return(hexsidetype.equals(Constantvalues.Hexside.AttachedBldg));
     }
     public boolean IsABuilding(int hexsidetype) {
         //'called by MapActions.HexbyhexMoveAlongOK
 
         /*Select case hexsidetype
-        case ConstantClassLibrary.ASLXNA.Hexside.AttachedBldg,
-        ConstantClassLibrary.ASLXNA.Hexside.IntFactside, ConstantClassLibrary.ASLXNA.Hexside.Rowhouseside, ConstantClassLibrary.ASLXNA.Hexside.IntBldgWall
+        case AttachedBldg,
+        IntFactside, Rowhouseside, IntBldgWall
         Return True
         case Else
         Return False
@@ -116,7 +108,7 @@ public class IsSide {
             '    '        Hexside.HedgeUnpavedRoad To Hexside.CLDownHedge, Hexside.CLUpWallSlope To Hexside.CLDnWallSlopePO,
             '    '        Hexside.CLDnHedgeSlope, Hexside.CLUpHedgeSlope, Hexside.Roadblock To Hexside.HedgePO, Hexside.Bocage,
             '    '        Hexside.CLupdblhedge, Hexside.CLDowndblHedge, Hexside.CliffDownHedge, Hexside.CliffUpHedge,
-            '    '        Hexside.CliffDoubleUPHedge, Hexside.CliffDoubleDownHedge, Hexside.Roadblock1 To Hexside.Roadblock6,
+            '    '        Hexside.CliffDoubleUPHedge, Hexside.CliffDoubleDownHedge, Hexside.Roadblock0 To Hexside.Roadblock6,
             '    '        Hexside.crestdndblslopehedge, Hexside.crestupdblslopehedge, Hexside.CLDownDblslopehedge, Hexside.CLUpDblSlopehedge
         '    '        Return True
         '    '    case Else
@@ -127,15 +119,15 @@ public class IsSide {
         // called by
         // checks if side crossed is some kind of wall Hedge, rdblk
 
-        if (hexsidetype == Constantvalues.Hexside.Hedge ||
+        return (hexsidetype == Constantvalues.Hexside.Hedge ||
                 hexsidetype == Constantvalues.Hexside.HedgePO ||
                 hexsidetype == Constantvalues.Hexside.HedgeUnpavedRoad ||
                 hexsidetype == Constantvalues.Hexside.Roadblock ||
+                hexsidetype == Constantvalues.Hexside.Roadblock0 ||
                 hexsidetype == Constantvalues.Hexside.Roadblock1 ||
                 hexsidetype == Constantvalues.Hexside.Roadblock2 ||
                 hexsidetype == Constantvalues.Hexside.Roadblock3 ||
                 hexsidetype == Constantvalues.Hexside.Roadblock4 ||
-                hexsidetype == Constantvalues.Hexside.Roadblock5 ||
                 hexsidetype == Constantvalues.Hexside.Roadblock6 ||
                 hexsidetype == Constantvalues.Hexside.Wall ||
                 hexsidetype == Constantvalues.Hexside.WallPO ||
@@ -153,167 +145,120 @@ public class IsSide {
                 hexsidetype == Constantvalues.Hexside.SlopeDownWall ||
                 hexsidetype == Constantvalues.Hexside.SlopeUpWall ||
                 hexsidetype == Constantvalues.Hexside.CLUpWallSlope ||
-                hexsidetype == Constantvalues.Hexside.CLUpWallSlopePO
-            ) {
-            return true;
-        } else {
-            return false;
+                hexsidetype == Constantvalues.Hexside.CLUpWallSlopePO);
+
+    }
+    public boolean IsARdBlk(Constantvalues.Hexside hexsidetype) {
+        // called by
+        // checks if side crossed is some kind of wall Hedge, rdblk
+
+        return (hexsidetype == Constantvalues.Hexside.Roadblock ||
+                hexsidetype == Constantvalues.Hexside.Roadblock0 ||
+                hexsidetype == Constantvalues.Hexside.Roadblock1 ||
+                hexsidetype == Constantvalues.Hexside.Roadblock2 ||
+                hexsidetype == Constantvalues.Hexside.Roadblock3 ||
+                hexsidetype == Constantvalues.Hexside.Roadblock4 ||
+                hexsidetype == Constantvalues.Hexside.Roadblock6 );
+
+    }
+    public boolean IsWAAllowed(Hex newhex, int hexsidetouse, Hex Otherhex) {
+        //called by ContextMenu.MenuFilter
+        //determines if Terrain allows WA; using a specific hex and hexside
+
+        // 'get info for both hexes
+        Locationi Otherhexloc  = new Locationc (Otherhex.getCenterLocation(), null); 
+        Locationi Starthexloc = new Locationc(newhex.getCenterLocation(), null);
+        // Get hexside type
+        Constantvalues.Hexside hexsidetype = Gethexsidetype(Starthexloc, hexsidetouse);
+        switch (hexsidetype) {
+            case CLUpHedgeSlope:
+            case Hedge: case Wall: case SlopeDownHedge:
+            case SlopeDownWall: case CrestDownSlopeWall: case SunkenNonroadHedge:
+            case HedgeUnpavedRoad: case WallUnpavedRoad: case CLUpHedge:
+            case CLUpWall: case CLUpWallSlope: case CLUpWallSlopePO:
+            case WallPO: case HedgePO: case Bocage:
+            case CrestDownHedge: case CrestDownWall: case CrestDownSlopeHedge:
+            case SlopeUpHedge: case SlopeUpWall: case GullyUpHedge: case GullyDownHedge: case GullyUpWall: case GullyDownWall:
+            case GullyUpSlopeHedge: case GullyDnSlopeHedge: case GullyUpGullyDownHedge:
+            case CrestUpGullyHedge: case CrestDnGullyHedge: case GullyDnCLUpHedge: case GullyUpCLDnHedge:
+            case CLUpGullySlopehedge: case CLDnGullySlopeHedge:
+                return true;
+            case CrestUpHedge:
+            case CrestUpWall: case CrestUpSlopeHedge: case CrestUpSlopeWall:
+                return false;
+            case CLDnHedgeSlope: case CLDownHedge: case CLDownWall: case CLDnWallSlope: case CLDnWallSlopePO:
+                return true;
+            case Roadblock0: case Roadblock1: case Roadblock2: case Roadblock3: case Roadblock4: case Roadblock6: case Roadblock:
+                // roadblock need special test -IS THIS TEST CORRECT?
+                if (Otherhex != null) {
+                    return !(Starthexloc.getvasllocation().getBaseHeight() > Otherhexloc.getvasllocation().getBaseHeight());
+                }
+            default:
+                return false;
         }
 
     }
-    public boolean IsWAAllowed(int hexnum, int hexsidetouse, int Otherhexnum) {
-        //'called by ContextMenu.MenuFilter
-        //'determines if Terrain allows WA; using a specific hex and hexside
+    public boolean IsWAAllowedToSwitch(Hex Starthex, int hexsidetouse, Hex Otherhex) {
+        // called by SwitchWallAdvantage.Switch and .WABlocked
+        // determines if Terrain allows WA; using a specific hex and hexside
+        // same as ISWAAllowed except for treatment of depression hexes - switch allowed; no statusprevents check
 
-        /*'get info for both hexes
-        Dim Otherhex As MapDataClassLibrary.GameLocation
-        Dim LevelChk As New LevelChecks(MapData)
-        Dim Starthex As MapDataClassLibrary.GameLocation = LevelChk.GetLocationatLevelInHex(hexnum, 0)
-        If Otherhexnum >0 Then Otherhex = LevelChk.GetLocationatLevelInHex(Otherhexnum, 0)
-        'Get hexside type
-        Dim hexsidetype As Integer = Gethexsidetype(Starthex, hexsidetouse)
-        Select case hexsidetype
-        case ConstantClassLibrary.ASLXNA.Hexside.CLUpHedgeSlope,
-        ConstantClassLibrary.ASLXNA.Hexside.Hedge, ConstantClassLibrary.ASLXNA.Hexside.Wall, ConstantClassLibrary.ASLXNA.Hexside.SlopeDownHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.SlopeDownWall, ConstantClassLibrary.ASLXNA.Hexside.CrestDownSlopeWall, ConstantClassLibrary.ASLXNA.Hexside.SunkenNonroadHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.HedgeUnpavedRoad, ConstantClassLibrary.ASLXNA.Hexside.WallUnpavedRoad, ConstantClassLibrary.ASLXNA.Hexside.CLUpHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.CLUpWall, ConstantClassLibrary.ASLXNA.Hexside.CLUpWallSlope, ConstantClassLibrary.ASLXNA.Hexside.CLUpWallSlopePO,
-                ConstantClassLibrary.ASLXNA.Hexside.WallPO, ConstantClassLibrary.ASLXNA.Hexside.HedgePO, ConstantClassLibrary.ASLXNA.Hexside.Bocage,
-                ConstantClassLibrary.ASLXNA.Hexside.CrestDownHedge, ConstantClassLibrary.ASLXNA.Hexside.CrestDownWall, ConstantClassLibrary.ASLXNA.Hexside.CrestDownSlopeHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.SlopeUpHedge, ConstantClassLibrary.ASLXNA.Hexside.SlopeUpWall, ConstantClassLibrary.ASLXNA.Hexside.GullyUpHedge, ConstantClassLibrary.ASLXNA.Hexside.GullyDownHedge, ConstantClassLibrary.ASLXNA.Hexside.GullyUpWall, ConstantClassLibrary.ASLXNA.Hexside.GullyDownWall,
-                ConstantClassLibrary.ASLXNA.Hexside.GullyUpSlopeHedge, ConstantClassLibrary.ASLXNA.Hexside.GullyDnSlopeHedge, ConstantClassLibrary.ASLXNA.Hexside.GullyUpGullyDownHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.CrestUpGullyHedge, ConstantClassLibrary.ASLXNA.Hexside.CrestDnGullyHedge, ConstantClassLibrary.ASLXNA.Hexside.GullyDnCLUpHedge, ConstantClassLibrary.ASLXNA.Hexside.GullyUpCLDnHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.CLUpGullySlopehedge, ConstantClassLibrary.ASLXNA.Hexside.CLDnGullySlopeHedge
-        Return True
-        case ConstantClassLibrary.ASLXNA.Hexside.CrestUpHedge,
-        ConstantClassLibrary.ASLXNA.Hexside.CrestUpWall, ConstantClassLibrary.ASLXNA.Hexside.CrestUpSlopeHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.CrestUpSlopeWall
-        Return False
-        case ConstantClassLibrary.ASLXNA.Hexside.CLDnHedgeSlope,ConstantClassLibrary.ASLXNA.Hexside.CLDownHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.CLDownWall, ConstantClassLibrary.ASLXNA.Hexside.CLDnWallSlope, ConstantClassLibrary.ASLXNA.Hexside.CLDnWallSlopePO
-        Return True
-        'If CrestSt Then Return True Else Return False
-        'only certain CL terrain will permit creststatus: depression; other CL hexes will not and so WA will not be allowed
-        'MOVED THIS OUT OF HERE AS IT RELATES TO UNIT STATUS NOT TERRAIN - INTEGRATED INTO MOVEMENT CLASSES
-        'Return If(Game.Scenario.Moveobsi.StatusPrevents(ContextM.ClaimWallAdv), False, True)
-        case ConstantClassLibrary.ASLXNA.Hexside.Roadblock1
-        To ConstantClassLibrary.ASLXNA.Hexside.Roadblock6, ConstantClassLibrary.ASLXNA.Hexside.Roadblock
-        'roadblock need special test
-        If Otherhexnum >0 Then
-        Return If (CInt(Starthex.Baselevel) > CInt(Otherhex.Baselevel), False, True)
-        Else 'then otherhexnum is outside board
-        Return True
-        End If
-        case Else
-        Return False
-        End Select*/
-        return false;
-    }
-    public boolean IsWAAllowedToSwitch(int hexnum, int hexsidetouse, int Otherhexnum) {
-        //'called by SwitchWallAdvantage.Switch and .WABlocked
-        //'determines if Terrain allows WA; using a specific hex and hexside
-        //'same as ISWAAllowed except for treatment of depression hexes - switch allowed; no statusprevents check
+        // Get hexside type
+        Locationi loctouse = new Locationc(Starthex.getCenterLocation(), null);
+        Constantvalues.Hexside hexsidetype = Gethexsidetype(loctouse, hexsidetouse);
+        switch (hexsidetype) {
+            case CLUpHedgeSlope: case Hedge: case Wall: case SlopeDownHedge: case SlopeDownWall: case CrestDownSlopeWall: case SunkenNonroadHedge:
+            case HedgeUnpavedRoad: case WallUnpavedRoad: case CLUpHedge: case CLUpWall: case CLUpWallSlope: case CLUpWallSlopePO:
+            case WallPO: case HedgePO: case Bocage: case CrestDownHedge: case CrestDownWall: case CrestDownSlopeHedge: case SlopeUpHedge: case SlopeUpWall:
+                return true;
+            case CrestUpHedge: case CrestUpWall: case CrestUpSlopeHedge: case CrestUpSlopeWall:
+                return false;
+            case CLDnHedgeSlope: case CLDownHedge: case CLDownWall: case CLDnWallSlope: case CLDnWallSlopePO:
+                // for switch purposes, WA can move to otherside of hexside
+                return true;
+            case Roadblock0: case Roadblock1: case Roadblock2: case Roadblock3: case Roadblock4: case Roadblock6: case Roadblock:
+                // roadblock need special test
+                return (Starthex.getBaseHeight() > Otherhex.getBaseHeight() ? false : true);
+            default:
+                return false;
+        }
 
-        //'get info for both hexes
-        /*Dim LevelChk As New LevelChecks(MapData)
-        Dim Starthex As MapDataClassLibrary.GameLocation = LevelChk.GetLocationatLevelInHex(hexnum, 0)
-        Dim Otherhex As MapDataClassLibrary.GameLocation = LevelChk.GetLocationatLevelInHex(Otherhexnum, 0)
-        'Get hexside type
-        Dim hexsidetype As Integer = Gethexsidetype(Starthex, hexsidetouse)
-        Select case hexsidetype
-        case ConstantClassLibrary.ASLXNA.Hexside.CLUpHedgeSlope,
-        ConstantClassLibrary.ASLXNA.Hexside.Hedge, ConstantClassLibrary.ASLXNA.Hexside.Wall, ConstantClassLibrary.ASLXNA.Hexside.SlopeDownHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.SlopeDownWall, ConstantClassLibrary.ASLXNA.Hexside.CrestDownSlopeWall, ConstantClassLibrary.ASLXNA.Hexside.SunkenNonroadHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.HedgeUnpavedRoad, ConstantClassLibrary.ASLXNA.Hexside.WallUnpavedRoad, ConstantClassLibrary.ASLXNA.Hexside.CLUpHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.CLUpWall, ConstantClassLibrary.ASLXNA.Hexside.CLUpWallSlope, ConstantClassLibrary.ASLXNA.Hexside.CLUpWallSlopePO,
-                ConstantClassLibrary.ASLXNA.Hexside.WallPO, ConstantClassLibrary.ASLXNA.Hexside.HedgePO, ConstantClassLibrary.ASLXNA.Hexside.Bocage,
-                ConstantClassLibrary.ASLXNA.Hexside.CrestDownHedge, ConstantClassLibrary.ASLXNA.Hexside.CrestDownWall, ConstantClassLibrary.ASLXNA.Hexside.CrestDownSlopeHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.SlopeUpHedge, ConstantClassLibrary.ASLXNA.Hexside.SlopeUpWall
-        Return True
-        case ConstantClassLibrary.ASLXNA.Hexside.CrestUpHedge,
-        ConstantClassLibrary.ASLXNA.Hexside.CrestUpWall, ConstantClassLibrary.ASLXNA.Hexside.CrestUpSlopeHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.CrestUpSlopeWall
-        Return False
-        case ConstantClassLibrary.ASLXNA.Hexside.CLDnHedgeSlope,ConstantClassLibrary.ASLXNA.Hexside.CLDownHedge,
-                ConstantClassLibrary.ASLXNA.Hexside.CLDownWall, ConstantClassLibrary.ASLXNA.Hexside.CLDnWallSlope, ConstantClassLibrary.ASLXNA.Hexside.CLDnWallSlopePO
-        'for switch purposes, WA can move to otherside of hexside
-        Return True
-        '' If CrestSt Then Return True Else Return False
-        '' only certain CL terrain will permit creststatus:
-        depression;
-        other CL hexes will not and so WA will not be allowed
-        'If Game.Scenario.Moveobsi.StatusPrevents(ContextM.ClaimWallAdv) Then Return False Else Return True
-        case ConstantClassLibrary.ASLXNA.Hexside.Roadblock1
-        To ConstantClassLibrary.ASLXNA.Hexside.Roadblock6, ConstantClassLibrary.ASLXNA.Hexside.Roadblock
-        'roadblock need special test
-        If CInt (Starthex.Baselevel) > CInt(Otherhex.Baselevel) Then Return False Else Return True
-        case Else
-        Return False
-        End Select*/
+    }
+    public boolean IsWAMandatory(Hex newhex, Location LoctoTest, Constantvalues.AltPos PostoTest) {
+        // called by WallAdv.MoveUpdate, ForfeitWA.SwitchWA, Newhex.Moveupdate(where must check for adjacent enemy with WA or in-hex friendly with WA)
+        // Test if Mandatory WA (B9.323) applies and therefore unit must claim Wall Adv
+        
+        int HexTEM= 0;
+        Locationi WALocation = new Locationc(LoctoTest, null);
+        if (PostoTest != Constantvalues.AltPos.None && PostoTest != Constantvalues.AltPos.WallAdv) {
+            // determine TEM of position being occupied
+            HexTEM = WALocation.getvaslterrain().getTEM();  // CHECK THAT THIS WORKS
+        } else if (WALocation.getvasllocation().equals(LoctoTest)) {
+            HexTEM = WALocation.getvaslterrain().getTEM();
+        } else if (WALocation.getvaslotherterrain().equals(LoctoTest.getTerrain())) {
+            HexTEM = WALocation.getvaslotherterrain().getTEM();
+        }
+        // if no in-hex TEM then must claim
+        if (HexTEM <= 0) { // 
+            // check for wall/hedge/rdblk
+            IsSide SideChk = new IsSide();
+            for (int i=0; i < 6; i++) {
+                Hex ADJhex = newhex.getMap().getAdjacentHex(newhex, i);
+                if (SideChk.IsWAAllowed(newhex, i, ADJhex)) {
+                    return true;
+                }
+            }    
+        }
         return false;
     }
-    public boolean WAMandatory(int hexnum, int[] Otherhexnum , int LoctoTest, int PostoTest) {
-        //'called by WallAdv.MoveUpdate, ForfeitWA.SwitchWA, Newhex.Moveupdate(where must check for adjacent enemy with WA or in-hex friendly with WA)
-        //'Test if Mandatory WA (B9.323) applies and therefore unit must claim Wall Adv
-        /*Dim HexTEM As Integer = 0
-        Dim LevelChk As New TerrainClassLibrary.ASLXNA.LevelChecks(MapData)
-        Dim WAHex As MapDataClassLibrary.GameLocation = LevelChk.GetLocationatLevelInHex(hexnum, 0)
-        If PostoTest >0 And PostoTest <>ConstantClassLibrary.ASLXNA.AltPos.WallAdv Then
-        'determine TEM of position being occupied
-        Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)
-        Dim TerrCheck As TerrainClassLibrary.ASLXNA.TerrainChecks = New
-        TerrainClassLibrary.ASLXNA.TerrainChecks(MapData)
-        HexTEM = CInt(TerrCheck.GetPositionData(ConstantClassLibrary.ASLXNA.TerrFactor.TEM, PostoTest, Maptables))
-        ElseIf WAHex.Location = LoctoTest Then
-                HexTEM = WAHex.TEM
-        ElseIf WAHex.OtherTerraininLocation = LoctoTest Then
-                HexTEM = CInt(WAHex.TEMOtherTerrain)
-        End If
-        'if no in-hex TEM then must claim
-        If HexTEM <=0 Then 'And WAHex.TEM <= 0 And CInt(WAHex.TEMOtherTerrain) < 0 Then
-        'check for wall/hedge/rdblk
-        Dim NoWallA As Boolean = True
-        Dim SideChk As New TerrainClassLibrary.ASLXNA.IsSide(MapData)
-        For i = 1 To 6
-        'Dim Otherhexnum As Integer = Mapgeo.RangeC.DirExtent(hexnum, i, 1)
-        If SideChk.IsWAAllowed(hexnum, i, Otherhexnum.Item(i - 1)) Then
-                NoWallA = False :Exit For
-        End If
-        Next
-        Return If (NoWallA, False, True)
-        Else
-        Return False
-        End If*/
-        return false;
-    }
-        //'overloaded
-          //      'first uses hexside and hexnum; second uses hexside of Gamelocation
-    public int Gethexsidetype(int hexside, int hexnumber) {
-        //'called by IsSide.IsWAAllowed
-        //'returns hexside value of specificied side of specified hex
-        /*Dim Levelchk As New TerrainClassLibrary.ASLXNA.LevelChecks(MapData)
-        Dim MapHex As MapDataClassLibrary.GameLocation = Levelchk.GetLocationatLevelInHex(hexnumber, 0)
-        'Game.Scenario.MapTables.RetrieveHexfromDatatable(hexnumber)
-        With MapHex
-        Select case hexside
-        case 1
-        Gethexsidetype = CInt(.Hexside1)
-        case 2
-        Gethexsidetype = CInt(.Hexside2)
-        case 3
-        Gethexsidetype = CInt(.Hexside3)
-        case 4
-        Gethexsidetype = CInt(.Hexside4)
-        case 5
-        Gethexsidetype = CInt(.Hexside5)
-        case 6
-        Gethexsidetype = CInt(.Hexside6)
-        case Else
-        MsgBox("Hexside failure")
-        Gethexsidetype = 0
-        End Select
-        End With*/
-        return 0;
+
+    public Constantvalues.Hexside Gethexsidetype(Locationi hexloc, int hexsidetouse) {
+        // called by IsSide.IsWAAllowed
+        // returns hexside value of specificied side of specified hex
+
+        ConversionC confrom = new ConversionC();
+        return confrom.ConverttoHexside(hexloc.getvaslhex().getHexsideTerrain(hexsidetouse));
+
     }
     public Terrain GethexsideTerrain(int hexside) {
         // called by IsSide.IsWAAllowed, movement.determinemenuforhexmove

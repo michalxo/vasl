@@ -1,5 +1,6 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.Game.ScenarioC;
@@ -10,8 +11,8 @@ import VASL.build.module.fullrules.Game.ScenarioC;
 public class LevelChecks {
     private Location pLocation;
 
-    public LevelChecks(Location PassLocation) {
-        pLocation = PassLocation;
+    public LevelChecks() {
+        //pLocation = PassLocation;
     }
 
     // Methods
@@ -47,9 +48,8 @@ public class LevelChecks {
             'End Function
     */
 
-    public Location GetLocationatLevelInHex(String Hexname, double Levelnumber) {
-        ScenarioC scen = ScenarioC.getInstance();
-        Location testloc = scen.getGameMap().getHex(Hexname).getCenterLocation();
+    public Location GetLocationatLevelInHex(Hex PassHex, double Levelnumber) {
+        Location testloc = PassHex.getCenterLocation();
         while (testloc.getBaseHeight() != Levelnumber ){
             if (testloc.getBaseHeight() < Levelnumber) {
                 testloc = testloc.getUpLocation();
@@ -118,11 +118,11 @@ public class LevelChecks {
         As Single = CSng(loctouse.LevelInHex)
         'if in crest status or exited crest then one level above terrain in hex
 
-        If(Positiontoget >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And Positiontoget <= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest6)
+        If(Positiontoget >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And Positiontoget <= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest5)
         Or
                 (Positiontoget >=
-                                ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And
-                        Positiontoget <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then
+                                ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And
+                        Positiontoget <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then
         Return 1
         Else
         Return LocPosLevel
@@ -143,7 +143,7 @@ public class LevelChecks {
                     'Gets the next higher level-in-hex (if one exists)
     Dim LocationsFound As IQueryable(Of MapDataClassLibrary.GameLocation)
     Dim GetLocs As New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapData)
-    LocationsFound = GetLocs.RetrieveLocationsfromMapTable(hexnumber, "Hexnum")
+    LocationsFound = GetLocs.RetrieveLocationsinHex(hexnumber, "Hexnum")
     Dim Currentlevel As Single = GetLocationPositionLevel(hexnumber, currentlocation, CurrentPosition)
     For Each LocsFound As MapDataClassLibrary.GameLocation In LocationsFound
                 'check if location is next level up (Levelinhex+1)
@@ -156,7 +156,7 @@ public class LevelChecks {
                     'gets the next lower level-in-hex (if one exists)
     Dim LocationsFound As IQueryable(Of MapDataClassLibrary.GameLocation)
     Dim GetLocs As New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapData)
-    LocationsFound = GetLocs.RetrieveLocationsfromMapTable(hexnumber, "Hexnum")
+    LocationsFound = GetLocs.RetrieveLocationsinHex(hexnumber, "Hexnum")
     Dim Currentlevel As Single = GetLocationPositionLevel(hexnumber, currentlocation, currentposition)
     For Each LocsFound As MapDataClassLibrary.GameLocation In LocationsFound
                 'check if location is next level up (Levelinhex+1)
@@ -178,7 +178,7 @@ public class LevelChecks {
     Dim NumofLevels As Integer = 1 'every hex has a base level
             'get all the locations in the hex
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapData)
-    Dim Getlocations As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(hexnumtotest)
+    Dim Getlocations As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(hexnumtotest)
             'rotate through looking non-ground levels
     For Each LocFound As MapDataClassLibrary.GameLocation In Getlocations
     If LocFound.Location = ConstantClassLibrary.ASLXNA.Location.Building1stLevel Then
@@ -216,7 +216,7 @@ public class LevelChecks {
     Dim NewLevel As Single = 0
             'get all the locations in the hex
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapData)
-    Dim Getlocations As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(hexnum, "Hexnum")
+    Dim Getlocations As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(hexnum, "Hexnum")
             'get current level
     Dim Currentlevel = GetLevelofLocation(currentlocindex)
     For Each HexLoc As MapDataClassLibrary.GameLocation In Getlocations
@@ -229,7 +229,7 @@ public class LevelChecks {
     Dim NewLevel As Single = 0
             'get all the locations in the hex
     Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapData)
-    Dim Getlocations As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsfromMapTable(hexnum, "Hexnum")
+    Dim Getlocations As IQueryable(Of MapDataClassLibrary.GameLocation) = Getlocs.RetrieveLocationsinHex(hexnum, "Hexnum")
             'get current level
     Dim Currentlevel = GetLevelofLocation(Currentlocindex)
     For Each HexLoc As MapDataClassLibrary.GameLocation In Getlocations

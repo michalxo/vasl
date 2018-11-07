@@ -3,12 +3,10 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.TerrainClasses.TerrainChecks;
 
-import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 // concrete classes that implement PersUniti
@@ -363,12 +361,12 @@ public class BasePersunitc implements Basepersuniti {
 
     public boolean HasWallAdvantage() {
         boolean HasWA =(phexPosition == Constantvalues.AltPos.WallAdv ||
-                (phexPosition == Constantvalues.AltPos.WACrestStatus1 ||
+                (phexPosition == Constantvalues.AltPos.WACrestStatus0 ||
+                 phexPosition == Constantvalues.AltPos.WACrestStatus1 ||
                  phexPosition == Constantvalues.AltPos.WACrestStatus2 ||
                  phexPosition == Constantvalues.AltPos.WACrestStatus3 ||
                  phexPosition == Constantvalues.AltPos.WACrestStatus4 ||
-                 phexPosition == Constantvalues.AltPos.WACrestStatus5 ||
-                 phexPosition == Constantvalues.AltPos.WACrestStatus6) ? true: false);
+                 phexPosition == Constantvalues.AltPos.WACrestStatus5) ? true: false);
         return HasWA;
     }
     public boolean SetID(int NewID) {

@@ -184,7 +184,7 @@ public class German237Firec implements FiringPersUniti {
                 if (HexLocIndex > 0) {
                     boolean PillboxLOS = false;
                     // get Pillbox location
-                    //UsingHex = Getlocs.RetrieveLocationfromMaptable(HexLocIndex);
+                    //UsingHex = Getlocs.RetrieveLocationfromHex(HexLocIndex);
                     // Now determine Pillbox covered arc
                     TerrainChecks TerrChk = new TerrainChecks();
                     //String Imagename = TerrChk.GetLocationData(Constantvalues.TerrFactor.Image, (UsingHex.getLocation()));
@@ -342,12 +342,12 @@ public class German237Firec implements FiringPersUniti {
                     IsCrossingWHR = false;
             }
             if (IsCrossingWHR) {
-                if (myhexposition == Constantvalues.AltPos.CrestStatus1 ||
+                if (myhexposition == Constantvalues.AltPos.CrestStatus0 ||
+                        myhexposition == Constantvalues.AltPos.CrestStatus1 ||
                         myhexposition == Constantvalues.AltPos.CrestStatus2 ||
                         myhexposition == Constantvalues.AltPos.CrestStatus3 ||
                         myhexposition == Constantvalues.AltPos.CrestStatus4 ||
-                        myhexposition == Constantvalues.AltPos.CrestStatus5 ||
-                        myhexposition == Constantvalues.AltPos.CrestStatus6) {
+                        myhexposition == Constantvalues.AltPos.CrestStatus5) {
                     myCombatFP = 0; // wall/hedge blocks LOS by entrenched unit
                     return;
                 }
@@ -358,12 +358,12 @@ public class German237Firec implements FiringPersUniti {
         int CrestCA = 0;
         boolean UsingCrestCA = false;
 
-        if (myhexposition == Constantvalues.AltPos.CrestStatus1 ||
+        if (myhexposition == Constantvalues.AltPos.CrestStatus0 ||
+                myhexposition == Constantvalues.AltPos.CrestStatus1 ||
                 myhexposition == Constantvalues.AltPos.CrestStatus2 ||
                 myhexposition == Constantvalues.AltPos.CrestStatus3 ||
                 myhexposition == Constantvalues.AltPos.CrestStatus4 ||
-                myhexposition == Constantvalues.AltPos.CrestStatus5 ||
-                myhexposition == Constantvalues.AltPos.CrestStatus6) {
+                myhexposition == Constantvalues.AltPos.CrestStatus5) {
             CrestCA = 0;  //CrestTest.CrestSideToSide(myhexposition);
         } else {
             CrestCA = 0;  //CrestTest.WACrestSideToSide(myhexposition);

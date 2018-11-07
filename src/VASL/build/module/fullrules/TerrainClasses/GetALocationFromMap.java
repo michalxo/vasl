@@ -1,6 +1,10 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
+import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationc;
+import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationi;
 
 import java.util.LinkedList;
 
@@ -42,75 +46,69 @@ public class GetALocationFromMap {
 
     End Sub
     */
-    public int GetPillboxLocation(int hexnum) {
-        // returns LocIndex value of pillbox location in a hex
-        // 0 means no pillbox exists
-        int Pillboxloc = 0;
-        // temporary while debugging UNDO
-        /*Try
-                Pillboxloc = (From QU As MapDataClassLibrary.GameLocation In MapData Where QU.Hexnum = hexnum And QU.
-        IsPillbox = True Select QU.LocIndex).First
-                Catch
-        Pillboxloc = 0
-        End Try*/
-        return Pillboxloc;
+    public Location GetPillboxLocation(Hex hextouse) {
+        // returns Location  of pillbox location in a hex
+        // None means no pillbox exists
+        LinkedList<Locationi> HexLocs = RetrieveLocationsinHex(hextouse);
+        for (Locationi newlocationi : HexLocs) {
+            if (newlocationi.IsPillbox()) {
+                return newlocationi.getvasllocation();
+            }
+        }
+        return null;
     }
     // overloaded
-    // first function returns record when have LocIndex
-    /*public GameLocation RetrieveLocationfromMaptable(int LocIndex) {
+    // first function returns record when have Location
+    public Locationc RetrieveLocationfromHex(Location LocIndex) {
         // called by Mapactions.Puthexdataintocollection, Terrainactions.GetTerrain
         // 'returns the location records matching the location index value
         return null; //(From QU As MapDataClassLibrary.GameLocation In MapData Where QU.LocIndex = LocIndex).First - temporary while debugging delete
     }
-    // second overload returns record when have hexnumber and location
-    public GameLocation RetrieveLocationfromMaptable(int Hexnumber, Constantvalues.Location Location) {
+    // second overload returns record when have hex and location
+    public Locationi RetrieveLocationfromHex(Hex hextouse, Constantvalues.Location Locationtoget) {
         // called by Mapactions.Puthexdataintocollection, Terrainactions.GetTerrain
-        // returns the location records matching the location index value
-        try {
-            //return (From QU As MapDataClassLibrary.GameLocation In MapData Where QU.Hexnum = Hexnumber
-            //And(QU.Location = Location Or QU.OtherTerraininLocation = Location)).First
-        } catch (Exception e) {
-            //MessageBox.Show(e.ToString & vbCrLf & vbCrLf & Hexnumber.ToString & Space(5) & Location.ToString)
-            //return null;
+        // returns the specified location in a specified hex
+
+        LinkedList<Locationi> HexLocs = RetrieveLocationsinHex(hextouse);
+        for (Locationi newlocationi : HexLocs) {
+            if (newlocationi.getLocationtype().equals(Locationtoget)) {
+                return newlocationi;
+
+            }
         }
-        return null; //temporary while debugging, delete
+
+        return null; //error if here; location sought does not exist in hextouse
     }
     // thread variant
-    public GameLocation RetrieveLocationfromMapcol(int Hexnumber, int Location) {
+    public Location RetrieveLocationfromMapcol(Hex Hextoget, Location Locationtoget) {
         // called by Mapactions.Puthexdataintocollection, Terrainactions.GetTerrain
         // returns the location records matching the location index value
 
-        GameLocation LocToGet;
+        Location LocToGet;
         //remmed out while debugging - delete
-        *//*try {
+        /*try {
             LocToGet = (From QU As MapDataClassLibrary.GameLocation In MapCol Where QU.Hexnum = Hexnumber
             And(QU.Location = Location Or QU.OtherTerraininLocation = Location)).First
         }catch (Exception e) {
             MessageBox.Show(e.ToString & vbCrLf & vbCrLf & Hexnumber.ToString & Space(5) & Location.ToString)
             LocToGet = null;
-        }*//*
-        MapCol = null;
+        }*/
+        //MapCol = null;
         return null; //temporary while debugging delete
     }
 
     // overloaded
     // this may need various overloads to handle different filter combinations
     // this overload returns records where location equals a specified terrain type
-    public LinkedList<GameLocation> RetrieveLocationsfromMapTable(int Filter) {
+    public LinkedList<Locationi> RetrieveLocationsfromMapTable(int Filter) {
         return null; // From Qu As MapDataClassLibrary.GameLocation In MapData Where Qu.Location = Filter
     }
     // this overload returns all locations in a specified hex
-    public LinkedList<GameLocation> RetrieveLocationsfromMapTable(int Filter, String LookingFor) {
-        *//*Select Case Trim(LookingFor)
-        Case "Hexnum"
-        Try
-        Return From Qu As MapDataClassLibrary.GameLocation In MapData Where Qu.Hexnum = Filter
-        Catch
-        Return Nothing
-        End Try
-        End Select*//*
+    public LinkedList<Locationi> RetrieveLocationsinHex(Hex hexforlocations) {
+
+
                 return null;
-    }*/
+    }
     public String GetnamefromdatatableMap(int hexnumber) {
         // Called by Map.HexbyHexClear, Map.LOSCheck, MapCoord.Gethexname, RangeClassC.DirExtent
         // Returns Hexname from a scenario maptable based on hexnumber passed as parameter

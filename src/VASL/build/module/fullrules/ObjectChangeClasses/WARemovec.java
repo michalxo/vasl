@@ -3,7 +3,7 @@ package VASL.build.module.fullrules.ObjectChangeClasses;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 
-public class WARemovec implements  UnitChange {
+public class WARemovec implements UnitChangei {
 
     private PersUniti ActiveUnit;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
@@ -28,8 +28,8 @@ public class WARemovec implements  UnitChange {
         Dim GetBaseHex As MapDataClassLibrary.
         GameLocation = LevelChk.GetLocationatLevelInHex(CInt(ActiveUnit.BasePersUnit.Hexnum), 0)
         ActiveUnit.BasePersUnit.hexlocation = CInt(GetBaseHex.Location) 'always baseloc when doing WA
-        ElseIf ActiveUnit.BasePersUnit.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1
-        AndAlso ActiveUnit.BasePersUnit.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6 Then
+        ElseIf ActiveUnit.BasePersUnit.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0
+        AndAlso ActiveUnit.BasePersUnit.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5 Then
         ActiveUnit.BasePersUnit.hexPosition = WACresttoCrest(CInt(ActiveUnit.BasePersUnit.hexPosition))
         WALost = True
         Dim GetBaseHex As MapDataClassLibrary.
@@ -67,18 +67,18 @@ public class WARemovec implements  UnitChange {
     }
     /*Private Function WACresttoCrest(ByVal currentposition As Integer) As Integer
     Select Case currentposition
+    Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0
+    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0
     Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1
-    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1
+    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0
     Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus2
-    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus2
+    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1
     Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus3
     Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus3
     Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus4
     Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus4
     Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5
     Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5
-    Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6
-    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6
     Case Else
     Return Nothing
     End Select

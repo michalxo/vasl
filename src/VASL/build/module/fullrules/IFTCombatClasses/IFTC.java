@@ -512,8 +512,8 @@ public class IFTC implements IIFTC {
             for (PersUniti TestFiringUnit : TestList) {
                 if (TestFiringUnit.getbaseunit().getUnit_ID() == Unititem.getbaseunit().getUnit_ID() &&
                         Constantvalues.Typetype.Personnel == TestFiringUnit.getbaseunit().getTypeType_ID()) {
-                    return false;
-                } // already added
+                    return false;  // already added
+                }
                 int UnitDistance = scen.getGameMap().range(scen.getGameMap().getHex(TestFiringUnit.getbaseunit().getHexName()), NewTarget, scen.getGameMap().getMapConfiguration());
                 if (UnitDistance == 1 && TestFiringUnit.getbaseunit().getLevelinHex() - Unititem.getbaseunit().getLevelinHex() == 0) {
                     GroupAddOk = true;
@@ -1135,7 +1135,7 @@ public class IFTC implements IIFTC {
         Dim Firingloc As Integer = Firerloc
         Dim FiringPos As Integer = Firerpos
         Dim Getlocs = New Terrainvalues.GetALocationFromMapTable(Game.Scenario.LocationCol)
-        Dim BaseHexloc As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromMaptable(Firinghex, Firingloc)
+        Dim BaseHexloc As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromHex(Firinghex, Firingloc)
         Dim OKHexloc As MapDataClassLibrary.GameLocation:
         Dim Addtrue As Boolean = false
         Dim StillIn = New List(Of Objectvalues.PersUniti)
@@ -1150,7 +1150,7 @@ public class IFTC implements IIFTC {
         Addtrue = true
         Else
         Dim TestHexloc As MapDataClassLibrary.
-        GameLocation = Getlocs.RetrieveLocationfromMaptable(StillFiring.BasePersUnit.Hexnum, StillFiring.BasePersUnit.hexlocation)
+        GameLocation = Getlocs.RetrieveLocationfromHex(StillFiring.BasePersUnit.Hexnum, StillFiring.BasePersUnit.hexlocation)
         Dim ADJTest As New CombatTerrainvalues.HexBesideC(BaseHexloc, TestHexloc, FiringPos)
         if ADJTest.AreLocationsADJACENT Then
         StillIn.Add(StillFiring)
@@ -1159,9 +1159,9 @@ public class IFTC implements IIFTC {
         End if
         Else
         For Each StillOK As Objectvalues.PersUniti In StillIn
-                OKHexloc = Getlocs.RetrieveLocationfromMaptable(StillOK.BasePersUnit.Hexnum, StillOK.BasePersUnit.hexlocation)
+                OKHexloc = Getlocs.RetrieveLocationfromHex(StillOK.BasePersUnit.Hexnum, StillOK.BasePersUnit.hexlocation)
         Dim TestHexloc As MapDataClassLibrary.
-        GameLocation = Getlocs.RetrieveLocationfromMaptable(StillFiring.BasePersUnit.Hexnum, StillFiring.BasePersUnit.hexlocation)
+        GameLocation = Getlocs.RetrieveLocationfromHex(StillFiring.BasePersUnit.Hexnum, StillFiring.BasePersUnit.hexlocation)
         Dim ADJTest As New
         CombatTerrainvalues.HexBesideC(OKHexloc, TestHexloc, StillOK.BasePersUnit.hexPosition)
         if ADJTest.AreLocationsADJACENT Then

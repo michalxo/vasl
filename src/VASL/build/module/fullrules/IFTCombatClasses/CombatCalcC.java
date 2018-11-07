@@ -373,7 +373,7 @@ public class CombatCalcC implements CombatCalci {
         double leveldifference = 0; double TotalFirerLevel = 0; int targethex = 0;
         double UseAsRange = 0; String msg = "";
         //GetALocationFromMap Getlocs = new GetALocationFromMap(Mapcol);
-        //GameLocation targloc = Getlocs.RetrieveLocationfromMaptable(TargetUnit.getbaseunit().getLOCIndex());
+        //GameLocation targloc = Getlocs.RetrieveLocationfromHex(TargetUnit.getbaseunit().getLOCIndex());
         // determine unit level
         //double Baselevel = LevelChk.GetLevelofLocation(); // use location=hexnumber always tests base location in hex
         TotalFirerLevel = Firingunit.getbaseunit().getLevelinHex() + Firingunit.getbaseunit().getHex().getBaseHeight();
@@ -463,11 +463,11 @@ public class CombatCalcC implements CombatCalci {
         int UnitRange; double RangeFactor = 1;
         Constantvalues.CombatStatus FirerStatus; // holds status value of firing unit (inf or mg)
         int BaseFP;   // holds LOB FP value of firing unit (inf or mg)
-        LevelChecks LevelChk = new LevelChecks(FiringSuppW.getbaseSW().gethexlocation());
+        LevelChecks LevelChk = new LevelChecks();
         double leveldifference = 0; double TotalFirerLevel = 0; int targethex = 0;
         double UseAsRange = 0; String msg = "";
         //GetALocationFromMap Getlocs = new GetALocationFromMap(Mapcol);
-        //GameLocation targloc = Getlocs.RetrieveLocationfromMaptable(TargetUnit.getbaseunit().getLOCIndex());
+        //GameLocation targloc = Getlocs.RetrieveLocationfromHex(TargetUnit.getbaseunit().getLOCIndex());
         // determine unit level
         double Baselevel = LevelChk.GetLevelofLocation(); // use location=hexnumber always tests base location in hex
         TotalFirerLevel = FiringSuppW.getbaseSW().getLevelinHex() + Baselevel;
@@ -784,7 +784,7 @@ public class CombatCalcC implements CombatCalci {
             }
         }
         TotalTargetLevel = TargetUnit.getbaseunit().getLevelinHex() + TargetComTer.getHexBaseLevel();
-        //'targloc = Getlocs.RetrieveLocationfromMaptable(CInt(TargetUnit.BasePersUnit.LOCIndex))
+        //'targloc = Getlocs.RetrieveLocationfromHex(CInt(TargetUnit.BasePersUnit.LOCIndex))
 
         for (PersUniti FiringUnit: FireGroupToUse) {
             if (FiringUnit.getbaseunit().getSolID() == Usingsol) {

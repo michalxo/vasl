@@ -247,7 +247,7 @@ class DFFEnemyValuesConcreteC {
         }
 
         // instantiate various classes used during calculations
-       LevelChecks LevelChk = new LevelChecks(Movinglocation);
+       LevelChecks LevelChk = new LevelChecks();
         // set some data variables
         double Movinglevel = LevelChk.GetLocationPositionLevel(Movinglocation, MovingPosition);
         PersUniti MovingItem = MovingList[0];
@@ -611,17 +611,17 @@ class DFFEnemyValuesConcreteC {
         }*/
     }
     private boolean IsInCrestStatus(Constantvalues.AltPos MovingPosition) {
-        return MovingPosition == Constantvalues.AltPos.CrestStatus1 ||
+        return MovingPosition == Constantvalues.AltPos.CrestStatus0 ||
+                MovingPosition == Constantvalues.AltPos.CrestStatus1 ||
                 MovingPosition == Constantvalues.AltPos.CrestStatus2 ||
                 MovingPosition == Constantvalues.AltPos.CrestStatus3 ||
                 MovingPosition == Constantvalues.AltPos.CrestStatus4 ||
                 MovingPosition == Constantvalues.AltPos.CrestStatus5 ||
-                MovingPosition == Constantvalues.AltPos.CrestStatus6 ||
+                MovingPosition == Constantvalues.AltPos.WACrestStatus0 ||
                 MovingPosition == Constantvalues.AltPos.WACrestStatus1 ||
                 MovingPosition == Constantvalues.AltPos.WACrestStatus2 ||
                 MovingPosition == Constantvalues.AltPos.WACrestStatus3 ||
                 MovingPosition == Constantvalues.AltPos.WACrestStatus4 ||
-                MovingPosition == Constantvalues.AltPos.WACrestStatus5 ||
-                MovingPosition == Constantvalues.AltPos.WACrestStatus6;
+                MovingPosition == Constantvalues.AltPos.WACrestStatus5;
     }
 }

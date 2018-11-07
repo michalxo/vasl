@@ -636,9 +636,10 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
                 case PrepFire:
                     ProcessClick = new ClickLeftPrepC();
                     break;
-               /* case Movement:
-                    ProcessClick = new ClickLeftMovementC;
-                case DefensiveFire:
+                case Movement:
+                    ProcessClick = new ClickLeftMoveC();
+                    break;
+                /*case DefensiveFire:
                     ProcessClick = new ClickLeftDefensiveC;
                 case AdvancingFire:
                     ProcessClick = new ClickLeftAdvancingC;

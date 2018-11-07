@@ -34,7 +34,7 @@ public class TerrainChecks {
 
         Dim MapHexLocs
 
-        As IQueryable (Of MapDataClassLibrary.GameLocation) =GetLocs.RetrieveLocationsfromMapTable(Hexnumber, "Hexnum")
+        As IQueryable (Of MapDataClassLibrary.GameLocation) =GetLocs.RetrieveLocationsinHex(Hexnumber, "Hexnum")
         'checks if any prevent smoke placement (water obstacles or wet terrain)
         For Each
         LocationtoTest As
@@ -101,7 +101,7 @@ public class TerrainChecks {
         return true;
     }
 
-    public boolean AreLocationsSame(int Firstlocation, int Secondlocation, int Firstposition, int secondposition, int hexnum, int Activity) {
+    public boolean AreLocationsSame(Location Firstlocation, Location Secondlocation, Constantvalues.AltPos Firstposition, Constantvalues.AltPos secondposition, Hex hexnum, Constantvalues.MovementStatus Activity) {
         /*'called by Movementc.IsEligibleToMove
         'determines if two locations in a hex are considered to be the same - answer varies by activity being done and position of objects
 
@@ -255,6 +255,8 @@ public class TerrainChecks {
                 return 0;
             case OnRoad:
                 return 0;
+            case CrestStatus0:
+                return 2;
             case CrestStatus1:
                 return 2;
             case CrestStatus2:
@@ -265,9 +267,9 @@ public class TerrainChecks {
                 return 2;
             case CrestStatus5:
                 return 2;
-            case CrestStatus6:
-                return 2;
             case ExitedEntrench:
+                return 0;
+            case ExitedCrest0:
                 return 0;
             case ExitedCrest1:
                 return 0;
@@ -279,12 +281,12 @@ public class TerrainChecks {
                 return 0;
             case ExitedCrest5:
                 return 0;
-            case ExitedCrest6:
-                return 0;
             case Rider:
                 return 0;
             case Passenger:
                 return 0;
+            case WACrestStatus0:
+                return 2;
             case WACrestStatus1:
                 return 2;
             case WACrestStatus2:
@@ -294,8 +296,6 @@ public class TerrainChecks {
             case WACrestStatus4:
                 return 2;
             case WACrestStatus5:
-                return 2;
-            case WACrestStatus6:
                 return 2;
             case None:
                 return 0;
@@ -324,6 +324,8 @@ public class TerrainChecks {
                 return "Above Panji";
             case OnRoad:
                 return "On Road";
+            case CrestStatus0:
+                return "Crest Status";
             case CrestStatus1:
                 return "Crest Status";
             case CrestStatus2:
@@ -334,10 +336,10 @@ public class TerrainChecks {
                 return "Crest Status";
             case CrestStatus5:
                 return "Crest Status";
-            case CrestStatus6:
-                return "Crest Status";
             case ExitedEntrench:
                 return "Exit Trench";
+            case ExitedCrest0:
+                return "Exit Crest";
             case ExitedCrest1:
                 return "Exit Crest";
             case ExitedCrest2:
@@ -348,12 +350,12 @@ public class TerrainChecks {
                 return "Exit Crest";
             case ExitedCrest5:
                 return "Exit Crest";
-            case ExitedCrest6:
-                return "Exit Crest";
             case Rider:
                 return "Rider";
             case Passenger:
                 return "Passenger";
+            case WACrestStatus0:
+                return "Wall Advantage";
             case WACrestStatus1:
                 return "Wall Advantage";
             case WACrestStatus2:
@@ -363,8 +365,6 @@ public class TerrainChecks {
             case WACrestStatus4:
                 return "Wall Advantage";
             case WACrestStatus5:
-                return "Wall Advantage";
-            case WACrestStatus6:
                 return "Wall Advantage";
             case None:
                 return "None";
@@ -428,7 +428,7 @@ public class TerrainChecks {
         Dim locationPresent = False
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapData)
         Dim Temploclist As IQueryable (Of MapDataClassLibrary.GameLocation) =
-        Getlocs.RetrieveLocationsfromMapTable(HextoTest, "Hexnum")
+        Getlocs.RetrieveLocationsinHex(HextoTest, "Hexnum")
         If LocationtoFind >=ConstantClassLibrary.ASLXNA.Location.Pillboxtype Then
         For Each TempHexloc As MapDataClassLibrary.GameLocation In Temploclist
         If TempHexloc.Location >= ConstantClassLibrary.ASLXNA.Location.Pill1571 And TempHexloc.

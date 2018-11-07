@@ -1,34 +1,23 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
-import VASL.build.module.fullrules.DataClasses.OrderofBattle;
-import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
-import VASL.build.module.fullrules.UtilityClasses.DiceC;
-import VASL.build.module.fullrules.UtilityClasses.HOBCheckC;
-import VASL.build.module.fullrules.UtilityClasses.ManageUpdateUnitCommand;
-import VASSAL.command.Command;
-
+import VASL.build.module.fullrules.UtilityClasses.*;
 import java.util.List;
 
 public class Russian447Targc implements TargetPersUniti {
     private int myFirerSAN;
     private int myAttackedbydrm;
     private int myAttackedbyFP;
-    // private myCharacterStatus As Integer
     private boolean myELR5;
     private Constantvalues.FortitudeStatus myFortitudeStatus;
     private Constantvalues.IFTResult myIFTResult;
     private boolean myIsConceal;
-    // private myIsDummy As Boolean
     private Constantvalues.MovementStatus myMovementStatus;
     private Constantvalues.OrderStatus myOrderStatus;
     private boolean myPinned;
     private int myQualityStatus;
     private int myRandomSelected;
-    // private myRoleStatus As Integer
     private int mySmoke;
-    // private mySw As Integer
     private Constantvalues.VisibilityStatus myVisibilityStatus;
     private Constantvalues.PersUnitResult myPersUnitImpact;
     private boolean mySanActivated;
@@ -42,26 +31,23 @@ public class Russian447Targc implements TargetPersUniti {
     private String myCombatResultsString = " ";
     public boolean getHoBFlag () {return myHOBFlag;}
     public void setHoBFlag(boolean value ) {myHOBFlag = value;}
+    private int myHSML;
 
     public Russian447Targc(Constantvalues.IFTResult PassIFTResult, int TargStackLdrdrm, int PassFirerSan, int PassAttackedbydrm, int PassAttackedbyFP, boolean PassELR5, boolean PassIsConceal, boolean PassIsDummy,
                            boolean PassPinned, int PassQualityStatus, int PassRandomSelected, int PassSmoke, PersUniti PassUnit) {
         myFirerSAN = PassFirerSan;
         myAttackedbydrm = PassAttackedbydrm;
         myAttackedbyFP = PassAttackedbyFP;
-        // myCharacterStatus = PassCharacterStatus
         myELR5 = PassELR5;
         myFortitudeStatus = PassUnit.getbaseunit().getFortitudeStatus();
         myIFTResult = PassIFTResult;
         myIsConceal = PassIsConceal;
-        // myIsDummy = PassIsDummy
         myMovementStatus = PassUnit.getbaseunit().getMovementStatus();
         myOrderStatus = PassUnit.getbaseunit().getOrderStatus();
         myPinned = PassPinned;
         myQualityStatus = PassQualityStatus;
         myRandomSelected = PassRandomSelected;
-        // myRoleStatus = PassRoleStatus
         mySmoke = PassSmoke;
-        // mySw = PassSW
         myVisibilityStatus = PassUnit.getbaseunit().getVisibilityStatus();
         myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
         mySanActivated = false;
@@ -69,6 +55,7 @@ public class Russian447Targc implements TargetPersUniti {
         myELR = PassUnit.getbaseunit().getELR();
         myName = PassUnit.getbaseunit().getUnitName();
         myHOBFlag = false;
+        myHSML=6;
     }
 
     public int getAttackedbydrm() {return myAttackedbydrm;}
@@ -126,13 +113,10 @@ public class Russian447Targc implements TargetPersUniti {
 
     public boolean CRMC(int KNum, int TargSTackLdrdrm, String Resultstring) {
         /*Name:       TargetCRMCResult()
-
         Identifier UC 102
-
-                    Preconditions()
+        Preconditions()
         1.	An eligible IFT fire solution has produced a result
-
-                    Basic Course
+        Basic Course
         1.	Use case begins when CRMC result is obtained on the IFT
         2.	Target Reduces to half-squad [UC203-TargetReduces]
         3.	Target Transfers SW [UC215-TargetTransfersSW]
@@ -148,13 +132,12 @@ public class Russian447Targc implements TargetPersUniti {
         Inheritance: UC 122 - SMCTargetCRMC
         Condition: Target is a SMC
 
-        Post conditions (List the state(s) the system can be in when this use case ends)
-        1.*/
+        */
 
         myMCNum = KNum;
         myTargSTackLdrdrm = TargSTackLdrdrm;
 
-        // Unit will be reduced but need to determine MC impact now. Since all HS have same ML as squads, can do so - NOT TRUE FOR BROKEN S/HS - NEED TO REDO
+        // Unit will be reduced but need to determine MC impact now.
         String Ldrstring = "";
         if (myTargSTackLdrdrm == 0) {
             Ldrstring = "no";
@@ -167,13 +150,11 @@ public class Russian447Targc implements TargetPersUniti {
         // sniper
         SANCheck(ODR);
         myCombatResultsString += ": ";
-        int CurrentMoraleLevel = 0;
-        int HOBdrm = 2; // Russian
+        int ReducedUnitMoraleLevel = 0;
         if (myOrderStatus == Constantvalues.OrderStatus.Broken || myOrderStatus == Constantvalues.OrderStatus.Broken_DM) {
-            CurrentMoraleLevel = getBrokenML();
-            HOBdrm += 1;
+            ReducedUnitMoraleLevel = myHSML;
         } else {
-            CurrentMoraleLevel = getMoraleLevel();
+            ReducedUnitMoraleLevel = getMoraleLevel();
         }
         // handle 2
         if (ODR == 2) {myHOBFlag = true;}
@@ -187,36 +168,32 @@ public class Russian447Targc implements TargetPersUniti {
             
         // handle MC
         if (myOrderStatus == Constantvalues.OrderStatus.Broken || myOrderStatus == Constantvalues.OrderStatus.Broken_DM) {
-            if (FDR > (CurrentMoraleLevel - TargSTackLdrdrm)) {
+            if (FDR > (ReducedUnitMoraleLevel - TargSTackLdrdrm)) {
                 myPersUnitImpact = Constantvalues.PersUnitResult.Dies;
-            } else if (FDR <= (CurrentMoraleLevel - TargSTackLdrdrm)) {
-                if (myOrderStatus == Constantvalues.OrderStatus.Broken) {  // what about broken_DM?  why this test if result is the same
-                    myPersUnitImpact = Constantvalues.PersUnitResult.ReducesBreaks;
-                } else {
-                    myPersUnitImpact = Constantvalues.PersUnitResult.ReducesBreaks;
-                }
+                Resultstring = " is reduced to a broken HS, suffers a MC failure with ";
+            } else if (FDR <= (ReducedUnitMoraleLevel - TargSTackLdrdrm)) {
+                myPersUnitImpact = Constantvalues.PersUnitResult.ReducesBreaks;
+                Resultstring = " is reduced to a broken HS, and passes its MC with ";
             }
         } else {
-            if (FDR == (CurrentMoraleLevel - TargSTackLdrdrm)) {   // pin result
+            if (FDR == (ReducedUnitMoraleLevel - TargSTackLdrdrm)) {   // pin result
                 myPersUnitImpact = Constantvalues.PersUnitResult.ReducesPins;
-            } else if (FDR > (CurrentMoraleLevel - TargSTackLdrdrm)) {  // breaks
-                if (FDR > (CurrentMoraleLevel - TargSTackLdrdrm + myELR)) {  // ELR failure
+                Resultstring = " is reduced to a HS, and passes its MC with ";
+            } else if (FDR > (ReducedUnitMoraleLevel - TargSTackLdrdrm)) {  // breaks
+                if (FDR > (ReducedUnitMoraleLevel - TargSTackLdrdrm + myELR)) {  // ELR failure
                     myPersUnitImpact = Constantvalues.PersUnitResult.ReplacesReducesBreaks;
-                    Resultstring = " and breaks as it fails MC with " + Ldrstring + "SMC drm and a " + Integer.toString(ODR) + " dice roll";
+                    Resultstring = " and suffers a MC ELR failure with " ;
                 } else {                                                     // break; no ELR failure
                     myPersUnitImpact = Constantvalues.PersUnitResult.ReducesBreaks;
-                    Resultstring = " and breaks as it fails MC with " + Ldrstring + "SMC drm and a " + Integer.toString(ODR) + " dice roll";
+                    Resultstring = " and suffers a MC failure with " ;
                 }
-            } else if (FDR < (CurrentMoraleLevel - TargSTackLdrdrm)) {   // passes MC
+            } else if (FDR < (ReducedUnitMoraleLevel - TargSTackLdrdrm)) {   // passes MC
                 myPersUnitImpact = Constantvalues.PersUnitResult.Reduces;
-                Resultstring = " and passes MC with " + Ldrstring + "SMC drm and a " + Integer.toString(ODR) + " dice roll";
+                Resultstring = " and passes a MC with " ;
             }
         }
-        if (myPersUnitImpact != Constantvalues.PersUnitResult.NoEffects) {
-            return true;
-        } else {
-            return false;
-        }
+        myCombatResultsString += Resultstring + Ldrstring + "SMC drm and a " + Integer.toString(FDR + TargSTackLdrdrm) + " modified dice roll:";
+        return true;
     }
 
     public boolean HasFT() {
@@ -251,6 +228,7 @@ public class Russian447Targc implements TargetPersUniti {
         1.*/
 
         myPersUnitImpact = VASL.build.module.fullrules.Constantvalues.PersUnitResult.Dies;
+        myCombatResultsString += myName + " is KIA'd: ";
         return true;
     }
 
@@ -267,9 +245,15 @@ public class Russian447Targc implements TargetPersUniti {
         9.	If Breaks by > ELR then
         Target replaces [UC204-TargetReplaces] (Alternate Course A: UC218-TargetDisrupts, Alternate Course B: UC214-TargetSubstitutes)
         	Target DMs [UC208-TargetDMs]*/
-
+        String Resultstring = "";
         myMCNum = MCNum;
         myTargSTackLdrdrm = TargStackLdrdrm;
+        String Ldrstring = "";
+        if (myTargSTackLdrdrm == 0) {
+            Ldrstring = "no ";
+        } else {
+            Ldrstring = java.lang.Integer.toString(TargStackLdrdrm);
+        }
         DiceC Dieclass = new DiceC();
         int ODR = Dieclass.Diceroll();
         myCombatResultsString += myName + " rolls a " + java.lang.Integer.toString(ODR);
@@ -290,24 +274,27 @@ public class Russian447Targc implements TargetPersUniti {
         if (ODR == 12) {
             if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {  // fails MC by > ELR
                 myPersUnitImpact = Constantvalues.PersUnitResult.ReplacesReducesBreaks;
+                Resultstring = " and suffers Casualty Reduction and is Replaced with " ;
             } else {                                                     // fails MC <= ELR
                 myPersUnitImpact = Constantvalues.PersUnitResult.ReducesBreaks;
+                Resultstring = " and suffers Casualty Reduction with " ;
             }
+            myCombatResultsString += Resultstring + Ldrstring + "SMC drm and a " + Integer.toString(FDR + TargStackLdrdrm) + " modified dice roll:";
             return true;
         }
         // MC
         if (myOrderStatus == Constantvalues.OrderStatus.Broken || myOrderStatus == Constantvalues.OrderStatus.Broken_DM) {
             if (FDR > (CurrentMoraleLevel - TargStackLdrdrm)) {  // fails MC
-                if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {   // ELR failure
-                    myPersUnitImpact = Constantvalues.PersUnitResult.ReplacesReducesBreaks;
-                } else {                                         // no ELR failure
-                    myPersUnitImpact = Constantvalues.PersUnitResult.ReducesBreaks;
-                }
+                // no ELR failure
+                myPersUnitImpact = Constantvalues.PersUnitResult.ReducesDMs;
+                Resultstring = " and suffers Casualty Reduction with " ;
             } else if (FDR <= (CurrentMoraleLevel - TargStackLdrdrm)) {  // passes MC
                 if (myOrderStatus == Constantvalues.OrderStatus.Broken) { // already broken so DMs
                     myPersUnitImpact = Constantvalues.PersUnitResult.DMs;
+                    Resultstring = " and passes a MC, is DM'd, with " ;
                 } else {                                                  // already DM so no effect
                     myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
+                    Resultstring = " and passes a MC with " ;
                 }
             }
         } else {    // unit is good order
@@ -316,29 +303,26 @@ public class Russian447Targc implements TargetPersUniti {
             } else if (FDR > (CurrentMoraleLevel - TargStackLdrdrm)) { // fails MC
                 if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {   // ELR failure
                     myPersUnitImpact = Constantvalues.PersUnitResult.ReplacesDMs;
+                    Resultstring = " and suffers a MC ELR failure with " ;
                 } else {                                                     // no ELR failure
-                    myPersUnitImpact = Constantvalues.PersUnitResult.DMs;
+                    myPersUnitImpact = Constantvalues.PersUnitResult.Breaks;
+                    Resultstring = " and suffers a MC failure with " ;
                 }
             } else if (FDR < (CurrentMoraleLevel - TargStackLdrdrm)) {   // passes MC
                 myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
+                Resultstring = " and passes a MC with " ;
             }
         }
-        if (myPersUnitImpact != Constantvalues.PersUnitResult.NoEffects) {
-            return true;
-        } else {
-            return false;
-        }
+        myCombatResultsString += Resultstring + Ldrstring + "SMC drm and a " + Integer.toString(FDR + TargStackLdrdrm) + " modified dice roll:";
+        return true;
     }
 
     public boolean NR() {
-        /*Name:       TargetNoEResult()
-
+         /*Name:       TargetNoEResult()
         Identifier UC 105
-
-                    Preconditions()
+        Preconditions()
         1.	An eligible IFT fire solution has produced a result
-
-                    Basic Course
+        Basic Course
         1.	Use case begins when NoEffect result is obtained on the IFT
         2.	no effect unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
 
@@ -349,47 +333,49 @@ public class Russian447Targc implements TargetPersUniti {
         Condition:
 
         Post conditions (List the state(s) the system can be in when this use case ends)
-        1.*/
-
+        */
+        String Resultstring = "";
         if (myOrderStatus == Constantvalues.OrderStatus.Broken) {  // DMs - NEED TO ADD TEST FOR SUFFICIENT FP
             myPersUnitImpact = Constantvalues.PersUnitResult.DMs;
+            Resultstring = " is DM'd: no effect ";
         } else {
             myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
+            Resultstring = "survives: no effect";
         }
+        myCombatResultsString += myName +  Resultstring;
         return true;
     }
 
-    public boolean PTC(int TargSTackLdrdrm) {
-                /*UC implemented
+    public boolean PTC(int TargStackLdrdrm) {
+                /*  Name:       TargetPTCResult()
+        Identifier UC 104
+        Preconditions()
+        1.	An eligible IFT fire solution has produced a result
+        Basic Course
+        1.	Use case begins when PTC result is obtained on the IFT
+        2.	Determine ML, ldr drm, other TC drm
+        3:          .Dice Roll & Snipercheck
+        4.	Determine Result ( pass, fail)
+        5.
+        6.	If Passes then no effect unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
+        7.	If Pins then Target Pins [UC206-TargetPins] unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
 
-                    Name:       TargetPTCResult()
+        Alternate Course A: UC208-TargetDMs
+        Condition:  Target is Broken
 
-                    Identifier UC 104
+        Inheritance:
+        Condition:
 
-                                Preconditions()
-                    1.	An eligible IFT fire solution has produced a result
-
-                                Basic Course
-                    1.	Use case begins when PTC result is obtained on the IFT
-                    2.	Determine ML, ldr drm, other TC drm
-                    3:          .Dice Roll & Snipercheck
-                    4.	Determine Result ( pass, fail)
-                    5.
-                    6.	If Passes then no effect
-                    	unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
-                    7.	If Pins then Target Pins [UC206-TargetPins]
-                    	unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
-
-                    Alternate Course A: UC208-TargetDMs
-                    Condition:  Target is Broken
-
-                    Inheritance:
-                    Condition:
-
-                    Post conditions (List the state(s) the system can be in when this use case ends)
-                    1.*/
-
-
+        Post conditions (List the state(s) the system can be in when this use case ends)
+        */
+        myTargSTackLdrdrm = TargStackLdrdrm;
+        myCombatResultsString += myName;
+        String Ldrstring = "";
+        if (myTargSTackLdrdrm == 0) {
+            Ldrstring = "no ";
+        } else {
+            Ldrstring = java.lang.Integer.toString(TargStackLdrdrm);
+        }
         if (myOrderStatus == Constantvalues.OrderStatus.GoodOrder) {  //  only GoodOrder units can take IFT PTCs
             DiceC Dieclass = new DiceC();
             int ODR = Dieclass.Diceroll();
@@ -397,15 +383,20 @@ public class Russian447Targc implements TargetPersUniti {
             // sniper
             SANCheck(ODR);
             myCombatResultsString += ": ";
-            if (ODR > (getMoraleLevel() - TargSTackLdrdrm)) {  // fails PTC
+            if (ODR > (getMoraleLevel() - TargStackLdrdrm)) {  // fails PTC
                 myPersUnitImpact = Constantvalues.PersUnitResult.Pins;
+                myCombatResultsString += "and fails PTC with ";
             } else {                                         // passes PTC
                 myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
+                myCombatResultsString += "and passes PTC with ";
             }
+            myCombatResultsString += Ldrstring + "SMC drm and a " + Integer.toString(ODR + TargStackLdrdrm) + " modified dice roll:";
         } else if (myOrderStatus == Constantvalues.OrderStatus.Broken) {  // broken unit is DM'd
             myPersUnitImpact = Constantvalues.PersUnitResult.DMs;
+            myCombatResultsString += " DM's due to PTC:";
         } else {
             myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
+            myCombatResultsString += " is not effected by PTC: ";
         }
         return true;
     }
@@ -435,38 +426,23 @@ public class Russian447Targc implements TargetPersUniti {
 
         if (myOrderStatus == Constantvalues.OrderStatus.Broken || myOrderStatus == Constantvalues.OrderStatus.Broken_DM) {  // unit is already broken so is reduced
             myPersUnitImpact = Constantvalues.PersUnitResult.Reduces;
+            myCombatResultsString += myName + " suffers Casuality Reduction: ";
         } else {                                                                                                            // good order unit is broken and DM
             myPersUnitImpact = Constantvalues.PersUnitResult.DMs;
+            myCombatResultsString += myName + " is broken and ";
         }
         return true;
     }
     public boolean UpdateTargetStatus(PersUniti PassTarget) {
-        // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL TARGET CLASSES
-        // get Order of Battle unit that matches the PersUniti
-        ManageUpdateUnitCommand manageupdateunitcommand = new ManageUpdateUnitCommand();
-        Command newcommand = manageupdateunitcommand.CreateCommand(PassTarget, Constantvalues.UnitCommandtype.targunit);
-        manageupdateunitcommand.ProcessCommand(newcommand);
-        // this may no longer be needed as above may handle for both local and remote
-        CommonFunctionsC comfun = new CommonFunctionsC(PassTarget.getbaseunit().getScenario());
-        OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(PassTarget.getbaseunit().getUnit_ID(),  PassTarget.getbaseunit().getUnitName());
+        // this update triggers the Command to update OrderofBattle values plus remote computer
+        // the Command also triggers counter actions
 
-        if (UpdateUnit != null) {
-            UpdateUnit.setOrderStatus(getOrderStatus());
-            PassTarget.getbaseunit().setOrderStatus(getOrderStatus());
-            UpdateUnit.setCX(PassTarget.getbaseunit().getCX());
-            UpdateUnit.setPinned(PassTarget.getbaseunit().getPinned());
-            UpdateUnit.setCombatStatus(PassTarget.getbaseunit().getCombatStatus());
-            UpdateUnit.setMovementStatus(PassTarget.getbaseunit().getMovementStatus());
-            UpdateUnit.setFirstSWLink(PassTarget.getbaseunit().getFirstSWLink());
-            UpdateUnit.setSecondSWlink(PassTarget.getbaseunit().getSecondSWLink());
-            UpdateUnit.setSW(PassTarget.getbaseunit().getnumSW());
-            return true;
-        }
-        return false;
+        InfantryUnitCommonFunctionsc UpdateTargCF = new InfantryUnitCommonFunctionsc();
+        return UpdateTargCF.UpdateTargetStatus(PassTarget);
     }
     public int getLdrDRM () {return 0;}
 
-    public String getCombatResultString() {return " ";}
+    public String getCombatResultString() {return myCombatResultsString;}
     public Constantvalues.PersUnitResult SniperImpact(int Sniperdr) {
         if (Sniperdr == 1) {
             if (myOrderStatus == Constantvalues.OrderStatus.Broken_DM || myOrderStatus == Constantvalues.OrderStatus.Broken) {

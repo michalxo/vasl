@@ -1,10 +1,12 @@
 package VASL.build.module.fullrules.UtilityClasses;
 
+import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.*;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.ObjectClasses.SMC;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASSAL.build.GameModule;
 import VASSAL.counters.GamePiece;
 import VASSAL.counters.PieceIterator;
@@ -35,15 +37,15 @@ public class CommonFunctionsC {
         Dim loctouse As MapDataClassLibrary.GameLocation
         If SniperNationality = Scendet.ATT1 Or SniperNationality = Scendet.ATT2 Then
         If AorB = "A" Then
-                loctouse = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sandfnaloc))
+                loctouse = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sandfnaloc))
         Else
-                loctouse = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sandfnbloc))
+                loctouse = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sandfnbloc))
         End If
         Else
         If AorB = "A" Then
-                loctouse = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sanattaloc))
+                loctouse = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sanattaloc))
         Else
-                loctouse = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sanattbloc))
+                loctouse = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sanattbloc))
         End If
         End If
         Return loctouse*/
@@ -54,7 +56,34 @@ public class CommonFunctionsC {
         // retrieves SAN for other side of parameter SideNationality
 
         Scenario Scendet = scen.getScendet();
-        return  (SideNationality == Scendet.getATT1() || SideNationality == Scendet.getATT2()) ? Scendet.getDFNSAN(): Scendet.getATTSAN();
+        return  (SideNationality == Scendet.getATT1() || SideNationality == Scendet.getATT2() ? Scendet.getDFNSAN(): Scendet.getATTSAN());
+    }
+    public Constantvalues.Nationality GetFriendlySide(Constantvalues.Nationality Initialnationality) {
+        Scenario Scendet = scen.getScendet();
+        return (Initialnationality == Scendet.getATT1() || Initialnationality == Scendet.getATT2() ? Scendet.getATT1(): Scendet.getDFN1());
+    }
+
+    public Constantvalues.Nationality GetOppositeSide(Constantvalues.Nationality Initialnationality){
+        Scenario Scendet = scen.getScendet();
+        return (Initialnationality == Scendet.getATT1() || Initialnationality == Scendet.getATT2() ? Scendet.getDFN1(): Scendet.getATT1());
+    }
+    public Constantvalues.Nationality[] SetEnemy(Constantvalues.Nationality FirstFriendly) {
+        // called by
+        // set the nationality values of the "enemy" side
+        Constantvalues.Nationality[] Enemies = new Constantvalues.Nationality[2];
+        Constantvalues.Nationality Enemyside1 = null;
+        Constantvalues.Nationality Enemyside2 = null;
+        Scenario Scendet = scen.getScendet();
+        if (FirstFriendly == Scendet.getATT1() || FirstFriendly == Scendet.getATT2()) {
+            Enemyside1 = Scendet.getDFN1();
+            Enemyside2 = Scendet.getDFN2();
+        } else if (FirstFriendly == Scendet.getDFN1() || FirstFriendly == Scendet.getDFN2()) {
+            Enemyside1 = Scendet.getATT1();
+            Enemyside2 = Scendet.getATT2();
+        }
+        Enemies[0]= Enemyside1;
+        Enemies[1]= Enemyside2;
+        return Enemies;
     }
     public Constantvalues.Nationality GetPhaseSide() {
         /*'called by various initialize routines
@@ -251,6 +280,21 @@ public class CommonFunctionsC {
             }
         }
         return null;
+    }
+
+    public boolean CreateNewThingsToDo(Constantvalues.ToDo PassToDo, Hex Passhex, Location Passloc, Constantvalues.WhoCanDo PassPlayerTurn) {
+        // called by Movement.ClearanceAttempt.MoveUpdate
+        ThingsToDo SomethingToDo = new ThingsToDo();
+        SomethingToDo.setScenario(myscenid);
+        //SomethingToDo.setPhase(SomethingToDo.DoPhase(PassToDo));
+        SomethingToDo.setPlayerTurn(PassPlayerTurn);
+        SomethingToDo.setHex(Passhex);
+        SomethingToDo.setLocation(Passloc);
+        SomethingToDo.setToDo(PassToDo);
+        //SomethingToDo.setItemID(SomethingToDo.GetNextId());
+        ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+        Scencolls.ToDocol.add(SomethingToDo);
+        return true;
     }
     /*public GamePiece GetNewGamePiece(int Counterlink) {
         GamePiece newpiece = new GamePiece() {

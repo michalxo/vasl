@@ -118,6 +118,9 @@ public class CombatResC implements CombatResi {
                         case ReducesBreaks:
                             RunStatusChange = new UnitReducesBreaksc(Resultstring);
                             break;
+                        case ReducesDMs:
+                            RunStatusChange = new UnitReducesDMsc(Resultstring);
+                            break;
                         case DMs:
                             RunStatusChange = new UnitDMsc();
                             break;

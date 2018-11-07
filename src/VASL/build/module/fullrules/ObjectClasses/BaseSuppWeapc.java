@@ -160,7 +160,7 @@ public class BaseSuppWeapc {
     }
 
     /*public Function HasWallAdvantage() As Boolean
-    return If(myhexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (myhexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And myhexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6), True, False)
+    return If(myhexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (myhexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And myhexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5), True, False)
     End Function*/
     public boolean WeaponIsLost() {
         // called by DroppingSW.DropIt

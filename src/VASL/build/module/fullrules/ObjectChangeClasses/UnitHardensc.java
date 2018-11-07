@@ -113,6 +113,7 @@ public class UnitHardensc  implements  StatusChangei {
     /**
      * Displays the input dialog and returns user input
      */
+    // move this out to a common function as it will be the same in all classes
     public String askforNewUnit(String Oldname) {
         JOptionPane pane = new JOptionPane();
         String newname =  pane.showInputDialog(null,

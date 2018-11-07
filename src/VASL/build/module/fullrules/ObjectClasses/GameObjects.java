@@ -115,7 +115,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -231,7 +231,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -346,7 +346,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -462,7 +462,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -577,7 +577,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -688,7 +688,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -788,7 +788,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -888,7 +888,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -988,7 +988,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -1103,7 +1103,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -1218,7 +1218,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -1333,7 +1333,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -1448,7 +1448,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -1563,7 +1563,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -1678,7 +1678,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -1793,7 +1793,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -1917,7 +1917,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -2032,7 +2032,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -2144,7 +2144,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -2252,7 +2252,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -2360,7 +2360,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -2475,7 +2475,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -2590,7 +2590,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -2705,7 +2705,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBasePU.Pinned Then Unittexture &= "pin"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBasePU.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBasePU.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBasePU.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBasePU.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -6761,7 +6761,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -6900,7 +6900,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -7027,7 +7027,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -7036,7 +7036,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -7123,7 +7123,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -7262,7 +7262,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -7388,7 +7388,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -7397,7 +7397,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -7483,7 +7483,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -7622,7 +7622,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -7747,7 +7747,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -7756,7 +7756,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -7843,7 +7843,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -7982,7 +7982,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -8107,7 +8107,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -8116,7 +8116,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -8205,7 +8205,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -8344,7 +8344,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -8469,7 +8469,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -8478,7 +8478,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -8567,7 +8567,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -8703,7 +8703,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -8828,7 +8828,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -8837,7 +8837,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -8926,7 +8926,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -9065,7 +9065,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -9190,7 +9190,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -9199,7 +9199,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -9287,7 +9287,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -9426,7 +9426,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -9551,7 +9551,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -9560,7 +9560,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -9649,7 +9649,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -9789,7 +9789,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -9914,7 +9914,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -9923,7 +9923,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -10014,7 +10014,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -10153,7 +10153,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -10278,7 +10278,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -10287,7 +10287,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -10375,7 +10375,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -10514,7 +10514,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -10639,7 +10639,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -10648,7 +10648,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -10736,7 +10736,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -10875,7 +10875,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -11001,7 +11001,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -11010,7 +11010,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -11098,7 +11098,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -11237,7 +11237,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -11362,7 +11362,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -11371,7 +11371,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -11460,7 +11460,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -11599,7 +11599,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -11724,7 +11724,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -11733,7 +11733,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -11821,7 +11821,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -11960,7 +11960,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -12085,7 +12085,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -12094,7 +12094,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -12182,7 +12182,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -12321,7 +12321,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -12446,7 +12446,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -12455,7 +12455,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -12543,7 +12543,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -12682,7 +12682,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -12807,7 +12807,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -12816,7 +12816,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -12904,7 +12904,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -13140,7 +13140,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -13279,7 +13279,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -13404,7 +13404,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -13413,7 +13413,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -13501,7 +13501,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -13640,7 +13640,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -13765,7 +13765,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -13774,7 +13774,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -26450,7 +26450,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         End Property
         'Methods
         ''Private Function LdrAdds() As Boolean
-        ''    Dim TestModel As New movementc
+        ''    Dim TestModel As New MOVEC
         ''    Dim UnitswithExcessPP As Integer = 0 : Dim SMCPresent As Integer = 0
         ''    For Each MovingUnittoCheck As ObjectClassLibrary.ASLXNA.MovingPersuniti In Game.Scenario.DoMove.MovingUnits.SelectedList
         ''        Dim SWCarrying As Integer = TestModel.PPCarrying(MovingUnittoCheck)
@@ -27120,7 +27120,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ''Else
         ''    Dim unittocheck As DataClassLibrary.OrderofBattle = Game.linqdata.GetUnitfromCol(MovingUnittoCheck.ItemID)
         ''    If CXTest Then
-        ''        Dim UnittoChange As UnitChange = New SetasCXc(unittocheck.OBUnit_ID)
+        ''        Dim UnittoChange As UnitChangei = New SetasCXc(unittocheck.OBUnit_ID)
         ''        UnittoChange.TakeAction()
         ''    End If
         ''End If
@@ -27593,7 +27593,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         '    Return GetSW
         'End Function
         Public Function HasWallAdvantage() As Boolean
-        Return If(myhexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (myhexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And myhexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6), True, False)
+        Return If(myhexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (myhexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And myhexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5), True, False)
         End Function
         Public Function WeaponIsLost() As Boolean
         'called by DroppingSW.DropIt
@@ -27833,7 +27833,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -27976,7 +27976,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -28121,7 +28121,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -28262,7 +28262,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -28403,7 +28403,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -28544,7 +28544,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -28685,7 +28685,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -28826,7 +28826,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -28967,7 +28967,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -29107,7 +29107,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -29127,7 +29127,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassSW.BaseSW.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassSW.BaseSW.LOCIndex))
         myBaseUnit = PassSW
         End Sub
         Public Sub AdvancingFireModification(Phase As Integer) Implements FiringSuppWeapi.AdvancingFireModification
@@ -29227,7 +29227,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -29236,7 +29236,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myBaseUnit.BaseSW.hexPosition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myBaseUnit.BaseSW.hexPosition)
@@ -29329,7 +29329,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -29424,7 +29424,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassSW.BaseSW.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassSW.BaseSW.LOCIndex))
         myBaseUnit = PassSW
         End Sub
         Public Sub AdvancingFireModification(Phase As Integer) Implements FiringSuppWeapi.AdvancingFireModification
@@ -29524,7 +29524,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -29533,7 +29533,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myBaseUnit.BaseSW.hexPosition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myBaseUnit.BaseSW.hexPosition)
@@ -29626,7 +29626,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -29721,7 +29721,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassSW.BaseSW.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassSW.BaseSW.LOCIndex))
         myBaseUnit = PassSW
         End Sub
         Public Sub AdvancingFireModification(Phase As Integer) Implements FiringSuppWeapi.AdvancingFireModification
@@ -29821,7 +29821,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -29830,7 +29830,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myBaseUnit.BaseSW.hexPosition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myBaseUnit.BaseSW.hexPosition)
@@ -29923,7 +29923,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -30974,7 +30974,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -31117,7 +31117,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -31262,7 +31262,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -31407,7 +31407,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -31548,7 +31548,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -31689,7 +31689,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -31830,7 +31830,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -31971,7 +31971,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -32112,7 +32112,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -32253,7 +32253,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -32393,7 +32393,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If Me.myBaseSW.Pinned Then Unittexture &= "pin"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If Me.myBaseSW.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If Me.myBaseSW.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Me.myBaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.myBaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         End Class
@@ -32414,7 +32414,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassSW.BaseSW.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassSW.BaseSW.LOCIndex))
         myBaseUnit = PassSW
         End Sub
         Public Sub AdvancingFireModification(Phase As Integer) Implements FiringSuppWeapi.AdvancingFireModification
@@ -32514,7 +32514,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -32523,7 +32523,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myBaseUnit.BaseSW.hexPosition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myBaseUnit.BaseSW.hexPosition)
@@ -32616,7 +32616,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -32711,7 +32711,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassSW.BaseSW.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassSW.BaseSW.LOCIndex))
         myBaseUnit = PassSW
         End Sub
         Public Sub AdvancingFireModification(Phase As Integer) Implements FiringSuppWeapi.AdvancingFireModification
@@ -32811,7 +32811,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -32820,7 +32820,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myBaseUnit.BaseSW.hexPosition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myBaseUnit.BaseSW.hexPosition)
@@ -32913,7 +32913,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -33008,7 +33008,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassSW.BaseSW.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassSW.BaseSW.LOCIndex))
         myBaseUnit = PassSW
         End Sub
         Public Sub AdvancingFireModification(Phase As Integer) Implements FiringSuppWeapi.AdvancingFireModification
@@ -33108,7 +33108,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -33117,7 +33117,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myBaseUnit.BaseSW.hexPosition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myBaseUnit.BaseSW.hexPosition)
@@ -33210,7 +33210,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -33305,7 +33305,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassSW.BaseSW.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassSW.BaseSW.LOCIndex))
         myBaseUnit = PassSW
         End Sub
         Public Sub AdvancingFireModification(Phase As Integer) Implements FiringSuppWeapi.AdvancingFireModification
@@ -33405,7 +33405,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -33414,7 +33414,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myBaseUnit.BaseSW.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myBaseUnit.BaseSW.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myBaseUnit.BaseSW.hexPosition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myBaseUnit.BaseSW.hexPosition)
@@ -33507,7 +33507,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -34512,7 +34512,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If BasePersUnit.Pinned Then Unittexture &= "pin"
         If BasePersUnit.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour1 Then Unittexture &= "tilab1"
         If BasePersUnit.MovementStatus = ConstantClassLibrary.ASLXNA.MovementStatus.Labour2 Then Unittexture &= "tilab2"
-        If BasePersUnit.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (BasePersUnit.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And BasePersUnit.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Unittexture &= "wa"
+        If BasePersUnit.hexPosition = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (BasePersUnit.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And BasePersUnit.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Unittexture &= "wa"
         Return Unittexture
         End Function
         Private Function IsWounded(ByVal FortitudeStatus As Integer) As Boolean
@@ -35025,7 +35025,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         ' MsgBox("Some kind of error" & ASLMapLink, , "CreateMapCollection Failure")
         End Try
         Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(MapCol)
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(CInt(PassUnit.BasePersUnit.LOCIndex))
+        MyLoc = Getlocs.RetrieveLocationfromHex(CInt(PassUnit.BasePersUnit.LOCIndex))
         myIsInCrestStatus = PassUnit.BasePersUnit.IsInCrestStatus
         myhexposition = PassUnit.BasePersUnit.hexPosition
         myOBLink = PassUnit.BasePersUnit.Unit_ID
@@ -35124,7 +35124,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         IsCrossingWHR = False
         End Select
         If IsCrossingWHR Then
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         myCombatFP = 0  'wall/hedge blocks LOS by entrenched unit
         Exit Sub
         End If
@@ -35133,7 +35133,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestCA As Integer = 0 : Dim UsingCrestCA As Boolean = False
-        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If myhexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And myhexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         CrestCA = CrestTest.CrestSideToSide(myhexposition)
         Else
         CrestCA = CrestTest.WACrestSideToSide(myhexposition)
@@ -35243,7 +35243,7 @@ package VASL.build.module.fullrules.ObjectClasses;
         If HexLocIndex > 0 Then
         Dim PillboxLOS As Boolean = False
         'get Pillbox location
-        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
         'Now determine Pillbox covered arc
         Dim TerrChk = New TerrainClassLibrary.ASLXNA.TerrainChecks(MapCol)
         Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance("", 0)    'use null values for parameters when sure instance exists
@@ -36132,7 +36132,7 @@ public class SmokeHolder {
         Exit Sub
         Catch ex As Exception
         End Try
-        If passprite.hexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And passprite.hexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Then
+        If passprite.hexposition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And passprite.hexposition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Then
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestPosTest As Integer = CrestTest.CresttoWACrest(passprite.hexposition)
         Try
@@ -36142,7 +36142,7 @@ public class SmokeHolder {
         Catch ex As Exception
         End Try
         End If
-        If passprite.hexposition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And passprite.hexposition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6 Then
+        If passprite.hexposition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And passprite.hexposition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5 Then
         Dim CrestTest = New UtilClassLibrary.ASLXNA.ConversionC
         Dim CrestPosTest As Integer = CrestTest.WACresttoJustCrest(passprite.hexposition)
         Try
@@ -36158,7 +36158,7 @@ public class SmokeHolder {
         'first handle fortified building
         If IsTerrChk.IsLocationTerrainA(passprite.LocIndex, ConstantClassLibrary.ASLXNA.Location.FortBuildtype) Then
         'show fortified counter
-        Dim Passhexloc As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromMaptable(Hexnum, passprite.hexloc)
+        Dim Passhexloc As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromHex(Hexnum, passprite.hexloc)
         Dim ShowFort = New ShowLocationCounter(Passhexloc, GameContent)
         ShowFort.ShowFortified()
         Exit Sub
@@ -36186,8 +36186,8 @@ public class SmokeHolder {
         End Sub
         Private Function DoesPositionNeedCounter(ByVal hexposition As Integer) As Boolean
         If hexposition > 6900 And hexposition < 6980 Then 'is position
-        If hexposition < ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 Or (hexposition > ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 And
-        hexposition < ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1) Or hexposition > ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6 Then Return False Else Return True
+        If hexposition < ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 Or (hexposition > ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 And
+        hexposition < ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0) Or hexposition > ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5 Then Return False Else Return True
         Else
         Return False
         End If
@@ -36259,7 +36259,7 @@ public class SmokeHolder {
         'add Terrain, visibility and misc
         Dim TerrainActions = New ObjectClassLibrary.ASLXNA.TerrainActionsC(GameContent)
         Dim GetLocs As New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(LocationCol)
-        Dim LocationsInhex = GetLocs.RetrieveLocationsfromMapTable(Me.Hexnum, "Hexnum")
+        Dim LocationsInhex = GetLocs.RetrieveLocationsinHex(Me.Hexnum, "Hexnum")
         For Each LOCToUse As MapDataClassLibrary.GameLocation In LocationsInhex
         TerrainActions.ShowTerrainInLocation(LOCToUse)
         Next
@@ -36268,25 +36268,25 @@ public class SmokeHolder {
         Dim Scendet As DataClassLibrary.scen = Linqdata.GetScenarioData(ScenID) 'retrieves scenario data
         Dim util = New UtilClassLibrary.ASLXNA.ConversionC : Dim Sniperid As Integer = 0
         If Scendet.Sanattaloc = Me.Hexnum Then
-        Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sanattaloc))
+        Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sanattaloc))
         sidetoget = CInt(Scendet.ATT1)
         Sniperid = util.GetSnipervalue(sidetoget, "A")
         TerrainActions.SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
         End If
         If Scendet.Sanattbloc = Me.Hexnum Then
-        Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sanattbloc))
+        Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sanattbloc))
         sidetoget = CInt(Scendet.ATT1)
         Sniperid = util.GetSnipervalue(sidetoget, "B")
         TerrainActions.SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
         End If
         If Scendet.Sandfnaloc = Me.Hexnum Then
-        Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sandfnaloc))
+        Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sandfnaloc))
         sidetoget = CInt(Scendet.DFN1)
         Sniperid = util.GetSnipervalue(sidetoget, "A")
         TerrainActions.SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
         End If
         If Scendet.Sandfnbloc = Me.Hexnum Then
-        Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sandfnbloc))
+        Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sandfnbloc))
         sidetoget = CInt(Scendet.DFN1)
         Sniperid = util.GetSnipervalue(sidetoget, "B")
         TerrainActions.SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
@@ -36324,18 +36324,18 @@ public class SmokeHolder {
         Foxhole.Add(Displaycounter)
         Case ConstantClassLibrary.ASLXNA.Feature.Wire, ConstantClassLibrary.ASLXNA.AltPos.AboveWire
         Wire.Add(Displaycounter)
-        Case ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1, ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1
+        Case ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0, ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0
+        CrestStatus0.Add(Displaycounter)
+        Case ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0, ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1
+        CrestStatus0.Add(Displaycounter)
+        Case ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1, ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus2
         CrestStatus1.Add(Displaycounter)
-        Case ConstantClassLibrary.ASLXNA.AltPos.CrestStatus2, ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus2
-        CrestStatus2.Add(Displaycounter)
         Case ConstantClassLibrary.ASLXNA.AltPos.CrestStatus3, ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus3
         CrestStatus3.Add(Displaycounter)
         Case ConstantClassLibrary.ASLXNA.AltPos.CrestStatus4, ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus4
         CrestStatus4.Add(Displaycounter)
         Case ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5, ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5
         CrestStatus5.Add(Displaycounter)
-        Case ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6, ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6
-        CrestStatus6.Add(Displaycounter)
         Case ConstantClassLibrary.ASLXNA.Feature.APMines, ConstantClassLibrary.ASLXNA.Feature.ATMines, ConstantClassLibrary.ASLXNA.Location.FortStoneGrd To ConstantClassLibrary.ASLXNA.Location.FortWood3rd
         Basehexloc.Add(Displaycounter)
         Case 0, ConstantClassLibrary.ASLXNA.AltPos.WallAdv, ConstantClassLibrary.ASLXNA.AltPos.Passenger, ConstantClassLibrary.ASLXNA.AltPos.Rider, ConstantClassLibrary.ASLXNA.VisHind.VehDust To ConstantClassLibrary.ASLXNA.VisHind.GreyWPDisp
@@ -36476,9 +36476,9 @@ public class SmokeHolder {
         Next
         End If
         End If
-        If CrestStatus1.Count > 0 Then
+        If CrestStatus0.Count > 0 Then
         Layercount = ConstantClassLibrary.ASLXNA.DisplayLevel.crest1level
-        Dim Crest1 = New LocationSorted(CrestStatus1, hexnum)
+        Dim Crest1 = New LocationSorted(CrestStatus0, hexnum)
         If Crest1.SortedList.Count > 0 Then
         For Each displaycounter As ObjectClassLibrary.ASLXNA.SpriteOrder In Crest1.SortedList
         DisplayOrderHolder = displaycounter.DisplayOrder / 100
@@ -36486,9 +36486,9 @@ public class SmokeHolder {
         Next
         End If
         End If
-        If CrestStatus2.Count > 0 Then
+        If CrestStatus0.Count > 0 Then
         Layercount = ConstantClassLibrary.ASLXNA.DisplayLevel.crest2level
-        Dim Crest2 = New LocationSorted(CrestStatus2, hexnum)
+        Dim Crest2 = New LocationSorted(CrestStatus0, hexnum)
         If Crest2.SortedList.Count > 0 Then
         For Each displaycounter As ObjectClassLibrary.ASLXNA.SpriteOrder In Crest2.SortedList
         DisplayOrderHolder = displaycounter.DisplayOrder / 100
@@ -36496,9 +36496,9 @@ public class SmokeHolder {
         Next
         End If
         End If
-        If CrestStatus3.Count > 0 Then
+        If CrestStatus1.Count > 0 Then
         Layercount = ConstantClassLibrary.ASLXNA.DisplayLevel.crest3level
-        Dim Crest3 = New LocationSorted(CrestStatus3, hexnum)
+        Dim Crest3 = New LocationSorted(CrestStatus1, hexnum)
         If Crest3.SortedList.Count > 0 Then
         For Each displaycounter As ObjectClassLibrary.ASLXNA.SpriteOrder In Crest3.SortedList
         DisplayOrderHolder = displaycounter.DisplayOrder / 100
@@ -36506,9 +36506,9 @@ public class SmokeHolder {
         Next
         End If
         End If
-        If CrestStatus4.Count > 0 Then
+        If CrestStatus3.Count > 0 Then
         Layercount = ConstantClassLibrary.ASLXNA.DisplayLevel.crest4level
-        Dim Crest4 = New LocationSorted(CrestStatus4, hexnum)
+        Dim Crest4 = New LocationSorted(CrestStatus3, hexnum)
         If Crest4.SortedList.Count > 0 Then
         For Each displaycounter As ObjectClassLibrary.ASLXNA.SpriteOrder In Crest4.SortedList
         DisplayOrderHolder = displaycounter.DisplayOrder / 100
@@ -36516,9 +36516,9 @@ public class SmokeHolder {
         Next
         End If
         End If
-        If CrestStatus5.Count > 0 Then
+        If CrestStatus4.Count > 0 Then
         Layercount = ConstantClassLibrary.ASLXNA.DisplayLevel.crest5level
-        Dim Crest5 = New LocationSorted(CrestStatus5, hexnum)
+        Dim Crest5 = New LocationSorted(CrestStatus4, hexnum)
         If Crest5.SortedList.Count > 0 Then
         For Each displaycounter As ObjectClassLibrary.ASLXNA.SpriteOrder In Crest5.SortedList
         DisplayOrderHolder = displaycounter.DisplayOrder / 100
@@ -36526,9 +36526,9 @@ public class SmokeHolder {
         Next
         End If
         End If
-        If CrestStatus6.Count > 0 Then
+        If CrestStatus5.Count > 0 Then
         Layercount = ConstantClassLibrary.ASLXNA.DisplayLevel.crest6level
-        Dim Crest6 = New LocationSorted(CrestStatus6, hexnum)
+        Dim Crest6 = New LocationSorted(CrestStatus5, hexnum)
         If Crest6.SortedList.Count > 0 Then
         For Each displaycounter As ObjectClassLibrary.ASLXNA.SpriteOrder In Crest6.SortedList
         DisplayOrderHolder = displaycounter.DisplayOrder / 100
@@ -36629,12 +36629,12 @@ public class SmokeHolder {
         Friend Property Tunnel As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
         Friend Property Foxhole As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
         Friend Property Wire As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
+        Friend Property CrestStatus0 As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
+        Friend Property CrestStatus0 As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
         Friend Property CrestStatus1 As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
-        Friend Property CrestStatus2 As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
         Friend Property CrestStatus3 As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
         Friend Property CrestStatus4 As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
         Friend Property CrestStatus5 As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
-        Friend Property CrestStatus6 As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
         Friend Property PassRid As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
         Friend Property Sniper As New List(Of ObjectClassLibrary.ASLXNA.SpriteOrder)
         'Methods
@@ -36901,12 +36901,12 @@ public class SmokeHolder {
         If Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.Location.Cellar Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.Location.BunkUnder Or
         Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.Feature.Foxhole Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.Location.Sewer Or
         Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.Location.Tunnel Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.Feature.Trench Or
-        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus2 Or
-        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus3 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus4 Or
-        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6 Or
-        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus2 Or
-        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus3 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus4 Or
-        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6 Or
+        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 Or
+        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus3 Or
+        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus4 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5 Or
+        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 Or
+        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus2 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus3 Or
+        Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus4 Or Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5 Or
         (Displaycounter.TypeID >= ConstantClassLibrary.ASLXNA.Location.Pill1571 And Displaycounter.TypeID <= ConstantClassLibrary.ASLXNA.Location.Bombprf) Or
         Displaycounter.TypeID = ConstantClassLibrary.ASLXNA.Feature.BOWreck Then
         n += 1
@@ -36964,25 +36964,25 @@ public class SmokeHolder {
         Dim GetLocs As New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(LocationCol)
         Dim util = New UtilClassLibrary.ASLXNA.ConversionC : Dim Sniperid As Integer = 0
         If Scendet.Sanattaloc > 0 Then
-        Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sanattaloc))
+        Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sanattaloc))
         sidetoget = CInt(Scendet.ATT1)
         Sniperid = util.GetSnipervalue(sidetoget, "A")
         SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
         End If
         If Scendet.Sanattbloc > 0 Then
-        Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sanattbloc))
+        Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sanattbloc))
         sidetoget = CInt(Scendet.ATT1)
         Sniperid = util.GetSnipervalue(sidetoget, "B")
         SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
         End If
         If Scendet.Sandfnaloc > 0 Then
-        Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sandfnaloc))
+        Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sandfnaloc))
         sidetoget = CInt(Scendet.DFN1)
         Sniperid = util.GetSnipervalue(sidetoget, "A")
         SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
         End If
         If Scendet.Sandfnbloc > 0 Then
-        Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sandfnbloc))
+        Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sandfnbloc))
         sidetoget = CInt(Scendet.DFN1)
         Sniperid = util.GetSnipervalue(sidetoget, "B")
         SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
@@ -37055,29 +37055,29 @@ public class SmokeHolder {
         AddToDisplay(ShowCounter, Drawsprite)
         End If
         'Roadblock  - need to check each hexside  -COME BACK AND USE DYNAMIC LINQ QUERY TO DO THIS AS A LOOP
-        If ShowCounter.Hexside1 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock1 Then
+        If ShowCounter.Hexside1 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock0 Then
+        TerrTexture = SetTextureandName(ShowCounter, ConstantClassLibrary.ASLXNA.Hexside.Roadblock0, Getname)
+        If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, ConstantClassLibrary.ASLXNA.Hexside.Roadblock0, Getname)
+        AddToDisplay(ShowCounter, Drawsprite)
+        End If
+        If ShowCounter.Hexside2 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock1 Then
         TerrTexture = SetTextureandName(ShowCounter, ConstantClassLibrary.ASLXNA.Hexside.Roadblock1, Getname)
         If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, ConstantClassLibrary.ASLXNA.Hexside.Roadblock1, Getname)
         AddToDisplay(ShowCounter, Drawsprite)
         End If
-        If ShowCounter.Hexside2 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock2 Then
+        If ShowCounter.Hexside3 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock2 Then
         TerrTexture = SetTextureandName(ShowCounter, ConstantClassLibrary.ASLXNA.Hexside.Roadblock2, Getname)
         If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, ConstantClassLibrary.ASLXNA.Hexside.Roadblock2, Getname)
         AddToDisplay(ShowCounter, Drawsprite)
         End If
-        If ShowCounter.Hexside3 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock3 Then
+        If ShowCounter.Hexside4 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock3 Then
         TerrTexture = SetTextureandName(ShowCounter, ConstantClassLibrary.ASLXNA.Hexside.Roadblock3, Getname)
         If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, ConstantClassLibrary.ASLXNA.Hexside.Roadblock3, Getname)
         AddToDisplay(ShowCounter, Drawsprite)
         End If
-        If ShowCounter.Hexside4 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock4 Then
+        If ShowCounter.Hexside5 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock4 Then
         TerrTexture = SetTextureandName(ShowCounter, ConstantClassLibrary.ASLXNA.Hexside.Roadblock4, Getname)
         If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, ConstantClassLibrary.ASLXNA.Hexside.Roadblock4, Getname)
-        AddToDisplay(ShowCounter, Drawsprite)
-        End If
-        If ShowCounter.Hexside5 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock5 Then
-        TerrTexture = SetTextureandName(ShowCounter, ConstantClassLibrary.ASLXNA.Hexside.Roadblock5, Getname)
-        If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, ConstantClassLibrary.ASLXNA.Hexside.Roadblock5, Getname)
         AddToDisplay(ShowCounter, Drawsprite)
         End If
         If ShowCounter.Hexside6 = ConstantClassLibrary.ASLXNA.Hexside.Roadblock6 Then
@@ -37162,6 +37162,9 @@ public class SmokeHolder {
         End Select
         TerrTexture = TerrCheck.GetLocationData(ConstantClassLibrary.ASLXNA.TerrFactor.Image, Passtype, Maptables)
         GetName = TerrCheck.GetLocationData(ConstantClassLibrary.ASLXNA.TerrFactor.Desc, Passtype, Maptables)
+        Case ConstantClassLibrary.ASLXNA.Hexside.Roadblock0
+        TerrTexture = SideCheck.GetSideData(ConstantClassLibrary.ASLXNA.TerrFactor.Image, ConstantClassLibrary.ASLXNA.Hexside.Roadblock0, Maptables)
+        GetName = SideCheck.GetSideData(ConstantClassLibrary.ASLXNA.TerrFactor.Hexsidedesc, ConstantClassLibrary.ASLXNA.Hexside.Roadblock0, Maptables)
         Case ConstantClassLibrary.ASLXNA.Hexside.Roadblock1
         TerrTexture = SideCheck.GetSideData(ConstantClassLibrary.ASLXNA.TerrFactor.Image, ConstantClassLibrary.ASLXNA.Hexside.Roadblock1, Maptables)
         GetName = SideCheck.GetSideData(ConstantClassLibrary.ASLXNA.TerrFactor.Hexsidedesc, ConstantClassLibrary.ASLXNA.Hexside.Roadblock1, Maptables)
@@ -37174,9 +37177,6 @@ public class SmokeHolder {
         Case ConstantClassLibrary.ASLXNA.Hexside.Roadblock4
         TerrTexture = SideCheck.GetSideData(ConstantClassLibrary.ASLXNA.TerrFactor.Image, ConstantClassLibrary.ASLXNA.Hexside.Roadblock4, Maptables)
         GetName = SideCheck.GetSideData(ConstantClassLibrary.ASLXNA.TerrFactor.Hexsidedesc, ConstantClassLibrary.ASLXNA.Hexside.Roadblock4, Maptables)
-        Case ConstantClassLibrary.ASLXNA.Hexside.Roadblock5
-        TerrTexture = SideCheck.GetSideData(ConstantClassLibrary.ASLXNA.TerrFactor.Image, ConstantClassLibrary.ASLXNA.Hexside.Roadblock5, Maptables)
-        GetName = SideCheck.GetSideData(ConstantClassLibrary.ASLXNA.TerrFactor.Hexsidedesc, ConstantClassLibrary.ASLXNA.Hexside.Roadblock5, Maptables)
         Case ConstantClassLibrary.ASLXNA.Hexside.Roadblock6
         TerrTexture = SideCheck.GetSideData(ConstantClassLibrary.ASLXNA.TerrFactor.Image, ConstantClassLibrary.ASLXNA.Hexside.Roadblock6, Maptables)
         GetName = SideCheck.GetSideData(ConstantClassLibrary.ASLXNA.TerrFactor.Hexsidedesc, ConstantClassLibrary.ASLXNA.Hexside.Roadblock6, Maptables)

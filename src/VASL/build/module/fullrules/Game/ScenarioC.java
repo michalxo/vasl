@@ -6,7 +6,7 @@ import VASL.build.module.fullrules.DataClasses.*;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTC;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTTableResult;
 import VASL.build.module.fullrules.IFTCombatClasses.IIFTC;
-import VASL.build.module.fullrules.MovementClasses.MakeMoveC;
+import VASL.build.module.fullrules.MovementClasses.MoveMVCPattern;
 import VASL.build.module.fullrules.ObjectClasses.SMC;
 import VASL.build.module.fullrules.ObjectClasses.Scenlisttype;
 import VASL.build.module.fullrules.OpenSaveGame;
@@ -27,7 +27,7 @@ public class ScenarioC extends CampaignC {
     private static ScenarioC Sceninstance;
     private Constantvalues.WhoCanDo PlayerTurnvalue;
     private int CurrentTurnvalue;
-    public MakeMoveC DoMove;  // temporary while debugging undo
+    public MoveMVCPattern DoMove;  // temporary while debugging undo
     private PhaseMVCPattern PhasePattern;
     private List<Scenlisttype> ListofScenarios;
     private VASL.LOS.Map.Map pgamemap;
@@ -221,7 +221,7 @@ public class ScenarioC extends CampaignC {
                  //IFT.FirePhasePreparation();
                 break;
             case Movement:
-                DoMove = new MakeMoveC();
+                DoMove = new MoveMVCPattern();
                 IFT = new IFTC(getScenID());
                 IFT.FirePhasePreparation();
                 break;

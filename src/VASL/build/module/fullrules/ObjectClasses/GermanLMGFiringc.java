@@ -2,11 +2,9 @@ package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
-import VASL.build.module.fullrules.UtilityClasses.CounterActions;
 import VASSAL.build.GameModule;
 
 import java.util.LinkedList;
@@ -109,12 +107,12 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
                         IsCrossingWHR = false;
                 }
                 if (IsCrossingWHR) {
-                    if (mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus1 ||
+                    if (mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus0 ||
+                            mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus1 ||
                             mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus2 ||
                             mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus3 ||
                             mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus4 ||
-                            mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus5 ||
-                            mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus6) {
+                            mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus5) {
                         myCombatFP = 0; // wall/hedge blocks LOS by entrenched unit
                         return;
                     }
@@ -123,12 +121,12 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
             // Dim CrestTest = New Utilvalues.ConversionC temporary while debugging UNDO
             int CrestCA  = 0;
             boolean UsingCrestCA = false;
-            if (mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus1 ||
+            if (mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus0 ||
+                    mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus1 ||
                     mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus2 ||
                     mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus3 ||
                     mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus4 ||
-                    mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus5 ||
-                    mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus6) {
+                    mySW.getbaseSW().gethexPosition() == Constantvalues.AltPos.CrestStatus5) {
                 // CrestCA = CrestTest.CrestSideToSide(mySW.getBaseSW().gethexPosition());   temporary while debugging UNDO
             } else {
                 // CrestCA = CrestTest.WACrestSideToSide(mySW.getBaseSW().gethexPosition());  temporary while debugging UNDO
@@ -218,7 +216,7 @@ public class GermanLMGFiringc implements FiringSuppWeapi {
                         Dim PillboxLOS
                         As Boolean = false
                         'get Pillbox location
-                        UsingHex = TerrGet.RetrieveLocationfromMaptable(HexLocIndex)
+                        UsingHex = TerrGet.RetrieveLocationfromHex(HexLocIndex)
                         'Now determine Pillbox covered arc
                         Dim TerrChk = New Terrainvalues.TerrainChecks(MapCol)
                         Dim Maptables

@@ -1115,7 +1115,8 @@ public class DataC {
     publicFunction RetrievePassRider(ByVal PRID As Integer, ByVal AFVID As Integer, ByVal TypeTest As Integer) As PassRider
     Return (From QU In db.PassRiders Where QU.PRID = PRID And QU.PRType = TypeTest And QU.VehicleID = AFVID Select QU).First
     End Function
-    publicFunction GetTypeOfThing(ByVal SpecificType As Integer) As Integer
+
+    public /*Constantvalues.Typetype GetTypeOfThing(int SpecificType)
     Select Case SpecificType
     Case 1 To 1999
     Return ConstantClassLibrary.ASLXNA.Typetype.Personnel
@@ -1131,10 +1132,13 @@ public class DataC {
     Return ConstantClassLibrary.ASLXNA.Typetype.Location
                     'Case Is . 900
                             '    Return EnumCon.Typetype.WhiteC
-    Case Else
+    case Else*/
+    /*
     Return 0
     End Select
     End Function
+
+
     publicFunction IsThingATypeOf(ByVal TypetoTest As Integer, ByVal ItemtoTest As Integer) As Boolean
     Select Case TypetoTest
     Case ConstantClassLibrary.ASLXNA.Typetype.Personnel
@@ -1600,35 +1604,35 @@ public class DataC {
             '        UnitMoved.hexnum = CShort(MovingUnit.Currenthex)
             '        If MovingUnit.MFUsed > 0 Then UnitMoved.MovementStatus = ASLXNA.DataC.MovementStatus.Moving
             '        If (movementoptionclicked >= ASLXNA.DataC.UMove.ClearRubble And movementoptionclicked <= ASLXNA.DataC.UMove.ClearRdBlk And movementoptionclicked <> ASLXNA.DataC.UMove.ClearRoadATMine) Or
-            '            (movementoptionclicked >= ASLXNA.DataC.UMove.ClearEnterRubble1 And movementoptionclicked <= ASLXNA.DataC.UMove.ClearRdBlk6) Then
+            '            (movementoptionclicked >= ASLXNA.DataC.UMove.ClearEnterRubble0 And movementoptionclicked <= ASLXNA.DataC.UMove.ClearRdBlk5) Then
             '            'doing clearance attempt; no location change but a status change
-            '            Dim UnittoChange As UnitChange = New SetasTIc(UnitMoved.OBUnit_ID)
+            '            Dim UnittoChange As UnitChangei = New SetasTIc(UnitMoved.OBUnit_ID)
                     '            UnittoChange.TakeAction()
                     '            Dim GetBaseHex As MapDataClassLibrary.GameLocation = LevelChk.GetLocationatLevelInHex(CInt(UnitMoved.hexnum), 0)
                     '            UnitMoved.hexlocation = MovingUnit.CurrentLocationInHex 'always baseloc when doing mine/rubble clearance
             '        ElseIf MovingUnit.CurrentPositionInHex = ASLXNA.DataC.AltPos.WallAdv Or
-                    '        (MovingUnit.CurrentPositionInHex >= ASLXNA.DataC.AltPos.WACrestStatus1 And MovingUnit.CurrentPositionInHex <= ASLXNA.DataC.AltPos.WACrestStatus6) Then
+                    '        (MovingUnit.CurrentPositionInHex >= ASLXNA.DataC.AltPos.WACrestStatus0 And MovingUnit.CurrentPositionInHex <= ASLXNA.DataC.AltPos.WACrestStatus5) Then
                     '            'claiming wall advantage; not location change but a status change - requires texture change
-            '            Dim UnittoChange As UnitChange = New SetasWallAdvc(UnitMoved.OBUnit_ID, MovingUnit.CurrentPositionInHex)
+            '            Dim UnittoChange As UnitChangei = New SetasWallAdvc(UnitMoved.OBUnit_ID, MovingUnit.CurrentPositionInHex)
                     '            UnittoChange.TakeAction()
                     '            'now part of TakeAction
             '            'Dim GetBaseHex = Game.Scenario.MapTables.RetrieveHexfromDatatable(CInt(UnitMoved.hexnum))
             '            'UnitMoved.hexlocation = CInt(GetBaseHex!terraintype) 'always baseloc when doing WA
             '        ElseIf UnitMoved.HasWallAdvantage And UnitMoved.Position <> MovingUnit.CurrentPositionInHex Then
             '            'forfeiting wall advantage; not location change but a status change - requires texture change
-            '            Dim UnittoChange As UnitChange = New RemoveWallAdvc(UnitMoved.OBUnit_ID)
+            '            Dim UnittoChange As UnitChangei = New RemoveWallAdvc(UnitMoved.OBUnit_ID)
                     '            UnittoChange.TakeAction()
                     '            If UnitMoved.Position <> MovingUnit.CurrentPositionInHex Then UnitMoved.Position = MovingUnit.CurrentPositionInHex
                     '            UnitMoved.hexlocation = MovingUnit.CurrentLocationInHex
                     '            'now part of TakeAction
             '            'Dim GetBaseHex = Game.Scenario.MapTables.RetrieveHexfromDatatable(CInt(UnitMoved.hexnum))
-            '            'If UnitMoved.hexlocation <= EnumCon.AltPos.CrestStatus1 And UnitMoved.hexlocation >= EnumCon.AltPos.CrestStatus6 Then UnitMoved.hexlocation = CInt(GetBaseHex!terraintype) 'always baseloc when doing WA unless in crest status
+            '            'If UnitMoved.hexlocation <= EnumCon.AltPos.CrestStatus0 And UnitMoved.hexlocation >= EnumCon.AltPos.CrestStatus5 Then UnitMoved.hexlocation = CInt(GetBaseHex!terraintype) 'always baseloc when doing WA unless in crest status
             '        Else
             '            UnitMoved.hexlocation = MovingUnit.CurrentLocationInHex
             '            UnitMoved.Position = MovingUnit.CurrentPositionInHex
             '        End If
             '        'Dim GetLocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-            '        Dim LocToUse As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(MovingUnit.Currenthex, MovingUnit.CurrentLocationInHex)
+            '        Dim LocToUse As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(MovingUnit.Currenthex, MovingUnit.CurrentLocationInHex)
             '        UnitMoved.LocIndex = LocToUse.LocIndex
             '        UnitMoved.LevelinHex = CType(LevelChk.GetLocationPositionLevel(MovingUnit.Currenthex, MovingUnit.CurrentLocationInHex, MovingUnit.CurrentPositionInHex), Short?)
             '        UnitMoved.Hexname = GetLocs.GetnamefromdatatableMap(MovingUnit.Currenthex)
@@ -1664,16 +1668,16 @@ public class DataC {
                     '        If MovingUnit.MFUsed > 0 Then ConMoved.MovementStatus = ASLXNA.DataC.MovementStatus.Moving
                     '        ConMoved.Hexlocation = MovingUnit.CurrentLocationInHex
                     '        If MovingUnit.CurrentPositionInHex = ASLXNA.DataC.AltPos.WallAdv Or
-                    '        (MovingUnit.CurrentPositionInHex >= ASLXNA.DataC.AltPos.WACrestStatus1 And MovingUnit.CurrentPositionInHex <= ASLXNA.DataC.AltPos.WACrestStatus6) Then
+                    '        (MovingUnit.CurrentPositionInHex >= ASLXNA.DataC.AltPos.WACrestStatus0 And MovingUnit.CurrentPositionInHex <= ASLXNA.DataC.AltPos.WACrestStatus5) Then
                     '            'claiming wall advantage; not location change but a status change - requires texture change
-            '            Dim UnittoChange As UnitChange = New SetConWAc(CInt(ConMoved.Con_ID))
+            '            Dim UnittoChange As UnitChangei = New SetConWAc(CInt(ConMoved.Con_ID))
                     '            UnittoChange.TakeAction()
                     '            'now part of TakeAction
             '            'Dim GetBaseHex = Game.Scenario.MapTables.RetrieveHexfromDatatable(CInt(MovingCon.hexnum))
             '            'MovingCon.Hexlocation = CInt(GetBaseHex!terraintype) 'always baseloc when doing WA
             '        ElseIf ConMoved.HasWallAdvantage And ConMoved.Position <> MovingUnit.CurrentPositionInHex Then
             '            'forfeiting wall advantage; not location change but a status change - requires texture change
-            '            Dim UnittoChange As UnitChange = New RemoveConWAc(ConMoved)
+            '            Dim UnittoChange As UnitChangei = New RemoveConWAc(ConMoved)
                     '            UnittoChange.TakeAction()
                     '            'now part of TakeAction
             '            'Dim GetBaseHex = Game.Scenario.MapTables.RetrieveHexfromDatatable(CInt(ConMoved.hexnum))
@@ -1682,7 +1686,7 @@ public class DataC {
             '            ConMoved.Hexlocation = MovingUnit.CurrentLocationInHex
             '            ConMoved.Position = MovingUnit.CurrentPositionInHex
             '        End If
-            '        Dim LocToUse As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(MovingUnit.Currenthex, MovingUnit.CurrentLocationInHex)
+            '        Dim LocToUse As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(MovingUnit.Currenthex, MovingUnit.CurrentLocationInHex)
             '        ConMoved.LocIndex = LocToUse.LocIndex
             '        ConMoved.LevelinHex = CType(LevelChk.GetLocationPositionLevel(MovingUnit.Currenthex, MovingUnit.CurrentLocationInHex, MovingUnit.CurrentPositionInHex), Short?)
             '        ConMoved.Hexname = GetLocs.GetnamefromdatatableMap(MovingUnit.Currenthex)
@@ -1713,7 +1717,7 @@ public class DataC {
         '                        'retrieve type of SW
         '                        OBSWitem = GetOBSWRecord(OBSWPoss)
                 '                        If OBSWitem.ISATypeOf(ASLXNA.DataC.SWtype.DemoC) Then
-                '                            Dim UnittoChange As UnitChange = New PlaceTheDC(UnitMoved.OBUnit_ID, OBSWitem.OBSW_ID)
+                '                            Dim UnittoChange As UnitChangei = New PlaceTheDC(UnitMoved.OBUnit_ID, OBSWitem.OBSW_ID)
                 '                            UnittoChange.TakeAction()
                 '                            Exit For
                 '                        End If
@@ -1721,9 +1725,9 @@ public class DataC {
                 '                Next
                 '            Else
                 '                If (movementoptionclicked >= ASLXNA.DataC.UMove.ClearRubble And movementoptionclicked <= ASLXNA.DataC.UMove.ClearRdBlk) Or
-                '                    (movementoptionclicked >= ASLXNA.DataC.UMove.ClearEnterRubble1 And movementoptionclicked <= ASLXNA.DataC.UMove.ClearRdBlk6) Then
+                '                    (movementoptionclicked >= ASLXNA.DataC.UMove.ClearEnterRubble0 And movementoptionclicked <= ASLXNA.DataC.UMove.ClearRdBlk5) Then
                 '                    'doing clearance attempt; no location change but a status change
-        '                    Dim UnittoChange As UnitChange = New SetasTIc(UnitMoved.OBUnit_ID)
+        '                    Dim UnittoChange As UnitChangei = New SetasTIc(UnitMoved.OBUnit_ID)
                 '                    UnittoChange.TakeAction()
                 '                    Dim Maptables As MapDataClassLibrary.ASLXNA.MapDataC = MapDataClassLibrary.ASLXNA.MapDataC.GetInstance(ScenarioName, ScenarioID)
                 '                    Dim LocationCol As IQueryable(Of MapDataClassLibrary.GameLocation) = Maptables.CreateMapCollection()
@@ -1876,20 +1880,7 @@ public class DataC {
                 '    ScenFeatcol = Me.GetScenFeatDatafromDB()
                 '    Return ReturnID
                 'End Function
-    publicFunction CreateNewThingsToDo(ByVal PassToDo As Integer, ByVal Passhexnum As Integer, ByVal Passhexloc As Integer, ByVal PassPlayerTurn As Integer, ByVal ScenarioID As Integer) As Boolean
-            'called by Movement.ClearanceAttempt.MoveUpdate
-    Dim SomethingToDo As New ThingsToDo
-    SomethingToDo.scenario = CShort(ScenarioID)
-    SomethingToDo.Phase = CShort(SomethingToDo.DoPhase(PassToDo))
-    SomethingToDo.PlayerTurn = CShort(PassPlayerTurn)
-    SomethingToDo.hexnum = CShort(Passhexnum)
-    SomethingToDo.hexlocation = CShort(Passhexloc)
-    SomethingToDo.ToDo = CShort(PassToDo)
-    SomethingToDo.ItemID = CShort(SomethingToDo.GetNextId)
-            db.ThingsToDos.InsertOnSubmit(SomethingToDo)
-            db.SubmitChanges()
-    Return True
-    End Function
+
         'These are admin functions used to handle large scale data entry of new terrain and location data
                 'not available when game running
                 'publicFunction CreateNewTerrain() As Boolean

@@ -6,12 +6,9 @@ import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
-import VASL.build.module.fullrules.UtilityClasses.CounterActions;
 import VASL.build.module.fullrules.UtilityClasses.ManageUpdateUnitCommand;
 import VASSAL.command.Command;
-import VASSAL.counters.GamePiece;
 
-import javax.swing.*;
 import java.util.LinkedList;
 
 public class Russian447Firec implements FiringPersUniti {
@@ -59,7 +56,7 @@ public class Russian447Firec implements FiringPersUniti {
         /*MapDataC MapData = MapDataC.GetInstance("", 0);  // use empty values when already created FIX
         Mapcol = MapData.getLocationCol();
         Getlocs = new GetALocationFromMap(Mapcol);
-        MyLoc = Getlocs.RetrieveLocationfromMaptable(PassUnit.getbaseunit().getLOCIndex());*/
+        MyLoc = Getlocs.RetrieveLocationfromHex(PassUnit.getbaseunit().getLOCIndex());*/
         myIsInCrestStatus = PassUnit.getbaseunit().IsInCrestStatus();
         myhexposition = PassUnit.getbaseunit().gethexPosition();
         myOBLink = PassUnit.getbaseunit().getUnit_ID();
@@ -191,7 +188,7 @@ public class Russian447Firec implements FiringPersUniti {
                 if (HexLocIndex > 0) {
                     /*boolean PillboxLOS = false;
                     // get Pillbox location
-                    UsingHex = Getlocs.RetrieveLocationfromMaptable(HexLocIndex);
+                    UsingHex = Getlocs.RetrieveLocationfromHex(HexLocIndex);
                     // Now determine Pillbox covered arc
                     TerrainChecks TerrChk = new TerrainChecks(Mapcol);
                     String Imagename = TerrChk.GetLocationData(Constantvalues.TerrFactor.Image, (UsingHex.getLocation()));
@@ -346,12 +343,12 @@ public class Russian447Firec implements FiringPersUniti {
                     IsCrossingWHR = false;
             }
             if (IsCrossingWHR) {
-                if (myhexposition == Constantvalues.AltPos.CrestStatus1 ||
+                if (myhexposition == Constantvalues.AltPos.CrestStatus0 ||
+                        myhexposition == Constantvalues.AltPos.CrestStatus1 ||
                         myhexposition == Constantvalues.AltPos.CrestStatus2 ||
                         myhexposition == Constantvalues.AltPos.CrestStatus3 ||
                         myhexposition == Constantvalues.AltPos.CrestStatus4 ||
-                        myhexposition == Constantvalues.AltPos.CrestStatus5 ||
-                        myhexposition == Constantvalues.AltPos.CrestStatus6) {
+                        myhexposition == Constantvalues.AltPos.CrestStatus5) {
                     myCombatFP = 0; // wall/hedge blocks LOS by entrenched unit
                     return;
                 }
@@ -362,12 +359,12 @@ public class Russian447Firec implements FiringPersUniti {
         int CrestCA = 0;
         boolean UsingCrestCA = false;
 
-        if (myhexposition == Constantvalues.AltPos.CrestStatus1 ||
+        if (myhexposition == Constantvalues.AltPos.CrestStatus0 ||
+                myhexposition == Constantvalues.AltPos.CrestStatus1 ||
                 myhexposition == Constantvalues.AltPos.CrestStatus2 ||
                 myhexposition == Constantvalues.AltPos.CrestStatus3 ||
                 myhexposition == Constantvalues.AltPos.CrestStatus4 ||
-                myhexposition == Constantvalues.AltPos.CrestStatus5 ||
-                myhexposition == Constantvalues.AltPos.CrestStatus6) {
+                myhexposition == Constantvalues.AltPos.CrestStatus5) {
             CrestCA = 0;  //CrestTest.CrestSideToSide(myhexposition);
         } else {
             CrestCA = 0;  //CrestTest.WACrestSideToSide(myhexposition);

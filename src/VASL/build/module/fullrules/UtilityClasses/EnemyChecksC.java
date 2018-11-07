@@ -1,7 +1,11 @@
 package VASL.build.module.fullrules.UtilityClasses;
 
+import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
+import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationi;
+import VASL.build.module.fullrules.ObjectClasses.LocationContentc;
+import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 
 import java.util.LinkedList;
 
@@ -26,16 +30,16 @@ public class EnemyChecksC {
     private int myScenID;
     //private NewMap As UtilWObj.ASLXNA.NewMapDB
     //private LinkedList<GameLocation> Mapcol = new LinkedList<GameLocation>();
-   // private LinkedList<LocationContent> myPassLocationContents = new LinkedList<LocationContent>();
+    private LinkedList<LocationContentc> myLocationContents = new LinkedList<LocationContentc>();
 
     //   constructor
-    public EnemyChecksC(int LocIndexclicked, Constantvalues.Nationality FriendlyNat, int PassScenID){
+    public EnemyChecksC(Location LocIndexclicked, Constantvalues.Nationality FriendlyNat, int PassScenID){
         /*NewMap = New UtilWObj.ASLXNA.NewMapDB
         Mapcol = NewMap.GetMapCol
         myScenID = PassScenID;
         if (LocIndexclicked > 0) {  // every location have an index value so PassLocationIndex must be greater than zero
             Dim GetLocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Mapcol)
-            Dim UsingLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(LocIndexclicked)
+            Dim UsingLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(LocIndexclicked)
             HexToCheck = UsingLoc.Hexnum
             Locindexvalue = LocIndexclicked
             LocationtoCheck = UsingLoc.LocIndex
@@ -55,28 +59,30 @@ public class EnemyChecksC {
                 OtherFriendlysidevalue = Scendet.getDFN1();
         }*/
     }
+
+    public LinkedList<LocationContentc> getLocationContents() {return myLocationContents;}
     /*    'properties
     public ReadOnly Property FriendlySide As Integer
     Get
     Return FriendlySidevalue
     End Get
     End Property
-    public ReadOnly Property PassLocationConents As List(Of ObjectClassLibrary.ASLXNA.LocationContent)
-    Get
-    Return myPassLocationContents
-    End Get
-    End Property
+
         'methods
-    public Function EnemyinLocationTest() As Boolean
-            'called by MovementValidation.New 
-                    'returns true if enemy present, false if not
-    if IsNothing(LocationContentsToCheck) Then GetLocationContents(LocationtoCheck)
-    myPassLocationContents = LocationContentsToCheck.ContentsInLocation
-    For Each ItemInHex As ObjectClassLibrary.ASLXNA.LocationContent In LocationContentsToCheck.ContentsInLocation
-    if IsUnitEnemy(ItemInHex.ObjID, ItemInHex.TypeID) Then return true;
-    Next
-    return false; 'if gets here no enemy present
-    End Function
+        */
+    public boolean EnemyinLocationTest() {
+        // called by MovementValidation.New
+        // returns true if enemy present, false if not
+        /*if (LocationContentsToCheck == null) {GetLocationContents(LocationtoCheck);}
+        myPassLocationContents = LocationContentsToCheck.ContentsInLocation();
+        For Each ItemInHex As ObjectClassLibrary.ASLXNA.LocationContent In LocationContentsToCheck.ContentsInLocation
+        if IsUnitEnemy(ItemInHex.ObjID, ItemInHex.TypeID) Then return true;
+        Next*/
+        return false;
+        // if gets here no enemy present
+    }
+
+    /*
     public Function IsUnitEnemy(ByVal UnitID As Integer, ByVal TypeID As Integer) As Boolean
     Dim Scencolls As ObjectClassLibrary.ASLXNA.ScenarioCollectionsc = ObjectClassLibrary.ASLXNA.ScenarioCollectionsc.GetInstance
     Dim Prisoner As Boolean = True : Dim hexunit As ObjectClassLibrary.ASLXNA.PersUniti
@@ -120,21 +126,24 @@ public class EnemyChecksC {
     End Select
     return false;  'if get to here then nothing found that is Enemy
     End Function
-    public Function EnemyInHexTest() As Boolean
-            '
-    Dim Getlocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Mapcol)
-    For Each HexLocs As MapDataClassLibrary.GameLocation In Getlocs.RetrieveLocationsfromMapTable(HexToCheck, "Hexnum") ' Game.Scenario.TerrainActions.GetLocationsInHex(HexToCheck)
-    GetLocationContents(HexLocs.LocIndex)
-    if EnemyinLocationTest() Then return true;
-    Next
-            LocationContentsToCheck = Nothing
-    return false;
-    End Function
-    private Sub GetLocationContents(ByVal locationtoget As Integer)
-    LocationContentsToCheck = New UtilWObj.ASLXNA.ContentsofLocation(locationtoget)
-            LocationContentsToCheck.GetContents()
-    End Sub
-    public Function GetEnemy(ByRef FirstEnemy As Integer, ByRef SecondEnemy As Integer) As Boolean
+    */
+    public boolean EnemyInHexTest(Hex hextouse) {
+        GetALocationFromMap Getlocs = new GetALocationFromMap();
+        for (Locationi HexLocs : Getlocs.RetrieveLocationsinHex(hextouse)){
+            GetLocationContents(HexLocs);
+            if (EnemyinLocationTest()) {
+                return true;
+            }
+        }
+        //LocationContentsToCheck = null;
+        return false;
+    }
+
+    private void GetLocationContents(Locationi HexLocs) {
+        //LocationContentsToCheck = new ContentsofLocation(HexLocs);
+        //LocationContentsToCheck.GetContents();
+    }
+    /*public Function GetEnemy(ByRef FirstEnemy As Integer, ByRef SecondEnemy As Integer) As Boolean
             'called by 
                     'returns the nationality values of the "enemy" side
     Dim Scendet As DataClassLibrary.scen = Linqdata.GetScenarioData(myScenID) 'retrieves scenario data
@@ -207,7 +216,7 @@ public class EnemyChecksC {
     GetEnemy(EnemyNat1, EnemyNat2)
     Dim GetLocs As New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Mapcol)
     Dim ADJLocs = New List(Of MapDataClassLibrary.GameLocation) : Dim DirTest As Integer = 0 : Dim ADJLocList As New List(Of Integer)
-    Dim Passhexandloc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(LocationtoCheck)
+    Dim Passhexandloc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(LocationtoCheck)
     Dim ADJTest As New CombatTerrainClassLibrary.ASLXNA.HexBesideC(Passhexandloc, Nothing, CInt(PassStartPosition))
     ADJLocs = ADJTest.AllADJACENTLocations()
     if Not IsNothing(ADJLocs) Then

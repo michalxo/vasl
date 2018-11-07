@@ -1,7 +1,7 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
 public class PlaceTheDC {
-    /*Implements UnitChange
+    /*Implements UnitChangei
     Private ActiveUnitOB As DataClassLibrary.OrderofBattle
     Private DCtoPlace As DataClassLibrary.OrderofBattleSW
     Private linqdata As DataClassLibrary.ASLXNA.DataC
@@ -10,7 +10,7 @@ public class PlaceTheDC {
     ActiveUnitOB = linqdata.GetUnitfromCol(unitid)
     DCtoPlace = linqdata.GetOBSWRecord(SWID)
     End Sub
-    Public Function PlaceDC() As Boolean Implements UnitChange.TakeAction
+    Public Function PlaceDC() As Boolean Implements UnitChangei.TakeAction
             ' ''called by linqdata.updateaftermove (overload)
                     ' ''drops SW and update OB, OBSW
                     ''Dim XNAGph = XNAGraphicsC.GetInstance

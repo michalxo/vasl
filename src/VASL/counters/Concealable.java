@@ -478,7 +478,7 @@ public class Concealable extends Obscurable implements EditablePiece {
         addconcealment.TakeAction();
         GameModule.getGameModule().getChatter().send(addconcealment.getActionResult());
       } else {
-        VisibilityChangei removeconcealment = new RevealUnitC(concealunitid);
+        VisibilityChangei removeconcealment = new RevealUnitC(ConcealUnit);
         removeconcealment.TakeAction();
         GameModule.getGameModule().getChatter().send(removeconcealment.getActionResult());
       }

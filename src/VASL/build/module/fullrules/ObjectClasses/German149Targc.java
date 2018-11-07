@@ -4,6 +4,7 @@ import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.DiceC;
+import VASL.build.module.fullrules.UtilityClasses.InfantryUnitCommonFunctionsc;
 import VASL.build.module.fullrules.UtilityClasses.ManageUpdateUnitCommand;
 import VASSAL.command.Command;
 
@@ -14,20 +15,16 @@ public class German149Targc implements TargetPersUniti {
     private int myFirerSAN;
     private int myAttackedbydrm;
     private int myAttackedbyFP;
-    // private myCharacterStatus As Integer
     private boolean myELR5;
     private Constantvalues.FortitudeStatus myFortitudeStatus;
     private Constantvalues.IFTResult myIFTResult;
     private boolean myIsConceal;
-    // private myIsDummy As Boolean
     private Constantvalues.MovementStatus myMovementStatus;
     private Constantvalues.OrderStatus myOrderStatus;
     private boolean myPinned;
     private int myQualityStatus;
     private int myRandomSelected;
-    // private myRoleStatus As Integer
     private int mySmoke;
-    // private mySw As Integer
     private Constantvalues.VisibilityStatus myVisibilityStatus;
     private Constantvalues.PersUnitResult myPersUnitImpact;
     private boolean mySanActivated;
@@ -48,20 +45,16 @@ public class German149Targc implements TargetPersUniti {
         myFirerSAN = PassFirerSan;
         myAttackedbydrm = PassAttackedbydrm;
         myAttackedbyFP = PassAttackedbyFP;
-        // myCharacterStatus = PassCharacterStatus
         myELR5 = PassELR5;
         myFortitudeStatus = PassUnit.getbaseunit().getFortitudeStatus();
         myIFTResult = PassIFTResult;
         myIsConceal = PassIsConceal;
-        // myIsDummy = PassIsDummy
         myMovementStatus = PassUnit.getbaseunit().getMovementStatus();
         myOrderStatus = PassUnit.getbaseunit().getOrderStatus();
         myPinned = PassPinned;
         myQualityStatus = PassQualityStatus;
         myRandomSelected = PassRandomSelected;
-        // myRoleStatus = PassRoleStatus
         mySmoke = PassSmoke;
-        // mySw = PassSW
         myVisibilityStatus = PassUnit.getbaseunit().getVisibilityStatus();
         myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
         mySanActivated = false;
@@ -213,15 +206,16 @@ public class German149Targc implements TargetPersUniti {
         if (ODR == 2) {myHOBFlag = false;}  // heros dont take hob
         // FDR
         int FDR = ODR + MCNum;
-        FDR=10;
         // 12
-        if (ODR == 12) {  // has no impact on Hero; either fails MC or doesn't
-           /* if (FDR > (CurrentMoraleLevel - TargStackLdrdrm + myELR)) {  // fails MC by > ELR
-                myPersUnitImpact = Constantvalues.PersUnitResult.ReplacesReducesBreaks;
-            } else {                                                     // fails MC <= ELR
-                myPersUnitImpact = Constantvalues.PersUnitResult.ReducesBreaks;
+        if (ODR == 12) {    // hero is wounded; takes wound severity DR in place of MC result;
+            int wdsevdr = Dieclass.Dieroll(); // takes wound severity dr
+            if (wdsevdr >= 5) {  // 5,6 so dies
+                myPersUnitImpact = Constantvalues.PersUnitResult.Dies;
+                Resultstring = " rolls a 12, then rolls a " + Integer.toString(wdsevdr) + ", fails its Wound Severity dr and ";
+            } else {
+                myPersUnitImpact = Constantvalues.PersUnitResult.Wounds;
+                Resultstring = " rolls a 12, then rolls a " + Integer.toString(wdsevdr) + ", passes its Wound Severity dr and is wounded";
             }
-            return true;*/
         }
         // MC - hero wounds not breaks
         String drmstring = Ldrstring + " SMC drm and a " + Integer.toString(FDR + TargStackLdrdrm) + " modified dice roll:";
@@ -250,13 +244,10 @@ public class German149Targc implements TargetPersUniti {
 
     public boolean NR() {
         /*Name:       TargetNoEResult()
-
         Identifier UC 105
-
-                    Preconditions()
+        Preconditions()
         1.	An eligible IFT fire solution has produced a result
-
-                    Basic Course
+        Basic Course
         1.	Use case begins when NoEffect result is obtained on the IFT
         2.	no effect unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
 
@@ -267,57 +258,19 @@ public class German149Targc implements TargetPersUniti {
         Condition:
 
         Post conditions (List the state(s) the system can be in when this use case ends)
-        1.*/
+        */
 
         myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
-
+        String Resultstring = "survives: no effect";
+        myCombatResultsString += myName +  Resultstring;
         return true;
     }
 
     public boolean PTC(int TargSTackLdrdrm ) {
-        /*UC implemented
-        Name:       TargetPTCResult()
-        Identifier UC 104
-        Preconditions()
-        1.	An eligible IFT fire solution has produced a result
-        Basic Course
-        1.	Use case begins when PTC result is obtained on the IFT
-        2.	Determine ML, ldr drm, other TC drm
-        3:          .Dice Roll & Snipercheck
-        4.	Determine Result ( pass, fail)
-        6.	If Passes then no effect
-           	unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
-        7.	If Pins then Target Pins [UC206-TargetPins]
-           	unless broken then DMs [Alternate Course of Action: UC208-TargetDMs]
-
-        Alternate Course A: UC208-TargetDMs
-        Condition:  Target is Broken
-
-        Inheritance:
-        Condition:
-
-        */
 
         myCombatResultsString += myName + " is not subject to PTC: ";
         myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
-        /*if (myOrderStatus == Constantvalues.OrderStatus.GoodOrder) {  //  only GoodOrder units can take IFT PTCs
-            DiceC Dieclass = new DiceC();
-            int ODR = Dieclass.Diceroll();
 
-            myCombatResultsString += myName + " rolls a " + java.lang.Integer.toString(ODR);
-            // sniper
-            SANCheck(ODR);
-            myCombatResultsString += ": ";
-            if (ODR > (getMoraleLevel() - TargSTackLdrdrm)) {  // fails PTC
-                myPersUnitImpact = Constantvalues.PersUnitResult.Pins;
-            } else {                                         // passes PTC
-                myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
-            }
-        } else if (myOrderStatus == Constantvalues.OrderStatus.Broken) {  // broken unit is DM'd
-            myPersUnitImpact = Constantvalues.PersUnitResult.DMs;
-        } else {
-            myPersUnitImpact = Constantvalues.PersUnitResult.NoEffects;
-        }*/
         return true;
     }
 
@@ -338,28 +291,11 @@ public class German149Targc implements TargetPersUniti {
         return true;
     }
     public boolean UpdateTargetStatus(PersUniti PassTarget) {
-        // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL TARGET CLASSES
-        // get Order of Battle unit that matches the PersUniti
-        ManageUpdateUnitCommand manageupdateunitcommand = new ManageUpdateUnitCommand();
-        Command newcommand = manageupdateunitcommand.CreateCommand(PassTarget, Constantvalues.UnitCommandtype.targunit);
-        manageupdateunitcommand.ProcessCommand(newcommand);
-        // this may no longer be needed as above may handle for both local and remote
-        CommonFunctionsC comfun = new CommonFunctionsC(PassTarget.getbaseunit().getScenario());
-        OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(PassTarget.getbaseunit().getUnit_ID(),  PassTarget.getbaseunit().getUnitName());
+        // this update triggers the Command to update OrderofBattle values plus remote computer
+        // the Command also triggers counter actions
 
-        if (UpdateUnit != null) {
-            UpdateUnit.setOrderStatus(getOrderStatus());
-            PassTarget.getbaseunit().setOrderStatus(getOrderStatus());
-            UpdateUnit.setCX(PassTarget.getbaseunit().getCX());
-            UpdateUnit.setPinned(PassTarget.getbaseunit().getPinned());
-            UpdateUnit.setCombatStatus(PassTarget.getbaseunit().getCombatStatus());
-            UpdateUnit.setMovementStatus(PassTarget.getbaseunit().getMovementStatus());
-            UpdateUnit.setFirstSWLink(PassTarget.getbaseunit().getFirstSWLink());
-            UpdateUnit.setSecondSWlink(PassTarget.getbaseunit().getSecondSWLink());
-            UpdateUnit.setSW(PassTarget.getbaseunit().getnumSW());
-            return true;
-        }
-        return false;
+        InfantryUnitCommonFunctionsc UpdateTargCF = new InfantryUnitCommonFunctionsc();
+        return UpdateTargCF.UpdateTargetStatus(PassTarget);
     }
 
     public int getLdrDRM () {return -1;}

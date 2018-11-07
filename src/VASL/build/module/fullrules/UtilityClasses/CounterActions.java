@@ -134,6 +134,9 @@ public class CounterActions {
         } else if(actiontotake == Constantvalues.PersUnitResult.StepReducesHS){
             // reduce unit counter
 
+        }else if(actiontotake == Constantvalues.PersUnitResult.GoodOrders) {
+            //  return unit to Good Order - flip
+            usecounter.keyEvent(KeyStroke.getKeyStroke('F', java.awt.event.InputEvent.CTRL_MASK));
         }
     }
     public void updatecounterID (int newID, PersUniti countertouse){

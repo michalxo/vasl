@@ -97,9 +97,9 @@ public class OrderofBattleSW {
     }*/
     public boolean IsInCrestStatus() {
         // determine if SW in crest
-        /*if(this.getPosition() == Constantvalues.AltPos.CrestStatus1 And Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6)
+        /*if(this.getPosition() == Constantvalues.AltPos.CrestStatus0 And Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5)
         Or
-                (Me.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6)
+                (Me.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Me.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5)
         Then Return True Else Return False
         End Function
         publicFunction Breaksdown () As Boolean

@@ -289,8 +289,8 @@ public class EnemyValuesConcreteC {
         int FiringPosition = FiringUnit.BasePersUnit.hexPosition;
         boolean SeenUsingCrestStatus = False;
 
-        If(FiringPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And FiringPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6)
-        Or(FiringPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And FiringPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6)
+        If(FiringPosition >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And FiringPosition <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5)
+        Or(FiringPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And FiringPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5)
         {
             SeenUsingCrestStatus = True;
         }
@@ -301,7 +301,7 @@ public class EnemyValuesConcreteC {
         Dim LocationCol As IQueryable (Of MapDataClassLibrary.GameLocation) =Maptables.LocationCol
         Dim GetLocs As New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(LocationCol)
         Dim LoCtouse As MapDataClassLibrary.
-        GameLocation = GetLocs.RetrieveLocationfromMaptable(Firinghexclicked, Firinglocation)
+        GameLocation = GetLocs.RetrieveLocationfromHex(Firinghexclicked, Firinglocation)
         Dim LevelChk As New TerrainClassLibrary.ASLXNA.LevelChecks(LocationCol)
         // set some data variables
         double Firinglevel = LevelChk.GetLocationPositionLevel(Firinghexclicked, Firinglocation, FiringPosition);

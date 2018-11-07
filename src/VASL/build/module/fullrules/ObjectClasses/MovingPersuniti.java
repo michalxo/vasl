@@ -1,5 +1,7 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.build.module.fullrules.Constantvalues;
+
 // Second level interface implemented by personnel unit instances
 public interface MovingPersuniti{
         double getMFAvailable();
@@ -20,10 +22,10 @@ public interface MovingPersuniti{
         double getMFUsed();
         void setMFUsed(double value);
         boolean getPPImpact();
-        int getAssaultMove();
-        void setAssaultMove(int value);
-        int getDash();
-        void setDash(int value);
+        Constantvalues.MovementStatus getAssaultMove();
+        void setAssaultMove(Constantvalues.MovementStatus value);
+        Constantvalues.MovementStatus getDash();
+        void setDash(Constantvalues.MovementStatus value);
         int getHexEnteredSideCrossed();
         void setHexEnteredSideCrossed(int value);
         int getSmokeE();

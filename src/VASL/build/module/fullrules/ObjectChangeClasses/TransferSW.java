@@ -5,7 +5,7 @@ import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
 import VASSAL.build.GameModule;
 
-public class TransferSW implements UnitChange {
+public class TransferSW implements UnitChangei {
     private PersUniti Gettingunit;
     private SuppWeapi TransSW;
     private PersUniti GivingUnit;

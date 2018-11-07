@@ -11,13 +11,8 @@ public class RevealUnitC implements VisibilityChangei {
     private String myRevealResults = "";
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
 
-    public RevealUnitC(int RevealedUnitID) {
-        for (PersUniti UnittoReveal: Scencolls.Unitcol) {
-            if (UnittoReveal.getbaseunit().getUnit_ID() == RevealedUnitID) {
-                RevealUnit = UnittoReveal;
-                break;
-            }
-        }
+    public RevealUnitC(PersUniti PassRevealed) {
+        RevealUnit = PassRevealed;
     }
     public boolean TakeAction () {
         if (RevealUnit.getbaseunit().getVisibilityStatus() == Constantvalues.VisibilityStatus.Visible) {return true;} // no action required, unit is already revealed

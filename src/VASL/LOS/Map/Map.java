@@ -1604,7 +1604,6 @@ public class Map  {
                 return hexsides;
             }
             catch (Exception e){
-                boolean reggie=true;
                 return null;
             }
         }

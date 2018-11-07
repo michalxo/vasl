@@ -10,7 +10,7 @@ import VASSAL.counters.Stack;
 
 import java.util.LinkedList;
 
-public class ClickLeftMoveC {
+public class ClickLeftMoveC implements Clicki {
 
     public final static String DB_COUNTER_TYPE_MARKER_KEY = "DBCounterType";
     public final static String DB_UNIT_TYPE = "unit";
@@ -22,6 +22,7 @@ public class ClickLeftMoveC {
         ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
         // Using list of counters for the hex, if Sw chosen, select owner
         // NEED TO HANDLE CONCEALMENT COUNTERS
+        // NEED TO MOVE THIS CODE TO COMMON FUNCTION AS IT WILL BE REPEATED IN EVERY CLICKCLASS
         for (GamePiece Selitem : SelectedCounters) {
             if (Selitem instanceof Stack) {
                 for (PieceIterator pi = new PieceIterator(((Stack) Selitem).getPiecesIterator()); pi.hasMoreElements(); ) {
@@ -42,12 +43,14 @@ public class ClickLeftMoveC {
                 }
             }
         }
-        // add phase specific actions here
-        //Game.Scenario.Moveobsi.PasstoObserver(OH)
-        //If Scencolls.SelMoveUnits.Count > 0 Then 'moving units exist - could have clicked on moving or defending units
-        //'only do this if moving units selected - can't start MPh combat unless have moving units
-        //Game.Scenario.IFT.ClickedOnNewParticipants(Hexnumber)
-        //End If
+        // phase specific actions here
+        ScenarioC scen = ScenarioC.getInstance();
+        scen.Moveobsi.PasstoObserver(ClickedHex, SelectedUnits);
+
+        if (Scencolls.SelMoveUnits.size() > 0) { // moving units exist - could have clicked on moving or defending units
+            // only do this if moving units selected - can't start MPh combat unless have moving units
+            scen.IFT.ClickedOnNewParticipants(ClickedHex, SelectedUnits);
+        }
     }
     private boolean isSelected(GamePiece p) {
         return Boolean.TRUE.equals(p.getProperty(Properties.SELECTED)) &&

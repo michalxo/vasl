@@ -1,6 +1,7 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.DataClasses.ThingsToDo;
 import VASL.build.module.fullrules.DataClasses.Unpossessed;
 import VASL.build.module.fullrules.ObjectFactoryClasses.PersCreation;
 import VASL.build.module.fullrules.ObjectFactoryClasses.SWCreation;
@@ -280,8 +281,8 @@ import java.util.LinkedList;
         If Not UsingWA Then Exit Sub 'can forfeit if don't have; leave property values empty
 
         'Has WA, check if can drop need a tweak here to reflect crest status
-        If SideChk.WAMandatory(Hexnum, Otherhexnum, hexloc, hexposition) Then
-        If Not (hexposition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And hexposition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Exit Sub 'can't quit WA; leave property values empty
+        If SideChk.IsWAMandatory(Hexnum, Otherhexnum, hexloc, hexposition) Then
+        If Not (hexposition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And hexposition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Exit Sub 'can't quit WA; leave property values empty
         End If
         'NEED TO ADD STATUS CHECKS
         'If Game.Scenario.Moveobsi.StatusPrevents(MenuItem.Activities) Then RemoveList.Add(MenuItem)
@@ -821,7 +822,7 @@ import java.util.LinkedList;
         End If
         Hexname = GetLocs.GetnamefromdatatableMap(CInt(Selunit.hexnum))
         'In hex
-        Dim GetLocations As IQueryable(Of MapDataClassLibrary.GameLocation) = GetLocs.RetrieveLocationsfromMapTable(CInt(Selunit.hexnum), "Hexnum")
+        Dim GetLocations As IQueryable(Of MapDataClassLibrary.GameLocation) = GetLocs.RetrieveLocationsinHex(CInt(Selunit.hexnum), "Hexnum")
         For Each GetLocation As MapDataClassLibrary.GameLocation In GetLocations
         Dim Hexterraintype As Integer = GetLocation.Location
         If Hexterraintype = ConstantClassLibrary.ASLXNA.Location.WoodRubbleFallen Or Hexterraintype = ConstantClassLibrary.ASLXNA.Location.StoneRubbleFallen Or
@@ -897,7 +898,7 @@ import java.util.LinkedList;
         'sides - roadblock
         For i = 1 To 6
         Dim Sidetest As Integer = Linqdata.Gethexsidetype(i, CInt(Selunit.hexnum))
-        If Sidetest >= ConstantClassLibrary.ASLXNA.Hexside.Roadblock1 And Sidetest <= ConstantClassLibrary.ASLXNA.Hexside.Roadblock6 Then 'roadblock
+        If Sidetest >= ConstantClassLibrary.ASLXNA.Hexside.Roadblock0 And Sidetest <= ConstantClassLibrary.ASLXNA.Hexside.Roadblock6 Then 'roadblock
         'If Not (Game.Scenario.Moveobsi.StatusPrevents(ConstantClassLibrary.ASLXNA.UMove.ClearRdBlk)) Then
         MenuItem.Activities = 0 ' triggers conversion to popupcomponentc rather than popupleafc
         ClearanceAllowed = New MenuItemsClearance(objtypeid, ObjID, MenuItem)
@@ -1019,7 +1020,7 @@ import java.util.LinkedList;
         ActivityChoices.Add(SmokeAllowed)
         End If
         Dim ADJLocs = New List(Of MapDataClassLibrary.GameLocation) : Dim DirTest As Integer = 0
-        Dim Passhexandloc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(Hexnum, CInt(Selunit.hexlocation))
+        Dim Passhexandloc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(Hexnum, CInt(Selunit.hexlocation))
         Dim ADJTest As New CombatTerrainClassLibrary.ASLXNA.HexBesideC(Passhexandloc, Nothing, CInt(Selunit.Position))
         ADJLocs = ADJTest.AllADJACENTLocations()
         If Not IsNothing(ADJLocs) Then
@@ -1123,7 +1124,7 @@ import java.util.LinkedList;
         '            ActivityChoices.Add(SmokeAllowed)
         '        End If
         '        Dim ADJLocs = New List(Of MapDataClassLibrary.GameLocation) : Dim DirTest As Integer = 0
-        '        Dim Passhexandloc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(Hexnum, CInt(Selunit.hexlocation))
+        '        Dim Passhexandloc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(Hexnum, CInt(Selunit.hexlocation))
         '        Dim ADJTest As New CombatTerrainClassLibrary.ASLXNA.HexBesideC(Passhexandloc, Nothing, CInt(Selunit.Position))
         '        ADJLocs = ADJTest.AllADJACENTLocations()
         '        If Not IsNothing(ADJLocs) Then
@@ -1215,7 +1216,7 @@ import java.util.LinkedList;
         Next
         If NoWallA Then Exit Sub 'no eligible hexside; leave property values empty
         'NEED TO ADD STATUS CHECKS - this is just one; needs more
-        If Selunit.Position = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Selunit.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Selunit.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then Exit Sub
+        If Selunit.Position = ConstantClassLibrary.ASLXNA.AltPos.WallAdv Or (Selunit.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Selunit.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then Exit Sub
         'If Game.Scenario.Moveobsi.StatusPrevents(MenuItem.Activities) Then RemoveList.Add(MenuItem)
 
 
@@ -2115,18 +2116,18 @@ import java.util.LinkedList;
         Dim Linqdata As DataClassLibrary.ASLXNA.DataC = DataClassLibrary.ASLXNA.DataC.GetInstance()  'use empty variables when know that instance already exists
         If Linqdata.IsThingATypeOf(ConstantClassLibrary.ASLXNA.Typetype.Personnel, objtypeid) Then  'infantryv
         Selitem = Linqdata.GetUnitfromCol(ObjID)
-        If (Selitem.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And Selitem.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6) Or
-        (Selitem.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Selitem.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Or
-        (Selitem.Position >= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest1 And Selitem.Position <= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest6) Then
+        If (Selitem.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And Selitem.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5) Or
+        (Selitem.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Selitem.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Or
+        (Selitem.Position >= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest0 And Selitem.Position <= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest5) Then
         'unit is in crest status or exitedcrest status so ok to show
         Else
         Crest = False
         End If
         ElseIf Linqdata.IsThingATypeOf(ConstantClassLibrary.ASLXNA.Typetype.Concealment, objtypeid) Then  'conceal
         Selcon = Linqdata.GetConcealmentfromCol(ObjID)
-        If (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6) Or
-        (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Or
-        (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest1 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest6) Then
+        If (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5) Or
+        (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Or
+        (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest0 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest5) Then
         'unit is in crest status or exitedcrest status so ok to show
         Else
         Crest = False
@@ -2162,18 +2163,18 @@ import java.util.LinkedList;
         If Linqdata.IsThingATypeOf(ConstantClassLibrary.ASLXNA.Typetype.Personnel, objtypeid) Then  'infantry
         Selunit = Linqdata.GetUnitfromCol(ObjID)
         hexnum = CInt(Selunit.hexnum) : LoCtoCheck = CInt(Selunit.LocIndex)
-        If (Selunit.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And Selunit.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6) Or
-        (Selunit.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Selunit.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Or
-        (Selunit.Position >= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest1 And Selunit.Position <= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest6) Then
+        If (Selunit.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And Selunit.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5) Or
+        (Selunit.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Selunit.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Or
+        (Selunit.Position >= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest0 And Selunit.Position <= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest5) Then
         'already in crest status  or exited crest at level so don't show
         Exit Sub
         End If
         ElseIf Linqdata.IsThingATypeOf(ConstantClassLibrary.ASLXNA.Typetype.Concealment, objtypeid) Then  'conceal
         Selcon = Linqdata.GetConcealmentfromCol(ObjID)
         hexnum = Selcon.hexnum : LoCtoCheck = Selcon.LocIndex
-        If (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6) Or
-        (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Or
-        (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest1 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest6) Then
+        If (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5) Or
+        (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Or
+        (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest0 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.ExitedCrest5) Then
         'already in crest status  or exited crest at level so don't show
         Exit Sub
         End If
@@ -2223,14 +2224,14 @@ import java.util.LinkedList;
         Dim Linqdata As DataClassLibrary.ASLXNA.DataC = DataClassLibrary.ASLXNA.DataC.GetInstance()  'use empty variables when know that instance already exists
         If Linqdata.IsThingATypeOf(ConstantClassLibrary.ASLXNA.Typetype.Personnel, objtypeid) Then  'infantryv
         Selitem = Linqdata.GetUnitfromCol(ObjID)
-        If (Selitem.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And Selitem.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6) Or
-        (Selitem.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Selitem.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then
+        If (Selitem.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And Selitem.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5) Or
+        (Selitem.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Selitem.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then
         Crest = True
         End If
         ElseIf Linqdata.IsThingATypeOf(ConstantClassLibrary.ASLXNA.Typetype.Concealment, objtypeid) Then  'conceal
         Selcon = Linqdata.GetConcealmentfromCol(ObjID)
-        If (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6) Or
-        (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6) Then
+        If (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5) Or
+        (Selcon.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 And Selcon.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5) Then
         Crest = True
         End If
 
@@ -2472,7 +2473,7 @@ import java.util.LinkedList;
         Else
         Exit Sub
         End If
-        LOCToUse = GetLocs.RetrieveLocationfromMaptable(LOCTocheck)
+        LOCToUse = GetLocs.RetrieveLocationfromHex(LOCTocheck)
         'shellholes
         If TerrChk.IsLocationTerrainA(hexnum, Hexloc, ConstantClassLibrary.ASLXNA.Location.Shellholetype) Then
         'menuitem should display
@@ -2639,6 +2640,7 @@ public class ScenarioCollectionsc {
     public LinkedList<SuppWeapi> SWCol = new LinkedList<SuppWeapi>();
     public LinkedList<Unpossessed> Unpossesseds = new LinkedList<Unpossessed>();
     public LinkedList<Vehiclesi> Vehcol = new LinkedList<Vehiclesi>();
+    public LinkedList<ThingsToDo> ToDocol = new LinkedList<ThingsToDo>();
 
     // constructor; class uses singleton pattern to ensure only one instance ever exists
     private ScenarioCollectionsc() {

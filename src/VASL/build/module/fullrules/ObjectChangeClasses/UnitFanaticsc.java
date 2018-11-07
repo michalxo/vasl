@@ -41,6 +41,20 @@ public class UnitFanaticsc implements StatusChangei {
             PersCreation UseObjectFactory = new PersCreation();
             TargParent = UseObjectFactory.CreateTargetUnitandProperty(TargParent, FirerSan);
         }
+        if (TargParent.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.Broken || TargParent.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.Broken_DM) {
+            StatusChangei RunStatusChange = new UnitGoodOrdersc();
+            if (RunStatusChange != null) {
+                RunStatusChange.Takeaction(TargParent);
+            } else {
+                //myPopUpList = GetStatusChange.PopUpItems; temporary while debugging UNDO
+                return false;
+            }
+           // update Target and Firing lists with new units
+            if (RunStatusChange.getNewTargs() != null) {
+                myNewTargs = RunStatusChange.getNewTargs();
+            }
+            TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.Fanatics);
+        }
         TargParent.getTargetunit().setOrderStatus(Constantvalues.OrderStatus.GoodOrder);
         if(TargParent.getTargetunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Normal) {TargParent.getTargetunit().setFortitudeStatus(Constantvalues.FortitudeStatus.Fanatic);}
         if (TargParent.getbaseunit().getFortitudeStatus() == Constantvalues.FortitudeStatus.Encircled) {TargParent.getbaseunit().setFortitudeStatus(Constantvalues.FortitudeStatus.Fan_Enc);}

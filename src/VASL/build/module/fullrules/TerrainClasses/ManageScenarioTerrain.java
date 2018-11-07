@@ -27,7 +27,7 @@ public class ManageScenarioTerrain {
             'determines if a location contains a particular feature
             Dim GetLocs = New GetALocationFromMapTable(Mapdata)
             'PARTIAL IMPLEMENTATION ONLY - EXPAND ON THIS FEB 12
-            Dim LocFound As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(Locationnumber)
+            Dim LocFound As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(Locationnumber)
             Select Case LookingFor
             Case constantclasslibrary.aslxna.Feature.Wire
             If LocFound.IsWire Then Return True
@@ -56,7 +56,7 @@ public class ManageScenarioTerrain {
         '    'determines if a location contains a particular feature
         '    Dim GetLocs = New GetALocationFromMapTable(Mapdata)
                 '    'PARTIAL IMPLEMENTATION ONLY - EXPAND ON THIS FEB 12
-            '    Dim LocFound As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(Hexnumber, Locationnumber)
+            '    Dim LocFound As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(Hexnumber, Locationnumber)
             '    Select Case LookingFor
             '        Case Feature.Wire
             '            If LocFound.IsWire Then Return True
@@ -70,7 +70,7 @@ public class ManageScenarioTerrain {
     /*public GameLocation UpdateLocation(int LocIndexChange, int ChangetoMake, LinkedList<GameLocation> Mapdata) {
         GameLocation LocFound=null;
         *//*Dim GetLocs = New GetALocationFromMapTable(Mapdata) :Dim nextlocfound As MapDataClassLibrary.GameLocation
-        Dim LocFound As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(LocIndexChange)
+        Dim LocFound As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(LocIndexChange)
         Select Case ChangetoMake
         Case ConstantClassLibrary.ASLXNA.VisHind.VehDust To ConstantClassLibrary.ASLXNA.VisHind.GreyWPDisp
         LocFound.Smoke = ChangetoMake

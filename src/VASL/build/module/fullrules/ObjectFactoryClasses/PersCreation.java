@@ -8,6 +8,7 @@ The objects themselves should be defined in the Object class library
 AT PRESENT, THE POPUP MENU FACTORY IS A BETTER IMPLEMENTATION THAN THE PERSONNEL FACTORY - WHICH COULD PROBABLY BENEFIT FROM AN ADDITIONAL FACTORY LAYER DIVIDED BY NATIONALITY JUST AS
 THE MENU FACTORY HAS A LAYER OF FACTORIES DIVIDED BY PHASE*/
 
+import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.LineofBattle;
@@ -49,7 +50,7 @@ public class PersCreation {
                         2, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(),
                         unititem.getMovementStatus(), unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ENGINEER, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 3:
-                return new German468c (unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new German468c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
@@ -63,42 +64,42 @@ public class PersCreation {
                         4, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(),
                         unititem.getMovementStatus(), unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 5:
-                return new German467c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new German467c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                         5, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 6:
-                return new German447c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new German447c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                         6, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.SECONDLINE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 9:
-                return new German338c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
-                    unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
-                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
-                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
-                    9, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
-                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ENGINEER, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
+                return new German338c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        9, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ENGINEER, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
             case 10:
-                return new German248c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new German248c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                         10, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
             case 11:
-                return new German238c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new German238c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                         11, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
             case 12:
-                return new German247c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new German247c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
@@ -106,7 +107,7 @@ public class PersCreation {
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
 
             case 13:
-                return new German237c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new German237c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
@@ -114,14 +115,14 @@ public class PersCreation {
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.SECONDLINE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
 
             case 25:
-                return new Russian628c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new Russian628c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                         25, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ENGINEER, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 26:
-                return new Russian458c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new Russian458c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
@@ -129,7 +130,7 @@ public class PersCreation {
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
 
             case 27:
-                return new Russian447c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new Russian447c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
@@ -137,48 +138,48 @@ public class PersCreation {
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
 
             case 28:
-                return new Russian527c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                return new Russian527c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                         unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                         (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                         (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                         28, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                         unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 29:
-                return new Russian426c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
-                    unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
-                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
-                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
-                    29, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
-                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.CONSCRIPT, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
+                return new Russian426c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        29, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.CONSCRIPT, unititem.getCharacterStatus(), Constantvalues.Utype.Squad, unititem.getRoleStatus());
             case 31:
-                return new Russian248c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
-                    unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
-                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
-                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
-                    31, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
-                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
+                return new Russian248c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        31, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
             case 32:
-                return new Russian237c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
-                    unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
-                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
-                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
-                    32, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
-                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
+                return new Russian237c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        32, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
             case 33:
-                return new Russian227c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
-                    unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
-                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
-                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
-                    33, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
-                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
+                return new Russian227c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        33, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.FIRSTLINE, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
 
             case 34:
-                return new Russian226c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
-                    unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
-                    (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
-                    (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
-                    34, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
-                    unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.CONSCRIPT, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
+                return new Russian226c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
+                        (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
+                        (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
+                        34, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
+                        unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.CONSCRIPT, unititem.getCharacterStatus(), Constantvalues.Utype.HalfSquad, unititem.getRoleStatus());
             /*case 136:
             return new
             ObjectClassLibrary.ASLXNA.PrisonerSquadc(unititem.Hexname, CInt(unititem.Scenario), CInt(unititem.hexnum), CInt(unititem.hexlocation), CInt(unititem.Position), CSng(unititem.LevelinHex), CInt(unititem.LocIndex), unititem.CX, CInt(unititem.ELR),
@@ -217,7 +218,7 @@ public class PersCreation {
                                 unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Leader, unititem.getRoleStatus());
                         break;
                     case Russians:
-                        NewLeader = new Russian8_1c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        NewLeader = new Russian8_1c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                                 unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                                 (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                                 (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
@@ -233,14 +234,14 @@ public class PersCreation {
             case 1101:
                 switch (unititem.getNationality()) {
                     case Russians:
-                        return new Russian138c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        return new Russian138c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                                 unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                                 (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                                 (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                                 1101, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                                 unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Hero, unititem.getRoleStatus());
                     case Germans:
-                        return new German138c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        return new German138c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                                 unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                                 (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                                 (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
@@ -250,14 +251,14 @@ public class PersCreation {
             case 1102:
                 switch (unititem.getNationality()) {
                     case Russians:
-                        return new Russian149c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        return new Russian149c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                                 unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                                 (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                                 (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
                                 1102, unititem.getCombatStatus(), unititem.getVisibilityStatus(), unititem.getFortitudeStatus(), unititem.getOrderStatus(), unititem.getMovementStatus(),
                                 unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Hero, unititem.getRoleStatus());
                     case Germans:
-                        return new German149c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        return new German149c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                                 unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                                 (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                                 (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
@@ -267,7 +268,7 @@ public class PersCreation {
             case 1124:
                 switch (unititem.getNationality()) {
                     case Germans:
-                        NewLeader = new German8_1c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        NewLeader = new German8_1c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                                 unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                                 (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                                 (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
@@ -275,7 +276,7 @@ public class PersCreation {
                                 unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Leader, unititem.getRoleStatus());
                         break;
                     case Russians:
-                        NewLeader = new Russian8_1c(unititem.getHexname(), unititem.getScenario(),  unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
+                        NewLeader = new Russian8_1c(unititem.getHexname(), unititem.getScenario(), unititem.gethex(), unititem.gethexlocation(), unititem.getPosition(),
                                 unititem.getLevelinHex(), unititem.getCX(), (int) unititem.getELR(),
                                 (int) unititem.getTurnArrives(), unititem.getNationality(), unititem.getCon_ID(), unititem.getOBUnit_ID(), Constantvalues.Typetype.Personnel,
                                 (int) unititem.getFirstSWLink(), (int) unititem.getSecondSWlink(), unititem.getHexEnteredSideCrossedLastMove(), 0, unititem.getOBName(),
@@ -283,7 +284,9 @@ public class PersCreation {
                                 unititem.getPinned(), (int) unititem.getSW(), Constantvalues.UClass.ELITE, unititem.getCharacterStatus(), Constantvalues.Utype.Leader, unititem.getRoleStatus());
                         break;
                 }
-                if (NewLeader == null) {return null;}
+                if (NewLeader == null) {
+                    return null;
+                }
                 //now must decorate it
                 PersunitDecoratorac DecNewLeader;
                 DecNewLeader = new PersunitHeroicldrc(NewLeader);
@@ -303,6 +306,7 @@ public class PersCreation {
         }
         return null;
     }
+
     public PersUniti CreateNewInstance(int TypeToCreate, String NewName, PersUniti BirthingUnit) {
         // called in ObjectChange.Objectchange classes when creating a new unit during game play (due to combat results such as Casualty Reduction and ELR Replacment or HOB results such as Battle Hardening)
 
@@ -313,17 +317,17 @@ public class PersCreation {
         Constantvalues.CharacterStatus PassCharacterStatus = BirthingUnit.getbaseunit().getCharacterStatus();
         Constantvalues.CombatStatus PassCombatStatus = BirthingUnit.getbaseunit().getCombatStatus();
         int PassConID = BirthingUnit.getbaseunit().getCon_ID();
-        boolean PassCX  = false;
+        boolean PassCX = false;
         int PassELR = BirthingUnit.getbaseunit().getELR();
         int PassFirstSWLink = 0;
         Constantvalues.FortitudeStatus PassFortitudeStatus = Constantvalues.FortitudeStatus.Normal;
         int PassHexEnteredSideCrossedLastMove = 0;
         Location PassHexlocation = BirthingUnit.getbaseunit().gethexlocation();
-        String Passhexname  = BirthingUnit.getbaseunit().getHexName();
+        String Passhexname = BirthingUnit.getbaseunit().getHexName();
         //Hex PassHex = BirthingUnit.getbaseunit().getHex();
-        int PassLevelInHex = (int)BirthingUnit.getbaseunit().getLevelinHex();
-        int PassLobLink  = TypeToCreate;
-        Constantvalues.MovementStatus PassMovementStatus  = BirthingUnit.getbaseunit().getMovementStatus();
+        int PassLevelInHex = (int) BirthingUnit.getbaseunit().getLevelinHex();
+        int PassLobLink = TypeToCreate;
+        Constantvalues.MovementStatus PassMovementStatus = BirthingUnit.getbaseunit().getMovementStatus();
         Constantvalues.Nationality Passnationality = BirthingUnit.getbaseunit().getNationality();
         String PassOBname = NewName;
         Constantvalues.OrderStatus PassOrderStatus = BirthingUnit.getbaseunit().getOrderStatus();
@@ -332,14 +336,14 @@ public class PersCreation {
         Constantvalues.RoleStatus PassRoleStatus = BirthingUnit.getbaseunit().getRoleStatus();
         int PassScenario = BirthingUnit.getbaseunit().getScenario();
         int passsecondswlink = 0;
-        int PassSW  = 0;
-        int PassTurnArrives  = BirthingUnit.getbaseunit().getTurnArrives();
+        int PassSW = 0;
+        int PassTurnArrives = BirthingUnit.getbaseunit().getTurnArrives();
         Constantvalues.VisibilityStatus PassVisibilityStatus = Constantvalues.VisibilityStatus.Visible;
         // int PassOBUnit_ID = BirthingUnit.getbaseunit().getUnit_ID();  //this will do for now but needs to be redone
         int PassOBUnit_ID = scen.getOBUnitcol().getLast().getOBUnit_ID() + 1;
         //BirthingUnit.getbaseunit().SetID(0);
         BirthingUnit.getbaseunit().setOrderStatus(Constantvalues.OrderStatus.NotInPlay);
-        PersUniti NewUnit= null;
+        PersUniti NewUnit = null;
 
         // temporary while debugging UNDO
         if (TypeToCreate < 4000) {   // is not new concealment
@@ -376,144 +380,202 @@ public class PersCreation {
         return NewUnit;
 
     }
+
     public boolean IsHeroic(Constantvalues.FortitudeStatus FortitudeStatus) {
         // called by CreateExistingInstance
         // determines if leader is heroic and therefore persuniti needs to be decorated
         if (FortitudeStatus == Constantvalues.FortitudeStatus.Heroic &&
-            FortitudeStatus == Constantvalues.FortitudeStatus.HeroicEnc_Wnd) {
+                FortitudeStatus == Constantvalues.FortitudeStatus.HeroicEnc_Wnd) {
             return true;
         } else {
             return false;
         }
     }
 
-    /*    'Moving Unit property
-    public Function CreateMovingUnit(ByVal ObjectTypeId As Integer, ByVal ObjectID As Integer, ByRef TempMovementStack As List(Of ObjectClassLibrary.ASLXNA.PersUniti)) As Boolean
-            'called by movementc.AddToStackAttempt and movementc.RedoMovementStack
-    Dim TypeCheck = new UtilClassLibrary.ASLXNA.TypeUtil
+    // Moving Unit property
+    public PersUniti CreateMovingUnitandProperty (PersUniti Unititem){
+        // called by MOVEC.AddToStackAttempt and MOVEC.RedoMovementStack
+        // creates a new persuniti moving property class in a persuniti object and returns updated persuniti to calling method
+        OrderofBattle PassUnit = null;
+        if (Constantvalues.Typetype.Personnel == Unititem.getbaseunit().getTypeType_ID()) {  // item is infantry
+            for (OrderofBattle checkunit: scen.getOBUnitcol()) {
+                if (checkunit.getOBUnit_ID() == Unititem.getbaseunit().getUnit_ID()) {
+                    PassUnit = checkunit;
+                }
+            }
+            // set Moving Unit property of persuniti object
+            if (PassUnit != null) {Unititem.setMovingunit(createmovingunitproperty(PassUnit, Unititem));}
+        }
+        return Unititem;
+    /*Dim TypeCheck = new UtilClassLibrary.ASLXNA.TypeUtil
             'creates a new persuniti movement property class in a persuniti object and updates revised stack ready for decoration which is available to calling method through ByRef parameter
-    Dim MoveUnit As ObjectClassLibrary.ASLXNA.PersUniti
+    Dim MoveUnit
+    As ObjectClassLibrary.ASLXNA.PersUniti
             'locate existing persuniti and add a movement class property to it
-    If TypeCheck.IsThingATypeOf(ConstantClassLibrary.ASLXNA.Typetype.Personnel, ObjectTypeId) Then  'item is infantry
-    Dim PassUnit As DataClassLibrary.OrderofBattle = Linqdata.GetUnitfromCol(ObjectID)
-    MoveUnit = (From SelTest As ObjectClassLibrary.ASLXNA.PersUniti In Scencolls.Unitcol Where SelTest.BasePersUnit.Unit_ID = ObjectID AndAlso SelTest.BasePersUnit.LOBLink = ObjectTypeId Select SelTest).First
+    If TypeCheck.
+
+    IsThingATypeOf(ConstantClassLibrary.ASLXNA.Typetype.Personnel, ObjectTypeId) Then  'item is infantry
+    Dim PassUnit
+    As DataClassLibrary.OrderofBattle =Linqdata.GetUnitfromCol(ObjectID)
+    MoveUnit =(
+    From SelTest
+    As ObjectClassLibrary.
+    ASLXNA.PersUniti In
+    Scencolls.Unitcol Where
+    SelTest.BasePersUnit.Unit_ID =
+    ObjectID AndAlso
+    SelTest.BasePersUnit.LOBLink =
+    ObjectTypeId Select
+    SelTest).First
                 'set Moving Unit property of persuniti
-    MoveUnit.MovingPersUnit = createmovingunitproperty(MoveUnit, PassUnit, Nothing)
+    MoveUnit.MovingPersUnit =
+
+    createmovingunitproperty(MoveUnit, PassUnit, Nothing)
+
     Else
-    Dim PassUnit As DataClassLibrary.Concealment = Linqdata.GetConcealmentfromCol(ObjectID)
-    MoveUnit = (From SelTest As ObjectClassLibrary.ASLXNA.PersUniti In Scencolls.Unitcol Where SelTest.BasePersUnit.Unit_ID = ObjectID AndAlso SelTest.BasePersUnit.LOBLink = ObjectTypeId Select SelTest).First
+    Dim PassUnit
+    As DataClassLibrary.Concealment =Linqdata.GetConcealmentfromCol(ObjectID)
+    MoveUnit =(
+    From SelTest
+    As ObjectClassLibrary.
+    ASLXNA.PersUniti In
+    Scencolls.Unitcol Where
+    SelTest.BasePersUnit.Unit_ID =
+    ObjectID AndAlso
+    SelTest.BasePersUnit.LOBLink =
+    ObjectTypeId Select
+    SelTest).First
                 'set Moving Unit property of persuniti
-    MoveUnit.MovingPersUnit = createmovingunitproperty(MoveUnit, Nothing, PassUnit)
+    MoveUnit.MovingPersUnit =
+
+    createmovingunitproperty(MoveUnit, Nothing, PassUnit)
+
     End If
             'updated list available to calling method as passed ByRef
                     TempMovementStack.Add(MoveUnit)
-    return True
-    End Function
-    public Function createmovingunitproperty(ByVal MovingUnit As ObjectClassLibrary.ASLXNA.PersUniti, Optional ByVal PassPers As DataClassLibrary.OrderofBattle = Nothing, Optional ByVal PassCon As DataClassLibrary.Concealment = Nothing) As ObjectClassLibrary.ASLXNA.MovingPersuniti
-            'called by PersCreation.CreateMovingUnit
-                    'also called by ASLXNA.Movement.EnterNewHex.MoveUpdate - add to all movement classes
+            return True*/
+    }
 
-                    'creates and returns a moving unit class to be added as property of a peruniti object
-                    'set variables to pass
-    Dim PassOBname As String : Dim PassOBUnitID As Integer : Dim PassConID As Integer : Dim Passhexnum As Integer : Dim Passhexlocation As Integer
-    Dim PassPosition As Integer : Dim PassLocIndex As Integer : Dim PassVisibilityStatus As Integer : Dim PasshexEnteredSideCrossedLastMove As Integer
-    Dim PassNationality As Integer
-    If Not IsNothing(PassPers) Then 'passing OrderofBattle unit
-    Passhexnum = CInt(PassPers.hexnum)
-    Passhexlocation = CInt(PassPers.hexlocation)
-    PassPosition = CInt(PassPers.Position)
-    PassLocIndex = CInt(PassPers.LocIndex)
-    PassVisibilityStatus = CInt(PassPers.VisibilityStatus)
-    PasshexEnteredSideCrossedLastMove = CInt(PassPers.HexEnteredSideCrossedLastMove)
-    PassOBname = PassPers.OBName
-            PassOBUnitID = PassPers.OBUnit_ID
-    PassConID = PassPers.Con_ID
-            PassNationality = CInt(PassPers.Nationality)
-    Else  'passing Concealment unit
-    Passhexnum = CInt(PassCon.hexnum)
-    Passhexlocation = CInt(PassCon.Hexlocation)
-    PassPosition = CInt(PassCon.Position)
-    PassLocIndex = CInt(PassCon.LocIndex)
-    PassVisibilityStatus = ConstantClassLibrary.ASLXNA.VisibilityStatus.Concealed
-            PasshexEnteredSideCrossedLastMove = CInt(PassCon.HexEnteredSideCrossedLastMove)
-    PassOBname = PassCon.Concounter
-            PassOBUnitID = CInt(PassCon.Con_ID)
-    PassConID = 0
-    PassNationality = PassCon.Nationality
-    End If
-            'select item to create
-    switch MovingUnit.BasePersUnit.LOBLink
-    case 1
-    case 2
-    return new ObjectClassLibrary.ASLXNA.German838Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 4:
-    return new ObjectClassLibrary.ASLXNA.German548Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 5
-    return new ObjectClassLibrary.ASLXNA.German467Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 9
-    return new ObjectClassLibrary.ASLXNA.German338Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 11
-    return new ObjectClassLibrary.ASLXNA.German238Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 12
-    return new ObjectClassLibrary.ASLXNA.German247Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 13
-    return new ObjectClassLibrary.ASLXNA.German237Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 25
-    return new ObjectClassLibrary.ASLXNA.Russian628Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 26
-    return new ObjectClassLibrary.ASLXNA.Russian458Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 27
-    return new ObjectClassLibrary.ASLXNA.Russian447Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 28
-    return new ObjectClassLibrary.ASLXNA.Russian527Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 31
-    return new ObjectClassLibrary.ASLXNA.Russian248Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 32
-    return new ObjectClassLibrary.ASLXNA.Russian237Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 33
-    return new ObjectClassLibrary.ASLXNA.Russian227Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 34
-    return new ObjectClassLibrary.ASLXNA.Russian226Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 136
-    return new ObjectClassLibrary.ASLXNA.PrisonerSquadMovec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 137
-    return new ObjectClassLibrary.ASLXNA.PrisonerHalfSquadMovec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 138
-    return new ObjectClassLibrary.ASLXNA.PrisonerSMCMovec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 202
-    return new ObjectClassLibrary.ASLXNA.RussianDummyMovec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 203
-    return new ObjectClassLibrary.ASLXNA.GermanDummyMovec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-            'where case is above 1000, creating SMC and must differentiate again by Nationality - better structure?
-    case 1004
-    switch PassNationality
-    case ConstantClassLibrary.ASLXNA.Nationality.Germans
-    return new ObjectClassLibrary.ASLXNA.German8_1Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case ConstantClassLibrary.ASLXNA.Nationality.Russians
-    return new ObjectClassLibrary.ASLXNA.Russian8_1Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    End Select
-    case 1101
-    switch PassNationality
-    case ConstantClassLibrary.ASLXNA.Nationality.Germans
-                            'return new ObjectClassLibrary.ASLXNA.German138Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case ConstantClassLibrary.ASLXNA.Nationality.Russians
-    return new ObjectClassLibrary.ASLXNA.Russian138Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    End Select
-    case 1102
-    switch PassNationality
-    case ConstantClassLibrary.ASLXNA.Nationality.Germans
-                            'return new ObjectClassLibrary.ASLXNA.German149Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case ConstantClassLibrary.ASLXNA.Nationality.Russians
-    return new ObjectClassLibrary.ASLXNA.Russian149Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    End Select
-    case 4002
-    return new ObjectClassLibrary.ASLXNA.RussianConMovec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    case 4003
-    return new ObjectClassLibrary.ASLXNA.GermanConMovec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
-    End Select
-    End Function
+    public MovingPersuniti createmovingunitproperty(OrderofBattle PassPers, PersUniti  MovingUnit) {
+        // called by PersCreation.CreateMovingUnit
+        // also called by ASLXNA.Movement.EnterNewHex.MoveUpdate - add to all movement classes
+        // creates and returns a moving unit class to be added as property of a peruniti object
+        // set variables to pass
 
-*/
+        String PassOBname = PassPers.getOBName();
+        int PassOBUnitID = PassPers.getOBUnit_ID();
+        int PassConID = PassPers.getCon_ID();
+        Hex Passhex = PassPers.gethex();
+        Location Passhexlocation = PassPers.gethexlocation();
+        Constantvalues.AltPos PassPosition = PassPers.getPosition();
+        Constantvalues.VisibilityStatus PassVisibilityStatus = PassPers.getVisibilityStatus();
+        int PasshexEnteredSideCrossedLastMove = PassPers.getHexEnteredSideCrossedLastMove();
+        Constantvalues.Nationality PassNationality = PassPers.getNationality();
+        int PassLocIndex =0;
+
+        if (PassPers != null) {
+            // passing OrderofBattle unit
+        } else { // passing Concealment unit
+            /*Passhexnum =
+
+            CInt(PassCon.hexnum)
+
+            Passhexlocation =
+
+            CInt(PassCon.Hexlocation)
+
+            PassPosition =
+
+            CInt(PassCon.Position)
+
+            PassLocIndex =
+
+            CInt(PassCon.LocIndex)
+
+            PassVisibilityStatus =
+            ConstantClassLibrary.ASLXNA.VisibilityStatus.Concealed
+                    PasshexEnteredSideCrossedLastMove = CInt(PassCon.HexEnteredSideCrossedLastMove)
+            PassOBname =
+            PassCon.Concounter
+                    PassOBUnitID = CInt(PassCon.Con_ID)
+            PassConID =0
+            PassNationality =PassCon.Nationality*/
+        }
+        // select item to create
+        switch (MovingUnit.getbaseunit().getLOBLink()) {
+            case 1:
+            case 2:
+                //return new German838Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 4:
+                //return new German548Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 5:
+                return new German467Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 9:
+                //return new German338Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 11:
+                //return new German238Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 12:
+                //return new German247Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 13:
+                //return new German237Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 25:
+                //return new Russian628Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 26:
+                //return new Russian458Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 27:
+                return new Russian447Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 28:
+                //return new Russian527Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 31:
+                //return new Russian248Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 32:
+                //return new Russian237Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 33:
+                //return new Russian227Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 34:
+                //return new Russian226Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 136:
+                //return new PrisonerSquadMovec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 137:
+                //return new PrisonerHalfSquadMovec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 138:
+                //return new PrisonerSMCMovec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 202:
+                //return new RussianDummyMovec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 203:
+                //return new GermanDummyMovec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+                // where case is above 1000, creating SMC and must differentiate again by Nationality - better structure?
+            case 1004:
+                switch (PassNationality) {
+                    case Germans:
+                        //return new German8_1Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+                    case Russians:
+                        //return new Russian8_1Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+                }
+            case 1101:
+                switch (PassNationality) {
+                    case Germans:
+                        // return new ObjectClassLibrary.ASLXNA.German138Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
+                    case Russians:
+                        //return new Russian138Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+                }
+            case 1102:
+                switch (PassNationality) {
+                    case Germans:
+                        // return new ObjectClassLibrary.ASLXNA.German149Movec(PassOBname, Passhexnum, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove)
+                    case Russians:
+                        //return new Russian149Movec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+                }
+            case 4002:
+                //return new RussianConMovec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            case 4003:
+                //return new GermanConMovec(PassOBname, Passhex, Passhexlocation, PassPosition, PassLocIndex, PassOBUnitID, PassVisibilityStatus, PassConID, PasshexEnteredSideCrossedLastMove);
+            default:
+                return null;
+        }
+    }
+
+
     // Firing Unit property
 
     public PersUniti CreatefiringUnitandProperty(PersUniti Unititem) {

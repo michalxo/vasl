@@ -1,14 +1,16 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
+import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 
 public class Russian447Movec implements MovingPersuniti {
 
     private boolean concealedvalue;
     private String myOBname;
-    private int currhex;
-    private int currhexloc;
-    private int currhexpos;
+    private Hex currhex;
+    private Location currhexloc;
+    private Constantvalues.AltPos currhexpos;
     private int OBID;
     private double MFleft;
     private boolean UsingDTvalue;
@@ -16,16 +18,16 @@ public class Russian447Movec implements MovingPersuniti {
     private boolean usingencircvalue;
     private boolean hasldrbvalue;
     private double mfusedvalue;
-    private int AMvalue;
-    private int Dashvalue;
+    private Constantvalues.MovementStatus AMvalue;
+    private Constantvalues.MovementStatus Dashvalue;
     private int LOCIndexvalue;
     private int HexEntSideCross;
     // private mysmokee As Integer
 
-    public Russian447Movec (String PassOBname, int Passhexnum, int Passhexlocation, int PassPosition, int PassLocIndex,
+    public Russian447Movec (String PassOBname, Hex Passhex, Location Passhexlocation, Constantvalues.AltPos PassPosition, int PassLocIndex,
                             int PassOBUnitID, Constantvalues.VisibilityStatus PassVisibilityStatus, int PassConID, int PasshexEnteredSideCrossedLastMove) {
         myOBname = PassOBname;
-        currhex = Passhexnum;
+        currhex = Passhex;
         currhexloc = Passhexlocation;
         currhexpos = PassPosition;
         LOCIndexvalue = PassLocIndex;
@@ -54,10 +56,10 @@ public class Russian447Movec implements MovingPersuniti {
     public double getMFUsed () {return mfusedvalue;}
     public void setMFUsed(double value) {mfusedvalue = value;}
     public boolean getPPImpact () {return false;}
-    public int getAssaultMove () {return AMvalue;}
-    public void setAssaultMove(int value) {AMvalue = value;}
-    public int getDash () {return Dashvalue;}
-    public void setDash(int value) {Dashvalue = value;}
+    public Constantvalues.MovementStatus getAssaultMove () {return AMvalue;}
+    public void setAssaultMove(Constantvalues.MovementStatus value) {AMvalue = value;}
+    public Constantvalues.MovementStatus getDash () {return Dashvalue;}
+    public void setDash(Constantvalues.MovementStatus value) {Dashvalue = value;}
     public int getHexEnteredSideCrossed () {return HexEntSideCross;}
     public void setHexEnteredSideCrossed(int value) {HexEntSideCross = value;}
     public int getSmokeE () {return 1;}

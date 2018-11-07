@@ -470,7 +470,7 @@ public class ThreadedLOSCheckCommonc {
                                 ' ''                    If TargetHexspineVertex = 1 Then ' then need to test for Targethexspine; if nothing present then single side in previous hex blocks los
                                 ' ''                        Dim SpineSide As Integer = MapGeo.HexSideEntry(Secondhextest, HexTest)
                                         ' ''                        Dim Spinesideterrain As Integer = Sidecheck.Gethexsidetype(Baselocation, SpineSide)
-                                        ' ''                        Dim SpineLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(HexTest)
+                                        ' ''                        Dim SpineLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(HexTest)
                                         ' ''                        If Sidecheck.IsAWallHedgeRdBlk(SpineSide, SpineLoc.LocIndex) Then
                                         ' ''                        If Not (CInt(Sidecheck.GetSideData(TerrFactor.HexsideTEM, Spinesideterrain, MapTableInstance))) > 0 Then hexbyhexmovealongok = false 'single side unconnected to target hex blocks LOS
                                 ' ''                            'MessageBox.Show("hexspine " & SpineSide.ToString & " has a drm of " & HexSpineDRM.ToString)
@@ -488,7 +488,7 @@ public class ThreadedLOSCheckCommonc {
                                 ' ''            'hexspine connects to Firerhex vertex
                                 ' ''            Dim SpineSide As Integer = MapGeo.HexSideEntry(Secondhextest, HexTest)
                                         ' ''            Dim Spinesideterrain As Integer = Sidecheck.Gethexsidetype(Baselocation, SpineSide)
-                                        ' ''            'Dim SpineLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(HexTest)
+                                        ' ''            'Dim SpineLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(HexTest)
             ' ''            'Dim IsSideCheck = New TerrainClassLibrary.ASLXNA.IsSide(Game.Scenario.LocationCol)
             ' ''            If Sidecheck.IsAWallHedgeRdBlk(SpineSide, Baselocation.LocIndex) Then
             ' ''                If CInt(Sidecheck.GetSideData(TerrFactor.HexsideTEM, Spinesideterrain, MapTableInstance)) > 0 Then FirerHexspine = true
@@ -518,9 +518,9 @@ public class ThreadedLOSCheckCommonc {
             'need to add some code here to cover bypass or wall advantage in target hex where target obstacle can block LOS
     If .TotalSeeLevel <= .TotalSeenLevel Then
     Dim IsCrossingWHR As Boolean = false
-    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeenLOSIndex))
+    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeenLOSIndex))
             'entrenched or crestatus behind a wall (blocks LOS but don't have results)
-    If (.SeenPositionInHex >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And .SeenPositionInHex <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6) Or .SeenPositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InFoxhole Or .SeenPositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InSanger Or .SeenPositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InTrench Then
+    If (.SeenPositionInHex >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And .SeenPositionInHex <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5) Or .SeenPositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InFoxhole Or .SeenPositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InSanger Or .SeenPositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InTrench Then
                                 'need to check for Wall/hedge/roadblock
     UsingPositionNoResultSave = true
             nexthexsidecrossed = MapGeo.HexSideEntry(Lasthex, HexTest)
@@ -530,8 +530,8 @@ public class ThreadedLOSCheckCommonc {
     End If
                             'cellar
     Dim Hexsidelist As List(Of Integer) = MapGeo.LOSSideEntry(.SeenHexNum, .SeeHexNum)  'these are reversed to get hexside crossed exiting Seehex
-    Dim SeeLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeeLOSIndex))
-    Dim SeebaseLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeeHexNum))
+    Dim SeeLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeeLOSIndex))
+    Dim SeebaseLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeeHexNum))
     For Each nexthexside As Integer In Hexsidelist
                                 'Dim SideTest = New TerrainClassLibrary.ASLXNA.IsSide(MapCol)
     IsCrossingWHR = Sidecheck.IsAWallHedgeRdBlk(nexthexside, CInt(.SeeHexNum))
@@ -553,9 +553,9 @@ public class ThreadedLOSCheckCommonc {
     If hexbyhexmovealongok = true And .TotalSeeLevel >= .TotalSeenLevel Then
     Dim IsCrossingWHR As Boolean = false
     Dim Hexsidelist As List(Of Integer) = MapGeo.LOSSideEntry(.SeenHexNum, .SeeHexNum)  'these are reversed to get hexside crossed exiting Seehex
-    Dim SeeLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeeLOSIndex))
+    Dim SeeLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeeLOSIndex))
             'entrenched or crestatus behind a wall (blocks LOS but don't have results)
-    If (.SeePositionInHex >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1 And .SeePositionInHex <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6) Or .SeePositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InFoxhole Or .SeePositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InSanger Or .SeePositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InTrench Then
+    If (.SeePositionInHex >= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0 And .SeePositionInHex <= ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5) Or .SeePositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InFoxhole Or .SeePositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InSanger Or .SeePositionInHex = ConstantClassLibrary.ASLXNA.AltPos.InTrench Then
                                 'need to check for Wall/hedge/roadblock
     UsingPositionNoResultSave = true
     For Each nexthexside As Integer In Hexsidelist
@@ -566,8 +566,8 @@ public class ThreadedLOSCheckCommonc {
     End If
                             'cellar
     Hexsidelist = MapGeo.LOSSideEntry(.SeeHexNum, .SeenHexNum)  'these are reversed to get hexside crossed exiting Seehex
-    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeenLOSIndex))
-    Dim SeenBaseLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeenHexNum))
+    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeenLOSIndex))
+    Dim SeenBaseLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeenHexNum))
             'Dim IsCrossingWHR As Boolean = false
     For Each nexthexside As Integer In Hexsidelist
                                 'Dim SideTest = New TerrainClassLibrary.ASLXNA.IsSide(MapCol)
@@ -587,7 +587,7 @@ public class ThreadedLOSCheckCommonc {
     End If
     If hexbyhexmovealongok = true And .TotalSeeLevel = .TotalSeenLevel Then
                             'below ground (cellar, sewer)
-    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeenLOSIndex))
+    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeenLOSIndex))
     If .TotalSeeLevel < SeenLoc.Baselevel Then
     Dim BelowGrdRange As Integer = MapGeo.CalcRange(.SeenHexNum, .SeeHexNum, true)
     If BelowGrdRange = 1 Then
@@ -602,8 +602,8 @@ public class ThreadedLOSCheckCommonc {
     End If
     If hexbyhexmovealongok = true And .TotalSeeLevel <> .TotalSeenLevel Then
                             'Dim Getlocs As TerrainClassLibrary.ASLXNA.GetALocationFromMapTable = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
-    Dim SeeLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeeLOSIndex))
-    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeenLOSIndex))
+    Dim SeeLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeeLOSIndex))
+    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeenLOSIndex))
     Dim ADJTest As New CombatTerrainClassLibrary.ASLXNA.HexBesideC(SeeLoc, SeenLoc, 0)
             'check both hexes for buidling side (handle roof and cellar situations)
     If ADJTest.IshexAdjacent Then
@@ -849,7 +849,7 @@ public class ThreadedLOSCheckCommonc {
                                 'MsgBox("Your LOS goes over the " & Trim(TerrainName) & " Hindrance in " & Trim(Hexhit) & ": no DRM added due to height advantage", , "LOS Check. . .Hindrance Found")
     ElseIf .TotalSeeLevel > .TotalSeenLevel Or .TotalSeeLevel < .TotalSeenLevel Then
                         'handle exceptions: cellar
-    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeenLOSIndex))
+    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeenLOSIndex))
     If SeenLoc.IsCellar Then
                             'some half-level obstacles block LOS others hinder
     If hexTerraintype = ConstantClassLibrary.ASLXNA.Location.WoodRubble Or hexTerraintype = ConstantClassLibrary.ASLXNA.Location.StoneRubble Then
@@ -861,7 +861,7 @@ public class ThreadedLOSCheckCommonc {
     AddHextoLOSH(Hexnumber)
     End If
     End If
-    Dim SeeLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeeLOSIndex))
+    Dim SeeLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeeLOSIndex))
     If SeeLoc.IsCellar Then
                             'some half-level obstacles block LOS others hinder
     If hexTerraintype = ConstantClassLibrary.ASLXNA.Location.WoodRubble Or hexTerraintype = ConstantClassLibrary.ASLXNA.Location.StoneRubble Then
@@ -892,9 +892,9 @@ public class ThreadedLOSCheckCommonc {
             'cellar fix
     Dim TestSeeLevel As Single = 0 : Dim TestSeenLevel As Single = 0
     TestSeeLevel = .TotalSeeLevel : TestSeenLevel = .TotalSeenLevel
-    Dim SeeLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeeLOSIndex))
+    Dim SeeLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeeLOSIndex))
     If SeeLoc.IsCellar Then TestSeeLevel += 1
-    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CInt(.SeenLOSIndex))
+    Dim SeenLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CInt(.SeenLOSIndex))
     If SeenLoc.IsCellar Then TestSeenLevel += 1
     If DoesHexSideBlockLOSThread(TestSeeLevel, TestSeenLevel, hexbaselevel, MapHex.LocIndex, hexsideterrain, hexsidecrossed, SideTest) Then
     HexSideBlockCheckThread = true
@@ -1240,7 +1240,7 @@ public class ThreadedLOSCheckCommonc {
     End If
     End If
                     'cellar
-    Dim SeenLoc As MapDataClassLibrary.GameLocation = getlocs.RetrieveLocationfromMaptable(CInt(.SeenLOSIndex))
+    Dim SeenLoc As MapDataClassLibrary.GameLocation = getlocs.RetrieveLocationfromHex(CInt(.SeenLOSIndex))
     If SeenLoc.IsCellar Then CrestlineBlocksLOS = false
     ElseIf hexbaselevel = .TotalSeenLevel And .TotalSeeLevel < .TotalSeenLevel Then
                     'LOSBlocked by crestline in intervening hex
@@ -1255,7 +1255,7 @@ public class ThreadedLOSCheckCommonc {
     End If
     End If
                     'cellar
-    Dim SeeLoc As MapDataClassLibrary.GameLocation = getlocs.RetrieveLocationfromMaptable(CInt(.SeeLOSIndex))
+    Dim SeeLoc As MapDataClassLibrary.GameLocation = getlocs.RetrieveLocationfromHex(CInt(.SeeLOSIndex))
     If SeeLoc.IsCellar Then CrestlineBlocksLOS = false
     ElseIf hexbaselevel > .TotalSeenLevel And hexbaselevel > .TotalSeeLevel Then   'intervening above see and seen
             'MsgBox("LOS Blocked- Intervening hex is higher than Seer and Seen!!", , "LOS Check in " & Trim(Getlocs.GetnamefromdatatableMap(.SeenHexNum)))
@@ -1273,7 +1273,7 @@ public class ThreadedLOSCheckCommonc {
     If HexLocIndex > 0 Then
     Dim PillboxLOS As Boolean = false
                     'get Pillbox location
-    UsingHex = Terrget.RetrieveLocationfromMaptable(HexLocIndex)
+    UsingHex = Terrget.RetrieveLocationfromHex(HexLocIndex)
             'Now determine Pillbox covered arc
     Dim Imagename As String = terrchk.GetLocationData(ConstantClassLibrary.ASLXNA.TerrFactor.Image, CInt(UsingHex.Location), Maptables)
     Dim TestCA As DataClassLibrary.LookupCA = (From Qu In Linqdata.db.LookupCAs Where Qu.Terraindesc = Imagename).First

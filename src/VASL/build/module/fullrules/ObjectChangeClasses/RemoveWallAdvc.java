@@ -19,7 +19,7 @@ public class RemoveWallAdvc {
     ActiveUnitOB.Position = 0
     Dim GetBaseHex As MapDataClassLibrary.GameLocation = Levelchk.GetLocationatLevelInHex(CInt(ActiveUnitOB.hexnum), 0)
     ActiveUnitOB.hexlocation = CInt(GetBaseHex.Location) 'always baseloc when doing WA
-    ElseIf ActiveUnitOB.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 AndAlso ActiveUnitOB.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6 Then
+    ElseIf ActiveUnitOB.Position >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0 AndAlso ActiveUnitOB.Position <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5 Then
                 'set position to crest status and update location to base hex
     ActiveUnitOB.Position = WACresttoCrest(CInt(ActiveUnitOB.Position))
     Dim GetBaseHex As MapDataClassLibrary.GameLocation = Levelchk.GetLocationatLevelInHex(CInt(ActiveUnitOB.hexnum), 0)
@@ -47,18 +47,18 @@ public class RemoveWallAdvc {
     End Function
     Private Function WACresttoCrest(ByVal currentposition As Integer) As Integer
     Select Case currentposition
+    Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus0
+    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0
     Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1
-    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1
+    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus0
     Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus2
-    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus2
+    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus1
     Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus3
     Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus3
     Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus4
     Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus4
     Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus5
     Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus5
-    Case ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6
-    Return ConstantClassLibrary.ASLXNA.AltPos.CrestStatus6
     Case Else
     Return Nothing
     End Select

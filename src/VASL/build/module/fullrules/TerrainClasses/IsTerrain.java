@@ -1,14 +1,18 @@
 package VASL.build.module.fullrules.TerrainClasses;
 
+import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 
 public class IsTerrain {
     // This class handles various methods to return value of boolean test accesssing one or more columns from the Map Table for specified location(s)
     private Terrain pTerrain;
 
-    public IsTerrain(Terrain PassTerrain) {
-        pTerrain = PassTerrain;
+    public IsTerrain() {  //Terrain PassTerrain) {
+        // pTerrain = PassTerrain;
     }
 
     public boolean IsTerrainInherent(int LocationToTest) {
@@ -24,8 +28,55 @@ public class IsTerrain {
         return IsTerInherent;
     }
 
-    //'need to create overload that uses LocIndex
-    public boolean IsLocationTerrainA(int hexnumber, int LocationToUse, int TypetoSearch) {
+    public boolean SpecialTerrainPreventsWAGain(PersUniti Checkunit) {
+        switch (Checkunit.getbaseunit().gethexPosition()) {
+            case AboveWire:
+            case InFoxhole:
+            case AbovePanji:
+            case InTrench:
+            case InSanger:
+                return true;
+            default:
+
+        }
+        ConversionC confrom = new ConversionC();
+        Constantvalues.Location checklocation = confrom.ConverttoLocationtypefromVASLLocation(Checkunit.getbaseunit().gethexlocation());
+
+        switch (checklocation) {
+            case Pill1571: case Pill1350: case Pill1351: case Pill1352: case Pill1353: case Pill1354: case Pill1355: case Pill1460: case Pill1461:case Pill1462: case Pill1463: case Pill1464:
+            case Pill1465: case Pill1570: case Pill1572: case Pill1573: case Pill1574: case Pill1575: case Pill2350: case Pill2351: case Pill2352: case Pill2353: case Pill2354: case Pill2355:
+            case Pill2460: case Pill2461: case Pill2462: case Pill2463: case Pill2464: case Pill2465: case Pill2570: case Pill2571: case Pill2572: case Pill2573: case Pill2574: case Pill2575:
+            case Pill3350: case Pill3351: case Pill3352: case Pill3353: case Pill3354: case Pill3355: case Pill3570: case Pill3571: case Pill3572: case Pill3573: case Pill3574: case Pill3575:
+            case Bombprf: case BunkUnder:
+                return true;
+            default:
+
+        }
+
+        // MAY NEED TO ADD TEST FOR THESE:  ConstantClassLibrary.ASLXNA.Feature.Trench, ConstantClassLibrary.ASLXNA.Feature.Sanger, ConstantClassLibrary.ASLXNA.Feature.Foxhole
+
+        return false;
+    }
+
+    public boolean IsPositionWA(Constantvalues.AltPos hexposition){
+        return (hexposition.equals(Constantvalues.AltPos.WallAdv) ||
+                hexposition.equals(Constantvalues.AltPos.WACrestStatus0) ||
+                hexposition.equals(Constantvalues.AltPos.WACrestStatus1) ||
+                hexposition.equals(Constantvalues.AltPos.WACrestStatus2) ||
+                hexposition.equals(Constantvalues.AltPos.WACrestStatus3) ||
+                hexposition.equals(Constantvalues.AltPos.WACrestStatus4) ||
+                hexposition.equals(Constantvalues.AltPos.WACrestStatus5) );
+    }
+
+    public boolean IsPositionCrest(Constantvalues.AltPos hexposition){
+        return (hexposition.equals(Constantvalues.AltPos.CrestStatus0) ||
+                hexposition.equals(Constantvalues.AltPos.CrestStatus1) ||
+                hexposition.equals(Constantvalues.AltPos.CrestStatus2) ||
+                hexposition.equals(Constantvalues.AltPos.CrestStatus3) ||
+                hexposition.equals(Constantvalues.AltPos.CrestStatus4) ||
+                hexposition.equals(Constantvalues.AltPos.CrestStatus5) );
+    }
+    public boolean IsLocationTerrainA(Hex hextotest, Location LocationToUse, Constantvalues.Location TypetoSearch) {
         /*'called by Map.IsSameHexLOSClear, Map.DoesObstacleBlockLOS, IFT.Combatdrm and  Movement MVC
         'CombatTerrain.GetScenFeatTEMLosh
         'determines if a parameter location is of a parameter type or contains scenario feature of parameter type
@@ -33,7 +84,7 @@ public class IsTerrain {
         Dim TypeFound As MapDataClassLibrary.GameLocation
         'Get scenario map specific data
         Dim Getlocs = New GetALocationFromMapTable(MapData)
-        Dim Terrhex As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromMaptable(hexnumber, LocationToUse)
+        Dim Terrhex As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromHex(hexnumber, LocationToUse)
         'Retrieve terrain type field for a specific hex
         Dim hexTerraintype As Integer = Terrhex.Location
         'check for broader condition - there will likely be several such tests
@@ -371,7 +422,7 @@ public class IsTerrain {
         Dim TypeFound As MapDataClassLibrary.GameLocation
         'Get scenario map specific data
         Dim Getlocs = New GetALocationFromMapTable(MapData)
-        Dim Terrhex As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromMaptable(LocIndex)
+        Dim Terrhex As MapDataClassLibrary.GameLocation = Getlocs.RetrieveLocationfromHex(LocIndex)
         'Retrieve terrain type field for a specific hex
         Dim hexTerraintype As Integer = Terrhex.Location
         'check for broader condition - there will likely be several such tests

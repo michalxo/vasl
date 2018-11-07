@@ -1,11 +1,10 @@
 package VASL.build.module.fullrules.PhaseClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
-import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.Scenario;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTC;
-import VASL.build.module.fullrules.MovementClasses.MakeMoveC;
+import VASL.build.module.fullrules.MovementClasses.MoveMVCPattern;
 import VASSAL.build.GameModule;
 
 // concrete class implementing iPhaseMVC
@@ -40,7 +39,7 @@ public class MovePhaseMVC implements iPhaseMVC {
             scen.IFT = new IFTC(scen.getScenID());
             scen.IFT.FirePhasePreparation();
         }
-        MakeMoveC DoMove = new MakeMoveC();
+        MoveMVCPattern DoMove = new MoveMVCPattern();
         return true;
     }
 

@@ -1,5 +1,5 @@
 package VASL.build.module.fullrules.ObjectChangeClasses;
 
-public interface UnitChange {
+public interface UnitChangei {
     boolean TakeAction();
 }

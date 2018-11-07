@@ -5,6 +5,7 @@ import VASL.build.module.fullrules.DataClasses.DataC;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.IFTCombatClasses.IFTC;
 import VASL.build.module.fullrules.IFTCombatClasses.IIFTC;
+import VASL.build.module.fullrules.MovementClasses.observeri;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectClasses.SelectedThing;
@@ -25,8 +26,8 @@ public class Gamecontrol {
     public TerrainActionsC TerrainActions; // = new TerrainActionsC();
 
     public ConcealActionsC ConcealActions; // = new ConcealActionsC();
-
-    public observeri Moveobs; //i = new observeri();*/
+*/
+    public observeri Moveobsi; //i = new observeri();
     public IIFTC IFT;
     public UnitActionsC UnitActions; // = new UnitActionsC();
     public VehicleActionsC VehicleActions; // = new VehicleActionsC();
@@ -426,25 +427,25 @@ public class Gamecontrol {
     Dim GetLocs As New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Game.Scenario.LocationCol)
     Dim util = New UtilClassLibrary.ASLXNA.ConversionC : Dim Sniperid As Integer = 0
     If Scendet.Sanattaloc > 0 Then
-            Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sanattaloc))
+            Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sanattaloc))
     sidetoget = CInt(Scendet.ATT1)
     Sniperid = util.GetSnipervalue(sidetoget, "A")
     SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
     End If
     If Scendet.Sanattbloc > 0 Then
-            Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sanattbloc))
+            Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sanattbloc))
     sidetoget = CInt(Scendet.ATT1)
     Sniperid = util.GetSnipervalue(sidetoget, "B")
     SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
     End If
     If Scendet.Sandfnaloc > 0 Then
-            Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sandfnaloc))
+            Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sandfnaloc))
     sidetoget = CInt(Scendet.DFN1)
     Sniperid = util.GetSnipervalue(sidetoget, "A")
     SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
     End If
     If Scendet.Sandfnbloc > 0 Then
-            Sniperhex = GetLocs.RetrieveLocationfromMaptable(CInt(Scendet.Sandfnbloc))
+            Sniperhex = GetLocs.RetrieveLocationfromHex(CInt(Scendet.Sandfnbloc))
     sidetoget = CInt(Scendet.DFN1)
     Sniperid = util.GetSnipervalue(sidetoget, "B")
     SetSniperTextureAndCreateSprite(sidetoget, Sniperhex, Sniperid)
@@ -517,29 +518,29 @@ public class Gamecontrol {
     AddToDisplay(ShowCounter, Drawsprite)
     End If
             'Roadblock  - need to check each hexside  -COME BACK AND USE DYNAMIC LINQ QUERY TO DO THIS AS A LOOP
-    If ShowCounter.Hexside1 = Constantvalues.Hexside.Roadblock1 Then
+    If ShowCounter.Hexside1 = Constantvalues.Hexside.Roadblock0 Then
+    TerrTexture = SetTextureandName(ShowCounter, Constantvalues.Hexside.Roadblock0, Getname)
+    If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, Constantvalues.Hexside.Roadblock0, Getname)
+    AddToDisplay(ShowCounter, Drawsprite)
+    End If
+    If ShowCounter.Hexside2 = Constantvalues.Hexside.Roadblock1 Then
     TerrTexture = SetTextureandName(ShowCounter, Constantvalues.Hexside.Roadblock1, Getname)
     If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, Constantvalues.Hexside.Roadblock1, Getname)
     AddToDisplay(ShowCounter, Drawsprite)
     End If
-    If ShowCounter.Hexside2 = Constantvalues.Hexside.Roadblock2 Then
+    If ShowCounter.Hexside3 = Constantvalues.Hexside.Roadblock2 Then
     TerrTexture = SetTextureandName(ShowCounter, Constantvalues.Hexside.Roadblock2, Getname)
     If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, Constantvalues.Hexside.Roadblock2, Getname)
     AddToDisplay(ShowCounter, Drawsprite)
     End If
-    If ShowCounter.Hexside3 = Constantvalues.Hexside.Roadblock3 Then
+    If ShowCounter.Hexside4 = Constantvalues.Hexside.Roadblock3 Then
     TerrTexture = SetTextureandName(ShowCounter, Constantvalues.Hexside.Roadblock3, Getname)
     If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, Constantvalues.Hexside.Roadblock3, Getname)
     AddToDisplay(ShowCounter, Drawsprite)
     End If
-    If ShowCounter.Hexside4 = Constantvalues.Hexside.Roadblock4 Then
+    If ShowCounter.Hexside5 = Constantvalues.Hexside.Roadblock4 Then
     TerrTexture = SetTextureandName(ShowCounter, Constantvalues.Hexside.Roadblock4, Getname)
     If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, Constantvalues.Hexside.Roadblock4, Getname)
-    AddToDisplay(ShowCounter, Drawsprite)
-    End If
-    If ShowCounter.Hexside5 = Constantvalues.Hexside.Roadblock5 Then
-    TerrTexture = SetTextureandName(ShowCounter, Constantvalues.Hexside.Roadblock5, Getname)
-    If Not IsNothing(TerrTexture) Then Drawsprite = CreateSprite(ShowCounter, TerrTexture, Constantvalues.Hexside.Roadblock5, Getname)
     AddToDisplay(ShowCounter, Drawsprite)
     End If
     If ShowCounter.Hexside6 = Constantvalues.Hexside.Roadblock6 Then
@@ -624,6 +625,9 @@ public class Gamecontrol {
     End Select
     TerrTexture = TerrCheck.GetLocationData(Constantvalues.TerrFactor.Image, Passtype, Game.Scenario.Maptables)
     GetName = TerrCheck.GetLocationData(Constantvalues.TerrFactor.Desc, Passtype, Game.Scenario.Maptables)
+    caseConstantvalues.Hexside.Roadblock0
+            TerrTexture = SideCheck.GetSideData(Constantvalues.TerrFactor.Image, Constantvalues.Hexside.Roadblock0, Game.Scenario.Maptables)
+    GetName = SideCheck.GetSideData(Constantvalues.TerrFactor.Hexsidedesc, Constantvalues.Hexside.Roadblock0, Game.Scenario.Maptables)
     caseConstantvalues.Hexside.Roadblock1
             TerrTexture = SideCheck.GetSideData(Constantvalues.TerrFactor.Image, Constantvalues.Hexside.Roadblock1, Game.Scenario.Maptables)
     GetName = SideCheck.GetSideData(Constantvalues.TerrFactor.Hexsidedesc, Constantvalues.Hexside.Roadblock1, Game.Scenario.Maptables)
@@ -636,9 +640,6 @@ public class Gamecontrol {
     caseConstantvalues.Hexside.Roadblock4
             TerrTexture = SideCheck.GetSideData(Constantvalues.TerrFactor.Image, Constantvalues.Hexside.Roadblock4, Game.Scenario.Maptables)
     GetName = SideCheck.GetSideData(Constantvalues.TerrFactor.Hexsidedesc, Constantvalues.Hexside.Roadblock4, Game.Scenario.Maptables)
-    caseConstantvalues.Hexside.Roadblock5
-            TerrTexture = SideCheck.GetSideData(Constantvalues.TerrFactor.Image, Constantvalues.Hexside.Roadblock5, Game.Scenario.Maptables)
-    GetName = SideCheck.GetSideData(Constantvalues.TerrFactor.Hexsidedesc, Constantvalues.Hexside.Roadblock5, Game.Scenario.Maptables)
     caseConstantvalues.Hexside.Roadblock6
             TerrTexture = SideCheck.GetSideData(Constantvalues.TerrFactor.Image, Constantvalues.Hexside.Roadblock6, Game.Scenario.Maptables)
     GetName = SideCheck.GetSideData(Constantvalues.TerrFactor.Hexsidedesc, Constantvalues.Hexside.Roadblock6, Game.Scenario.Maptables)
@@ -814,14 +815,14 @@ public class Gamecontrol {
     Dim CheckNat As ObjectClassLibrary.ASLXNA.PersUniti = CType(scencolls.SelMoveUnits.Item(0), ObjectClassLibrary.ASLXNA.PersUniti)
     MovingNationality = CheckNat.BasePersUnit.Nationality
             'now loop through each location in the hex and each object in the location
-    Dim Loclist As List(Of MapDataClassLibrary.GameLocation) = (GetLocs.RetrieveLocationsfromMapTable(Hexnum, "Hexnum")).ToList
+    Dim Loclist As List(Of MapDataClassLibrary.GameLocation) = (GetLocs.RetrieveLocationsinHex(Hexnum, "Hexnum")).ToList
     Dim LevelChk As New TerrainClassLibrary.ASLXNA.LevelChecks(Game.Scenario.LocationCol)
     For Each CheckLoc As MapDataClassLibrary.GameLocation In Loclist
                 'can't search below ground locations
     If CheckLoc.Location = Constantvalues.Location.Sewer Or CheckLoc.Location = Constantvalues.Location.InCave Or
     CheckLoc.Location = Constantvalues.Feature.Tunnel Then Continue For
                 'can't check cellar from non-ground level
-    Dim Locinuse As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromMaptable(CheckNat.BasePersUnit.Hexnum, CheckNat.BasePersUnit.hexlocation)
+    Dim Locinuse As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(CheckNat.BasePersUnit.Hexnum, CheckNat.BasePersUnit.hexlocation)
     If Locinuse.LevelInHex > 0 And (CheckLoc.Location = Constantvalues.Location.Cellar Or CheckLoc.Location = Constantvalues.Location.BunkUnder) Then Continue For
                 'reveal hidden fortifications (FortBuidling and Mines only)
     FortifiedBuildingCheck(CheckLoc)
@@ -1107,7 +1108,7 @@ public class Gamecontrol {
                         'if currently at ground level then have clicked ground level of new hex - even if moving uphill or INTO depression
     If MoveNewCheck.Returnstring <> "" Then MessageBox.Show(MoveNewCheck.Returnstring)
     LocationChange = Movehex.Location
-    If (LegalCheckunit.BasePersUnit.hexPosition >= Constantvalues.AltPos.ExitedCrest1 And LegalCheckunit.BasePersUnit.hexPosition <= Constantvalues.AltPos.ExitedCrest6) Then
+    If (LegalCheckunit.BasePersUnit.hexPosition >= Constantvalues.AltPos.ExitedCrest0 And LegalCheckunit.BasePersUnit.hexPosition <= Constantvalues.AltPos.ExitedCrest5) Then
     CurrentPosisExitedCrest = True 'if ismovementlegal is true then must be exited crest
     End If
     End If
@@ -1424,7 +1425,7 @@ public class Gamecontrol {
     Sniper.Sniperside = SniperNat
     If Trim(Game.SniperToDraw.Item(0).ItemName) = "Sniper1" Then AttackDR = 1 Else AttackDR = 2
     If Hovertouse.ItemPosition = 0 Then 'clicked on location
-    Dim LocToUse = GetLocs.RetrieveLocationfromMaptable(Hovertouse.ItemID)
+    Dim LocToUse = GetLocs.RetrieveLocationfromHex(Hovertouse.ItemID)
     Sniper.sniperlocation = itemid
                     Sniper.ResetSide(SniperUsing, LocToUse.Hexnum, AttackDR)
     Dim SniperChoiceAlreadyShown As Boolean = False
