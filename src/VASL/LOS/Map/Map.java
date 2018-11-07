@@ -2076,7 +2076,15 @@ public class Map  {
                             hindrance += s.getHindrance();
                         }
                     }
+                    // check if blaze is wreck blaze; if so reduce Hindrance to 2
+                    if (s.getName().equals("Blaze")) {
+                        if (status.VASLGameInterface.getVehicles(hex) != null && !status.VASLGameInterface.getVehicles(hex).isEmpty() ){
+                            hindrance = 2;
+                        }
+                    }
                 }
+
+
                 if(hindrance > 0) {
 
                     // the max hindrance per location is 3 unless the source location is in the smoke
@@ -2143,6 +2151,18 @@ public class Map  {
                                     hindrance++;
                                 }
                             }
+                        }
+                    }
+                    // check if blaze exists and if so cancel veh hindrance
+                    if (hindrance > 0){
+                        HashSet<Smoke> hexSmoke = status.VASLGameInterface.getSmoke(hex);
+                        if (hexSmoke != null && !hexSmoke.isEmpty()) {
+                            for (Smoke s: hexSmoke) {
+                                if (s.getName().equals("Blaze")){
+                                    hindrance = 0;
+                                }
+                            }
+
                         }
                     }
                 }
