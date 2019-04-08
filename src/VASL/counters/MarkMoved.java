@@ -22,18 +22,15 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.util.LinkedList;
 
 import javax.swing.KeyStroke;
 
+import VASL.build.module.map.StartGame;
+import VASSAL.build.GameModule;
 import VASSAL.command.ChangeTracker;
 import VASSAL.command.Command;
-import VASSAL.counters.Decorator;
-import VASSAL.counters.EditablePiece;
-import VASSAL.counters.GamePiece;
-import VASSAL.counters.KeyCommand;
-import VASSAL.counters.PieceEditor;
-import VASSAL.counters.Properties;
-import VASSAL.counters.SimplePieceEditor;
+import VASSAL.counters.*;
 import VASSAL.tools.SequenceEncoder;
 import VASSAL.tools.imageop.ImageOp;
 import VASSAL.tools.imageop.Op;
@@ -67,6 +64,7 @@ public class MarkMoved extends Decorator implements EditablePiece {
 
   public Object getProperty(Object key) {
     if (Properties.MOVED.equals(key)) {
+
       return new Boolean(isMoved());
     }
     else {
@@ -75,7 +73,20 @@ public class MarkMoved extends Decorator implements EditablePiece {
   }
 
   public void setProperty(Object key, Object val) {
+
     if (Properties.MOVED.equals(key)) {
+      // test code for accessing movement routines
+      boolean ItemFound = false;
+      LinkedList<GamePiece> SelectedCounters = getSelectedPieces();
+      if (SelectedCounters.size() == 0) {
+        ItemFound = false;
+      } else {
+        ItemFound = true;
+      }
+      // now do click events
+      //ProcessingClick(ItemFound, e, ClickedHex, SelectedCounters);
+      // end test code
+
       setMoved(Boolean.TRUE.equals(val));
     }
     else {
@@ -160,5 +171,53 @@ public class MarkMoved extends Decorator implements EditablePiece {
 
   public PieceEditor getEditor() {
     return new SimplePieceEditor(this);
+  }
+  /**
+   * Get all currently selected pieces
+   *
+   * @return LinkedList of selected pieces
+   */
+  public LinkedList<GamePiece> getSelectedPieces() {
+
+    LinkedList<GamePiece> temp = new LinkedList<GamePiece>();
+
+
+    final PieceIterator pi = new PieceIterator(GameModule.getGameModule().getGameState().getAllPieces().iterator());
+
+    while (pi.hasMoreElements()) {
+      final GamePiece piece = pi.nextPiece();
+
+      if(piece instanceof Stack) {
+        for (PieceIterator pi2 = new PieceIterator(((Stack) piece).getPiecesIterator()); pi2.hasMoreElements(); ) {
+          GamePiece piece2 = pi2.nextPiece();
+          if (isSelected(piece2)) {
+            if (!temp.contains(piece2)) {
+              temp.add(piece2);
+            }
+          }
+        }
+      }
+      else  {
+        if (isSelected(piece)) {
+          if (!temp.contains(piece)) {
+            temp.add(piece);
+          }
+        }
+      }
+            /*if (isSelected(piece)) {
+                temp.add(piece);
+            }*/
+    }
+    return temp;
+  }
+
+  /**
+   * @param p the piece
+   * @return true if the piece is selected
+   */
+  private boolean isSelected(GamePiece p) {
+    return Boolean.TRUE.equals(p.getProperty(Properties.SELECTED)) &&
+            p.getId() != null &&
+            !"".equals(p.getId());
   }
 }

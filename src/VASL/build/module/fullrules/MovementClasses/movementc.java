@@ -291,7 +291,7 @@ public class movementc implements movei {
             }
         }
         // check for same location
-        if (TempMovementStack.size() > 0) { // units must be in same location in the same hex
+        if (TempMovementStack.size() > 1) { // units must be in same location in the same hex
             TerrainChecks TerrChk = new TerrainChecks();
             for (PersUniti MovingUnit : TempMovementStack) {
                 if (MovingUnit.getbaseunit().getMovementStatus() == Constantvalues.MovementStatus.HumanWave ||
@@ -405,10 +405,10 @@ public class movementc implements movei {
         for (PersUniti MovingUnit: TempMovementStack) {
             if (findunit.getbaseunit().getUnit_ID() == MovingUnit.getbaseunit().getUnit_ID() &&
                 Constantvalues.Typetype.Personnel == findunit.getbaseunit().getTypeType_ID()) {
-                    return false;  // already added
+                    return true;  // already added
             }
         }
-        return true;
+        return false;
     }
 
         

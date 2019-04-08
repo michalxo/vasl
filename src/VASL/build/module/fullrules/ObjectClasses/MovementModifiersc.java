@@ -25,16 +25,22 @@ public class MovementModifiersc implements MovementModifiersi {
             ldrbonus = true;
         }
         boolean CXTest = false;
-        switch (controlclick) { // need to use pattern based on enum values
-            case DblTime:
-                CXTest = true;
-                dbltime = true;
-            case DbT_RB:  // Dbl time and road bonus
-                CXTest = true;
-                dbltime = true;
-                roadbonus = true;
-            case RoadBonus:
-                roadbonus = true;
+        if (!(controlclick == null)) {
+            switch (controlclick) { // need to use pattern based on enum values
+                case DblTime:
+                    CXTest = true;
+                    dbltime = true;
+                    break;
+                case DbT_RB:  // Dbl time and road bonus
+                    CXTest = true;
+                    dbltime = true;
+                    roadbonus = true;
+                    break;
+                case RoadBonus:
+                    roadbonus = true;
+                    break;
+                default:
+            }
         }
         MovingUnittoCheck.getbaseunit().setCX(CXTest);
     }

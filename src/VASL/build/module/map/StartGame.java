@@ -346,7 +346,7 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
             }
         });
     }
-    private void ProcessingClick(boolean ItemFound, MouseEvent e, Hex ClickedHex, LinkedList<GamePiece> SelectedCounters) {
+    public void ProcessingClick(boolean ItemFound, MouseEvent e, Hex ClickedHex, LinkedList<GamePiece> SelectedCounters) {
         boolean leftbutton = false; boolean rightbutton = false; 
         switch(e.getModifiers()) {
             case InputEvent.BUTTON1_MASK: {

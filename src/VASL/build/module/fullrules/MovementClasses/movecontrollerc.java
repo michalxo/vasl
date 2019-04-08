@@ -1,6 +1,7 @@
 package VASL.build.module.fullrules.MovementClasses;
 
 import VASL.LOS.Map.Hex;
+import VASL.LOS.Map.Map;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationc;
@@ -40,16 +41,16 @@ public class movecontrollerc implements movecontrolleri {
     public void NewAction(Hex HexClicked) {
         // called by observeri to pass mouse event (mapclick) to controller for action
         // controller either sends to model or asks observer for more info (show popup)
-        /*Dim menuitems As New List(Of DataClassLibrary.ASLXNA.Objectholder)
+        //Dim menuitems As New List(Of DataClassLibrary.ASLXNA.Objectholder)
         // Determine which hex was clicked and retrive current hex
         Hex Currenthex = Movemodeli.GetStartingHex();
         if (Currenthex == null) {return;}  // no units selected yet
         // Determine range
-        int  Moverange  = MapGeo.CalcRange(Currenthex, HexClicked, false);
+        int  Moverange  = Map.range(Currenthex, HexClicked, "Normal");
         // Pass action to model or back to observer
         if (Moverange == 1) {
             // ask model to determine which menu items should be shown
-            Locationi menuMovehex = new Locationc(HexClicked.getCenterLocation(), Constantvalues.UMove.HexNew);
+            /*Locationi menuMovehex = new Locationc(HexClicked.getCenterLocation(), Constantvalues.UMove.HexNew);
             Movemodeli.DetermineMenuforHexMove(menuitems, Currenthex, menuMovehex);
             // pass menu items to observer and ask it to show context popup
             if (menuitems.size())== 0){  // no options to show; proceed with move
@@ -57,10 +58,10 @@ public class movecontrollerc implements movecontrolleri {
             } else{
                 scen.Moveobsi.ShowContextPopup(menuitems, HexClicked);
                 //Game.contextshowing = True
-            }
+            }*/
         } else if (Moverange > 1) {
             Movemodeli.QuickMove();
-        }*/
+        }
     }
 
     public void NewAction(Constantvalues.MovementStatus controlclick, Hex HexClicked, String PassSelection) {

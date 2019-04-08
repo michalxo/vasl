@@ -209,6 +209,7 @@ public class ASLPieceMover extends PieceMover {
             }
         }
         c.append(snapErrantPieces());
+         String reggie = "Trapping hex move";
         return c;
     }
 
@@ -219,6 +220,7 @@ public class ASLPieceMover extends PieceMover {
      * @param p Point mouse released
      */
     public Command _movePieces(Map map, Point p) {
+        String reggie = "Trapping hex move";  //traps drag-drop but not key command
         final java.util.List<GamePiece> allDraggedPieces = new ArrayList<GamePiece>();
         final PieceIterator it = DragBuffer.getBuffer().getIterator();
         if (!it.hasMoreElements()) return null;

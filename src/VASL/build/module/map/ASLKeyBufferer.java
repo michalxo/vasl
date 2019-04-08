@@ -52,6 +52,7 @@ public class ASLKeyBufferer extends KeyBufferer {
     }
 
     public Object visitStack(Stack s) {
+      boolean reggie = true;
       if (s.topPiece() != null) {
         if (s.isExpanded()) {
           Point[] pos = new Point[s.getPieceCount()];

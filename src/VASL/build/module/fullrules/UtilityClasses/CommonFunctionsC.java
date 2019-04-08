@@ -86,28 +86,25 @@ public class CommonFunctionsC {
         return Enemies;
     }
     public Constantvalues.Nationality GetPhaseSide() {
-        /*'called by various initialize routines
-        'determines which is the player side in any phase
+        // called by various initialize routines
+        // determines which is the player side in any phase
 
-        'use empty variables when know that instance already exists
-        Dim Scendet As DataClassLibrary.scen = Linqdata.GetScenarioData(myscenid)
-        With Scendet
-        Select Case .Phase
-        Case ConstantClassLibrary.ASLXNA.Phase.DefensiveFire
-        If Not (.PlayerTurn = ConstantClassLibrary.ASLXNA.WhoCanDo.Attacker)Then 'ATTACKER
-        Return CInt (.ATT1)
-        Else 'Defender
-        Return CInt (.DFN1)
-        End If
-        Case Else
-        If.PlayerTurn = ConstantClassLibrary.ASLXNA.WhoCanDo.Attacker Then 'ATTACKER
-        Return CInt (.ATT1)
-        Else 'Defender
-        Return CInt (.DFN1)
-        End If
-        End Select
-        End With*/
-        return null;
+        Scenario Scendet = scen.getScendet();
+        switch (Scendet.getPhase()){
+            case DefensiveFire:
+                if(!(Scendet.getPTURN() == Constantvalues.WhoCanDo.Attacker)) { // ATTACKER
+                    return Scendet.getATT1();
+                } else { // Defender
+                    return Scendet.getDFN1();
+                }
+            default:
+                if(Scendet.getPTURN() == Constantvalues.WhoCanDo.Attacker) { // ATTACKER
+                    return Scendet.getATT1();
+                } else { // Defender
+                    return Scendet.getDFN1();
+                }
+        }
+
     }
     public GamePiece GetGamePieceFromID (int IDtoMatch){
         GamePiece ToUse = null;
