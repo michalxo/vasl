@@ -32,7 +32,7 @@ public class Locationc implements Locationi{
         //add any scenario terrain in this hex
         scenterraininhex = getScenarioterrain();
         ConversionC confrom = new ConversionC();
-        Constantvalues.Location locationvalue = confrom.ConverttoLocationtypefromVASLLocation(vasllocclicked);
+        locationvalue = confrom.ConverttoLocationtypefromVASLLocation(vasllocclicked);
     }
 
     public Location getvasllocation() {return vasllocation;}
@@ -80,7 +80,7 @@ public class Locationc implements Locationi{
                 }
                 break;*/
             default:
-                basemf = 0.0;  //NEED TO CORRECT THIS
+                 basemf = this.vaslterrain.getMF() ;
         }
         return basemf;
     }

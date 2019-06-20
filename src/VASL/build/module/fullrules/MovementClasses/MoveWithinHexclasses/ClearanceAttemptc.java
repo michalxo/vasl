@@ -27,6 +27,7 @@ public class ClearanceAttemptc implements MoveWithinHexi {
     private String ClearanceResultvalue;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public ClearanceAttemptc(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
 
@@ -111,11 +112,10 @@ public class ClearanceAttemptc implements MoveWithinHexi {
             MovingUnit.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.TI);
         }
 
-        if (Scencolls.SelMoveUnits.isEmpty()) {
-            // update data collections
-            //MovingUpdate DoUpdate = new MovingUpdate();
-            //DoUpdate.UpdateAfterMoveClDC(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-            // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+        if (!Scencolls.SelMoveUnits.isEmpty()) {
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
 
         // create ThingToDo in Close Combat
@@ -209,4 +209,7 @@ public class ClearanceAttemptc implements MoveWithinHexi {
         'have dropped one or both SW so can retry move
         Return True
     }*/
+    public String getmoveresults(){
+        return moveresults;
+    }
 }

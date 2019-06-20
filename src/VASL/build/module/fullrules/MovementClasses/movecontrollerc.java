@@ -4,8 +4,6 @@ import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Map;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.Game.ScenarioC;
-import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationc;
-import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationi;
 import VASL.build.module.fullrules.ObjectClasses.SelectedThing;
 import VASSAL.counters.GamePiece;
 
@@ -38,13 +36,13 @@ public class movecontrollerc implements movecontrolleri {
 
     // 4 overloads: first handles map click, second handles button or right-click popup selection; third handles, fourth handles right-click on item - shows popup
     // popup selected following mapclick
-    public void NewAction(Hex HexClicked) {
+    public boolean NewAction(Hex HexClicked) {
         // called by observeri to pass mouse event (mapclick) to controller for action
         // controller either sends to model or asks observer for more info (show popup)
         //Dim menuitems As New List(Of DataClassLibrary.ASLXNA.Objectholder)
         // Determine which hex was clicked and retrive current hex
         Hex Currenthex = Movemodeli.GetStartingHex();
-        if (Currenthex == null) {return;}  // no units selected yet
+        if (Currenthex == null) {return false;}  // no units selected yet
         // Determine range
         int  Moverange  = Map.range(Currenthex, HexClicked, "Normal");
         // Pass action to model or back to observer
@@ -53,15 +51,18 @@ public class movecontrollerc implements movecontrolleri {
             /*Locationi menuMovehex = new Locationc(HexClicked.getCenterLocation(), Constantvalues.UMove.HexNew);
             Movemodeli.DetermineMenuforHexMove(menuitems, Currenthex, menuMovehex);
             // pass menu items to observer and ask it to show context popup
-            if (menuitems.size())== 0){  // no options to show; proceed with move
-                Movemodeli.MoveToNewHex(HexClicked, 0, ""); // 2nd variable is movement options and is none; 3rd parameter is selection text and is none
-            } else{
+            if (menuitems.size())== 0){  // no options to show; proceed with move */
+                 return Movemodeli.MoveToNewHex(HexClicked, Constantvalues.UMove.HexNew, null); // 2nd variable is movement options and is none; 3rd parameter is selection text and is none
+
+            /*} else{
                 scen.Moveobsi.ShowContextPopup(menuitems, HexClicked);
                 //Game.contextshowing = True
             }*/
         } else if (Moverange > 1) {
             Movemodeli.QuickMove();
+            return true;
         }
+        return false;
     }
 
     public void NewAction(Constantvalues.MovementStatus controlclick, Hex HexClicked, String PassSelection) {
@@ -81,7 +82,7 @@ public class movecontrollerc implements movecontrolleri {
     public boolean NewAction(Hex ClickedHex, LinkedList<GamePiece> SelectedCounters) {
         // called by Moveobsi.SendClicktoController
         // Receives new units from the observer and asks model to see if they can join stack or Def FireGroup
-        return Movemodeli.AddtoStackAttempt(ClickedHex, SelectedCounters) ? true : false;
+        return Movemodeli.AddtoMoveStackAttempt(ClickedHex, SelectedCounters) ? true : false;
     }
     public void MoveUpdate() {
             Movemodeli.moveupdate();

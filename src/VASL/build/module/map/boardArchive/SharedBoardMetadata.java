@@ -34,6 +34,7 @@ public class SharedBoardMetadata extends AbstractMetadata {
     private static final String terrainTypeLOSCategory = "LOSCategory";
     private static final String terrainTypeTEMAttr = "TEM";
     private static final String terrainTypeLOSHindAttr = "LOSHind";
+    private static final String terrainTypeMFCostAttr = "MFCost";
 
     // maps terrain names to terrain objects
     private LinkedHashMap<String, Terrain> terrainTypes = new LinkedHashMap<String, Terrain>(256);
@@ -101,6 +102,7 @@ public class SharedBoardMetadata extends AbstractMetadata {
                 terrain.setHeight(e.getAttribute(terrainTypeHeightAttr).getIntValue());
                 terrain.setTEM(e.getAttribute(terrainTypeTEMAttr).getIntValue());
                 terrain.setLOSHind(e.getAttribute(terrainTypeLOSHindAttr).getIntValue());
+                terrain.setMF(e.getAttribute(terrainTypeMFCostAttr).getFloatValue());
 
                 // create and set the map color
                 Color color = new Color(

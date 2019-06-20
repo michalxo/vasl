@@ -5,6 +5,7 @@ import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.ScenarioTerrain;
+import VASL.build.module.fullrules.TerrainClasses.IsSide;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 
 import java.util.LinkedList;
@@ -37,17 +38,22 @@ public class HexsideImpactc implements HexDecoratori {
 
         ConversionC confrom = new ConversionC();
         // add hexsidecrossed determination
-        int hexsidecrossed = 0; // placeholder code
+        IsSide SideTest = new IsSide();
+        int hexsidecrossed = SideTest.SharedhexsideAdjacentHexes(basehex.getvaslhex().getName(), Currenthex.getName());
         // now get hexsideterrrain
         Terrain hexsideterrain = basehex.getvaslhex().getHexsideTerrain(hexsidecrossed);
         // road rate
         if (moveoptionclicked == Constantvalues.UMove.Roadrate) {return 1.0;}
         // hexside test (which includes slope)
-        if(confrom.ConverttoHexside(hexsideterrain) == Constantvalues.Hexside.Trench  && (moveoptionclicked == Constantvalues.UMove.EnterConnectingTrench || moveoptionclicked == Constantvalues.UMove.EnterConnectingPill)) { //<=ConstantClassLibrary.ASLXNA.Hexside.TrenchWall) AndAlso (OptionClicked >=     ConstantClassLibrary.ASLXNA.UMove.EnterConnectingTrench And     OptionClicked <=ConstantClassLibrary.ASLXNA.UMove.EnterConnectingPill)
-            hexsideMFcost = 0.0;
-        } else if (confrom.ConverttoHexside(hexsideterrain) != Constantvalues.Hexside.NoTerrain) { // if hexside is not clear
-            // cost to get over side
-            hexsideMFcost = hexsideterrain.getMF();
+        if (hexsideterrain == null){
+            hexsideMFcost=0;
+        } else {
+            if (confrom.ConverttoHexside(hexsideterrain) == Constantvalues.Hexside.Trench && (moveoptionclicked == Constantvalues.UMove.EnterConnectingTrench || moveoptionclicked == Constantvalues.UMove.EnterConnectingPill)) { //<=ConstantClassLibrary.ASLXNA.Hexside.TrenchWall) AndAlso (OptionClicked >=     ConstantClassLibrary.ASLXNA.UMove.EnterConnectingTrench And     OptionClicked <=ConstantClassLibrary.ASLXNA.UMove.EnterConnectingPill)
+                hexsideMFcost = 0.0;
+            } else if (confrom.ConverttoHexside(hexsideterrain) != Constantvalues.Hexside.NoTerrain) { // if hexside is not clear
+                // cost to get over side
+                hexsideMFcost = hexsideterrain.getMF();
+            }
         }
         // MessageBox.Show("Hexside costs " & HexsideMFcost.ToString & " MF to cross")
         return basehex.getlocationentrycost(Currenthex) + hexsideMFcost;

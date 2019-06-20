@@ -222,6 +222,7 @@ public class ScenarioC extends CampaignC {
                 break;
             case Movement:
                 DoMove = new MoveMVCPattern();
+                DoMove.Initialize();
                 IFT = new IFTC(getScenID());
                 IFT.FirePhasePreparation();
                 break;

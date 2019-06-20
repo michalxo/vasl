@@ -248,7 +248,7 @@ public class MovementNewLegalc implements LegalMovei {
         }
         // other special cases - to add
         
-        return null; // if here then error
+        return newlocation;
     }
     // MOVE THESE TO COMMON FUNCTIONS
     private boolean isUnitCurrentlyinCrestStatus(Constantvalues.AltPos passposition){

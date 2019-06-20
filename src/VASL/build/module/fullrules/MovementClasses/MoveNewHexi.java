@@ -7,4 +7,5 @@ public interface MoveNewHexi {
     boolean MoveAllOK();
     void MoveUpdate();
     Location EnteringLocation(Hex newhex, Hex currenthex);
+    String getmoveresults();
 }

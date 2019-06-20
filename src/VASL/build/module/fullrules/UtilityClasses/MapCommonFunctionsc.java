@@ -11,7 +11,7 @@ public class MapCommonFunctionsc {
 
     // this method returns the 6 hexes that are adjacent to a starting hex; null values if adjacent hex is "off-borad"
     public Hex[] getAdjacentHexArray(Hex StartHex) {
-        Hex[] Adjacenthexes = new Hex[5];
+        Hex[] Adjacenthexes = new Hex[6];
 
         for(int x = 0; x < 6; x++) {
             Adjacenthexes[x] = StartHex.getMap().getAdjacentHex(StartHex, x);

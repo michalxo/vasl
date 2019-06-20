@@ -8,7 +8,6 @@ import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationi;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASSAL.counters.GamePiece;
 
-import javax.jnlp.PersistenceService;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -17,16 +16,16 @@ public interface movei {
 
     void Initialize(int scenid);
     
-    void MoveToNewHex(Hex HexClicked, Constantvalues.UMove MovementOptionClicked, String PassSelection);
+    boolean MoveToNewHex(Hex HexClicked, Constantvalues.UMove MovementOptionClicked, String PassSelection);
     void QuickMove();
-    void MoveWithinHex(Hex HexClicked, Constantvalues.UMove MovementOptionClicked, String PassSelection);
+    boolean MoveWithinHex(Hex HexClicked, Constantvalues.UMove MovementOptionClicked, String PassSelection);
     String GetMovementInfo();
     boolean IsEligibletoMove(PersUniti MovingUnittoCheck, Hex clickedhex, LinkedList<PersUniti> TempMovementStack);
     void RegisterObserver(observeri Observer);
     void RemoveObserver(observeri Observer);
     void ClearMovement();
     boolean IsPartofStack(PersUniti MovingUnittoCheck, LinkedList<PersUniti> TempMovementStack);
-    boolean AddtoStackAttempt(Hex ClickedHex, LinkedList<GamePiece> SelectedCounters);
+    boolean AddtoMoveStackAttempt(Hex ClickedHex, LinkedList<GamePiece> SelectedCounters);
     Hex GetStartingHex();
     //void DetermineMenuforHexMove(LinkedList<ObjectHolder> menuitems, int currenthex, Locationi menuMoveHex);
     //void ProcessPopup(int controlclick, int HexClicked, String PassSelection);

@@ -3,7 +3,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.SupportWeapon;
 import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+
 
 public class MovementModifiersc implements MovementModifiersi {
     

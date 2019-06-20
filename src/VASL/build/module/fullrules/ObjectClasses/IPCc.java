@@ -1,6 +1,7 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.UtilityClasses.InfantryUnitCommonFunctionsc;
 
 public class IPCc  implements MoveUnitDecoratori{
     // Unit is carrying
@@ -56,5 +57,10 @@ public class IPCc  implements MoveUnitDecoratori{
     //public boolean getusingEncirc() {return BaseUnit.getusingEncirc;}
     //public void setUsingEncirc(boolean value){BaseUnit.setusingEncirc = value;}
 
-
+    public boolean UpdateMovementStatus(PersUniti PassMover, Constantvalues.MovementStatus PassMoveStatus) {
+        // this update triggers the Command to update OrderofBattle values plus remote computer
+        // the Command also triggers counter actions
+        InfantryUnitCommonFunctionsc UpdateMoveCF = new InfantryUnitCommonFunctionsc();
+        return UpdateMoveCF.UpdateTargetStatus(PassMover);
+    }
 }

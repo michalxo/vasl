@@ -28,6 +28,7 @@ public class ClearRdATMAttemptc implements MoveWithinHexi {
     private String ClearanceResultvalue;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public ClearRdATMAttemptc(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
 
@@ -103,11 +104,10 @@ public class ClearRdATMAttemptc implements MoveWithinHexi {
             MovingUnit.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.Moving);
         }
 
-        if (Scencolls.SelMoveUnits.isEmpty()) {
-                // update data collections
-                //MovingUpdate DoUpdate = new MovingUpdate();
-                //DoUpdate.UpdateAfterMoveClDC(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-                // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+        if (!Scencolls.SelMoveUnits.isEmpty()) {
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
 
         if (ClearanceResultvalue == "Cleared") {
@@ -201,5 +201,8 @@ public class ClearRdATMAttemptc implements MoveWithinHexi {
         if (Scencolls.SelMoveUnits.isEmpty()) {return null;} //no units selected
         PersUniti Movingunit = Scencolls.SelMoveUnits.getFirst();
         return Movingunit.getbaseunit().gethexlocation();
+    }
+    public String getmoveresults(){
+        return moveresults;
     }
 }

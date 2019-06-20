@@ -17,6 +17,8 @@
         <VASSAL.build.module.map.ForwardToKeyBuffer/>
         <VASSAL.build.module.map.Scroller/>
         <VASSAL.build.module.map.MenuDisplayer/>
+        <VASL.build.module.map.StartGame/>
+        <VASL.build.module.map.AutoLabelNewUnits/>
         <VASL.build.module.map.MapCenterer/>
         <VASL.build.module.map.ASLPieceFinder Name="ASL Piece Finder"/>
         <VASL.build.module.map.PieceLinker Color="255,0,0" LinkKey="76,650" Name="Piece Linker" ThreadWidth="2" UnlinkKey="85,650"/>
@@ -111,6 +113,7 @@
         <VASL.build.module.map.MapCenterer/>
         <VASL.build.module.map.ASLPieceMover hotkey="119,0"/>
         <VASL.build.module.map.ASLDiceOverlay/>
+        <VASL.build.module.map.ActionsToolbar/>
         <VASL.build.module.map.QC/>
         <VASL.build.module.map.SavedGameConverter SavedGameConverter="SavedGameConverter"/>
     </VASL.build.module.ASLMap>

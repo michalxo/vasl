@@ -8,4 +8,5 @@ public interface MoveWithinHexi {
     boolean MoveAllOK();
     void MoveUpdate();
     Location EnteringLocation(Hex newhex, Constantvalues.UMove movementoptionclickedvalue);
+    String getmoveresults();
 }

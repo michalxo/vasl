@@ -10,9 +10,9 @@ public class MoveMVCPattern {
     protected movecontrolleri ConcreteController;
     private ScenarioC scen;
 
-    public MoveMVCPattern() {
+    public void Initialize() {
         scen = ScenarioC.getInstance();
-        movementc ConcreteMove = new movementc();
+        ConcreteMove = new movementc();
         ConcreteMove.Initialize(scen.getScenID());
         movecontrollerc ConcreteController = new movecontrollerc(ConcreteMove);
 

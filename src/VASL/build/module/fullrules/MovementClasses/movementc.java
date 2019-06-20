@@ -17,6 +17,8 @@ import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
 import VASL.build.module.fullrules.UtilityClasses.ConcealmentLossc;
 import VASL.build.module.fullrules.UtilityClasses.ConcealmentLossi;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
+import VASL.counters.ASLProperties;
+import VASSAL.build.GameModule;
 import VASSAL.counters.GamePiece;
 
 import java.awt.geom.Line2D;
@@ -58,7 +60,7 @@ public class movementc implements movei {
 
     public LinkedList<GamePiece> getSelectedPieces() {return pSelectedPieces;}
 
-    public void MoveToNewHex(Hex HexClicked, Constantvalues.UMove MovementOptionClicked, String PassSelection) {
+    public boolean MoveToNewHex(Hex HexClicked, Constantvalues.UMove MovementOptionClicked, String PassSelection) {
         /* called by Processpopup,  or Moveconti.NewAction(MapClick) when no menu options for a hex
         triggered by mapclick in hex outside Scencolls.selmoveunits' s hex
         calls the proper movement class to process the action (movementoptionclicked)
@@ -107,10 +109,14 @@ public class movementc implements movei {
 
         if (MovingNewHex.MoveAllOK()) {
             // if here then move affordable, proceed, send to observer for screen update
-            NotifyMoveObservers(HexClicked);
+            String moveresults = MovingNewHex.getmoveresults();
+            NotifyMoveObservers(HexClicked, true, moveresults);
+            return true;
         } else {
             // cannot enter hex: not enough MF or enemy present
-            // MessageBox.Show("Hit Clear Movement to restart or carry on with current selected units", "Invalid Movement Attempt")
+            String moveresults = MovingNewHex.getmoveresults(); //"Hit Clear Movement to restart or carry on with current selected units; Invalid Movement Attempt";
+            NotifyMoveObservers(HexClicked, false, moveresults);
+            return false;
         }
     }
 
@@ -123,6 +129,7 @@ public class movementc implements movei {
         } else if (MovingWithinHex != null) {
             MovingWithinHex.MoveUpdate();
         }
+
         ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
         if (!Scencolls.SelMoveUnits.isEmpty()) {  // moving units selected so do FP-drm display
             // REPLACE THIS WITH NEW DRAW CODE
@@ -144,7 +151,7 @@ public class movementc implements movei {
         // not implemented yet - meant to allow for multi-hex move
     }
 
-    public void MoveWithinHex(Hex hexclicked, Constantvalues.UMove MovementOptionClicked, String PassSelection) {
+    public boolean MoveWithinHex(Hex hexclicked, Constantvalues.UMove MovementOptionClicked, String PassSelection) {
         // called by Processpopup,  triggered by rightclick in hex and then popup selection
         // popup option only shows IF move possible so don't need to recheck but need to confirm move is valid
         // calls the proper movement class to process the action (movementoptionclicked)
@@ -226,12 +233,17 @@ public class movementc implements movei {
             if (MovementOptionClicked == Constantvalues.UMove.Search || MovementOptionClicked == Constantvalues.UMove.DoPlaceDC) {
                 int HexestoSearch = 0; // = XNAGph.DisplayShade.HexesToSearch;
                 NotifyMoveObservers(hexclicked, MovementOptionClicked, HexestoSearch);
+                return true;
             } else {
-                NotifyMoveObservers(hexclicked);
+                String moveresults = MovingWithinHex.getmoveresults();
+                NotifyMoveObservers(hexclicked, true, moveresults);
+                return true;
             }
         } else {
             // cannot enter hex: not enough MF or enemy present
-            // MessageBox.Show("Hit Clear Movement to restart or carry on with current selected units", "Invalid Movement Attempt")
+            String moveresults = "Hit Clear Movement to restart or carry on with current selected units; Invalid Movement Attempt";
+            NotifyMoveObservers(hexclicked, false, moveresults);
+            return false;
         }
     }
 
@@ -256,14 +268,18 @@ public class movementc implements movei {
     }
 
     // overloaded to handle special case of Search
-    public void NotifyMoveObservers(Hex hexclicked) {
-        //scen.Moveobsi.StartMovementDraw(hexclicked);
+    public void NotifyMoveObservers(Hex hexclicked, boolean resultsvalue, String moveresults) {
+        //if (resultsvalue) {
+            GameModule.getGameModule().getChatter().send(moveresults);
+        //} else {
+        //    GameModule.getGameModule().getChatter().send("Can't do this Move");
+        //}
     }
     public void NotifyMoveObservers(Hex hexclicked, Constantvalues.UMove movementoptionclicked, int HexesToSearch) {
         // scen.Moveobsi.StartMovementDraw(hexclicked, movementoptionclicked, HexesToSearch);
     }
     public boolean IsEligibletoMove(PersUniti MovingUnittoCheck, Hex ClickedHex, LinkedList<PersUniti> TempMovementStack) {
-        // called by AddtoStackAttempt
+        // called by AddtoMoveStackAttempt
         // checks to see if unit eligible to move - has not already done something else and is in same location as existing selection
 
         //Dim TypeCheck = New UtilClassLibrary.ASLXNA.TypeUtil
@@ -412,7 +428,7 @@ public class movementc implements movei {
     }
 
         
-    public boolean AddtoStackAttempt(Hex ClickedHex, LinkedList<GamePiece> SelectedUnits) {
+    public boolean AddtoMoveStackAttempt(Hex ClickedHex, LinkedList<GamePiece> SelectedUnits) {
         // called by DetermineClickResult
         // receives units from Controller and checks if they can be added to Objectclasslibrary.aslxna.Scenariocollectionsc.SelMoveUnits
 
@@ -426,11 +442,15 @@ public class movementc implements movei {
 
         //if (ValidSolutions.size() > 0) { // selecting one of possible solutions already checked
             for (GamePiece SelUnit : SelectedUnits) {
-                ObjIDlink = java.lang.Integer.parseInt(SelUnit.getProperty("TextLabel").toString());
-                for(PersUniti findunit: Scencolls.Unitcol){
-                    if(findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
-                        if (findunit.getbaseunit().getNationality() == getMovingSide()) {
-                            if(!IsPartofStack(findunit, TempMovementStack)) {TempMovementStack.add(findunit);}
+                if (SelUnit.getProperty(ASLProperties.LOCATION) == null) {  // is ASLProperties.Location is set then is un-movable piece
+                    ObjIDlink = java.lang.Integer.parseInt(SelUnit.getProperty("TextLabel").toString());
+                    for (PersUniti findunit : Scencolls.Unitcol) {
+                        if (findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
+                            if (findunit.getbaseunit().getNationality() == getMovingSide()) {
+                                if (!IsPartofStack(findunit, TempMovementStack)) {
+                                    TempMovementStack.add(findunit);
+                                }
+                            }
                         }
                     }
                 }
@@ -515,7 +535,7 @@ public class movementc implements movei {
                 }
             } else {
                 String ShowName = checkeligible.getbaseunit().getUnitName();
-                // MessageBox.Show(Trim(ShowName) & " is not eligible to move")
+                GameModule.getGameModule().getChatter().send(ShowName + " is not eligible to join moving stack");
                 // keeping firing units selected
                 if (checkeligible.getbaseunit().getNationality() == scen.IFT.getTargetSide()) {
                     // unselect the GamePiece
@@ -1268,7 +1288,7 @@ public class movementc implements movei {
     }
     public boolean Recalculating(Constantvalues.UMove movementoptionclickedvalue, Hex hexclickedvalue, double MFCost, Locationi Moveloc, Hex Currenthex) {
         ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
-        //GetALocationFromMap GetLocs = new GetALocationFromMap(Game.Scenario.LocationCol);
+
         Double HoldMFUsed = 0.0; boolean Recalculate;
         IsSide SideTest = new IsSide();
         do {
@@ -1307,7 +1327,7 @@ public class movementc implements movei {
                 // this resets the decorator process to create a new Stack with revised MF and adjusts for movement so far
                 scen.DoMove.ConcreteMove.RedoMovementStack(movementoptionclickedvalue);
             }
-        } while (Recalculate == false);
+        } while (Recalculate == true);
         // if here then move is affordable
         return true;
     }
@@ -1363,8 +1383,9 @@ public class movementc implements movei {
         ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
         //GetALocationFromMap Getlocs = new GetALocationFromMap(Game.Scenario.LocationCol);
         MovingUnit.getMovingunit().setMFAvailable(MovingUnit.getMovingunit().getMFAvailable() - MFCost);
-        MovingUnit.getMovingunit().setMFUsed(MovingUnit.getMovingunit().getMFAvailable() + MFCost);
+        MovingUnit.getMovingunit().setMFUsed(MovingUnit.getMovingunit().getMFUsed() + MFCost);
         MovingUnit.getbaseunit().setHex(hexclickedvalue);
+        MovingUnit.getbaseunit().setHexname(MovingUnit.getbaseunit().getHex().getName());
         MovingUnit.getMovingunit().setHexEnteredSideCrossed(hexenteredsidecrossed) ;
         if (locationchange != null) {MovingUnit.getbaseunit().sethexlocation(locationchange);}
         MovingUnit.getbaseunit().sethexPosition(Positionchange);

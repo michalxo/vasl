@@ -106,8 +106,19 @@ public class GetALocationFromMap {
     // this overload returns all locations in a specified hex
     public LinkedList<Locationi> RetrieveLocationsinHex(Hex hexforlocations) {
 
-
-                return null;
+        LinkedList<Locationi> locationsinhex = new LinkedList<Locationi>();
+        locationsinhex.add(new Locationc((hexforlocations.getCenterLocation()), null));
+        Location currentlocation = hexforlocations.getCenterLocation();
+        while (currentlocation.getUpLocation() != null) {
+            locationsinhex.add(new Locationc((currentlocation.getUpLocation()), null));
+            currentlocation = currentlocation.getUpLocation();
+        }
+        currentlocation = hexforlocations.getCenterLocation();
+        while (currentlocation.getDownLocation() != null) {
+            locationsinhex.add(new Locationc((currentlocation.getDownLocation()), null));
+            currentlocation = currentlocation.getDownLocation();
+        }
+        return locationsinhex;
     }
     public String GetnamefromdatatableMap(int hexnumber) {
         // Called by Map.HexbyHexClear, Map.LOSCheck, MapCoord.Gethexname, RangeClassC.DirExtent

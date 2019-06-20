@@ -32,10 +32,10 @@ public class Moveobserverc implements observeri {
         // controlclick is value of action selected
         Moveconti.NewAction(ControlClick, HexClicked, PassSelection);
     } 
-    public void  SendClicktoController(Hex HexClick) {
+    public boolean  SendClicktoController(Hex HexClick) {
         // sends information to controller from user input - by calling controller method
         // in this overlaod, mouse click on map
-        Moveconti.NewAction(HexClick);
+        return Moveconti.NewAction(HexClick);
     } 
     public void  SendClicktoController(LinkedList<SelectedThing> SelectedThings) {
         // sends information to controller from user input - by calling controller method
@@ -56,9 +56,9 @@ public class Moveobserverc implements observeri {
         // comes from click on unit item on mapboard
         return (SendClicktoController(ClickedHex, SelectedCounters) ? true : false);
     }
-    public void  PasstoObserver(Hex HexClick) {
+    public boolean  PasstoObserver(Hex HexClick) {
         // comes from click on mapboard, but not item
-        SendClicktoController(HexClick);
+         return SendClicktoController(HexClick);
     } 
 
     public void  PasstoObserver(Constantvalues.MovementStatus ControlClick, Hex HexClicked, String PassSelection) {

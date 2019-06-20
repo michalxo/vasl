@@ -29,6 +29,7 @@ public class MoveWithinLocationc implements MoveWithinHexi {
     private VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationi Moveloc;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public MoveWithinLocationc(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
         // called by Movement.MoveWithinHex, handles location changes (in and out) such as pillbox but not up and down (actual change determined by movementoptionclickedvalue)
@@ -111,11 +112,10 @@ public class MoveWithinLocationc implements MoveWithinHexi {
         String Constring = ConLost + ": Concealment Lost - revealed as " + ConRevealed + " in " + ConLostHex;
         scen.DoMove.ConcreteMove.RemoveRevealedConandDummy(RemoveCon, RemoveConUnit, Constring);
 
-        if (Scencolls.SelMoveUnits.isEmpty()) {
-            // update data collections
-            //MovingUpdate DoUpdate = new MovingUpdate();
-            //DoUpdate.UpdateAfterMove(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-            // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+        if (!Scencolls.SelMoveUnits.isEmpty()) {
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
 
         // update Target values
@@ -158,5 +158,8 @@ public class MoveWithinLocationc implements MoveWithinHexi {
         } else {
             return Movingunit.getbaseunit().gethexlocation();
         }
+    }
+    public String getmoveresults(){
+        return moveresults;
     }
 }

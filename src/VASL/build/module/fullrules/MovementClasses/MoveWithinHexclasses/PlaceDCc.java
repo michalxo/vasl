@@ -30,6 +30,7 @@ public class PlaceDCc implements MoveWithinHexi {
     private boolean SearchFound;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public PlaceDCc(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
 
@@ -104,11 +105,10 @@ public class PlaceDCc implements MoveWithinHexi {
             scen.DoMove.ConcreteMove.CheckConcealmentLoss(MovingUnit, RemoveConUnit, RemoveCon, ConLost, ConLostHex, ConRevealed, Loctouse);
         }*/
 
-        if (Scencolls.SelMoveUnits.isEmpty()) {
-            // update data collections
-            //MovingUpdate DoUpdate = new MovingUpdate();
-            //DoUpdate.UpdateAfterMoveCLDC(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-            // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+        if (!Scencolls.SelMoveUnits.isEmpty()) {
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
     }
     public Location EnteringLocation(Hex Samehex, Constantvalues.UMove movementoptionclickedvalue) {
@@ -119,5 +119,8 @@ public class PlaceDCc implements MoveWithinHexi {
         if (Scencolls.SelMoveUnits.isEmpty()) {return null;} //no units selected
         PersUniti Movingunit = Scencolls.SelMoveUnits.getFirst();
         return Movingunit.getbaseunit().gethexlocation();
+    }
+    public String getmoveresults(){
+        return moveresults;
     }
 }

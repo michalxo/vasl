@@ -31,6 +31,7 @@ public class EnterAndWA  implements MoveNewHexi {
     private Locationi Moveloc;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public EnterAndWA(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
         // in this class hexclicked is starting hex as comes from popup click
@@ -188,10 +189,11 @@ public class EnterAndWA  implements MoveNewHexi {
         scen.DoMove.ConcreteMove.RemoveRevealedConandDummy(RemoveCon, RemoveConUnit, Constring);
         // update database
         if (!Scencolls.SelMoveUnits.isEmpty()) {
-            //ObjectclassLibrary.MovingUpdate DoUpdate = new MovingUpdate();
-            //DoUpdate.UpdateAfterMoveClDC(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-            // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
+
         // reset this so it does not hold EnterWA value
         for (PersUniti movingunit:  Scencolls.SelMoveUnits) {
             movingunit.getbaseunit().sethexlocation(LocationChange);
@@ -305,5 +307,8 @@ public class EnterAndWA  implements MoveNewHexi {
     private boolean SetLeveltoZero(PersUniti MovingUnit) {
         MovingUnit.getbaseunit().setLevelinHex(0);
         return true;
+    }
+    public String getmoveresults(){
+        return moveresults;
     }
 }

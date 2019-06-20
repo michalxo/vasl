@@ -27,6 +27,7 @@ public class ThrowSmokec implements MoveWithinHexi {
     private double MFCost;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public ThrowSmokec(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
 
@@ -121,11 +122,10 @@ public class ThrowSmokec implements MoveWithinHexi {
             scen.DoMove.ConcreteMove.CheckConcealmentLoss(MovingUnit, RemoveConUnit, RemoveCon, ConLost, ConLostHex, ConRevealed, Loctouse);*/
         }
 
-        if (Scencolls.SelMoveUnits.isEmpty()) {
-            // update data collections
-            //MovingUpdate DoUpdate = new MovingUpdate();
-            //DoUpdate.UpdateAfterMove(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-            // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+        if (!Scencolls.SelMoveUnits.isEmpty()) {
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
 
     }
@@ -138,5 +138,8 @@ public class ThrowSmokec implements MoveWithinHexi {
         PersUniti Movingunit = Scencolls.SelMoveUnits.getFirst();
         return Movingunit.getbaseunit().gethexlocation();
 
+    }
+    public String getmoveresults(){
+        return moveresults;
     }
 }

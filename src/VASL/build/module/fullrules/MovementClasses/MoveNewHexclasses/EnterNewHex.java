@@ -35,6 +35,7 @@ public class EnterNewHex implements MoveNewHexi {
     private Locationi Moveloc;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public EnterNewHex(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
         // in this class hexclicked is starting hex as comes from popup click
@@ -93,19 +94,27 @@ public class EnterNewHex implements MoveNewHexi {
 
         // handle special cases: where bridge is inherent and moving beneath bridge or bridge is ScenFeature and entering bridge via UsingOTImpactc
         // wrap with decorators
+        if (PositionChange == null){PositionChange = Constantvalues.AltPos.None;}
         Moveloc = scen.DoMove.ConcreteMove.Decorating(Moveloc, movementoptionclickedvalue, LocationChange, PositionChange, CurrentPosIsExitedCrest, Currenthex);
         // this will cascade down and back up the wrappers
-        MFCost = Moveloc.getlocationentrycost(Currenthex) + Moveloc.gethexsideentrycost();  // is this right? should hexside be part of decorating?
+        MFCost = Moveloc.getlocationentrycost(Currenthex);  //April 19 - hexside cost seems to be include in getlocationentrycost    + Moveloc.gethexsideentrycost();  // is this right? should hexside be part of decorating?
         //if here then move is legal
-        //            MessageBox.Show("Trying to move to . . . " & GetLocs.GetnamefromdatatableMap(newhexclickedvalue) & " . . . which will cost " & MFCost.ToString & " MF")
+        String stacknames = getMovingStackUnitNames();
         // Determine if move is affordable
         boolean MoveAffordable = scen.DoMove.ConcreteMove.Recalculating(movementoptionclickedvalue, newhexclickedvalue, MFCost, Moveloc, Currenthex);
-        if (!MoveAffordable) {return false;}
+        if (!MoveAffordable) {
+            moveresults = "Moving to " + newhexclickedvalue.getName() + " which would cost " + Double.toString(MFCost) + " MF: Insufficient MF Available";
+            return false;
+        }
         // Determine if entry blocked  by enemy units
-        boolean MoveBlocked = scen.DoMove.ConcreteMove.ProcessValidation(newhexclickedvalue, LocationChange, movementoptionclickedvalue);
+        boolean MoveOK = scen.DoMove.ConcreteMove.ProcessValidation(newhexclickedvalue, LocationChange, movementoptionclickedvalue);
         // if movement can proceed; draw will happen and then return to moveupdate to check consequences
+        if (MoveOK){
+            moveresults = "Moving to " + newhexclickedvalue.getName() + " which will cost " + Double.toString(MFCost) + " MF" + "Spent: " + ;
+        }
         Moveloc = null;
-        return !MoveBlocked;
+        MoveUpdate();
+        return MoveOK;
 
     }
     public void MoveUpdate() {
@@ -134,7 +143,7 @@ public class EnterNewHex implements MoveNewHexi {
             // update moving unit
             //MFCost = MovingUnit.getMovingunit().getMFAvailable();
             MovingUnit = scen.DoMove.ConcreteMove.UpdateAfterEnter(MovingUnit, MFCost, newhexclickedvalue, hexenteredsidecrossed, LocationChange, PositionChange);
-            // after this point, MovingUnit is in the new hex - CHECK THIS IS CORRECT AS IT EFFECTS OLDHEX NEWHEX VALUES Oct 18
+            // after this point, MovingUnit is in the new hex
             Hex newhex = MovingUnit.getbaseunit().getHex();
             // update level if exiting crest
             if (CurrentPosIsExitedCrest) {
@@ -191,9 +200,9 @@ public class EnterNewHex implements MoveNewHexi {
         scen.DoMove.ConcreteMove.RemoveRevealedConandDummy(RemoveCon, RemoveConUnit, Constring);
         // update database
         if (!Scencolls.SelMoveUnits.isEmpty()) {
-            //ObjectclassLibrary.MovingUpdate DoUpdate = new MovingUpdate();
-            //DoUpdate.UpdateAfterMoveClDC(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-            // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
         if (ManWAApplies) {
             // broken and unarmed friendlies in new hex must now claim WA if no in-hex TEM > 0; may claim otherwise
@@ -288,6 +297,8 @@ public class EnterNewHex implements MoveNewHexi {
                 // if moving within building (across building hexside), must move horizontally; otherwise diagonal move downhill
 
                 // HOW TO TELL IF MOVING HORIZONTALLY OR TO BASE LEVEL OF LOWER HEX, BOTH POSSIBLE? NEED TO CODE THIS
+                // handle moving downhill at base level of hex first
+                newenterlocation = newhex.getCenterLocation();
                 /*Dim hexsidecrossed As Integer = MapGeo.HexSideEntry(currenthex, newhex)
                 Dim hexside = New TerrainClassLibrary.ASLXNA.IsSide(Game.Scenario.LocationCol)
                 If hexside.IsACrossableBuilding(hexside.Gethexsidetype(Currentbase, hexsidecrossed)) Then
@@ -305,5 +316,14 @@ public class EnterNewHex implements MoveNewHexi {
         }
         return null; // error if reach here
     }
-
+    public String getmoveresults(){
+        return moveresults;
+    }
+    private String getMovingStackUnitNames() {
+        String stackstring ="";
+        for (PersUniti movingunit: Scencolls.SelMoveUnits){
+            stackstring += movingunit.getbaseunit().getUnitName() + " ";
+        }
+        return stackstring;
+    }
 }

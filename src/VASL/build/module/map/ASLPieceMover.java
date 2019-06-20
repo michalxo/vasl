@@ -18,7 +18,9 @@
  */
 package VASL.build.module.map;
 
+import VASL.LOS.Map.Hex;
 import VASL.build.module.ASLMap;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.counters.ASLHighlighter;
 import VASL.counters.ASLProperties;
 import VASL.counters.Concealable;
@@ -220,162 +222,167 @@ public class ASLPieceMover extends PieceMover {
      * @param p Point mouse released
      */
     public Command _movePieces(Map map, Point p) {
-        String reggie = "Trapping hex move";  //traps drag-drop but not key command
-        final java.util.List<GamePiece> allDraggedPieces = new ArrayList<GamePiece>();
-        final PieceIterator it = DragBuffer.getBuffer().getIterator();
-        if (!it.hasMoreElements()) return null;
+        //used by drag-drop but not key command
+        // Before moving Stack, check move is legal - FullRules code
+        ScenarioC scen = ScenarioC.getInstance();
+        Hex passhex = scen.getASLMap().getVASLMap().gridToHex((int)p.getX() - 400, (int) p.getY() -400);
+        if(scen.Moveobsi.PasstoObserver(passhex)) {
+        // end of FullRules code
+            final java.util.List<GamePiece> allDraggedPieces = new ArrayList<GamePiece>();
+            final PieceIterator it = DragBuffer.getBuffer().getIterator();
+            if (!it.hasMoreElements()) return null;
 
-        Point offset = null;
-        Command comm = new NullCommand();
-        final BoundsTracker tracker = new BoundsTracker();
-        // Map of Point->List<GamePiece> of pieces to merge with at a given
-        // location. There is potentially one piece for each Game Piece Layer.
-        final HashMap<Point, java.util.List<GamePiece>> mergeTargets =
-                new HashMap<Point, java.util.List<GamePiece>>();
-        while (it.hasMoreElements()) {
-            dragging = it.nextPiece();
-            tracker.addPiece(dragging);
-      /*
-       * Take a copy of the pieces in dragging.
-       * If it is a stack, it is cleared by the merging process.
-       */
-            final ArrayList<GamePiece> draggedPieces = new ArrayList<GamePiece>(0);
-            if (dragging instanceof Stack) {
-                int size = ((Stack) dragging).getPieceCount();
-                for (int i = 0; i < size; i++) {
-                    draggedPieces.add(((Stack) dragging).getPieceAt(i));
+            Point offset = null;
+            Command comm = new NullCommand();
+            final BoundsTracker tracker = new BoundsTracker();
+            // Map of Point->List<GamePiece> of pieces to merge with at a given
+            // location. There is potentially one piece for each Game Piece Layer.
+            final HashMap<Point, java.util.List<GamePiece>> mergeTargets =
+                    new HashMap<Point, java.util.List<GamePiece>>();
+            while (it.hasMoreElements()) {
+                dragging = it.nextPiece();
+                tracker.addPiece(dragging);
+                /*
+                 * Take a copy of the pieces in dragging.
+                 * If it is a stack, it is cleared by the merging process.
+                 */
+                final ArrayList<GamePiece> draggedPieces = new ArrayList<GamePiece>(0);
+                if (dragging instanceof Stack) {
+                    int size = ((Stack) dragging).getPieceCount();
+                    for (int i = 0; i < size; i++) {
+                        draggedPieces.add(((Stack) dragging).getPieceAt(i));
+                    }
+                } else {
+                    draggedPieces.add(dragging);
                 }
-            }
-            else {
-                draggedPieces.add(dragging);
-            }
 
-            if (offset != null) {
-                p = new Point(dragging.getPosition().x + offset.x,
-                        dragging.getPosition().y + offset.y);
-            }
+                if (offset != null) {
+                    p = new Point(dragging.getPosition().x + offset.x,
+                            dragging.getPosition().y + offset.y);
+                }
 
-            java.util.List<GamePiece> mergeCandidates = mergeTargets.get(p);
-            GamePiece mergeWith = null;
-            // Find an already-moved piece that we can merge with at the destination
-            // point
-            if (mergeCandidates != null) {
-                for (int i = 0, n = mergeCandidates.size(); i < n; ++i) {
-                    final GamePiece candidate = mergeCandidates.get(i);
-                    if (map.getPieceCollection().canMerge(candidate, dragging)) {
-                        mergeWith = candidate;
-                        mergeCandidates.set(i, dragging);
-                        break;
+                java.util.List<GamePiece> mergeCandidates = mergeTargets.get(p);
+                GamePiece mergeWith = null;
+                // Find an already-moved piece that we can merge with at the destination
+                // point
+                if (mergeCandidates != null) {
+                    for (int i = 0, n = mergeCandidates.size(); i < n; ++i) {
+                        final GamePiece candidate = mergeCandidates.get(i);
+                        if (map.getPieceCollection().canMerge(candidate, dragging)) {
+                            mergeWith = candidate;
+                            mergeCandidates.set(i, dragging);
+                            break;
+                        }
                     }
                 }
-            }
 
-            // Now look for an already-existing piece at the destination point
-            if (mergeWith == null) {
-                mergeWith = map.findAnyPiece(p, dropTargetSelector);
-                if (mergeWith == null && !Boolean.TRUE.equals(
-                        dragging.getProperty(Properties.IGNORE_GRID))) {
-                    p = map.snapTo(p);
-                }
+                // Now look for an already-existing piece at the destination point
+                if (mergeWith == null) {
+                    mergeWith = map.findAnyPiece(p, dropTargetSelector);
+                    if (mergeWith == null && !Boolean.TRUE.equals(
+                            dragging.getProperty(Properties.IGNORE_GRID))) {
+                        p = map.snapTo(p);
+                    }
 
-                if (offset == null) {
-                    offset = new Point(p.x - dragging.getPosition().x,
-                            p.y - dragging.getPosition().y);
-                }
+                    if (offset == null) {
+                        offset = new Point(p.x - dragging.getPosition().x,
+                                p.y - dragging.getPosition().y);
+                    }
 
-                if (mergeWith != null && map.getStackMetrics().isStackingEnabled()) {
-                    mergeCandidates = new ArrayList<GamePiece>();
-                    mergeCandidates.add(dragging);
-                    mergeCandidates.add(mergeWith);
-                    mergeTargets.put(p, mergeCandidates);
-                }
-            }
-
-            if (mergeWith == null) {
-                comm = comm.append(movedPiece(dragging, p));
-                comm = comm.append(map.placeAt(dragging, p));
-                if (!(dragging instanceof Stack) &&
-                        !Boolean.TRUE.equals(dragging.getProperty(Properties.NO_STACK))) {
-                    final Stack parent = map.getStackMetrics().createStack(dragging);
-                    if (parent != null) {
-                        comm = comm.append(map.placeAt(parent, p));
+                    if (mergeWith != null && map.getStackMetrics().isStackingEnabled()) {
+                        mergeCandidates = new ArrayList<GamePiece>();
+                        mergeCandidates.add(dragging);
+                        mergeCandidates.add(mergeWith);
+                        mergeTargets.put(p, mergeCandidates);
                     }
                 }
-            }
-            else {
-                // Do not add pieces to the Deck that are Obscured to us, or that
-                // the Deck does not want to contain. Removing them from the
-                // draggedPieces list will cause them to be left behind where the
-                // drag started. NB. Pieces that have been dragged from a face-down
-                // Deck will be be Obscued to us, but will be Obscured by the dummy
-                // user Deck.NO_USER
-                if (mergeWith instanceof Deck) {
-                    final ArrayList<GamePiece> newList = new ArrayList<GamePiece>(0);
-                    for (GamePiece piece : draggedPieces) {
-                        if (((Deck) mergeWith).mayContain(piece)) {
-                            final boolean isObscuredToMe = Boolean.TRUE.equals(piece.getProperty(Properties.OBSCURED_TO_ME));
-                            if (!isObscuredToMe || (isObscuredToMe && Deck.NO_USER.equals(piece.getProperty(Properties.OBSCURED_BY)))) {
-                                newList.add(piece);
+
+                if (mergeWith == null) {
+                    comm = comm.append(movedPiece(dragging, p));
+                    comm = comm.append(map.placeAt(dragging, p));
+                    if (!(dragging instanceof Stack) &&
+                            !Boolean.TRUE.equals(dragging.getProperty(Properties.NO_STACK))) {
+                        final Stack parent = map.getStackMetrics().createStack(dragging);
+                        if (parent != null) {
+                            comm = comm.append(map.placeAt(parent, p));
+                        }
+                    }
+                } else {
+                    // Do not add pieces to the Deck that are Obscured to us, or that
+                    // the Deck does not want to contain. Removing them from the
+                    // draggedPieces list will cause them to be left behind where the
+                    // drag started. NB. Pieces that have been dragged from a face-down
+                    // Deck will be be Obscued to us, but will be Obscured by the dummy
+                    // user Deck.NO_USER
+                    if (mergeWith instanceof Deck) {
+                        final ArrayList<GamePiece> newList = new ArrayList<GamePiece>(0);
+                        for (GamePiece piece : draggedPieces) {
+                            if (((Deck) mergeWith).mayContain(piece)) {
+                                final boolean isObscuredToMe = Boolean.TRUE.equals(piece.getProperty(Properties.OBSCURED_TO_ME));
+                                if (!isObscuredToMe || (isObscuredToMe && Deck.NO_USER.equals(piece.getProperty(Properties.OBSCURED_BY)))) {
+                                    newList.add(piece);
+                                }
+                            }
+                        }
+
+                        if (newList.size() != draggedPieces.size()) {
+                            draggedPieces.clear();
+                            for (GamePiece piece : newList) {
+                                draggedPieces.add(piece);
                             }
                         }
                     }
 
-                    if (newList.size() != draggedPieces.size()) {
-                        draggedPieces.clear();
-                        for (GamePiece piece : newList) {
-                            draggedPieces.add(piece);
+                    // Add the remaining dragged counters to the target.
+                    // If mergeWith is a single piece (not a Stack), then we are merging
+                    // into an expanded Stack and the merge order must be reversed to
+                    // maintain the order of the merging pieces.
+                    if (mergeWith instanceof Stack) {
+                        for (int i = 0; i < draggedPieces.size(); ++i) {
+                            comm = comm.append(movedPiece(draggedPieces.get(i), mergeWith.getPosition()));
+                            comm = comm.append(map.getStackMetrics().merge(mergeWith, draggedPieces.get(i)));
+                        }
+                    } else {
+                        for (int i = draggedPieces.size() - 1; i >= 0; --i) {
+                            comm = comm.append(movedPiece(draggedPieces.get(i), mergeWith.getPosition()));
+                            comm = comm.append(map.getStackMetrics().merge(mergeWith, draggedPieces.get(i)));
                         }
                     }
                 }
 
-                // Add the remaining dragged counters to the target.
-                // If mergeWith is a single piece (not a Stack), then we are merging
-                // into an expanded Stack and the merge order must be reversed to
-                // maintain the order of the merging pieces.
-                if (mergeWith instanceof Stack) {
-                    for (int i = 0; i < draggedPieces.size(); ++i) {
-                        comm = comm.append(movedPiece(draggedPieces.get(i), mergeWith.getPosition()));
-                        comm = comm.append(map.getStackMetrics().merge(mergeWith, draggedPieces.get(i)));
-                    }
+                for (GamePiece piece : draggedPieces) {
+                    KeyBuffer.getBuffer().add(piece);
                 }
-                else {
-                    for (int i = draggedPieces.size()-1; i >= 0; --i) {
-                        comm = comm.append(movedPiece(draggedPieces.get(i), mergeWith.getPosition()));
-                        comm = comm.append(map.getStackMetrics().merge(mergeWith, draggedPieces.get(i)));
-                    }
+
+                // Record each individual piece moved
+                for (GamePiece piece : draggedPieces) {
+                    allDraggedPieces.add(piece);
                 }
+
+                tracker.addPiece(dragging);
             }
 
-            for (GamePiece piece : draggedPieces) {
-                KeyBuffer.getBuffer().add(piece);
-            }
-
-            // Record each individual piece moved
-            for (GamePiece piece : draggedPieces) {
-                allDraggedPieces.add(piece);
-            }
-
-            tracker.addPiece(dragging);
-        }
-
-        if (GlobalOptions.getInstance().autoReportEnabled()) {
+            if (GlobalOptions.getInstance().autoReportEnabled()) {
 
             /*
                 Here is the one line we have to change
              */
 //            final Command report = createMovementReporter(comm).getReportCommand().append(new MovementReporter.HiddenMovementReporter(comm).getReportCommand());
-            final Command report = createMovementReporter(comm).getReportCommand();
-            report.execute();
-            comm = comm.append(report);
-        }
+                final Command report = createMovementReporter(comm).getReportCommand();
+                report.execute();
+                comm = comm.append(report);
+            }
 
-        // Apply key after move to each moved piece
-        if (map.getMoveKey() != null) {
-            applyKeyAfterMove(allDraggedPieces, comm, map.getMoveKey());
-        }
+            // Apply key after move to each moved piece
+            if (map.getMoveKey() != null) {
+                applyKeyAfterMove(allDraggedPieces, comm, map.getMoveKey());
+            }
 
-        tracker.repaint();
-        return comm;
+            tracker.repaint();
+            return comm;
+        }
+        // part of fullrules code
+        return null;
     }
 
     /**

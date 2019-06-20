@@ -10,10 +10,10 @@ import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.TerrainClasses.IsSide;
 import VASL.build.module.fullrules.TerrainClasses.IsTerrain;
 import VASL.build.module.fullrules.UtilityClasses.*;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+
 
 import java.util.LinkedList;
-import java.util.concurrent.Callable;
+
 
 public class SwitchWallAdvantagec {
     

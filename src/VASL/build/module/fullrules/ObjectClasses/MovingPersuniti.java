@@ -29,5 +29,6 @@ public interface MovingPersuniti{
         int getHexEnteredSideCrossed();
         void setHexEnteredSideCrossed(int value);
         int getSmokeE();
+        boolean UpdateMovementStatus(PersUniti mover, Constantvalues.MovementStatus NewMovementStatus);
 
 }

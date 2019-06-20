@@ -19,7 +19,7 @@ public class WeatherImpactc implements HexDecoratori {
         moveoptionclicked = MovementOptionClicked;
     }
 
-    public double gethexsideentrycost() {return hexsideMFcost;}
+    public double gethexsideentrycost() {return basehex.gethexsideentrycost();}
     public Location getvasllocation() {return basehex.getvasllocation();}
     public Hex getvaslhex() {return basehex.getvaslhex();}
     public Terrain getvaslterrain() {return basehex.getvaslterrain();}

@@ -1,6 +1,7 @@
 package VASL.build.module.fullrules.ObjectClasses;
 
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.UtilityClasses.InfantryUnitCommonFunctionsc;
 
 import java.util.LinkedList;
 
@@ -50,4 +51,10 @@ public class RoadBonusc implements MoveUnitDecoratori {
     public void setHexEnteredSideCrossed(int value){;}
     public int getSmokeE() {return BaseUnit.getSmokeE();}
 
+    public boolean UpdateMovementStatus(PersUniti PassMover, Constantvalues.MovementStatus PassMoveStatus) {
+        // this update triggers the Command to update OrderofBattle values plus remote computer
+        // the Command also triggers counter actions
+        InfantryUnitCommonFunctionsc UpdateMoveCF = new InfantryUnitCommonFunctionsc();
+        return UpdateMoveCF.UpdateTargetStatus(PassMover);
+    }
 }

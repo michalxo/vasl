@@ -19,6 +19,7 @@ public class MoveIntoVehiclec implements MoveWithinHexi {
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private String AFVName;
     //private AFV Vehloading;
+    private String moveresults;
 
     public MoveIntoVehiclec(Hex hexclicked, Constantvalues.UMove Movementoptionclicked, String PassAFVName) {
 
@@ -187,6 +188,8 @@ public class MoveIntoVehiclec implements MoveWithinHexi {
         Return False
         End If
     }*/
-
+    public String getmoveresults(){
+        return moveresults;
+    }
 
 }

@@ -35,6 +35,7 @@ public class MoveOutofVehiclec implements MoveWithinHexi {
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private int VehUsingID;
     ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public MoveOutofVehiclec(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
 
@@ -147,11 +148,10 @@ public class MoveOutofVehiclec implements MoveWithinHexi {
         String Constring = ConLost + ": Concealment Lost - revealed as " + ConRevealed + " in " + ConLostHex;
         scen.DoMove.ConcreteMove.RemoveRevealedConandDummy(RemoveCon, RemoveConUnit, Constring);
 
-        if (Scencolls.SelMoveUnits.isEmpty()) {
-            // update data collections
-            //MovingUpdate DoUpdate = new MovingUpdate();
-            //DoUpdate.UpdateAfterMove(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-            // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+        if (!Scencolls.SelMoveUnits.isEmpty()) {
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
 
         // update Target values
@@ -208,5 +208,8 @@ public class MoveOutofVehiclec implements MoveWithinHexi {
     }
     private boolean ChangeLocationTest(PersUniti MovingUnit) {
         return (PositionChangedvalue == Constantvalues.AltPos.Passenger || PositionChangedvalue == Constantvalues.AltPos.Rider);
+    }
+    public String getmoveresults(){
+        return moveresults;
     }
 }

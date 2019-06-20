@@ -24,7 +24,7 @@ public class MoveUphillc implements  HexDecoratori {
 
     }
 
-    public double gethexsideentrycost() {return hexsideMFcost;}
+    public double gethexsideentrycost() {return basehex.gethexsideentrycost();}
     public Location getvasllocation() {return basehex.getvasllocation();}
     public Hex getvaslhex() {return basehex.getvaslhex();}
     public Terrain getvaslterrain () {return basehex.getvaslterrain();}

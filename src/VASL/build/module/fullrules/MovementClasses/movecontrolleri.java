@@ -11,7 +11,7 @@ public interface movecontrolleri {
 
         void MovetoNewLocation();
         //void Jumphexes();
-        void NewAction(Hex HexClick);
+        boolean NewAction(Hex HexClick);
         void NewAction(Constantvalues.MovementStatus ControlClick, Hex HexClicked, String PassSelection);
         void NewAction(LinkedList<SelectedThing> SelectedThings);
 

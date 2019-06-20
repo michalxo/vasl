@@ -20,7 +20,7 @@ public class ScenTerImpactc implements HexDecoratori {
         moveoptionclicked = MovementOptionClicked;
     }
 
-    public double gethexsideentrycost() {return hexsideMFcost;}
+    public double gethexsideentrycost() {return basehex.gethexsideentrycost();}
     public Location getvasllocation() {return basehex.getvasllocation();}
     public Hex getvaslhex() {return basehex.getvaslhex();}
     public Terrain getvaslterrain () {return basehex.getvaslterrain();}
@@ -38,11 +38,14 @@ public class ScenTerImpactc implements HexDecoratori {
         Double AddtoCost = 0.0;
         boolean SmokeAdded = false;
         // check for smoke
-        for (ScenarioTerrain scenterr: getScenTerraininhex()) {
-            if (scenterr.getFeatureType() == Constantvalues.Feature.Smoke) {
-                AddtoCost += 1;
+        if (getScenTerraininhex() != null) {
+            for (ScenarioTerrain scenterr : getScenTerraininhex()) {
+                if (scenterr.getFeatureType() == Constantvalues.Feature.Smoke) {
+                    AddtoCost += 1;
+                }
             }
         }
+        // check for fortifications
         switch (moveoptionclicked) {
             case EnterFoxhole: case EnterTrench: case ExitFoxhole: case ExitTrench:
                 return AddtoCost +1;

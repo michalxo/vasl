@@ -3,6 +3,12 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.DataClasses.OrderofBattle;
+import VASL.build.module.fullrules.Game.ScenarioC;
+import VASL.build.module.fullrules.UtilityClasses.CommonFunctionsC;
+import VASL.build.module.fullrules.UtilityClasses.InfantryUnitCommonFunctionsc;
+import VASL.build.module.fullrules.UtilityClasses.ManageUpdateUnitCommand;
+import VASSAL.command.Command;
 
 public class Russian447Movec implements MovingPersuniti {
 
@@ -33,8 +39,18 @@ public class Russian447Movec implements MovingPersuniti {
         LOCIndexvalue = PassLocIndex;
         OBID = PassOBUnitID;
         if (PassVisibilityStatus == Constantvalues.VisibilityStatus.Concealed && PassConID > 0) {concealedvalue=true;}
-        UsingDTvalue = false; UsingRBvalue = false;
         HexEntSideCross = PasshexEnteredSideCrossedLastMove;
+
+        // setting values to avoid nulls - this will go away as build up xxOB.txt file structure
+        UsingDTvalue=false;
+        UsingRBvalue=false;
+        MFleft = CalcMF();
+        usingencircvalue = false;
+        hasldrbvalue = false;
+        mfusedvalue = 0;
+        AMvalue= Constantvalues.MovementStatus.NotMoving;
+        Dashvalue = Constantvalues.MovementStatus.NotMoving;
+
     }
 
 
@@ -65,4 +81,48 @@ public class Russian447Movec implements MovingPersuniti {
     public int getSmokeE () {return 1;}
     public boolean getusingEncirc () {return usingencircvalue;}
     public void setusingEncirc(boolean value) {usingencircvalue = value;}
+
+    public boolean UpdateMovementStatus(PersUniti mover, Constantvalues.MovementStatus NewMovementStatus) {
+
+        mover.getbaseunit().setMovementStatus(NewMovementStatus);
+
+        //ScenarioC scen = ScenarioC.getInstance();
+        ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+        SuppWeapi MovingSW = null;
+        // this may no longer be needed as below  may handle for both local and remote
+        CommonFunctionsC comfun = new CommonFunctionsC(mover.getbaseunit().getScenario());
+        OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(mover.getbaseunit().getUnit_ID(),  mover.getbaseunit().getUnitName());
+        if (UpdateUnit != null) {
+            UpdateUnit.setMovementStatus(NewMovementStatus);
+            if (mover.getbaseunit().getFirstSWLink() != 0) {
+                for(SuppWeapi testOBSWunit: Scencolls.SWCol ) {
+                    if (testOBSWunit.getbaseSW().getSW_ID() == mover.getbaseunit().getFirstSWLink()) {
+                        MovingSW = testOBSWunit;
+                        break;
+                    }
+                }
+                MovingSW.getbaseSW().setMovementStatus(NewMovementStatus);
+            }
+            if (mover.getbaseunit().getSecondSWLink() != 0) {
+                for(SuppWeapi testOBSWunit: Scencolls.SWCol ) {
+                    if (testOBSWunit.getbaseSW().getSW_ID() == mover.getbaseunit().getSecondSWLink()) {
+                        MovingSW = testOBSWunit;
+                        break;
+                    }
+                }
+                MovingSW.getbaseSW().setMovementStatus(NewMovementStatus);
+            }
+        }
+        InfantryUnitCommonFunctionsc UpdateTargCF = new InfantryUnitCommonFunctionsc();
+        return UpdateTargCF.UpdateMovementStatus(mover);
+
+//        if (UpdateUnit != null) {
+//
+//
+//        }
+
+        //CounterActions counteractions = new CounterActions();
+        //counteractions.placefirecounter(myUnit);
+
+    }
 }

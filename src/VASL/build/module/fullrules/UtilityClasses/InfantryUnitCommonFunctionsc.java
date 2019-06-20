@@ -21,14 +21,13 @@ public class InfantryUnitCommonFunctionsc {
 
     // each method is separate and distinct and performs one function
     public boolean UpdateTargetStatus(PersUniti PassTarget) {
-        // MOVE THIS OUT TO A COMMON FUNCTION AS IT WILL BE IDENTICAL ACROSS ALL TARGET CLASSES
-        // get Order of Battle unit that matches the PersUniti
 
         ManageUpdateUnitCommand manageupdateunitcommand = new ManageUpdateUnitCommand();
         Command newcommand = manageupdateunitcommand.CreateCommand(PassTarget, Constantvalues.UnitCommandtype.targunit);
         manageupdateunitcommand.ProcessCommand(newcommand);
 
         // this may no longer be needed as above may handle for both local and remote
+        // get Order of Battle unit that matches the PersUniti
         CommonFunctionsC comfun = new CommonFunctionsC(PassTarget.getbaseunit().getScenario());
         OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(PassTarget.getbaseunit().getUnit_ID(),  PassTarget.getbaseunit().getUnitName());
 
@@ -48,7 +47,35 @@ public class InfantryUnitCommonFunctionsc {
 
 
     }
+    public boolean UpdateMovementStatus(PersUniti PassMover) {
+        // get Order of Battle unit that matches the PersUniti
 
+        ManageUpdateUnitCommand manageupdateunitcommand = new ManageUpdateUnitCommand();
+        Command newcommand = manageupdateunitcommand.CreateCommand(PassMover, Constantvalues.UnitCommandtype.moveunit);
+        manageupdateunitcommand.ProcessCommand(newcommand);
+
+        // this may no longer be needed as above may handle for both local and remote
+        CommonFunctionsC comfun = new CommonFunctionsC(PassMover.getbaseunit().getScenario());
+        OrderofBattle UpdateUnit = comfun.getUnderlyingOBunitforPersUniti(PassMover.getbaseunit().getUnit_ID(),  PassMover.getbaseunit().getUnitName());
+
+        if (UpdateUnit != null) {
+            //UpdateUnit.setOrderStatus(PassTarget.getTargetunit().getOrderStatus());
+            //PassTarget.getbaseunit().setOrderStatus(getOrderStatus());
+            UpdateUnit.setCX(PassMover.getbaseunit().getCX());
+            UpdateUnit.setPinned(PassMover.getbaseunit().getPinned());
+            //UpdateUnit.setCombatStatus(PassTarget.getbaseunit().getCombatStatus());
+            UpdateUnit.setMovementStatus(PassMover.getbaseunit().getMovementStatus());
+            UpdateUnit.setFirstSWLink(PassMover.getbaseunit().getFirstSWLink());
+            UpdateUnit.setSecondSWlink(PassMover.getbaseunit().getSecondSWLink());
+            UpdateUnit.setSW(PassMover.getbaseunit().getnumSW());
+            UpdateUnit.sethex(PassMover.getbaseunit().getHex());
+            UpdateUnit.setHexname(PassMover.getbaseunit().getHexName());
+            return true;
+        }
+        return false;
+
+
+    }
     public boolean IsUnitACrew(Constantvalues.UClass passclass){
         return (passclass == Constantvalues.UClass.CREWCLASS ||
                 passclass == Constantvalues.UClass.ACREWCLASS ||

@@ -4,6 +4,7 @@ import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationc;
 import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationi;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
@@ -256,9 +257,13 @@ public class IsSide {
         // called by IsSide.IsWAAllowed
         // returns hexside value of specificied side of specified hex
 
-        ConversionC confrom = new ConversionC();
-        return confrom.ConverttoHexside(hexloc.getvaslhex().getHexsideTerrain(hexsidetouse));
-
+        Terrain getterrain = hexloc.getvaslhex().getHexsideTerrain(hexsidetouse);
+        if (getterrain == null){ // need to handle null possibility because vasl hexes leave OG hexsides as null
+            return Constantvalues.Hexside.NoTerrain;
+        }else {
+            ConversionC confrom = new ConversionC();
+            return confrom.ConverttoHexside(getterrain);
+        }
     }
     public Terrain GethexsideTerrain(int hexside) {
         // called by IsSide.IsWAAllowed, movement.determinemenuforhexmove
@@ -323,5 +328,20 @@ public class IsSide {
                 break;
         }
         return SideInfo;
+    }
+    public int SharedhexsideAdjacentHexes(String Firsthexname, String Secondhexname){
+        // returns the value of the commmon hexside between two adjacent hexes
+        // returns the hexside of the Firsthex
+        ScenarioC prscen = ScenarioC.getInstance();
+        Hex firsthex = prscen.getGameMap().getHex(Firsthexname);
+        Hex secondhex = prscen.getGameMap().getHex(Secondhexname);
+
+        for(int x = 0; x < 6; x++) {
+            Hex adjacentHex = prscen.getGameMap().getAdjacentHex(firsthex, x);
+            if (adjacentHex == secondhex) {
+                return x;
+            }
+        }
+        return -1;
     }
 }

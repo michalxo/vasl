@@ -32,6 +32,7 @@ public class EnteringConnecting implements MoveNewHexi {
     private Locationi Moveloc;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public EnteringConnecting(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
         // in this class hexclicked is starting hex as comes from popup click
@@ -153,9 +154,9 @@ public class EnteringConnecting implements MoveNewHexi {
         scen.DoMove.ConcreteMove.RemoveRevealedConandDummy(RemoveCon, RemoveConUnit, Constring);
         // update database
         if (!Scencolls.SelMoveUnits.isEmpty()) {
-            //ObjectclassLibrary.MovingUpdate DoUpdate = new MovingUpdate();
-            //DoUpdate.UpdateAfterMoveClDC(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-            // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
         if (ManWAApplies) {
             // broken and unarmed friendlies in new hex must now claim WA if no in-hex TEM > 0; may claim otherwise
@@ -267,6 +268,9 @@ public class EnteringConnecting implements MoveNewHexi {
         }
         return null; // error if reach here
 
+    }
+    public String getmoveresults(){
+        return moveresults;
     }
 
 }

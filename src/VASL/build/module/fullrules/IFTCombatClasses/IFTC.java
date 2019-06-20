@@ -1056,13 +1056,15 @@ public class IFTC implements IIFTC {
         // temporary while debugging
         if (ValidSolutions.size() > 0) { // selecting one of possible solutions already checked
             for (GamePiece SelUnit : SelectedUnits) {
-                ObjIDlink = Integer.parseInt(SelUnit.getProperty("TextLabel").toString());
-                for(PersUniti findunit: Scencolls.Unitcol){
-                    if(findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
-                        if (findunit.getbaseunit().getNationality() == getTargetSide()) {
-                            WhichOne = Constantvalues.CombatStatus.None;
-                        } else {
-                            WhichOne = Constantvalues.CombatStatus.Firing;
+                if (SelUnit.getProperty("TextLabel").toString() != null) {
+                    ObjIDlink = Integer.parseInt(SelUnit.getProperty("TextLabel").toString());
+                    for (PersUniti findunit : Scencolls.Unitcol) {
+                        if (findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
+                            if (findunit.getbaseunit().getNationality() == getTargetSide()) {
+                                WhichOne = Constantvalues.CombatStatus.None;
+                            } else {
+                                WhichOne = Constantvalues.CombatStatus.Firing;
+                            }
                         }
                     }
                 }
@@ -1072,17 +1074,21 @@ public class IFTC implements IIFTC {
         // no solution yet in place, so add units and test for solution
         // if selected determine if unit or ? and use nationality to determine if Target or Firer
         for (GamePiece SelUnit : SelectedUnits) {
-            ObjIDlink = Integer.parseInt(SelUnit.getProperty("TextLabel").toString());
-            for (PersUniti findunit : Scencolls.Unitcol) {
-                if (findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
-                    if (findunit.getbaseunit().getNationality() == getTargetSide()) {
-                        WhichOne = Constantvalues.CombatStatus.None;
-                    } else {
-                        WhichOne = Constantvalues.CombatStatus.Firing;
+            if (SelUnit.getProperty("TextLabel").toString() != null && SelUnit.getProperty("TextLabel").toString() != "") {
+                ObjIDlink = Integer.parseInt(SelUnit.getProperty("TextLabel").toString());
+                for (PersUniti findunit : Scencolls.Unitcol) {
+                    if (findunit.getbaseunit().getUnit_ID() == ObjIDlink) {
+                        if (findunit.getbaseunit().getNationality() == getTargetSide()) {
+                            WhichOne = Constantvalues.CombatStatus.None;
+                        } else {
+                            WhichOne = Constantvalues.CombatStatus.Firing;
+                        }
+                        Addunit = findunit;
+                        break;
                     }
-                    Addunit = findunit;
-                    break;
                 }
+            } else {
+                continue;
             }
             // add unit or ? to Target or Firer (? not added to firer)
             if (WhichOne == Constantvalues.CombatStatus.None && Addunit != null) {  // TargetUniut

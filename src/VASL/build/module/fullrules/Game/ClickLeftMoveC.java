@@ -12,9 +12,6 @@ import java.util.LinkedList;
 
 public class ClickLeftMoveC implements Clicki {
 
-    public final static String DB_COUNTER_TYPE_MARKER_KEY = "DBCounterType";
-    public final static String DB_UNIT_TYPE = "unit";
-
     public void DetermineClickPossibilities(Hex ClickedHex, LinkedList<GamePiece> SelectedCounters) {
 
         LinkedList<GamePiece> SelectedUnits = new LinkedList<GamePiece>();
@@ -28,18 +25,18 @@ public class ClickLeftMoveC implements Clicki {
                 for (PieceIterator pi = new PieceIterator(((Stack) Selitem).getPiecesIterator()); pi.hasMoreElements(); ) {
                     GamePiece p2 = pi.nextPiece();
                     if (isSelected(p2)) {
-                        if (isDBUnitCounter(Selitem)) {
+
                             SelectedUnits.add(Selitem);
-                            GameModule.getGameModule().getChatter().send("Have found selected unit in click class");
-                        }
+                            //GameModule.getGameModule().getChatter().send("Have found selected unit in click class");
+
                     }
                 }
             } else {
                 if (isSelected(Selitem)) {
-                    if (isDBUnitCounter(Selitem)) {
+
                         SelectedUnits.add(Selitem);
-                        GameModule.getGameModule().getChatter().send("Have found selected unit in click class");
-                    }
+                        //GameModule.getGameModule().getChatter().send("Have found selected unit in click class");
+
                 }
             }
         }
@@ -57,14 +54,7 @@ public class ClickLeftMoveC implements Clicki {
                 p.getId() != null &&
                 !"".equals(p.getId());
     }
-    /**
-     * @param piece a game piece
-     * @return true if piece has the unit marker set
-     */
-    public boolean isDBUnitCounter(GamePiece piece) {
 
-        return isPropertySet(piece, DB_COUNTER_TYPE_MARKER_KEY, DB_UNIT_TYPE);
-    }
     /**
      * Checks if a given property is set to a given value
      * @param piece the game piece

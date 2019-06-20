@@ -30,6 +30,7 @@ public class  ClaimWallAdvc implements MoveWithinHexi {
     private double MFCost;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     private ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public ClaimWallAdvc(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
 
@@ -90,11 +91,10 @@ public class  ClaimWallAdvc implements MoveWithinHexi {
         // remove revealed Concealment and Dummies
         String Constring = ConLost + ": Concealment Lost - revealed as " + ConRevealed + " in " + ConLostHex;
         scen.DoMove.ConcreteMove.RemoveRevealedConandDummy(RemoveCon, RemoveConUnit, Constring);
-        if (Scencolls.SelMoveUnits.isEmpty()) {
-            // update data collections
-            //MovingUpdate DoUpdate = new MovingUpdate();
-            //DoUpdate.UpdateAfterMove(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-            // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+        if (!Scencolls.SelMoveUnits.isEmpty()) {
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
         // broken and unarmed friendlies in must now claim WA if no in-hex TEM > 0; may claim otherwise
         BrkUnWACheckc BrkUnWA = new BrkUnWACheckc(hexclickedvalue, MovingNationality, Temploc);
@@ -116,5 +116,8 @@ public class  ClaimWallAdvc implements MoveWithinHexi {
         if (Scencolls.SelMoveUnits.size() == 0) {return null;}  // no units selected
         PersUniti Movingunit = Scencolls.SelMoveUnits.getFirst();
         return Movingunit.getbaseunit().gethexlocation();
+    }
+    public String getmoveresults(){
+        return moveresults;
     }
 }

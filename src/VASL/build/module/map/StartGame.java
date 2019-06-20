@@ -169,6 +169,9 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
                 if (scen.getIFT() != null) {
                     scen.getIFT().ClearCurrentIFT();
                 }
+                if (scen.DoMove.ConcreteMove != null){
+                    scen.DoMove.ConcreteMove.ClearMovement();
+                }
             //}
         }
     }
@@ -456,28 +459,28 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
             }*/
         } else if (rightbutton &&  ItemFound) {
             // Right on unit - show pop up menu for ontop item - includes LOSShade
-            /*switch (scen.getPhase()) {
+            switch (scen.getPhase()) {
                 case Setup:
-                    ProcessClick = new ClickRightSetupC;
+                    //ProcessClick = new ClickRightSetupC;
                 case Rally:
-                    ProcessClick = new ClickRightRallyC;
+                    //ProcessClick = new ClickRightRallyC;
                 case PrepFire:
-                    ProcessClick = new ClickRightPrepC;
+                    //ProcessClick = new ClickRightPrepC;
                 case Movement:
-                    ProcessClick = new ClickRightMovementC;
+                    ProcessClick = new ClickRightMoveC();
                 case DefensiveFire:
-                    ProcessClick = new ClickRightDefensiveC;
+                    //ProcessClick = new ClickRightDefensiveC;
                 case AdvancingFire:
-                    ProcessClick = new ClickRightAdvancingC;
+                    //ProcessClick = new ClickRightAdvancingC;
                 case Rout:
-                    ProcessClick = new ClickRightRoutC;
+                    //ProcessClick = new ClickRightRoutC;
                 case Advance:
-                    ProcessClick = new ClickRightAdvanceC;
+                    //ProcessClick = new ClickRightAdvanceC;
                 case CloseCombat:
-                    ProcessClick = new ClickRightCloseCombatC;
+                    //ProcessClick = new ClickRightCloseCombatC;
                 case Refitphase:
-                    ProcessClick = new ClickRightRefitC;
-            }*/
+                    //ProcessClick = new ClickRightRefitC;
+            }
         } else if (rightbutton &&  !ItemFound) {
             // Right - Nothing on map: Show menu for terrain
             /*switch (scen.getPhase()) {
@@ -512,9 +515,9 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
                 case PrepFire:
                     ProcessClick = new ClickLeftShiftPrepC();
                     break;
-                /*case Movement:
-                    ProcessClick = new ClickLeftShiftMovementC;
-                case DefensiveFire:
+                case Movement:
+                    ProcessClick = new ClickLeftShiftMoveC();
+                /*case DefensiveFire:
                     ProcessClick = new ClickLeftShiftDefensiveC;
                 case AdvancingFire:
                     ProcessClick = new ClickLeftShiftAdvancingC;
@@ -553,6 +556,7 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
             }*/
         } else if(leftbutton &&  e.isShiftDown() && !ItemFound) {
             // Left - Shift on Map: opens terrain help
+            boolean reggie = true;
             /*switch (scen.getPhase()) {
                 case Setup:
                     ProcessClick = new ClickLeftShiftNothingSetupC;
@@ -730,8 +734,26 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
         } else if(command.startsWith("UPDATE_MOVE_UNIT:")){
             sdcr = new SequenceEncoder.Decoder(command, '\t');
             sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
-            // need to fully implement
-            return null;
+            String myOBname = sdcr.nextToken();
+            String concealedvalue = sdcr.nextToken();
+            //private Hex currhex;
+            //private Location currhexloc;
+            //private Constantvalues.AltPos currhexpos;
+            int OBID = Integer.parseInt(sdcr.nextToken());
+            double MFleft = Double.parseDouble(sdcr.nextToken());
+            String UsingDTvalue = sdcr.nextToken();
+            String UsingRBvalue = sdcr.nextToken();
+            //private boolean usingencircvalue;
+            String hasldrbvalue = sdcr.nextToken();
+            double mfusedvalue = Double.parseDouble(sdcr.nextToken());
+            int AMvalue = Integer.parseInt(sdcr.nextToken());
+            int Dashvalue = Integer.parseInt(sdcr.nextToken());
+            //private int LOCIndexvalue;
+            int HexEntSideCross = Integer.parseInt(sdcr.nextToken());
+
+            return new UpdateMoveunitiCommand(concealedvalue, myOBname, OBID, MFleft, UsingDTvalue,
+                    UsingRBvalue, hasldrbvalue, mfusedvalue, AMvalue, Dashvalue, HexEntSideCross);
+
         } else if(command.startsWith("UPDATE_TARG_UNIT:")) {
             sdcr = new SequenceEncoder.Decoder(command, '\t');
             sdcr.nextToken();  // passover first token which is identifier string (ie "UPDATE_BASE_UNIT:")
@@ -803,7 +825,10 @@ public class  StartGame extends AbstractConfigurable implements KeyListener, Mou
         } else if (c instanceof UpdateMoveunitiCommand) {
             UpdateMoveunitiCommand umuc = (UpdateMoveunitiCommand) c;
             // need to fully implement umuc
-            SequenceEncoder umucencoder = new SequenceEncoder("umuc.myCombatStatus", '\t');
+            SequenceEncoder umucencoder = new SequenceEncoder(umuc.myOBname, '\t');
+            umucencoder.append(umuc.concealedvalue).append(umuc.OBID).append(umuc.MFleft).append(umuc.UsingDTvalue).append(
+                umuc.UsingRBvalue).append(umuc.hasldrbvalue).append(umuc.mfusedvalue).append(umuc.AMvalue).append(
+                umuc.Dashvalue).append(umuc.HexEntSideCross);
 
             return UPDATEMOVEUNIT_COMMAND_PREFIX + "\t" + umucencoder.getValue();
         } else if (c instanceof UpdateTargunitiCommand) {

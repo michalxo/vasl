@@ -3,6 +3,7 @@ package VASL.build.module.fullrules.ObjectClasses;
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.UtilityClasses.InfantryUnitCommonFunctionsc;
 
 public class German467Movec implements MovingPersuniti {
     
@@ -64,4 +65,10 @@ public class German467Movec implements MovingPersuniti {
     public boolean getusingEncirc () {return usingencircvalue;}
     public void setusingEncirc(boolean value) {usingencircvalue = value;}
 
+    public boolean UpdateMovementStatus(PersUniti PassMover, Constantvalues.MovementStatus PassMoveStatus) {
+        // this update triggers the Command to update OrderofBattle values plus remote computer
+        // the Command also triggers counter actions
+        InfantryUnitCommonFunctionsc UpdateMoveCF = new InfantryUnitCommonFunctionsc();
+        return UpdateMoveCF.UpdateTargetStatus(PassMover);
+    }
 }

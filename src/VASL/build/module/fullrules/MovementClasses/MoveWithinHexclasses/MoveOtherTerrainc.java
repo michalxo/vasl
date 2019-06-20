@@ -38,6 +38,7 @@ public class MoveOtherTerrainc implements MoveWithinHexi {
     private double MFCost;
     private ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
     ScenarioC scen = ScenarioC.getInstance();
+    private String moveresults;
 
     public MoveOtherTerrainc(Hex hexclicked, Constantvalues.UMove Movementoptionclicked) {
 
@@ -142,11 +143,10 @@ public class MoveOtherTerrainc implements MoveWithinHexi {
         String Constring = ConLost + ": Concealment Lost - revealed as " + ConRevealed + " in " + ConLostHex;
         scen.DoMove.ConcreteMove.RemoveRevealedConandDummy(RemoveCon, RemoveConUnit, Constring);
 
-        if (Scencolls.SelMoveUnits.isEmpty()) {
-        // update data collections
-        //MovingUpdate DoUpdate = new MovingUpdate();
-        //DoUpdate.UpdateAfterMove(movementoptionclickedvalue, Scencolls.SelMoveUnits);
-        // REPLACE ABOVE 2 LIINES WITH CALL TO UPDATEMOVEUNITICOMMAND AS PER TARGETSTATUSUPDATE IN TARGETUNIT CLASSES
+        if (!Scencolls.SelMoveUnits.isEmpty()) {
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                MovingUnit.getMovingunit().UpdateMovementStatus(MovingUnit, MovingUnit.getbaseunit().getMovementStatus());
+            }
         }
         if (ManWAApplies) {
             // broken and unarmed friendlies in new hex must now claim WA if no in-hex TEM > 0; may claim otherwise
@@ -177,5 +177,8 @@ public class MoveOtherTerrainc implements MoveWithinHexi {
         PersUniti Movingunit = Scencolls.SelMoveUnits.getFirst();
         return Movingunit.getbaseunit().gethexlocation();  // this may not be right CHECK CODE IN VB movement.vb file
 
+    }
+    public String getmoveresults(){
+        return moveresults;
     }
 }
