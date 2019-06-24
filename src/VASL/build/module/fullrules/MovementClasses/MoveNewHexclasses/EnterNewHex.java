@@ -102,15 +102,22 @@ public class EnterNewHex implements MoveNewHexi {
         String stacknames = getMovingStackUnitNames();
         // Determine if move is affordable
         boolean MoveAffordable = scen.DoMove.ConcreteMove.Recalculating(movementoptionclickedvalue, newhexclickedvalue, MFCost, Moveloc, Currenthex);
+        moveresults = "";
         if (!MoveAffordable) {
-            moveresults = "Moving to " + newhexclickedvalue.getName() + " which would cost " + Double.toString(MFCost) + " MF: Insufficient MF Available";
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                moveresults += MovingUnit.getbaseunit().getUnitName() + "(" + MovingUnit.getMovingunit().getMFUsed() + "/" + MovingUnit.getMovingunit().getMFAvailable() + ")" + " ";
+            }
+            moveresults += "trying to move to " + newhexclickedvalue.getName() + " which would cost " + MFCost + " MF: Insufficient MF Available";
             return false;
         }
         // Determine if entry blocked  by enemy units
         boolean MoveOK = scen.DoMove.ConcreteMove.ProcessValidation(newhexclickedvalue, LocationChange, movementoptionclickedvalue);
         // if movement can proceed; draw will happen and then return to moveupdate to check consequences
         if (MoveOK){
-            moveresults = "Moving to " + newhexclickedvalue.getName() + " which will cost " + Double.toString(MFCost) + " MF" + "Spent: " + ;
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                moveresults += MovingUnit.getbaseunit().getUnitName() + "(" + MovingUnit.getMovingunit().getMFUsed() + "/" + MovingUnit.getMovingunit().getMFAvailable() + ")" + " ";
+            }
+            moveresults += "moving to " + newhexclickedvalue.getName() + " which will cost " + Double.toString(MFCost) + " MF";
         }
         Moveloc = null;
         MoveUpdate();
@@ -229,6 +236,7 @@ public class EnterNewHex implements MoveNewHexi {
         if (!Scencolls.SelMoveUnits.isEmpty()) {
             AutoDM DMCHeck = new AutoDM(Scencolls.SelMoveUnits);
             for (Hex DMDraw : DMCHeck.getHexesToDM()) {
+
                 // WONT NEED THESE DRAW CALLS BUT WILL NEED TO TRIGGER COUNTERACTIONS
                 //OH = CType(Game.Scenario.HexesWithCounter(DMDraw), VisibleOccupiedhexes)
                 //OH.GetAllSpritesInHex()

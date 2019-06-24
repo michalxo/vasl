@@ -3,8 +3,11 @@ package VASL.build.module.fullrules.UtilityClasses;
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationi;
 import VASL.build.module.fullrules.ObjectClasses.LocationContentc;
+import VASL.build.module.fullrules.ObjectClasses.PersUniti;
+import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.TerrainClasses.GetALocationFromMap;
 
 import java.util.LinkedList;
@@ -21,46 +24,44 @@ public class EnemyChecksC {
             ' f) enemy units in adjacent hexes
             ' g) opponent is Russian 
             'these methods can be called externally and internally*/
-    //private ContentsofLocation LocationContentsToCheck;
+
+    private boolean EnemyFound = false;
     private int HexToCheck = 0;
-    private int LocationtoCheck = 0;
+    private Location LocationtoCheck;
     private Constantvalues.Nationality FriendlySidevalue = Constantvalues.Nationality.None;
     private Constantvalues.Nationality OtherFriendlysidevalue = Constantvalues.Nationality.None;
     private int Locindexvalue = 0;
     private int myScenID;
-    //private NewMap As UtilWObj.ASLXNA.NewMapDB
     //private LinkedList<GameLocation> Mapcol = new LinkedList<GameLocation>();
     private LinkedList<LocationContentc> myLocationContents = new LinkedList<LocationContentc>();
 
     //   constructor
-    public EnemyChecksC(Location LocIndexclicked, Constantvalues.Nationality FriendlyNat, int PassScenID){
-        /*NewMap = New UtilWObj.ASLXNA.NewMapDB
-        Mapcol = NewMap.GetMapCol
-        myScenID = PassScenID;
-        if (LocIndexclicked > 0) {  // every location have an index value so PassLocationIndex must be greater than zero
-            Dim GetLocs = New TerrainClassLibrary.ASLXNA.GetALocationFromMapTable(Mapcol)
-            Dim UsingLoc As MapDataClassLibrary.GameLocation = GetLocs.RetrieveLocationfromHex(LocIndexclicked)
-            HexToCheck = UsingLoc.Hexnum
-            Locindexvalue = LocIndexclicked
-            LocationtoCheck = UsingLoc.LocIndex
-        } else {
-            GameModule.getGameModule().getChatter().send("Error: locindex value not found in Map table: ContentsOfLocation");
-            return;
-        }
+    public EnemyChecksC(Location LocToCheck, Constantvalues.Nationality FriendlyNat, int PassScenID){
+        LocationtoCheck = LocToCheck;
         FriendlySidevalue = FriendlyNat;
-        Scenario Scendet = Linqdata.GetScenarioData(myScenID);  // retrieves scenario data
-        if (FriendlySidevalue == Scendet.getATT1()) {
-            OtherFriendlysidevalue = Scendet.getATT2();
-        } else if (FriendlySidevalue == Scendet.getATT2()) {
-            OtherFriendlysidevalue = Scendet.getATT1();
-        } else if (FriendlySidevalue == Scendet.getDFN1()) {
-            OtherFriendlysidevalue = Scendet.getDFN2();
-        } else if (FriendlySidevalue == Scendet.getDFN2()) {
-                OtherFriendlysidevalue = Scendet.getDFN1();
-        }*/
+        myScenID = PassScenID;
+
+        ScenarioC Scendet = ScenarioC.getInstance();  // retrieves scenario data
+        if (FriendlySidevalue == Scendet.getScendet().getATT1()) {
+            OtherFriendlysidevalue = Scendet.getScendet().getATT2();
+        } else if (FriendlySidevalue == Scendet.getScendet().getATT2()) {
+            OtherFriendlysidevalue = Scendet.getScendet().getATT1();
+        } else if (FriendlySidevalue == Scendet.getScendet().getDFN1()) {
+            OtherFriendlysidevalue = Scendet.getScendet().getDFN2();
+        } else if (FriendlySidevalue == Scendet.getScendet().getDFN2()) {
+                OtherFriendlysidevalue = Scendet.getScendet().getDFN1();
+        }
+
+        for (PersUniti EnemyUnit: GetAllEnemyUnitsInGame()) {
+            if( EnemyUnit.getbaseunit().gethexlocation() == LocationtoCheck) {
+                EnemyFound = true;
+                myLocationContents.add(new LocationContentc(EnemyUnit.getbaseunit().getUnit_ID(), LocationtoCheck, Constantvalues.Typetype.Personnel));
+            }
+        }
     }
 
     public LinkedList<LocationContentc> getLocationContents() {return myLocationContents;}
+
     /*    'properties
     public ReadOnly Property FriendlySide As Integer
     Get
@@ -71,15 +72,9 @@ public class EnemyChecksC {
         'methods
         */
     public boolean EnemyinLocationTest() {
-        // called by MovementValidation.New
+        // called by MakeADJACENTDM
         // returns true if enemy present, false if not
-        /*if (LocationContentsToCheck == null) {GetLocationContents(LocationtoCheck);}
-        myPassLocationContents = LocationContentsToCheck.ContentsInLocation();
-        For Each ItemInHex As ObjectClassLibrary.ASLXNA.LocationContent In LocationContentsToCheck.ContentsInLocation
-        if IsUnitEnemy(ItemInHex.ObjID, ItemInHex.TypeID) Then return true;
-        Next*/
-        return false;
-        // if gets here no enemy present
+        return EnemyFound;
     }
 
     /*
@@ -143,6 +138,23 @@ public class EnemyChecksC {
         //LocationContentsToCheck = new ContentsofLocation(HexLocs);
         //LocationContentsToCheck.GetContents();
     }
+
+    public LinkedList<PersUniti> GetAllEnemyUnitsInGame() {
+        ScenarioCollectionsc Scencolls = ScenarioCollectionsc.getInstance();
+        LinkedList<PersUniti> EnemyInGame = new LinkedList<PersUniti>();
+        CommonFunctionsC comfunc = new CommonFunctionsC(myScenID);
+        Constantvalues.Nationality[] Enemies = comfunc.SetEnemy(FriendlySidevalue);
+        for (PersUniti UnitInGame: Scencolls.Unitcol) {
+            if (UnitInGame.getbaseunit().getNationality() == Enemies[0] || UnitInGame.getbaseunit().getNationality() == Enemies[1]) {
+                EnemyInGame.add(UnitInGame);
+            }
+        }
+
+        // do we need to filter for status such as KIAInf, NotinPlay, HIP
+
+        return EnemyInGame;
+    }
+
     /*public Function GetEnemy(ByRef FirstEnemy As Integer, ByRef SecondEnemy As Integer) As Boolean
             'called by 
                     'returns the nationality values of the "enemy" side
@@ -193,21 +205,7 @@ public class EnemyChecksC {
     Return ConFound
 
     End Function
-    public Function GetAllEnemyUnitsInGame() As List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    Dim Scencolls As ObjectClassLibrary.ASLXNA.ScenarioCollectionsc = ObjectClassLibrary.ASLXNA.ScenarioCollectionsc.GetInstance
-    Dim EnemyToCheck As List(Of ObjectClassLibrary.ASLXNA.PersUniti)
-    Dim EnemyNat1 As Integer = 0 : Dim EnemyNat2 As Integer = 0
-    Dim Linqdata As DataClassLibrary.ASLXNA.DataC = DataClassLibrary.ASLXNA.DataC.GetInstance()  'use empty variables when know that instance already exists
-            'Dim EnemyTest = New EnemyChecksC(UsingLocationIndex, Friendlynationality, myScenID)
-    if GetEnemy(EnemyNat1, EnemyNat2) Then
-                'EnemyToCheck = Linqdata.GetAllUnitsForOneSide(EnemyNat1, EnemyNat2)
-    EnemyToCheck = (From Qu As ObjectClassLibrary.ASLXNA.PersUniti In Scencolls.Unitcol Where (Qu.BasePersUnit.Nationality = EnemyNat1 Or Qu.BasePersUnit.Nationality = EnemyNat2) AndAlso Qu.BasePersUnit.Hexnum > 0 AndAlso
-    Qu.BasePersUnit.VisibilityStatus = ConstantClassLibrary.ASLXNA.VisibilityStatus.Visible AndAlso Qu.BasePersUnit.OrderStatus <> ConstantClassLibrary.ASLXNA.OrderStatus.KIAInf AndAlso
-    Qu.BasePersUnit.OrderStatus <> ConstantClassLibrary.ASLXNA.OrderStatus.NotInPlay).ToList
-    End if
-            'Dim Returnlist As IQueryable(Of ObjectClassLibrary.ASLXNA.PersUniti) = Queryable.AsQueryable(EnemyToCheck)
-    if Not IsNothing(EnemyToCheck) Then Return EnemyToCheck } else { Return Nothing
-    End Function
+
     public Function EnemyUnitsInAdjacentHexes(ByVal PassStartPosition As Integer) As List(Of ObjectClassLibrary.ASLXNA.PersUniti)
             'called by ObjectChange.selectstatuschange.HOBStatusChange
             'returns list of enemy units in adjacent hexes to a friendly unit

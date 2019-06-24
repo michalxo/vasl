@@ -4,10 +4,11 @@ import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationi;
+import VASL.build.module.fullrules.ObjectClasses.LocationContentc;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.UtilityClasses.EnemyChecksC;
-import VASL.build.module.fullrules.UtilityClasses.MapCommonFunctionsc;
+import VASL.build.module.fullrules.UtilityClasses.*;
 
 import java.util.LinkedList;
 
@@ -41,7 +42,7 @@ public class AutoDM {
                     starthexposition = StackUnit.getbaseunit().gethexPosition();
                     Stacknat = StackUnit.getbaseunit().getNationality();
                     ScenID = StackUnit.getbaseunit().getScenario();
-                    MakeAdjacentDM();
+                    MakeADJACENTDM();
                     break; // only need to do once
                 }
             }
@@ -70,7 +71,7 @@ public class AutoDM {
                     starthexposition = StackUnit.getbaseunit().gethexPosition();
                     Stacknat = StackUnit.getbaseunit().getNationality();
                     ScenID = StackUnit.getbaseunit().getScenario();
-                    MakeAdjacentDM();
+                    MakeADJACENTDM();
                     break; // only need to do once
                 }
             }
@@ -81,49 +82,56 @@ public class AutoDM {
         return myHexesToDm;
     }
 
-    private void MakeAdjacentDM() {
-        boolean EnemyPresent = false;
+    private void MakeADJACENTDM() {
+
         LinkedList<Locationi> ADJACENTLocs = new LinkedList<Locationi>();
         // first get list of adjacent Hexes
         MapCommonFunctionsc mapcommfunc = new MapCommonFunctionsc();
-        Hex[] adjacentHexArray = mapcommfunc.getAdjacentHexArray(starthex);
+        //Hex[] adjacentHexArray = mapcommfunc.getAdjacentHexArray(starthex);
         // get ADJACENT Locationc's
-        /*ADJACENTLocs =ADJTest.AllADJACENTLocations();
+        ADJACENTLocs =mapcommfunc.getAllADJACENTLocations(starthexlocation);
         // check for enemy present in each ADJACENT location
         for (Locationi LocToCheck: ADJACENTLocs) {
             // Determine if present units (both real and dummy) are enemy to the moving side
             EnemyChecksC CheckforEnemy = new EnemyChecksC(LocToCheck.getvasllocation(),Stacknat,ScenID);
-            EnemyPresent = CheckforEnemy.EnemyInHexTest();
-            if (EnemyPresent) {
-                // if found then get hex contents
-                ContentsofLocation ContentsofLocationToBeSearched = new UtilWObj.ASLXNA.ContentsofLocation(LocToCheck);
-                ContentsofLocationToBeSearched.GetContents();
-                if (!(ContentsofLocationToBeSearched.ContentsInLocation() == null)) {
-                    // look for broken infantry of other side
-                    for (LocationContent ItemInHex: ContentsofLocationToBeSearched.ContentsInLocation()){
-                        if (TypeCheck.IsThingATypeOf(ConstantClassLibrary.ASLXNA.Typetype.Personnel, ItemInHex.TypeID)) {
+            if (CheckforEnemy.EnemyinLocationTest()) {
+                // if found then get Location contents
+                for (LocationContentc ItemInHex: CheckforEnemy.getLocationContents()) {
+                    // look for broken or disrupted units
+                    Constantvalues.Typetype TypeIs = ItemInHex.getTypeIDvalue();
+                    switch (TypeIs) {
+                        case Personnel:
                             // infantry
-                            PersUniti hexUnit =(From selunit As ObjectClassLibrary.ASLXNA.PersUniti In scencolls.Unitcol Where
-                            selunit.BasePersUnit.Unit_ID = ItemInHex.ObjID Select selunit).First
-                            // side and visibility check
-                            if (!(hexUnit.BasePersUnit.Nationality =Stacknat) AndAlso hexUnit.BasePersUnit.VisibilityStatus =
-                                ConstantClassLibrary.ASLXNA.VisibilityStatus.Visible)){
-                                // order check - must be broken or disrupted
-                                if (hexUnit.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.Broken) {
-                                    StatusChangei SetDM = new UnitDMsc();
-                                    SetDM.Takeaction(hexUnit);
-                                    myHexesToDm.add(hexUnit.getbaseunit().getHex());
-                                } else if (hexUnit.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.Disrupted) {
-                                    StatusChangei SetDM = new UnitDisruptDMsc();
-                                    SetDM.Takeaction(hexUnit);
-                                    myHexesToDm.add(hexUnit.getbaseunit().getHex());
+                            for (PersUniti locunit : scencolls.Unitcol) {
+                                if (locunit.getbaseunit().getUnit_ID() == ItemInHex.getObjID()) {
+                                    if (locunit.getbaseunit().getVisibilityStatus() != Constantvalues.VisibilityStatus.Hidden &&
+                                            locunit.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.KIAInf &&
+                                                    locunit.getbaseunit().getOrderStatus() != Constantvalues.OrderStatus.NotInPlay){
+                                        // any other exceptions?
+                                        if ((locunit.getbaseunit().getVisibilityStatus() == Constantvalues.VisibilityStatus.Visible)){
+                                            // order check - must be broken or disrupted
+                                            if (locunit.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.Broken) {
+                                                StatusChangei SetDM = new UnitDMsc();
+                                                SetDM.Takeaction(locunit);
+                                                myHexesToDm.add(locunit.getbaseunit().getHex());
+                                            } else if (locunit.getbaseunit().getOrderStatus() == Constantvalues.OrderStatus.Disrupted) {
+                                                StatusChangei SetDM = new UnitDisruptsDMsc();
+                                                SetDM.Takeaction(locunit);
+                                                myHexesToDm.add(locunit.getbaseunit().getHex());
+                                            }
+                                        }
+
+                                    }
                                 }
                             }
-                        }
+                            break;
+                        default:
+                            // need to add guns, vehicles, terrain
+
                     }
+
                 }
             }
-        }*/
+        }
     }
-
 }

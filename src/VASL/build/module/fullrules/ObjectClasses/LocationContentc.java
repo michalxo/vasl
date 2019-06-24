@@ -22,7 +22,6 @@ public class LocationContentc {
     }
 
     public int getObjID() {return ObjIDvalue;}
-
     public Location getLocation() {return locvalue;}
     public void setLocation(Location value) {locvalue = value;}
     public Constantvalues.Typetype getTypeIDvalue() {return TypeIDvalue;}
