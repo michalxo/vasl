@@ -50,6 +50,7 @@ public class UnitDMsc implements StatusChangei {
         TargParent.getbaseunit().setCombatStatus(Constantvalues.CombatStatus.None);
         TargParent.getbaseunit().setMovementStatus(Constantvalues.MovementStatus.NotMoving);
         TargParent.getTargetunit().setCombatResultsString(TargParent.getTargetunit().getCombatResultsString() +  " DMs");
+        TargParent.getTargetunit().setPersUnitImpact(Constantvalues.PersUnitResult.DMs);
         TargParent.getTargetunit().UpdateTargetStatus(TargParent);
 
         // HoB

@@ -35,6 +35,7 @@ public class ScenarioC extends CampaignC {
     private Scenario pScenario;
     private LinkedList<OrderofBattle> pOBUnitcol;
     private LinkedList<OrderofBattleSW> pOBSWcol;
+    private LinkedList<ScenarioTerrain> pOBScenTerrcol;
     private OpenSaveGame GameinPlay;
     private HashMap<String, IFTTableResult> pIFTTableLookUp;
     private HashMap<String, LineofBattle> pLOBTableLookUp;
@@ -74,6 +75,7 @@ public class ScenarioC extends CampaignC {
     public IIFTC getIFT() {return IFT;}
     public LinkedList<OrderofBattle> getOBUnitcol() {return pOBUnitcol;}
     public LinkedList<OrderofBattleSW> getOBSWcol() {return pOBSWcol;}
+    public LinkedList<ScenarioTerrain> getOBScenTerrcol() {return pOBScenTerrcol;}
     public HashMap<String, IFTTableResult> getIFTTableLookUp(){return pIFTTableLookUp;}
     public void setIFTTableLookUp(HashMap<String, IFTTableResult> value){pIFTTableLookUp = value;}
     public void setLOBTableLookUp(HashMap<String, LineofBattle> value){pLOBTableLookUp = value;}
@@ -169,6 +171,7 @@ public class ScenarioC extends CampaignC {
             pScenario = GameinPlay.getScenario();
             pOBUnitcol = GameinPlay.unitsinplay();
             pOBSWcol = GameinPlay.swinplay();
+            //pOBScenTerrcol = GameinPlay.scenterrinplay();
             //testgame.SaveGame("Fullrules");
         } catch (IOException e) {
 

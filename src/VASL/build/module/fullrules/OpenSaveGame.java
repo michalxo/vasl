@@ -2,9 +2,12 @@ package VASL.build.module.fullrules;
 
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
+import VASL.LOS.VASLGameInterface;
+import VASL.LOS.counters.OBA;
 import VASL.build.module.fullrules.DataClasses.OrderofBattle;
 import VASL.build.module.fullrules.DataClasses.OrderofBattleSW;
 import VASL.build.module.fullrules.DataClasses.Scenario;
+import VASL.build.module.fullrules.DataClasses.ScenarioTerrain;
 import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
 import VASSAL.build.GameModule;
@@ -12,11 +15,14 @@ import VASSAL.tools.filechooser.FileChooser;
 
 import javax.swing.*;
 import java.io.*;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class OpenSaveGame {
     private LinkedList<OrderofBattle> punitsinplay = new LinkedList<OrderofBattle>();
     private LinkedList<OrderofBattleSW> pswinplay = new LinkedList<OrderofBattleSW>();
+    //private LinkedList<ScenarioTerrain> pscenterrinplay = new LinkedList<ScenarioTerrain>();
     private FileChooser pfilechooser;
     private Scenario pscenario;
 
@@ -37,6 +43,7 @@ public class OpenSaveGame {
         catch (IOException e){
             System.out.println("Catch error!");
         }
+        //createscenterrcol();
     }
 
     public void SaveGame (String dataFilename){
@@ -279,10 +286,24 @@ public class OpenSaveGame {
         }
         return savescenstring;
     }
+    // not sure that I need this collection as vASLgameinterface will return results by hex
+    /*private void createscenterrcol(){
+        // dont use data file for this; use VASLGAMEInterface counter lists
+        ScenarioC scen = ScenarioC.getInstance();
+        VASLGameInterface VASLGameInterface = new VASLGameInterface(scen.getASLMap(), scen.getGameMap());
+        VASLGameInterface.updatePieces();
+        HashSet<OBA> LookforOBA= VASLGameInterface.getSmoke(Hextocheck);
+        // test for OBA, if found then return
+        Iterator<OBA> itr=LookforOBA.iterator();
+        while(itr.hasNext()){
+            return true;
+        }
+    }*/
     public LinkedList<OrderofBattle> unitsinplay() {
         return punitsinplay;
     }
     public LinkedList<OrderofBattleSW> swinplay() {return pswinplay;}
+    //public LinkedList<ScenarioTerrain> scenterrinplay() {return pscenterrinplay;}
     public Scenario getScenario() {return pscenario;}
     private FileChooser getFileChooser(){
         if (pfilechooser != null){

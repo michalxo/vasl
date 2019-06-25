@@ -3,10 +3,19 @@ package VASL.build.module.fullrules.MovementClasses.HexandLocation;
 import VASL.LOS.Map.Hex;
 import VASL.LOS.Map.Location;
 import VASL.LOS.Map.Terrain;
+import VASL.LOS.VASLGameInterface;
+import VASL.LOS.counters.CounterMetadata;
+import VASL.LOS.counters.CounterMetadataFile;
+import VASL.LOS.counters.Smoke;
 import VASL.build.module.fullrules.Constantvalues;
 import VASL.build.module.fullrules.DataClasses.ScenarioTerrain;
+import VASL.build.module.fullrules.Game.ScenarioC;
 import VASL.build.module.fullrules.UtilityClasses.ConversionC;
+import com.sun.scenario.effect.impl.state.LinearConvolveKernel;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 public class Locationc implements Locationi{
@@ -21,7 +30,8 @@ public class Locationc implements Locationi{
     private LinkedList<ScenarioTerrain> scenterraininhex;
     private Constantvalues.UMove MoveOption;
     private Constantvalues.Location locationvalue;
-
+    // the LOS counter rules from the shared metadata file
+    private LinkedHashMap<String, CounterMetadata> counterMetadata;
     // constructor
     public Locationc (Location vasllocclicked, Constantvalues.UMove MovementOptionClicked) {
         // set hex, location and terrain data
@@ -33,6 +43,9 @@ public class Locationc implements Locationi{
         scenterraininhex = getScenarioterrain();
         ConversionC confrom = new ConversionC();
         locationvalue = confrom.ConverttoLocationtypefromVASLLocation(vasllocclicked);
+        // get the counter metadata
+        CounterMetadataFile counterMetadataFile = new CounterMetadataFile();
+        counterMetadata =  counterMetadataFile.getMetadataElements();
     }
 
     public Location getvasllocation() {return vasllocation;}
@@ -86,11 +99,32 @@ public class Locationc implements Locationi{
     }
 
     private LinkedList<ScenarioTerrain> getScenarioterrain() {
-        return null; // not coded yet - get data from VASLGameInterface
 
         // create master scenterrain list in ScenarioCollectionsc and use this routine to extract items in this hex
-        //VASLGameInterface VASLGameInterface = new VASLGameInterface(map, map.getVASLMap());
-        //VASLGameInterface.updatePieces();
+        // not using this option as VASLGameInterface filters by hex already
+
+        ScenarioC scen = ScenarioC.getInstance();
+        VASLGameInterface VASLGameInterface = new VASLGameInterface(scen.getASLMap(), scen.getGameMap());
+        VASLGameInterface.updatePieces();
+        LinkedList<ScenarioTerrain> scenterrinhex = new LinkedList<ScenarioTerrain>();
+        Smoke nextSmoke = null;
+        HashSet<Smoke> LookforSmoke= VASLGameInterface.getSmoke(vaslhex);
+        // test for Smoke, if found then return
+        Iterator<Smoke> itr=LookforSmoke.iterator();
+        while(itr.hasNext()){
+            ScenarioTerrain smokeinhex = new ScenarioTerrain();
+            nextSmoke = itr.next();
+            smokeinhex.setFeature(nextSmoke.getName());
+            smokeinhex.setHexname(vaslhex.getName());
+            smokeinhex.setFeaturetype(Constantvalues.Feature.Smoke);
+            smokeinhex.setScenario(scen.getScenID());
+            smokeinhex.setScenter_id(0); // do we even need this?
+            smokeinhex.sethexlocation(vasllocation);
+            smokeinhex.sethexposition(Constantvalues.AltPos.None);
+            smokeinhex.setVisibilityStatus(Constantvalues.VisibilityStatus.Visible);
+            scenterrinhex.add(smokeinhex);
+        }
+        return scenterrinhex;
     }
     public boolean HasWire(){
         return false;  // needs to be coded

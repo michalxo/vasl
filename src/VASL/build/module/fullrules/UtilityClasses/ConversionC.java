@@ -3521,7 +3521,7 @@ public class ConversionC {
             return Constantvalues.Hexside.NoTerrain;
         } else if (Passterrain.getName().equals("Wall")) {
             return Constantvalues.Hexside.Bocage;
-        } else if (Passterrain.getName().equals("Wall")) {
+        } else if (Passterrain.getName().equals("Hedge")) {
             return Constantvalues.Hexside.Hedge;
         } else if (Passterrain.getName().equals("Wall")) {
             return Constantvalues.Hexside.Wall;

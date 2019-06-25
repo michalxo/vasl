@@ -10,14 +10,13 @@ public class ScenarioTerrain {
     private Constantvalues.Feature pFeatureType;
     private int pScenario;
     private int pScenter_id;
-    private int pHexnumber;
     private Location phexlocation;
     private Constantvalues.AltPos phexposition;
     private Constantvalues.VisibilityStatus pVisibilityStatus;
-    private int pLocIndex;
+
 
     public ScenarioTerrain() {
-        
+
     }
 
     public String getFeature() {return pFeature;}
@@ -30,16 +29,13 @@ public class ScenarioTerrain {
 	public void setScenario(int value){pScenario = value;}
 	public int getScenter_id() {return pScenter_id;}
 	public void setScenter_id(int value){pScenter_id = value;}
-	public int getHexnumber() {return pHexnumber;}
-	public void setHexnumber(int value){pHexnumber = value;}
 	public Location gethexlocation() {return phexlocation;}
 	public void sethexlocation(Location value){phexlocation = value;}
 	public Constantvalues.AltPos gethexposition() {return phexposition;}
 	public void sethexposition(Constantvalues.AltPos value) {phexposition = value;}
 	public Constantvalues.VisibilityStatus getVisibilityStatus() {return pVisibilityStatus;}
 	public void setVisibilityStatus(Constantvalues.VisibilityStatus value) {pVisibilityStatus = value;}
-	public int getLocIndex() {return pLocIndex;}
-	public void setLocIndex(int value) {pLocIndex = value;}
+
 
     public int GetTEM(String TEmpFeatureName) {
         // called by CombatTerrain class .GetScenFeatTEM
