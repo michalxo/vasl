@@ -26,6 +26,7 @@ public class CounterCreationC {
                 if (c[c.length - 1] instanceof PieceSlot) {
                     p = PieceCloner.getInstance().clonePiece(((PieceSlot) c[c.length - 1]).getPiece());
                 }
+                p = GameModule.getGameModule().createPiece("<VASSAL.build.widget.PieceSlot entryName=\"Wall Advan\" gpid=\"69\" height=\"48\" width=\"48\">+/null/prototype;DBCommon\thide;72,130;HIP;;player:;0.30000001192092896\\\tlabel;76,130;Label;10;255,255,255;0,0,0;t;0;c;0;b;c;$pieceName$ ($label$);Dialog;0;0;TextLabel;\\\\\tpiece;K;D;MS\\/WallAdv;Wall Advan/\tnull\\\t\\\\\tnull;0;0;69</VASSAL.build.widget.PieceSlot>");
             }
             catch (ComponentPathBuilder.PathFormatException e) {
                 boolean reg = true;

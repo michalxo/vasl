@@ -43,61 +43,60 @@ public class MapCommonFunctionsc {
         LinkedList<Locationi> ADJList = new LinkedList<Locationi>();
 
         // look for locations in hex - UpLocation and DownLocation checks will cover Pillboxes, etc which are added as up or down locations
-        if (StartLocation.getDownLocation() != null ) {
+        if (StartLocation.getDownLocation() != null) {
             ADJList.add(new Locationc(StartLocation.getDownLocation(), null));
         }
-        if (StartLocation.getUpLocation() != null ) {
+        if (StartLocation.getUpLocation() != null) {
             ADJList.add(new Locationc(StartLocation.getUpLocation(), null));
         }
 
         // check for Pillbox (and other terrain) that can only be ADJACENT to same hex Locations
         Locationi Startlocationc = new Locationc(StartLocation, null);
         // Pillbox
-        if (Startlocationc.IsPillbox()) {return ADJList;}
+        if (Startlocationc.IsPillbox()) {
+            return ADJList;
+        }
         // pillbox cellar
 
         // bridge
 
 
-
         // look for ADJACENT locations in other hexes
         Hex[] AdjacentHexes = getAdjacentHexArray(StartLocation.getHex());
         int Testlevel = StartLocation.getAbsoluteHeight();
-        for(int x = 0; x < 6; x++) {
-            if (AdjacentHexes[x].getCenterLocation().getAbsoluteHeight() == Testlevel) {
-                ADJList.add(new Locationc(AdjacentHexes[x].getCenterLocation(), null));
-            } else {
-                // center, up locations
-                Location temp1 = AdjacentHexes[x].getCenterLocation();
-                while (temp1.getUpLocation() != null) {
-                    if (Testlevel ==(temp1.getUpLocation().getAbsoluteHeight())) {
-                        ADJList.add(new Locationc(temp1.getUpLocation(), null));
-                        continue;
-                    } else {
+        for (int x = 0; x < 6; x++) {
+            if (AdjacentHexes[x] != null){
+                if (AdjacentHexes[x].getCenterLocation().getAbsoluteHeight() == Testlevel) {
+                    ADJList.add(new Locationc(AdjacentHexes[x].getCenterLocation(), null));
+                } else {
+                    // center, up locations
+                    Location temp1 = AdjacentHexes[x].getCenterLocation();
+                    while (temp1.getUpLocation() != null) {
+                        if (Testlevel == (temp1.getUpLocation().getAbsoluteHeight())) {
+                            ADJList.add(new Locationc(temp1.getUpLocation(), null));
+                        }
                         temp1 = temp1.getUpLocation();
                     }
-                }
 
-                // down locations
-                temp1 = AdjacentHexes[x].getCenterLocation();
-                while (temp1.getDownLocation() != null) {
-                    if (Testlevel == (temp1.getDownLocation().getAbsoluteHeight())) {
-                        ADJList.add(new Locationc(temp1.getDownLocation(), null));
-                        continue;
-                    } else {
+                    // down locations
+                    temp1 = AdjacentHexes[x].getCenterLocation();
+                    while (temp1.getDownLocation() != null) {
+                        if (Testlevel == (temp1.getDownLocation().getAbsoluteHeight())) {
+                            ADJList.add(new Locationc(temp1.getDownLocation(), null));
+                        }
                         temp1 = temp1.getDownLocation();
                     }
-                }
-                // now check for crestlines
-                temp1 = AdjacentHexes[x].getCenterLocation();
-                if (temp1.getAbsoluteHeight() == Testlevel +1 || temp1.getAbsoluteHeight() == Testlevel -1 ){
-                    // add hexsidecrossed determination
-                    IsSide SideTest = new IsSide();
-                    int hexsidecrossed = SideTest.SharedhexsideAdjacentHexes(StartLocation.getHex().getName(), temp1.getHex().getName());
-                    // now get hexsideterrrain
-                    Terrain hexsideterrain = StartLocation.getHex().getHexsideTerrain(hexsidecrossed);
-                    if ((hexsideterrain == null) || (!hexsideterrain.isCliff() && !hexsideterrain.isBuildingTerrain() && !hexsideterrain.isWaterTerrain())){
-                        ADJList.add(new Locationc(temp1, null));
+                    // now check for crestlines
+                    temp1 = AdjacentHexes[x].getCenterLocation();
+                    if (temp1.getAbsoluteHeight() == Testlevel + 1 || temp1.getAbsoluteHeight() == Testlevel - 1) {
+                        // add hexsidecrossed determination
+                        IsSide SideTest = new IsSide();
+                        int hexsidecrossed = SideTest.SharedhexsideAdjacentHexes(StartLocation.getHex().getName(), temp1.getHex().getName());
+                        // now get hexsideterrrain
+                        Terrain hexsideterrain = StartLocation.getHex().getHexsideTerrain(hexsidecrossed);
+                        if ((hexsideterrain == null) || (!hexsideterrain.isCliff() && !hexsideterrain.isBuildingTerrain() && !hexsideterrain.isWaterTerrain())) {
+                            ADJList.add(new Locationc(temp1, null));
+                        }
                     }
                 }
             }

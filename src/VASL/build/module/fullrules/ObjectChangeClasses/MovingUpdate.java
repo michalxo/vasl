@@ -60,7 +60,7 @@ public class MovingUpdate {
             (MovingUnit.BasePersUnit.hexPosition >= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus1 And MovingUnit.BasePersUnit.hexPosition <= ConstantClassLibrary.ASLXNA.AltPos.WACrestStatus6)
         Then
         'claiming wall advantage; not location change but a status change - requires texture change
-        Dim UnittoChange As OBUnitChange = New SetasWallAdvc(UnitMoved.OBUnit_ID, MovingUnit.BasePersUnit.hexPosition)
+        Dim UnittoChange As OBUnitChange = New UnitGainsWallAdvc(UnitMoved.OBUnit_ID, MovingUnit.BasePersUnit.hexPosition)
         UnittoChange.TakeAction()
         'now part of TakeAction
         'Dim GetBaseHex = Game.Scenario.MapTables.RetrieveHexfromDatatable(CInt(UnitMoved.hexnum))

@@ -8,9 +8,7 @@ import VASL.build.module.fullrules.IFTCombatClasses.SetTargetMoveStatus;
 import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationc;
 import VASL.build.module.fullrules.MovementClasses.HexandLocation.Locationi;
 import VASL.build.module.fullrules.MovementClasses.MoveNewHexi;
-import VASL.build.module.fullrules.ObjectChangeClasses.AutoDM;
-import VASL.build.module.fullrules.ObjectChangeClasses.VisibilityChangei;
-import VASL.build.module.fullrules.ObjectChangeClasses.WARemovec;
+import VASL.build.module.fullrules.ObjectChangeClasses.*;
 import VASL.build.module.fullrules.ObjectClasses.PersUniti;
 import VASL.build.module.fullrules.ObjectClasses.ScenarioCollectionsc;
 import VASL.build.module.fullrules.ObjectClasses.SuppWeapi;
@@ -118,7 +116,14 @@ public class EnterNewHex implements MoveNewHexi {
                 moveresults += MovingUnit.getbaseunit().getUnitName() + "(" + MovingUnit.getMovingunit().getMFUsed() + "/" + MovingUnit.getMovingunit().getMFAvailable() + ")" + " ";
             }
             moveresults += "moving to " + newhexclickedvalue.getName() + " which will cost " + Double.toString(MFCost) + " MF";
+        } else{
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                moveresults += MovingUnit.getbaseunit().getUnitName() + "(" + MovingUnit.getMovingunit().getMFUsed() + "/" + MovingUnit.getMovingunit().getMFAvailable() + ")" + " ";
+            }
+            moveresults += "trying to move to " + newhexclickedvalue.getName() + ": Blocked by Enemy Unit(s)";
+            return false;
         }
+
         Moveloc = null;
         MoveUpdate();
         return MoveOK;
@@ -181,6 +186,7 @@ public class EnterNewHex implements MoveNewHexi {
                     ManWAApplies = true;
                     LocationChange = MovingUnit.getbaseunit().gethexlocation();
                     PositionChange = MovingUnit.getbaseunit().gethexPosition();
+                    moveresults += " (Mandatory WA)";
                 }
             }
             Locationi Loctouse = new Locationc(LocationChange, movementoptionclickedvalue );
@@ -215,6 +221,13 @@ public class EnterNewHex implements MoveNewHexi {
             // broken and unarmed friendlies in new hex must now claim WA if no in-hex TEM > 0; may claim otherwise
             BrkUnWACheckc BrkUnWA = new BrkUnWACheckc(newhexclickedvalue, MovingNationality, LocationChange);
             BrkUnWA.BrokenUnarmedWACheck();
+        }
+        // counter action in new hex
+        if (ManWAApplies){
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                UnitChangei UnittoChange = new UnitGainsWallAdvc(MovingUnit);
+                UnittoChange.TakeAction();
+            }
         }
         // REPLACE CODE BELOW WITH CALL TO COUNTERACTIONS
         //redo sprite display - before update Target values

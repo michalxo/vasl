@@ -82,15 +82,25 @@ public class EnterAndWA  implements MoveNewHexi {
         // this will cascade down and back up the wrappers
         MFCost = Moveloc.getlocationentrycost(Currenthex) + Moveloc.gethexsideentrycost();  // is this right? should hexside be part of decorating?
         //if here then move is legal
-        //            MessageBox.Show("Trying to move to . . . " & GetLocs.GetnamefromdatatableMap(newhexclickedvalue) & " . . . which will cost " & MFCost.ToString & " MF")
+        String stacknames = getMovingStackUnitNames();
         // Determine if move is affordable
         boolean MoveAffordable = scen.DoMove.ConcreteMove.Recalculating(movementoptionclickedvalue, newhexclickedvalue, MFCost, Moveloc, Currenthex);
-        if (!MoveAffordable) {return false;}
+        moveresults = "";
+        if (!MoveAffordable) {
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                moveresults += MovingUnit.getbaseunit().getUnitName() + "(" + MovingUnit.getMovingunit().getMFUsed() + "/" + MovingUnit.getMovingunit().getMFAvailable() + ")" + " ";
+            }
+            moveresults += "trying to move to " + newhexclickedvalue.getName() + " which would cost " + MFCost + " MF: Insufficient MF Available";
+            return false;
+        }
         // Determine if entry blocked  by enemy units
         boolean MoveBlocked = scen.DoMove.ConcreteMove.ProcessValidation(newhexclickedvalue, LocationChange, movementoptionclickedvalue);
         // if movement can proceed; draw will happen and then return to moveupdate to check consequences
-        Moveloc = null;
         if (MoveBlocked) {
+            for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+                moveresults += MovingUnit.getbaseunit().getUnitName() + "(" + MovingUnit.getMovingunit().getMFUsed() + "/" + MovingUnit.getMovingunit().getMFAvailable() + ")" + " ";
+            }
+            moveresults += "trying to move to " + newhexclickedvalue.getName() + ": Blocked by Enemy Unit(s)";
             Moveloc = null;
             return false;
         }
@@ -105,6 +115,12 @@ public class EnterAndWA  implements MoveNewHexi {
             return false;
         }
         // all conditions met
+        for (PersUniti MovingUnit: Scencolls.SelMoveUnits) {
+            moveresults += MovingUnit.getbaseunit().getUnitName() + "(" + MovingUnit.getMovingunit().getMFUsed() + "/" + MovingUnit.getMovingunit().getMFAvailable() + ")" + " ";
+        }
+        moveresults += "moving to " + newhexclickedvalue.getName() + " and claim WA which will cost " + Double.toString(MFCost) + " MF";
+        Moveloc = null;
+        MoveUpdate();
         return true;
     }
 
@@ -310,5 +326,12 @@ public class EnterAndWA  implements MoveNewHexi {
     }
     public String getmoveresults(){
         return moveresults;
+    }
+    private String getMovingStackUnitNames() {
+        String stackstring ="";
+        for (PersUniti movingunit: Scencolls.SelMoveUnits){
+            stackstring += movingunit.getbaseunit().getUnitName() + " ";
+        }
+        return stackstring;
     }
 }

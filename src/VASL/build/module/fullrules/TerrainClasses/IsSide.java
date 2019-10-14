@@ -167,6 +167,7 @@ public class IsSide {
         //determines if Terrain allows WA; using a specific hex and hexside
 
         // 'get info for both hexes
+        if(Otherhex == null){return false;};
         Locationi Otherhexloc  = new Locationc (Otherhex.getCenterLocation(), null); 
         Locationi Starthexloc = new Locationc(newhex.getCenterLocation(), null);
         // Get hexside type
